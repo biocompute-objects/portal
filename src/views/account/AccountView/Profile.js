@@ -41,9 +41,9 @@ const Profile = ({ className, ...rest }) => {
     >
       <CardContent>
         <Box
-          alignItems="center"
+          alignItems="left"
           display="flex"
-          flexDirection="column"
+          flexDirection="row"
         >
           <Avatar
             className={classes.avatar}

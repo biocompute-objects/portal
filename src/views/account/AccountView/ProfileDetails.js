@@ -40,7 +40,9 @@ const ProfileDetails = ({ className, ...rest }) => {
     email: 'demo@devias.io',
     phone: '',
     state: 'Alabama',
-    country: 'USA'
+    country: 'USA',
+    organization: 'NIH',
+    orcid: 'test-234-dxcv-3sd'
   });
 
   const handleChange = (event) => {
@@ -59,7 +61,6 @@ const ProfileDetails = ({ className, ...rest }) => {
     >
       <Card>
         <CardHeader
-          subheader="The information can be edited"
           title="Profile"
         />
         <Divider />
@@ -70,12 +71,11 @@ const ProfileDetails = ({ className, ...rest }) => {
           >
             <Grid
               item
-              md={6}
+              md={12}
               xs={12}
             >
               <TextField
                 fullWidth
-                helperText="Please specify the first name"
                 label="First name"
                 name="firstName"
                 onChange={handleChange}
@@ -86,7 +86,7 @@ const ProfileDetails = ({ className, ...rest }) => {
             </Grid>
             <Grid
               item
-              md={6}
+              md={12}
               xs={12}
             >
               <TextField
@@ -101,7 +101,7 @@ const ProfileDetails = ({ className, ...rest }) => {
             </Grid>
             <Grid
               item
-              md={6}
+              md={12}
               xs={12}
             >
               <TextField
@@ -116,7 +116,7 @@ const ProfileDetails = ({ className, ...rest }) => {
             </Grid>
             <Grid
               item
-              md={6}
+              md={12}
               xs={12}
             >
               <TextField
@@ -131,7 +131,7 @@ const ProfileDetails = ({ className, ...rest }) => {
             </Grid>
             <Grid
               item
-              md={6}
+              md={12}
               xs={12}
             >
               <TextField
@@ -146,7 +146,7 @@ const ProfileDetails = ({ className, ...rest }) => {
             </Grid>
             <Grid
               item
-              md={6}
+              md={12}
               xs={12}
             >
               <TextField
@@ -170,12 +170,42 @@ const ProfileDetails = ({ className, ...rest }) => {
                 ))}
               </TextField>
             </Grid>
+            <Grid
+              item
+              md={12}
+              xs={12}
+            >
+              <TextField
+                fullWidth
+                label="Organization"
+                name="organization"
+                onChange={handleChange}
+                required
+                value={values.organization}
+                variant="outlined"
+              />
+            </Grid>
+            <Grid
+              item
+              md={12}
+              xs={12}
+            >
+              <TextField
+                fullWidth
+                label="ORCID"
+                name="orcid"
+                onChange={handleChange}
+                required
+                value={values.orcid}
+                variant="outlined"
+              />
+            </Grid>
           </Grid>
         </CardContent>
         <Divider />
         <Box
           display="flex"
-          justifyContent="flex-end"
+          justifyContent="center"
           p={2}
         >
           <Button
