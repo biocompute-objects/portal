@@ -34,8 +34,8 @@ import Chip from '@material-ui/core/Chip';
 import { useContext } from 'react'
 import { ParentContext } from './index'
 
-function createData(organization, hostname, username, apikey, permissions, status) {
-  return { organization, hostname, username, apikey, permissions, status };
+function createData(organization, groupname, groupid, mygroupid, status) {
+  return { organization, groupname, groupid, mygroupid, status };
 }
 
 function descendingComparator(a, b, orderBy) {
@@ -66,10 +66,9 @@ function stableSort(array, comparator) {
 
 const headCells = [
   { id: 'organization', numeric: false, disablePadding: true, label: 'Organization' },
-  { id: 'hostname', numeric: true, disablePadding: false, label: 'Hostname' },
-  { id: 'username', numeric: true, disablePadding: false, label: 'Username' },
-  { id: 'apikey', numeric: true, disablePadding: false, label: 'API key' },
-  { id: 'permissions', numeric: true, disablePadding: false, label: 'Permissions' },
+  { id: 'groupname', numeric: true, disablePadding: false, label: 'Group Name' },
+  { id: 'groupid', numeric: true, disablePadding: false, label: 'Group ID' },
+  { id: 'mygroupid', numeric: true, disablePadding: false, label: 'My Group ID' },
   { id: 'status', numeric: true, disablePadding: false, label: 'Status' },
 ];
 
@@ -165,7 +164,7 @@ const EnhancedTableToolbar = (props) => {
         </Typography>
       ) : (
         <Typography className={classes.title} variant="h3" id="tableTitle" component="div">
-          BioCompute Object Servers
+          Registered Groups
         </Typography>
       )}
 
@@ -227,8 +226,8 @@ export default function EnhancedTable({ onClickOpen }) {
   const [selected, setSelected] = React.useState([]);
 
   const [rows, setRows] = React.useState([
-    createData('NIH', '23.423.13.45', 'carmstrong', 'dsd$4jkx%sl2#', 'Read, Write', 'Active'),
-    createData('FDA', '3.33.41.435', 'carmstrong', 'djf#klxl;%', 'Read', 'Inactive')
+    createData('NIH', 'NIAID', 'nih-43-dk', 'kt-sm-42', 'Active'),
+    createData('FDA', 'Drug Review', 'fda-dr', 'fda-dr-34-ck-ksmith', 'Active'),
   ]);
 
   // Create a function to add a new server row to the table.
@@ -322,10 +321,9 @@ export default function EnhancedTable({ onClickOpen }) {
                         <TableCell component="th" id={labelId} scope="row" padding="none">
                           {row.organization}
                         </TableCell>
-                        <TableCell align="left">{row.hostname}</TableCell>
-                        <TableCell align="left">{row.username}</TableCell>
-                        <TableCell align="left">{row.apikey}</TableCell>
-                        <TableCell align="left">{row.permissions}</TableCell>
+                        <TableCell align="left">{row.groupname}</TableCell>
+                        <TableCell align="left">{row.groupid}</TableCell>
+                        <TableCell align="left">{row.mygroupid}</TableCell>
                         <TableCell align="center"><Chip className={row.status === "Active" ? classes.serverActive : classes.serverInactive} color='primary' label={row.status}></Chip></TableCell>
                       </TableRow>
                     );

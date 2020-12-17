@@ -38,23 +38,21 @@ const Account = () => {
       <Container maxWidth={false}>
         <Grid
           container
-          spacing={3}
+          spacing={5}
         >
           <Grid
             item
-            lg={4}
-            md={4}
-            xs={4}
+            lg={5}
+            md={5}
+            xs={5}
           >
-            <Profile />
-            <ProfileDetails />
-            
+            <Profile />           
           </Grid>
           <Grid
             item
-            lg={8}
-            md={8}
-            xs={8}
+            lg={7}
+            md={7}
+            xs={7}
           >
             <ServerInfo />
           </Grid>

@@ -15,7 +15,7 @@ const useStyles = makeStyles(() => ({
   root: {}
 }));
 
-const ProfileDetails = ({ className, ...rest }) => {
+const Groups = ({ className, ...rest }) => {
   const classes = useStyles();
   const [values, setValues] = useState({
     firstName: 'Katarina',
@@ -157,8 +157,8 @@ const ProfileDetails = ({ className, ...rest }) => {
   );
 };
 
-ProfileDetails.propTypes = {
+Groups.propTypes = {
   className: PropTypes.string
 };
 
-export default ProfileDetails;
+export default Groups;

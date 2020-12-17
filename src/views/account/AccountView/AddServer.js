@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import Dialog from '@material-ui/core/Dialog';
@@ -12,18 +12,19 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import { useContext } from 'react'
 import { ParentContext } from './index'
 
-export default function FormDialog() {
-
-  // Set the context.
+export default function FormDialog(props) {
+  
+  // Set the parent context.
   // Source: https://stackoverflow.com/questions/58936042/pass-context-between-siblings-using-context-in-react
   const context = React.useContext(ParentContext);
 
-  // Set the parent context.
+  // Use the parent context.
   // Source: https://stackoverflow.com/questions/58936042/pass-context-between-siblings-using-context-in-react
   const { setShowing } = useContext(ParentContext);
 
   const handleClose = () => {
     setShowing(false);
+    //props.newServer('asdfas');
   };
 
   return (
