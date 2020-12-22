@@ -50,7 +50,7 @@ const ProfileDetails = ({ className, ...rest }) => {
           >
             <Grid
               item
-              md={6}
+              md={12}
               xs={6}
             >
               <TextField
@@ -65,7 +65,7 @@ const ProfileDetails = ({ className, ...rest }) => {
             </Grid>
             <Grid
               item
-              md={6}
+              md={12}
               xs={6}
             >
               <TextField
@@ -80,7 +80,7 @@ const ProfileDetails = ({ className, ...rest }) => {
             </Grid>
             <Grid
               item
-              md={6}
+              md={12}
               xs={6}
             >
               <TextField
@@ -95,7 +95,7 @@ const ProfileDetails = ({ className, ...rest }) => {
             </Grid>
             <Grid
               item
-              md={6}
+              md={12}
               xs={6}
             >
               <TextField
@@ -110,7 +110,7 @@ const ProfileDetails = ({ className, ...rest }) => {
             </Grid>
             <Grid
               item
-              md={6}
+              md={12}
               xs={6}
             >
               <TextField
@@ -125,7 +125,7 @@ const ProfileDetails = ({ className, ...rest }) => {
             </Grid>
             <Grid
               item
-              md={6}
+              md={12}
               xs={6}
             >
               <TextField
