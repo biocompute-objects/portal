@@ -12,9 +12,67 @@ import {
   makeStyles
 } from '@material-ui/core';
 import MenuIcon from '@material-ui/icons/Menu';
-import NotificationsIcon from '@material-ui/icons/NotificationsOutlined';
 import InputIcon from '@material-ui/icons/Input';
 import Logo from 'src/components/Logo';
+
+// Put the navigation on top.
+//import NavBar from './NavBar'
+
+import {
+  AlertCircle as AlertCircleIcon,
+  BarChart as BarChartIcon,
+  Lock as LockIcon,
+  Settings as SettingsIcon,
+  ShoppingBag as ShoppingBagIcon,
+  User as UserIcon,
+  UserPlus as UserPlusIcon,
+  Users as UsersIcon
+} from 'react-feather';
+import NavItem from './NavBar/NavItem';
+
+// Navigation.
+const items = [
+  {
+    href: '/app/dashboard',
+    icon: BarChartIcon,
+    title: 'Dashboard'
+  },
+  {
+    href: '/app/account',
+    icon: UserIcon,
+    title: 'Account'
+  },
+  {
+    href: '/app/customers',
+    icon: UsersIcon,
+    title: 'Customers'
+  },
+  {
+    href: '/app/products',
+    icon: ShoppingBagIcon,
+    title: 'Products'
+  },
+  {
+    href: '/app/settings',
+    icon: SettingsIcon,
+    title: 'Settings'
+  },
+  {
+    href: '/login',
+    icon: LockIcon,
+    title: 'Login'
+  },
+  {
+    href: '/register',
+    icon: UserPlusIcon,
+    title: 'Register'
+  },
+  {
+    href: '/404',
+    icon: AlertCircleIcon,
+    title: 'Error'
+  }
+];
 
 const useStyles = makeStyles(() => ({
   root: {},
@@ -42,6 +100,15 @@ const TopBar = ({
         <RouterLink to="/">
           <Logo />
         </RouterLink>
+        {/* <NavBar /> */}
+        {items.map((item) => (
+            <NavItem
+              href={item.href}
+              key={item.title}
+              title={item.title}
+              icon={item.icon}
+            />
+          ))}
         <Box flexGrow={1} />
         <Hidden mdDown>
           <IconButton color="inherit">
@@ -50,7 +117,6 @@ const TopBar = ({
               color="primary"
               variant="dot"
             >
-              <NotificationsIcon />
             </Badge>
           </IconButton>
           <IconButton color="inherit">

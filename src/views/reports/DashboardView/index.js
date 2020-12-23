@@ -1,18 +1,35 @@
 import React from 'react';
 import {
+  Box,
   Container,
+  Divider,
   Grid,
   makeStyles
 } from '@material-ui/core';
 import Page from 'src/components/Page';
-import Budget from './Budget';
-import LatestOrders from './LatestOrders';
-import LatestProducts from './LatestProducts';
-import Sales from './Sales';
-import TasksProgress from './TasksProgress';
-import TotalCustomers from './TotalCustomers';
-import TotalProfit from './TotalProfit';
-import TrafficByDevice from './TrafficByDevice';
+
+// BCO DB Viewer
+import BcoDbViewer from './BcoDbViewer'
+
+// BCO Builder
+import BcoBuilder from './BcoBuilder'
+
+// My Profile
+import MyProfile from './MyProfile'
+
+// Supporting Materials
+import SupportingMaterials from './SupportingMaterials'
+
+// Technical
+import Technical from './Technical'
+
+// Media
+import Media from './Media'
+
+// Other
+import Other from './Other'
+
+
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -20,6 +37,9 @@ const useStyles = makeStyles((theme) => ({
     minHeight: '100%',
     paddingBottom: theme.spacing(3),
     paddingTop: theme.spacing(3)
+  },
+  whiteBackground: {
+    backgroundColor: '#ffffff'
   }
 }));
 
@@ -34,81 +54,84 @@ const Dashboard = () => {
       <Container maxWidth={false}>
         <Grid
           container
+          justify='center'
           spacing={3}
         >
           <Grid
             item
-            lg={3}
+            lg={2}
             sm={6}
-            xl={3}
+            xl={2}
             xs={12}
           >
-            <Budget />
+            <BcoDbViewer />
           </Grid>
           <Grid
             item
-            lg={3}
+            lg={2}
             sm={6}
-            xl={3}
+            xl={2}
             xs={12}
           >
-            <TotalCustomers />
+            <BcoBuilder />
           </Grid>
           <Grid
             item
-            lg={3}
+            lg={2}
             sm={6}
-            xl={3}
+            xl={2}
             xs={12}
           >
-            <TasksProgress />
-          </Grid>
-          <Grid
-            item
-            lg={3}
-            sm={6}
-            xl={3}
-            xs={12}
-          >
-            <TotalProfit />
-          </Grid>
-          <Grid
-            item
-            lg={8}
-            md={12}
-            xl={9}
-            xs={12}
-          >
-            <Sales />
-          </Grid>
-          <Grid
-            item
-            lg={4}
-            md={6}
-            xl={3}
-            xs={12}
-          >
-            <TrafficByDevice />
-          </Grid>
-          <Grid
-            item
-            lg={4}
-            md={6}
-            xl={3}
-            xs={12}
-          >
-            <LatestProducts />
-          </Grid>
-          <Grid
-            item
-            lg={8}
-            md={12}
-            xl={9}
-            xs={12}
-          >
-            <LatestOrders />
+            <MyProfile />
           </Grid>
         </Grid>
+        </Container>
+        <Container maxWidth={false}>
+        <Box className={classes.whiteBackground}>
+        <Grid
+          classes={classes.colored}
+          container
+          justify='center'
+          spacing={3}
+        >
+          <Grid
+            item
+            lg={12}
+            sm={12}
+            xl={12}
+            xs={12}
+          >
+            <SupportingMaterials />
+          </Grid>
+          <Grid
+            item
+            lg={3}
+            sm={6}
+            xl={3}
+            xs={12}
+          >
+            <Technical />
+          </Grid>
+          <Grid
+            item
+            lg={3}
+            sm={6}
+            xl={3}
+            xs={12}
+          >
+            <Media />
+          </Grid>
+          <Grid
+            item
+            lg={3}
+            sm={6}
+            xl={3}
+            xs={12}
+          >
+            <Other />
+          </Grid>
+        </Grid>
+        </Box>
       </Container>
     </Page>
   );

@@ -15,7 +15,7 @@ const useStyles = makeStyles((theme) => ({
     paddingBottom: 0
   },
   button: {
-    color: theme.palette.text.secondary,
+    color: '#ffffff',
     fontWeight: theme.typography.fontWeightMedium,
     justifyContent: 'flex-start',
     letterSpacing: 0,
@@ -27,15 +27,17 @@ const useStyles = makeStyles((theme) => ({
     marginRight: theme.spacing(1)
   },
   title: {
+    marginLeft: 'auto',
     marginRight: 'auto'
   },
   active: {
-    color: theme.palette.primary.main,
+    backgroundColor: '#1ca527',
+    color: '#ffffff',
     '& $title': {
       fontWeight: theme.typography.fontWeightMedium
     },
     '& $icon': {
-      color: theme.palette.primary.main
+      color: '#ffffff'
     }
   }
 }));
@@ -61,12 +63,6 @@ const NavItem = ({
         component={RouterLink}
         to={href}
       >
-        {Icon && (
-          <Icon
-            className={classes.icon}
-            size="20"
-          />
-        )}
         <span className={classes.title}>
           {title}
         </span>
