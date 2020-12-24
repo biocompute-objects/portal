@@ -4,7 +4,7 @@ const Logo = (props) => {
   return (
     <img
       alt="Logo"
-      src="/static/bco_logo.svg"
+      src="/static/bco_logo.png"
       {...props}
     />
   );

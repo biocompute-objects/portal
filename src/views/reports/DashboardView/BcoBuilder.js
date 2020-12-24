@@ -19,7 +19,7 @@ const useStyles = makeStyles({
       textAlign: 'center'
   },
   title: {
-    fontSize: '37px',
+    fontSize: '33px',
   },
   pos: {
     marginBottom: 12,
@@ -37,7 +37,7 @@ export default function BcoBuilder() {
             BCO Builder
             </Typography>
             <Typography>
-            Create and edit BioCompute Objects
+            Create and edit BCOs
             </Typography>
         </CardContent>
       </CardActionArea>

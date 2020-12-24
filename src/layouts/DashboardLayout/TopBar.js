@@ -15,9 +15,6 @@ import MenuIcon from '@material-ui/icons/Menu';
 import InputIcon from '@material-ui/icons/Input';
 import Logo from 'src/components/Logo';
 
-// Put the navigation on top.
-//import NavBar from './NavBar'
-
 import {
   AlertCircle as AlertCircleIcon,
   BarChart as BarChartIcon,
@@ -56,21 +53,6 @@ const items = [
     href: '/app/settings',
     icon: SettingsIcon,
     title: 'Settings'
-  },
-  {
-    href: '/login',
-    icon: LockIcon,
-    title: 'Login'
-  },
-  {
-    href: '/register',
-    icon: UserPlusIcon,
-    title: 'Register'
-  },
-  {
-    href: '/404',
-    icon: AlertCircleIcon,
-    title: 'Error'
   }
 ];
 

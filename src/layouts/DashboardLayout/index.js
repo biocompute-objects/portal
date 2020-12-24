@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import { Outlet } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core';
-//import NavBar from './NavBar';
 import TopBar from './TopBar';
+import BottomBar from './BottomBar'
+import NavBar from './NavBar'
+import NewsBar from './NewsBar'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -18,7 +20,8 @@ const useStyles = makeStyles((theme) => ({
     overflow: 'hidden',
     paddingTop: 64,
     [theme.breakpoints.up('lg')]: {
-      paddingLeft: 0
+      paddingLeft: 256,
+      paddingRight: 256
     }
   },
   contentContainer: {
@@ -40,10 +43,14 @@ const DashboardLayout = () => {
   return (
     <div className={classes.root}>
       <TopBar onMobileNavOpen={() => setMobileNavOpen(true)} />
-      {/* <NavBar 
+      <NavBar  
         onMobileClose={() => setMobileNavOpen(false)}
         openMobile={isMobileNavOpen}
-      />*/}
+      />
+      <NewsBar 
+        onMobileClose={() => setMobileNavOpen(false)}
+        openMobile={isMobileNavOpen}
+      />
       <div className={classes.wrapper}>
         <div className={classes.contentContainer}>
           <div className={classes.content}>
@@ -51,6 +58,7 @@ const DashboardLayout = () => {
           </div>
         </div>
       </div>
+      <BottomBar onMobileNavOpen={() => setMobileNavOpen(true)} />
     </div>
   );
 };

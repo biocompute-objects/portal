@@ -19,14 +19,14 @@ const useStyles = makeStyles({
       textAlign: 'center'
   },
   title: {
-    fontSize: '33px',
+    fontSize: '37px',
   },
   pos: {
     marginBottom: 12,
   },
 });
 
-export default function BcoDbViewer() {
+export default function News() {
   const classes = useStyles();
 
   return (
@@ -34,7 +34,7 @@ export default function BcoDbViewer() {
       <CardActionArea className={classes.linkCard}>
         <CardContent>
             <Typography className={classes.title}>
-            BCO DB Viewer
+            News
             </Typography>
             <Typography>
             View BCOs on BCO Servers
