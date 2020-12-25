@@ -62,16 +62,33 @@ export default function Permissions() {
                     Object.keys(sample_permissions[key][subkey]).map(
                       (subsubkey, k) => {
 
-                        // Declare the pointers to the top-level object.
-                        const keys_pointer = Object.keys(sample_permissions[key][subkey]);
+                        // Declare the pointers to the levels of the object.
+                        const keys_pointer = Object.keys(sample_permissions[key]);
+                        const subkeys_pointer = Object.keys(sample_permissions[key][subkey]);
                         const values_collapsed = Object.values(sample_permissions[key][subkey][subsubkey]).join('');
 
                         // Split the processing into the first row and subsequent rows.
+
+                        // j is the first table of the group.
+                        // k is the first item of the table.
                         return(
-                          k == 0
-                            ? <TableRow key={key}>
-                                <TableCell rowSpan={keys_pointer.length}>{key}</TableCell>
-                                <TableCell align="right" rowSpan={keys_pointer.length}>{subkey}</TableCell>
+                          j == 0 && k == 0
+                            ? <TableRow>
+                                <TableCell rowSpan={keys_pointer.length*subkeys_pointer.length}>{key}</TableCell>
+                                <TableCell align="right" rowSpan={subkeys_pointer.length}>{subkey}</TableCell>
+                                <TableCell align="right" className={classes.permissionList}>
+                                  {
+                                    values_collapsed == "no" 
+                                      ? <Chip size="small" className={classes.permissionNone} label={subsubkey} />
+                                      : values_collapsed == "all" 
+                                      ? <Chip size="small" className={classes.permissionFull} label={[subsubkey, values_collapsed].join(' ')} />
+                                      : <Chip size="small" className={classes.permissionPartial} label={[subsubkey, values_collapsed].join(' ')} />
+                                  }
+                                </TableCell>
+                              </TableRow>
+                            :
+                          j == 0 && k > 0
+                            ? <TableRow>
                                 <TableCell align="right" className={classes.permissionList}>
                                   {
                                     values_collapsed == "no" 
@@ -83,7 +100,21 @@ export default function Permissions() {
                                 </TableCell>
                               </TableRow>
                             : 
-                              <TableRow key={key}>
+                          j > 0 && k == 0
+                            ? <TableRow>
+                                <TableCell align="right" rowSpan={subkeys_pointer.length}>{subkey}</TableCell>
+                                <TableCell align="right" className={classes.permissionList}>
+                                  {
+                                    values_collapsed == "no" 
+                                      ? <Chip size="small" className={classes.permissionNone} label={subsubkey} />
+                                      : values_collapsed == "all" 
+                                      ? <Chip size="small" className={classes.permissionFull} label={[subsubkey, values_collapsed].join(' ')} />
+                                      : <Chip size="small" className={classes.permissionPartial} label={[subsubkey, values_collapsed].join(' ')} />
+                                  }
+                                </TableCell>
+                              </TableRow>
+                            :
+                              <TableRow>
                                 <TableCell align="right" className={classes.permissionList}>
                                   {
                                     values_collapsed == "no" 
