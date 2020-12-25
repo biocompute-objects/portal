@@ -21,6 +21,9 @@ import FilterListIcon from '@material-ui/icons/FilterList';
 // Server status
 //import { useState } from 'react';
 
+// Permissions
+import Permissions from './Permissions'
+
 // Add server button
 import {
   Button
@@ -34,8 +37,8 @@ import Chip from '@material-ui/core/Chip';
 import { useContext } from 'react'
 import { ParentContext } from './index'
 
-function createData(organization, hostname, username, groups, apikey, permissions, status) {
-  return { organization, hostname, username, groups, apikey, permissions, status };
+function createData(organization, hostname, username, apikey, permissions, status) {
+  return { organization, hostname, username, apikey, permissions, status };
 }
 
 function descendingComparator(a, b, orderBy) {
@@ -68,7 +71,6 @@ const headCells = [
   { id: 'organization', numeric: false, disablePadding: true, label: 'Organization' },
   { id: 'hostname', numeric: true, disablePadding: false, label: 'Hostname' },
   { id: 'username', numeric: false, disablePadding: false, label: 'Username' },
-  { id: 'groups', numeric: false, disablePadding: false, label: 'Groups'},
   { id: 'apikey', numeric: false, disablePadding: false, label: 'API key' },
   { id: 'permissions', numeric: false, disablePadding: false, label: 'Permissions' },
   { id: 'status', numeric: false, disablePadding: false, label: 'Status' },
@@ -200,10 +202,12 @@ const useStyles = makeStyles((theme) => ({
     marginBottom: theme.spacing(2),
   },
   serverActive : {
-    backgroundColor: 'green'
+    backgroundColor: 'green',
+    width: '70.2667px'
   },
   serverInactive : {
-    backgroundColor: 'red'
+    backgroundColor: 'red',
+    width: '70.2667px'
   },
   table: {
     minWidth: 750,
@@ -228,8 +232,8 @@ export default function EnhancedTable({ onClickOpen }) {
   const [selected, setSelected] = React.useState([]);
 
   const [rows, setRows] = React.useState([
-    createData('NIH', '23.423.13.45', 'carmstrong', 'STAT, LGR', 'dsd$4jkx%sl2#', 'Read, Write', 'Active'),
-    createData('FDA', '3.33.41.435', 'carmstrong', 'DRUGREVIEW, REG-USERS-32', 'djf#klxl;%', 'Read', 'Inactive')
+    createData('NIH', '23.423.13.45', 'carmstrong', 'dsd$4jkx%sl2#', 'Read, Write', 'Active'),
+    createData('FDA', '3.33.41.435', 'carmstrong', 'djf#klxl;%', 'Read', 'Inactive')
   ]);
 
   // Create a function to add a new server row to the table.
@@ -325,9 +329,8 @@ export default function EnhancedTable({ onClickOpen }) {
                         </TableCell>
                         <TableCell align="left">{row.hostname}</TableCell>
                         <TableCell align="left">{row.username}</TableCell>
-                        <TableCell align="left">{row.groups}</TableCell>
                         <TableCell align="left">{row.apikey}</TableCell>
-                        <TableCell align="left">{row.permissions}</TableCell>
+                        <TableCell align="left"><Permissions /></TableCell>
                         <TableCell align="center"><Chip className={row.status === "Active" ? classes.serverActive : classes.serverInactive} color='primary' label={row.status}></Chip></TableCell>
                       </TableRow>
                     );

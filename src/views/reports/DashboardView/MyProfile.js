@@ -5,6 +5,9 @@ import CardActionArea from '@material-ui/core/CardActionArea';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
 
+// Routing to pages
+import { Link as RouterLink } from 'react-router-dom';
+
 const useStyles = makeStyles({
   root: {
     minWidth: 275,
@@ -32,7 +35,7 @@ export default function MyProfile() {
   return (
     <Card className={classes.root, classes.linkCard}>
       <CardActionArea className={classes.linkCard}>
-        <CardContent>
+        <CardContent component={RouterLink} to={"/app/account"}>
             <Typography className={classes.title}>
             My Profile
             </Typography>

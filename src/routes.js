@@ -14,14 +14,20 @@ import SettingsView from 'src/views/settings/SettingsView';
 const routes = [
   {
     path: 'app',
-    element: <DashboardLayout />,
+    element: <MainLayout />,
     children: [
       { path: 'account', element: <AccountView /> },
       { path: 'customers', element: <CustomerListView /> },
-      { path: 'dashboard', element: <DashboardView /> },
       { path: 'products', element: <ProductListView /> },
       { path: 'settings', element: <SettingsView /> },
-      { path: '*', element: <Navigate to="/404" /> }
+    ]
+  },
+  {
+    path: 'app',
+    element: <DashboardLayout />,
+    children: [
+      { path: 'dashboard', element: <DashboardView /> },
+      { path: '*', element: <Navigate to="/dashboard" /> }
     ]
   },
   {
@@ -30,7 +36,7 @@ const routes = [
     children: [
       { path: 'login', element: <LoginView /> },
       { path: 'register', element: <RegisterView /> },
-      { path: '404', element: <NotFoundView /> },
+      { path: '404', element: <Navigate to="/app/dashboard" /> },
       { path: '/', element: <Navigate to="/app/dashboard" /> },
       { path: '*', element: <Navigate to="/404" /> }
     ]

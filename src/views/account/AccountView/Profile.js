@@ -35,8 +35,8 @@ const user = {
 const useStyles = makeStyles(() => ({
   root: {},
   avatar: {
-    height: 100,
-    width: 100
+    height: 125,
+    width: 125
   },
   detailDropdown: {
     fontSize: '20px'
@@ -53,13 +53,13 @@ const Profile = ({ className, ...rest }) => {
     >
       <CardContent>
       <Grid container spacing={2}>
-          <Grid item lg={3}>
+          <Grid item lg={1}>
           <Avatar
             className={classes.avatar}
             src={user.avatar}
           />
           </Grid>
-          <Grid item xs={12} lg={9} sm container>
+          <Grid item xs={12} lg={3} sm container>
             <Grid item xs container direction="column" spacing={2}>
               <Grid item xs>
               <Typography gutterBottom variant="h2">
@@ -77,12 +77,19 @@ const Profile = ({ className, ...rest }) => {
               </Grid>
             </Grid>
           </Grid>
-            <Grid
+          <Grid
             item
-            lg={12}
+            lg={8}
             md={5}
             xs={5}
           >
+            <Grid container spacing={2}>
+            <Grid
+              item
+              lg={12}
+              md={5}
+              xs={5}
+            >
             <Accordion>
                 <AccordionSummary
                     expandIcon={<ExpandMoreIcon />}
@@ -95,13 +102,13 @@ const Profile = ({ className, ...rest }) => {
                     <ProfileDetails />
                 </AccordionDetails>
             </Accordion>
-          </Grid>
-          <Grid
-            item
-            lg={12}
-            md={5}
-            xs={5}
-          >
+            </Grid>
+            <Grid
+              item
+              lg={12}
+              md={5}
+              xs={5}
+            >
             <Accordion>
                 <AccordionSummary
                     expandIcon={<ExpandMoreIcon />}
@@ -114,6 +121,8 @@ const Profile = ({ className, ...rest }) => {
                     <GroupInfo />
                 </AccordionDetails>
             </Accordion>
+            </Grid>
+            </Grid>
           </Grid>
       </Grid>
       </CardContent>
