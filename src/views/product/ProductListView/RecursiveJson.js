@@ -9,31 +9,50 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-export default function RecursiveJson(items) {  
+export default function RecursiveJson({ items }) {  
   
   const classes = useStyles();
-  console.log(Object.keys(items));
-  console.log(Object.keys(items).length);
+  console.log('########################')
+  console.log(items);
+  console.log(Object.keys(items)[0]);
+  console.log(items[Object.keys(items)[0]]);
+  console.log(Array.isArray(items[Object.keys(items)[0]]));
   console.log('============================')
+
+  // Define the keys.
+  const itemsKeys = Object.keys(items);
+
+  console.log('TEST');
+  console.log('**************************');
+  console.log(itemsKeys);
+  console.log('**************************');
+  console.log('END');
   
   return (
     <ul className={classes.listed}>
       {
-        typeof(items) == 'object' 
+        typeof(items) == 'object'
           ?
-            Object.keys(items).map(item => (
-                <li className={classes.listed}>
-                    {item}
-                    {RecursiveJson(items[item])}
-                </li>
-              )
-            )
+            Array.isArray(items[itemsKeys[0]]) == true
+              ?
+                items[itemsKeys].map(item => (
+                    <li className={classes.listed}>
+                      {itemsKeys}
+                      {<RecursiveJson items = {item} />}
+                    </li>
+                  )
+                )
+              :
+                itemsKeys.map(item => (
+                    <li className={classes.listed}>
+                        {console.log('====', items[item], '====')}
+                        {item}
+                        {<RecursiveJson items = {items[item]} />}
+                    </li>
+                  )
+                )
           :
-          typeof(items) == 'array'
-            ?
-              <li className={classes.listed}>ARRAY{items}</li>
-            :
-            <li className={classes.listed}>STRING{items}</li>
+            <li className={classes.listed}>{items}</li>
       }
     </ul>
   );
