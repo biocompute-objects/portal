@@ -12,40 +12,39 @@ const useStyles = makeStyles((theme) => ({
 export default function RecursiveJson({ items }) {  
   
   const classes = useStyles();
-  console.log('########################')
-  console.log(items);
-  console.log(Object.keys(items)[0]);
-  console.log(items[Object.keys(items)[0]]);
-  console.log(Array.isArray(items[Object.keys(items)[0]]));
-  console.log('============================')
 
   // Define the keys.
   const itemsKeys = Object.keys(items);
 
-  console.log('TEST');
-  console.log('**************************');
-  console.log(itemsKeys);
-  console.log('**************************');
-  console.log('END');
+  // If item is an object, it can be either a "true" object
+  // or an array.  If it's an array, it can contain either
+  // strings, or other objects.  If it's not an array, it
+  // must be an object, so recurse that.  Finally, if it's 
+  // not an object at all, it must be a string.
+
+  // This code assumes that all items in an array are either
+  // strings or objects.
   
   return (
     <ul className={classes.listed}>
       {
         typeof(items) == 'object'
           ?
-            Array.isArray(items[itemsKeys[0]]) == true
+            Array.isArray(items) == true
               ?
-                items[itemsKeys].map(item => (
-                    <li className={classes.listed}>
-                      {itemsKeys}
-                      {<RecursiveJson items = {item} />}
-                    </li>
-                  )
-                )
+                typeof(items[0]) == 'string'
+                  ?
+                    items.map(item => (
+                        <li className={classes.listed}>
+                          {item}
+                        </li>
+                      )
+                    )
+                  :
+                  <RecursiveJson items = {items[0]} />
               :
                 itemsKeys.map(item => (
                     <li className={classes.listed}>
-                        {console.log('====', items[item], '====')}
                         {item}
                         {<RecursiveJson items = {items[item]} />}
                     </li>
