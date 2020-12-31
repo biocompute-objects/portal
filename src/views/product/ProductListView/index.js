@@ -5,11 +5,11 @@ import {
   Grid,
   makeStyles
 } from '@material-ui/core';
-import { Pagination } from '@material-ui/lab';
 import Page from 'src/components/Page';
 import Toolbar from './Toolbar';
-import ProductCard from './ProductCard';
-import data from './data';
+
+// Rendering dynamic JSON.
+import RecursiveJson from './RecursiveJson'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -23,9 +23,25 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-const ProductList = () => {
+const Editor = () => {
   const classes = useStyles();
-  const [products] = useState(data);
+
+  // Define the JSON object.
+  const objected = {
+      "menu": {
+        "id": "file",  
+        "value": "File",  
+        "popup": {  
+          "menuitem": [  
+            {"value": "New", "onclick": "CreateDoc()"},  
+            {"value": "Open", "onclick": "OpenDoc()"},  
+            {"value": "Save", "onclick": "SaveDoc()"}  
+          ]  
+        }  
+      }
+  };
+  console.log(objected);
+  console.log('+++++++++++++++')
 
   return (
     <Page
@@ -33,42 +49,18 @@ const ProductList = () => {
       title="Products"
     >
       <Container maxWidth={false}>
-        <Toolbar />
+        {/* <Toolbar /> */}
         <Box mt={3}>
           <Grid
             container
             spacing={3}
           >
-            {products.map((product) => (
-              <Grid
-                item
-                key={product.id}
-                lg={4}
-                md={6}
-                xs={12}
-              >
-                <ProductCard
-                  className={classes.productCard}
-                  product={product}
-                />
-              </Grid>
-            ))}
+            <RecursiveJson items={objected} />
           </Grid>
-        </Box>
-        <Box
-          mt={3}
-          display="flex"
-          justifyContent="center"
-        >
-          <Pagination
-            color="primary"
-            count={3}
-            size="small"
-          />
         </Box>
       </Container>
     </Page>
   );
 };
 
-export default ProductList;
+export default Editor;

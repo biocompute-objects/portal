@@ -10,6 +10,9 @@ import TableRow from '@material-ui/core/TableRow';
 import Chip from '@material-ui/core/Chip';
 
 const useStyles = makeStyles({
+  noBorderBottom: {
+    borderBottom: 'none'
+  },
   permissionFull: {
     backgroundColor: 'green',
     color: 'white'
@@ -74,8 +77,8 @@ export default function Permissions() {
                         return(
                           j == 0 && k == 0
                             ? <TableRow>
-                                <TableCell rowSpan={keys_pointer.length*subkeys_pointer.length}>{key}</TableCell>
-                                <TableCell align="right" rowSpan={subkeys_pointer.length}>{subkey}</TableCell>
+                                <TableCell className={i == Object.keys(sample_permissions).length-1 ? classes.noBorderBottom : null} rowSpan={keys_pointer.length*subkeys_pointer.length}>{key}</TableCell>
+                                <TableCell align="right" className={j == keys_pointer.length-1 ? classes.noBorderBottom : null} rowSpan={subkeys_pointer.length}>{subkey}</TableCell>
                                 <TableCell align="right" className={classes.permissionList}>
                                   {
                                     values_collapsed == "no" 
@@ -102,7 +105,7 @@ export default function Permissions() {
                             : 
                           j > 0 && k == 0
                             ? <TableRow>
-                                <TableCell align="right" rowSpan={subkeys_pointer.length}>{subkey}</TableCell>
+                                <TableCell align="right" className={j == keys_pointer.length-1 ? classes.noBorderBottom : null} rowSpan={subkeys_pointer.length}>{subkey}</TableCell>
                                 <TableCell align="right" className={classes.permissionList}>
                                   {
                                     values_collapsed == "no" 
