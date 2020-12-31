@@ -9,7 +9,18 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-export default function RecursiveJson({ items }) {  
+// Function to fetch references.
+const fetchReferences = (relativeUri) => {
+
+  // Take the relative URI and construct the full
+  // URI, then fetch.
+
+  // ...
+
+}
+
+// Pass an object and whether or not its keys are properties.
+export default function RecursiveJson({ items, schemaProperty }) {  
   
   const classes = useStyles();
 
@@ -24,7 +35,12 @@ export default function RecursiveJson({ items }) {
 
   // This code assumes that all items in an array are either
   // strings or objects.
-  
+
+  // Determine whether or not to render anything on the page
+  // using scheamProperty.
+  console.log(items);
+  console.log(itemsKeys);
+
   return (
     <ul className={classes.listed}>
       {

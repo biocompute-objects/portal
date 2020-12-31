@@ -597,7 +597,7 @@ const Editor = () => {
             container
             spacing={3}
           >
-            <RecursiveJson items={objected} />
+            <RecursiveJson items={objected} schemaProperty={false} />
           </Grid>
         </Box>
       </Container>
