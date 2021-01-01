@@ -20,7 +20,7 @@ const fetchReferences = (relativeUri) => {
 }
 
 // Pass an object and whether or not its keys are properties.
-export default function RecursiveJson({ items, schemaProperty }) {  
+export default function RecursiveJson({ items, propertiesFlag, ulFlag }) {  
   
   const classes = useStyles();
 
@@ -37,9 +37,7 @@ export default function RecursiveJson({ items, schemaProperty }) {
   // strings or objects.
 
   // Determine whether or not to render anything on the page
-  // using scheamProperty.
-  console.log(items);
-  console.log(itemsKeys);
+  // using allowableKeys.
 
   return (
     <ul className={classes.listed}>
@@ -48,26 +46,29 @@ export default function RecursiveJson({ items, schemaProperty }) {
           ?
             Array.isArray(items) == true
               ?
-                typeof(items[0]) == 'string'
-                  ?
-                    items.map(item => (
-                        <li className={classes.listed}>
-                          {item}
-                        </li>
-                      )
-                    )
-                  :
-                  <RecursiveJson items = {items[0]} />
+                <RecursiveJson items = {items[0]} />
               :
                 itemsKeys.map(item => (
-                    <li className={classes.listed}>
-                        {item}
-                        {<RecursiveJson items = {items[item]} />}
-                    </li>
+                    item != "definitions"
+                      ?
+                        item == "properties"
+                          ?
+                            <RecursiveJson items = {items[item]} propertiesFlag = {true} />
+                          :
+                            propertiesFlag == true
+                              ?
+                                <li className={classes.listed}>
+                                    {item}
+                                    {<RecursiveJson items = {items[item]} propertiesFlag = {false} />}
+                                </li>
+                              :
+                                <RecursiveJson items = {items[item]} propertiesFlag = {false} />
+                      :
+                        null
                   )
                 )
           :
-            <li className={classes.listed}>{items}</li>
+            null
       }
     </ul>
   );
