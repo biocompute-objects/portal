@@ -7,6 +7,8 @@ import CustomerListView from 'src/views/customer/CustomerListView';
 import DashboardView from 'src/views/reports/DashboardView';
 import LoginView from 'src/views/auth/LoginView';
 import NotFoundView from 'src/views/errors/NotFoundView';
+import ObjectsListView from 'src/views/objects/ObjectsListView';
+import ObjectView from 'src/views/objects/ObjectView';
 import ProductListView from 'src/views/product/ProductListView';
 import RegisterView from 'src/views/auth/RegisterView';
 import SettingsView from 'src/views/settings/SettingsView';
@@ -20,6 +22,8 @@ const routes = [
       { path: 'customers', element: <CustomerListView /> },
       { path: 'products', element: <ProductListView /> },
       { path: 'settings', element: <SettingsView /> },
+      { path: 'objects', element: <ObjectsListView /> },
+      { path: 'objects/example', element: <ObjectView />}
     ]
   },
   {
