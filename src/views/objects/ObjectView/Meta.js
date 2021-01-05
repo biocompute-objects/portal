@@ -28,8 +28,6 @@ const processKey = (ikey) => {
     splitUp.map(value => {
       if(value == 'id') {
         capJoined.push('ID')
-      } else if(value == 'io') {
-        capJoined.push('IO')
       } else {
         capJoined.push(value.charAt(0).toUpperCase() + value.slice(1));
       }
@@ -41,12 +39,6 @@ const processKey = (ikey) => {
   } else {
     if(ikey == 'etag') {
       returnable = 'eTag';
-    } else if(ikey == 'url') {
-      returnable = 'URL';
-    } else if(ikey == 'uri') {
-      returnable = 'URI'
-    } else if(ikey == 'email') {
-      returnable = 'eMail'
     } else {
       returnable = ikey.charAt(0).toUpperCase() + ikey.slice(1);
     }
@@ -58,7 +50,7 @@ const processKey = (ikey) => {
 }
 
 // Pass an object and whether or not its keys are properties.
-export default function RecursiveJson({ items}) {  
+export default function Meta({ items}) {  
   
   const classes = useStyles();
 
@@ -94,12 +86,12 @@ export default function RecursiveJson({ items}) {
                       )
                     )
                   :
-                  <RecursiveJson items = {items[0]} />
+                  <Meta items = {items[0]} />
               :
                 itemsKeys.map(item => (
                     <li className={classes.listed}>
                         {processKey(item)}
-                        {<RecursiveJson items = {items[item]} />}
+                        {<Meta items = {items[item]} />}
                     </li>
                   )
                 )
