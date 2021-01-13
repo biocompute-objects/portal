@@ -23,6 +23,9 @@ const useStyles = makeStyles((theme) => ({
     paddingBottom: theme.spacing(3),
     paddingTop: theme.spacing(3)
   },
+  margined: {
+    marginBottom: '100px'
+  },
   meta: {
     backgroundColor: 'green',
     color: 'white'
@@ -61,12 +64,13 @@ const ObjectView = () => {
       <Container maxWidth={false}>
         {/* <Toolbar /> */}
           <Grid
+            className={classes.margined}
             container
             spacing={3}
           >
             <Grid
               item
-              lg={5}
+              lg={12}
               md={12}
               xs={12}
             >
@@ -76,15 +80,7 @@ const ObjectView = () => {
             </Grid>
             <Grid
               item
-              lg={8}
-              md={12}
-              xs={12}
-            >
-            e-mail object, download object, etc...
-            </Grid>
-            <Grid
-              item
-              lg={6}
+              lg={12}
               md={12}
               xs={12}
             >
@@ -94,7 +90,7 @@ const ObjectView = () => {
             </Grid>
             <Grid
               item
-              lg={6}
+              lg={12}
               md={12}
               xs={12}
             >
