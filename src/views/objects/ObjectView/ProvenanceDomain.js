@@ -94,6 +94,16 @@ export default function ProvenanceDomain({ items }) {
   // Define the meta keys.
   const metaKeys = Object.keys(provenanceMeta);
 
+  // Try to add optional keys.
+  try {
+    metaKeys['Embargo'] = items.embargo;
+  } finally {
+
+    // Leave metaKeys alone if the embargo
+    // wasn't there.
+    
+  }
+  
 
   // ----- Contributors ----- //
 
@@ -204,7 +214,7 @@ export default function ProvenanceDomain({ items }) {
               <StyledCell>
                 {item}
               </StyledCell>
-              <StyledCell colSpan="4">
+              <StyledCell colSpan="4" noGutter>
                 {provenanceMeta[item]}
               </StyledCell>
           </TableRow>

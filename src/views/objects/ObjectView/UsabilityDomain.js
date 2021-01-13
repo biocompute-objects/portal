@@ -19,13 +19,13 @@ const StyledCell = withStyles({
 })(TableCell);
 
 // Pass an object and whether or not its keys are properties.
-export default function Meta({ items}) {  
+export default function UsabilityDomain({ items }) {
   
   const classes = withStyles();
 
   // Arguments
   // ---------
-  // items: JSON object (Meta Information)
+  // items: JSON object (Usability Domain)
 
 
   // ----- Meta Information ----- //
@@ -34,7 +34,7 @@ export default function Meta({ items}) {
   // None.
 
 
-  // ----- Meta ----- //
+  // ----- Usability ----- //
 
   return(
     <Table size="small">
@@ -42,36 +42,21 @@ export default function Meta({ items}) {
         <TableRow>
           <StyledCell colSpan="5">
             <Typography variant="h3">
-              Object Information
+              Usability Domain
             </Typography>
           </StyledCell>
         </TableRow>
       </TableHead>
       <TableBody>
-        <TableRow>
-          <StyledCell>
-            Object ID
-          </StyledCell>
-          <StyledCell>
-            {items.object_id}
-          </StyledCell>
-        </TableRow>
-        <TableRow>
-          <StyledCell>
-            Spec Version
-          </StyledCell>
-          <StyledCell>
-            {items.spec_version}
-          </StyledCell>
-        </TableRow>
-        <TableRow>
-          <StyledCell>
-            eTag
-          </StyledCell>
-          <StyledCell>
-            {items.etag}
-          </StyledCell>
-        </TableRow>
+        {items.map(item => (
+              <TableRow>
+                <StyledCell>
+                  {item}
+                </StyledCell>
+            </TableRow>
+            )
+          )
+        }
       </TableBody>
     </Table>
   );
