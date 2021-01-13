@@ -8,6 +8,12 @@ import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 
+// For links.
+import OpenInNewIcon from '@material-ui/icons/OpenInNew';
+
+// For contact information.
+import Tooltip from '@material-ui/core/Tooltip';
+
 // Cell styling
 const StyledCell = withStyles({
   root: {
@@ -17,6 +23,16 @@ const StyledCell = withStyles({
     border: '1px solid black'
   }
 })(TableCell);
+
+// Tooltip styling
+const HtmlTooltip = withStyles((theme) => ({
+  tooltip: {
+    backgroundColor: '#f5f5f9',
+    color: 'rgba(0, 0, 0, 0.87)',
+    maxWidth: 220,
+    border: '1px solid #dadde9',
+  },
+}))(Tooltip);
 
 // A function to process a key.
 const processKey = (ikey) => {
@@ -231,7 +247,29 @@ export default function ProvenanceDomain({ items }) {
       {provenanceContributors.map(item => (
             <TableRow>
               {contributorKeys.map(subitem => (
-                    <StyledCell>{item[subitem]}</StyledCell>
+                    subitem == 'email'
+                      ?
+                        <StyledCell>
+                          {
+                            <HtmlTooltip
+                              interactive
+                              title={
+                                <React.Fragment>
+                                  <Typography align="center">Profile</Typography>
+                                  <Typography align="center"><img src="/static/Hadley.png" /></Typography>
+                                  <Typography>Hadley King</Typography>
+                                  <Typography>Research Associate</Typography>
+                                  <Typography>Funny guy</Typography>
+                                  <Typography>{item[subitem]}</Typography>
+                                </React.Fragment>
+                              }
+                            >
+                              <Typography>{item[subitem]}</Typography>
+                            </HtmlTooltip>
+                          }
+                        </StyledCell>
+                      :
+                        <StyledCell>{item[subitem]}</StyledCell>
                   )
                 )
               }

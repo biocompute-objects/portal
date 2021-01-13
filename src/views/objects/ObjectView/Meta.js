@@ -1,12 +1,16 @@
 import React from 'react';
 import {
-  withStyles, Typography
+  makeStyles, withStyles, Typography
 } from '@material-ui/core';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
+
+// For links.
+import Link from '@material-ui/core/Link';
+import OpenInNewIcon from '@material-ui/icons/OpenInNew';
 
 // Cell styling
 const StyledCell = withStyles({
@@ -18,10 +22,21 @@ const StyledCell = withStyles({
   }
 })(TableCell);
 
+// SVG/Link styling
+const useStyles = makeStyles((theme) => ({
+  linked: {
+    color: '#ffffff'
+  },
+  translated: {
+    WebkitTransform: 'translateY(7px)'
+  }
+}));
+
 // Pass an object and whether or not its keys are properties.
 export default function Meta({ items}) {  
   
   const classes = withStyles();
+  const svgClasses = useStyles();
 
   // Arguments
   // ---------
@@ -61,7 +76,9 @@ export default function Meta({ items}) {
             Spec Version
           </StyledCell>
           <StyledCell>
-            {items.spec_version}
+            <Link className={svgClasses.linked} href={items.spec_version} target="_blank">
+              {items.spec_version} <OpenInNewIcon className={svgClasses.translated} />
+            </Link>
           </StyledCell>
         </TableRow>
         <TableRow>
