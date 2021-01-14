@@ -4,7 +4,6 @@ import { makeStyles } from '@material-ui/core';
 import TopBar from './TopBar';
 import BottomBar from './BottomBar'
 import NavBar from './NavBar'
-import NewsBar from './NewsBar'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -20,8 +19,7 @@ const useStyles = makeStyles((theme) => ({
     overflow: 'hidden',
     paddingTop: 64,
     [theme.breakpoints.up('lg')]: {
-      paddingLeft: 256,
-      paddingRight: 256
+      paddingLeft: 256
     }
   },
   contentContainer: {
@@ -36,7 +34,7 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-const DashboardLayout = () => {
+const ObjectViewLayout = () => {
   const classes = useStyles();
   const [isMobileNavOpen, setMobileNavOpen] = useState(false);
 
@@ -44,10 +42,6 @@ const DashboardLayout = () => {
     <div className={classes.root}>
       <TopBar onMobileNavOpen={() => setMobileNavOpen(true)} />
       <NavBar  
-        onMobileClose={() => setMobileNavOpen(false)}
-        openMobile={isMobileNavOpen}
-      />
-      <NewsBar 
         onMobileClose={() => setMobileNavOpen(false)}
         openMobile={isMobileNavOpen}
       />
@@ -63,4 +57,4 @@ const DashboardLayout = () => {
   );
 };
 
-export default DashboardLayout;
+export default ObjectViewLayout;
