@@ -4,9 +4,6 @@ import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
-import Divider from '@material-ui/core/Divider';
-import InboxIcon from '@material-ui/icons/Inbox';
-import DraftsIcon from '@material-ui/icons/Drafts';
 
 // Display options
 import FormLabel from '@material-ui/core/FormLabel';
@@ -14,6 +11,9 @@ import FormControl from '@material-ui/core/FormControl';
 import FormGroup from '@material-ui/core/FormGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
+import EmailIcon from '@material-ui/icons/Email';
+import GetAppIcon from '@material-ui/icons/GetApp';
+import LinkIcon from '@material-ui/icons/Link';
 
 // Styling
 // Source: https://stackoverflow.com/questions/43975839/material-ui-next-styling-text-inside-listitemtext
@@ -65,16 +65,25 @@ export default function ObjectOptions() {
   return (
     <div className={classes.root}>
       <List className={classes.navHeader}>
-          <ListItemText classes={{ primary: classes.emphasized }} primary="Object Options" />
-        <ListItemLink href="https://www.github.com/" target="_blank">
-          <ListItemText primary="eMail object" />
-        </ListItemLink>
-        <ListItemLink href="#simple-list">
-          <ListItemText primary="Show derived from chain" />
-        </ListItemLink>
-        <ListItemLink href="#simple-list">
+        <ListItemText classes={{ primary: classes.emphasized }} primary="Object Options" />
+        <ListItem button>
+          <ListItemIcon>
+            <EmailIcon />
+          </ListItemIcon>
+          <ListItemText primary="eMail Object" />
+        </ListItem>
+        <ListItem button>
+          <ListItemIcon>
+            <LinkIcon />
+          </ListItemIcon>
+          <ListItemText primary="Derivation Chain" />
+        </ListItem>
+        <ListItem button>
+          <ListItemIcon>
+            <GetAppIcon />
+          </ListItemIcon>
           <ListItemText primary="Download Object" />
-        </ListItemLink>
+        </ListItem>
         <ListItemText classes={{ primary: classes.emphasized }} primary="Display Options" />
         <FormControl component="fieldset" className={classes.formControl}>
           <FormGroup>
