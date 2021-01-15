@@ -81,7 +81,7 @@ const ColorCoded = () => {
       >
         <Grid
           item
-          lg={12}
+          lg={7}
           md={12}
           xs={12}
         >
@@ -91,7 +91,7 @@ const ColorCoded = () => {
         </Grid>
         <Grid
           item
-          lg={12}
+          lg={6}
           md={12}
           xs={12}
         >
@@ -101,7 +101,7 @@ const ColorCoded = () => {
         </Grid>
         <Grid
           item
-          lg={12}
+          lg={6}
           md={12}
           xs={12}
         >
@@ -141,7 +141,7 @@ const ColorCoded = () => {
         </Grid>
         <Grid
           item
-          lg={12}
+          lg={6}
           md={12}
           xs={12}
         >

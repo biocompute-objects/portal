@@ -16,9 +16,10 @@ const useStyles = makeStyles(() => ({
     top: 'auto',
     zIndex: 2600
   },
-  centered: {
+  bottom: {
     marginLeft: 'auto',
-    marginRight: 'auto'
+    marginRight: 'auto',
+    minHeight: '32px'
   }
 }));
 
@@ -37,7 +38,7 @@ const BottomBar = ({
       position="fixed"
       {...rest}
     >
-      <Toolbar className={classes.centered}>
+      <Toolbar className={classes.bottom}>
         {/* <NavBar /> */}
         <Typography>BioCompute Portal Version 1.0.0&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;Host: 124.423.31.313</Typography>
         <Box flexGrow={1} />

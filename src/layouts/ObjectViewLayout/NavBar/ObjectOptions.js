@@ -119,6 +119,10 @@ export default function ObjectOptions() {
               control={<Checkbox checked={parametricDomain} onChange={handleChange} name="parametricDomain" />}
               label="Parametric Domain"
             />
+            <FormControlLabel
+              control={<Checkbox name="inlineBrowser" />}
+              label="Inline Browser (show all objects)"
+            />
           </FormGroup>
         </FormControl>
 
