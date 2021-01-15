@@ -9,8 +9,7 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 
 // For links.
-import Link from '@material-ui/core/Link';
-import OpenInNewIcon from '@material-ui/icons/OpenInNew';
+import Linker from './components/Linker';
 
 // Cell styling
 const StyledCell = withStyles({
@@ -76,9 +75,7 @@ export default function Meta({ items}) {
             Spec Version
           </StyledCell>
           <StyledCell>
-            <Link className={svgClasses.linked} href={items.spec_version} target="_blank">
-              {items.spec_version} <OpenInNewIcon className={svgClasses.translated} />
-            </Link>
+            <Linker color={ 'whiteLink' } uri={ items.spec_version } />
           </StyledCell>
         </TableRow>
         <TableRow>

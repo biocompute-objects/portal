@@ -14,8 +14,9 @@ import AccordionSummary from '@material-ui/core/AccordionSummary';
 import AccordionDetails from '@material-ui/core/AccordionDetails';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemText from '@material-ui/core/ListItemText';
+
+// For links.
+import LinkerInList from './components/LinkerInList'
 
 // Cell styling
 const StyledCell = withStyles({
@@ -80,21 +81,14 @@ export default function DescriptionDomain({ items }) {
         </StyledCell>
       </TableRow>
       <TableRow>
-        <StyledCell>
-          Step Number
-        </StyledCell>
-        <StyledCell>
-          Name
-        </StyledCell>
-        <StyledCell>
-          Description
-        </StyledCell>
-        <StyledCell>
-          Input List
-        </StyledCell>
-        <StyledCell>
-          Output List
-        </StyledCell>
+        {
+          ['Step Number', 'Name', 'Description', 'Input List', 'Output List'].map(item => (
+              <StyledCell>
+                {item}
+              </StyledCell>
+            )
+          )
+        }
       </TableRow>
         {
           items.pipeline_steps.map(item => (
@@ -109,17 +103,13 @@ export default function DescriptionDomain({ items }) {
                       aria-controls="panel1a-content"
                       id="panel1a-header"
                     >
-                    <Typography>Show inputs</Typography>
+                    <Typography>Show Inputs</Typography>
                     </AccordionSummary>
                     <AccordionDetails>
                       <List>
                         {
                               item.input_list.map(subitem => (
-                              <ListItem>
-                                <ListItemText
-                                  primary={subitem.uri}
-                                />
-                              </ListItem>
+                                <LinkerInList color={ 'blackLink' } uri={ subitem.uri } />
                             )
                           )
                         }
@@ -140,11 +130,7 @@ export default function DescriptionDomain({ items }) {
                       <List>
                         {
                               item.output_list.map(subitem => (
-                              <ListItem>
-                                <ListItemText
-                                  primary={subitem.uri}
-                                />
-                              </ListItem>
+                                <LinkerInList color={ 'blackLink' } uri={ subitem.uri } />
                             )
                           )
                         }

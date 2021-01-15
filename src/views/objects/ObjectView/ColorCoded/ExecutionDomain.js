@@ -9,7 +9,7 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 
 // For links.
-import OpenInNewIcon from '@material-ui/icons/OpenInNew';
+import Linker from './components/Linker';
 
 // For contact information.
 import Tooltip from '@material-ui/core/Tooltip';
@@ -111,13 +111,13 @@ export default function ExecutionDomain({ items }) {
                     </Typography>
                   </StyledCell>
                   <StyledCell colSpan="5">
-                    {item.uri.uri}
+                    <Linker color= { 'whiteLink' } uri={ item.uri.uri } />
                   </StyledCell>
                 </TableRow>
               :
               <TableRow>
                 <StyledCell colSpan="5">
-                  {item.uri.uri}
+                  <Linker color= { 'whiteLink' } uri={ item.uri.uri } />
                 </StyledCell>
               </TableRow>
           )
@@ -160,10 +160,16 @@ export default function ExecutionDomain({ items }) {
               {
                 ['filename', 'uri', 'access_time', 'sha1_checksum'].map(subitem => (
                     subitem in item.uri
-                    ?
-                      <StyledCell>{item.uri[subitem]}</StyledCell>
-                    :
-                      <StyledCell>None</StyledCell>
+                      ?
+                        subitem == 'uri'
+                          ?
+                            <StyledCell>
+                              <Linker color= { 'whiteLink' } uri={ item.uri.uri } />
+                            </StyledCell>
+                          :
+                            <StyledCell>{item.uri[subitem]}</StyledCell>
+                      :
+                        <StyledCell>None</StyledCell>
                   )
                 )
               }
@@ -200,10 +206,14 @@ export default function ExecutionDomain({ items }) {
       </TableRow>
       {
         items.external_data_endpoints.map(item => (
-              <TableRow>
-                <StyledCell>{item.name}</StyledCell>
-                <StyledCell colSpan="5">{item.url}</StyledCell>
-              </TableRow>
+                <TableRow>
+                  <StyledCell>
+                    {item.name}
+                  </StyledCell>
+                  <StyledCell colSpan="5">
+                    <Linker color= { 'whiteLink' } uri={ item.url } />
+                  </StyledCell>
+                </TableRow>
               )
           )
       }

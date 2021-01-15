@@ -8,6 +8,13 @@ import Divider from '@material-ui/core/Divider';
 import InboxIcon from '@material-ui/icons/Inbox';
 import DraftsIcon from '@material-ui/icons/Drafts';
 
+// Display options
+import FormLabel from '@material-ui/core/FormLabel';
+import FormControl from '@material-ui/core/FormControl';
+import FormGroup from '@material-ui/core/FormGroup';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Checkbox from '@material-ui/core/Checkbox';
+
 // Styling
 // Source: https://stackoverflow.com/questions/43975839/material-ui-next-styling-text-inside-listitemtext
 
@@ -30,8 +37,30 @@ function ListItemLink(props) {
   return <ListItem button component="a" {...props} />;
 }
 
+// Options
+// Source: https://material-ui.com/components/checkboxes/#checkbox
+
 export default function ObjectOptions() {
+
   const classes = useStyles();
+
+  const [state, setState] = React.useState({
+    fieldHover: true,
+    descriptionDomain: true,
+    errorDomain: true,
+    executionDomain: true,
+    ioDomain: true,
+    objectDomain: true,
+    parametricDomain: true,
+    provenanceDomain: true,
+    usabilityDomain: true
+  });
+
+  const handleChange = (event) => {
+    setState({ ...state, [event.target.name]: event.target.checked });
+  };
+
+  const { fieldHover, descriptionDomain, errorDomain, executionDomain, ioDomain, objectDomain, parametricDomain, provenanceDomain, usabilityDomain } = state;
 
   return (
     <div className={classes.root}>
@@ -41,21 +70,49 @@ export default function ObjectOptions() {
           <ListItemText primary="eMail object" />
         </ListItemLink>
         <ListItemLink href="#simple-list">
-        <ListItemText primary="Show derived from chain" />
+          <ListItemText primary="Show derived from chain" />
         </ListItemLink>
         <ListItemLink href="#simple-list">
           <ListItemText primary="Download Object" />
         </ListItemLink>
-        <ListItemText classes={{ primary: classes.emphasized }} primary="BCO Projects" />
-        <ListItemLink href="https://github.com/biocompute-objects" target="_blank">
-          <ListItemText primary="BCO on GitHub" />
-        </ListItemLink>
-        <ListItemLink href="https://www.github.com/" target="_blank">
-          <ListItemText primary="CWL and BCO" />
-        </ListItemLink>
-        <ListItemLink href="#simple-list">
-          <ListItemText primary="HIVE" />
-        </ListItemLink>
+        <ListItemText classes={{ primary: classes.emphasized }} primary="Display Options" />
+        <FormControl component="fieldset" className={classes.formControl}>
+          <FormGroup>
+            <FormControlLabel
+              control={<Checkbox checked={fieldHover} onChange={handleChange} name="fieldHover" />}
+              label="Describe fields on hover"
+            />
+            <FormControlLabel
+              control={<Checkbox checked={objectDomain} onChange={handleChange} name="objectDomain" />}
+              label="Object Domain"
+            />
+            <FormControlLabel
+              control={<Checkbox checked={provenanceDomain} onChange={handleChange} name="provenanceDomain" />}
+              label="Provenance Domain"
+            />
+            <FormControlLabel
+              control={<Checkbox checked={descriptionDomain} onChange={handleChange} name="descriptionDomain" />}
+              label="Description Domain"
+            />
+            <FormControlLabel
+              control={<Checkbox checked={executionDomain} onChange={handleChange} name="executionDomain" />}
+              label="Execution Domain"
+            />
+            <FormControlLabel
+              control={<Checkbox checked={ioDomain} onChange={handleChange} name="ioDomain" />}
+              label="IO Domain"
+            />
+            <FormControlLabel
+              control={<Checkbox checked={usabilityDomain} onChange={handleChange} name="usabilityDomain" />}
+              label="Usability Domain"
+            />
+            <FormControlLabel
+              control={<Checkbox checked={parametricDomain} onChange={handleChange} name="parametricDomain" />}
+              label="Parametric Domain"
+            />
+          </FormGroup>
+        </FormControl>
+
       </List>
     </div>
   );

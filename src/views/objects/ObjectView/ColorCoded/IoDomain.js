@@ -9,7 +9,7 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 
 // For links.
-import OpenInNewIcon from '@material-ui/icons/OpenInNew';
+import Linker from './components/Linker';
 
 // For contact information.
 import Tooltip from '@material-ui/core/Tooltip';
@@ -87,13 +87,21 @@ export default function IoDomain({ items }) {
                       ?
                         subitem in item.uri
                           ?
-                            <StyledCell colSpan="2">{item.uri[subitem]}</StyledCell>
+                            <StyledCell colSpan="2">
+                              <Linker color= { 'whiteLink' } uri={ item.uri[subitem] } />
+                            </StyledCell>
                           :
                             <StyledCell colSpan="2">None</StyledCell>
                       :                      
                         subitem in item.uri
                           ?
-                            <StyledCell>{item.uri[subitem]}</StyledCell>
+                            subitem == 'uri'
+                              ?
+                                <StyledCell>
+                                  <Linker color= { 'whiteLink' } uri={ item.uri[subitem] } />
+                                </StyledCell>
+                              :
+                                <StyledCell>{item.uri[subitem]}</StyledCell>
                           :
                             <StyledCell>None</StyledCell>
                   )
@@ -130,7 +138,13 @@ export default function IoDomain({ items }) {
                 ['filename', 'uri', 'access_time', 'sha1_checksum'].map(subitem => (
                     subitem in item.uri
                     ?
-                      <StyledCell>{item.uri[subitem]}</StyledCell>
+                      subitem == 'uri'
+                        ?
+                          <StyledCell>
+                            <Linker color= { 'whiteLink' } uri={ item.uri[subitem] } />
+                          </StyledCell>
+                        :
+                          <StyledCell>{item.uri[subitem]}</StyledCell>
                     :
                       <StyledCell>None</StyledCell>
                   )

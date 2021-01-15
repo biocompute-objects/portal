@@ -9,7 +9,7 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 
 // For links.
-import OpenInNewIcon from '@material-ui/icons/OpenInNew';
+import Linker from './components/Linker';
 
 // For contact information.
 import Tooltip from '@material-ui/core/Tooltip';
@@ -225,28 +225,38 @@ export default function ProvenanceDomain({ items }) {
       </TableRow>
     </TableHead>
     <TableBody>
-      {metaKeys.map(item => (
+      {
+        metaKeys.map(item => (
             <TableRow>
               <StyledCell>
                 {item}
               </StyledCell>
               <StyledCell colSpan="4" noGutter>
-                {provenanceMeta[item]}
+                {
+                  item == 'License'
+                    ?
+                      <Linker color= { 'whiteLink' } uri={ provenanceMeta[item] } />
+                    :
+                      provenanceMeta[item]
+                }
               </StyledCell>
           </TableRow>
           )
         )
       }
       <TableRow>
-      {contributorKeys.map(item => (
+      {
+        contributorKeys.map(item => (
             <StyledCell>{processKey(item)}</StyledCell>
           )
         )
       }
       </TableRow>
-      {provenanceContributors.map(item => (
+      {
+        provenanceContributors.map(item => (
             <TableRow>
-              {contributorKeys.map(subitem => (
+              {
+                contributorKeys.map(subitem => (
                     subitem == 'email'
                       ?
                         <StyledCell>
