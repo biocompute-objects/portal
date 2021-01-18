@@ -15,6 +15,9 @@ import SearchField from './Tools/SearchField'
 // Logic field
 import LogicField from './Tools/LogicField'
 
+// Regex box
+import RegexBox from './Tools/RegexBox'
+
 // Add condition
 import AddCondition from './Tools/AddCondition'
 
@@ -54,7 +57,7 @@ export default function Tools() {
           >
           <Grid
             item
-            lg={6}
+            lg={7}
             md={12}
             xs={12}
           >
@@ -64,12 +67,15 @@ export default function Tools() {
                 Search object fields
               </Typography>
               <Grid
+                alignItems="center"
                 container
+                direction="row"
+                justify="flex-start"
                 spacing={3}
               >
                 <Grid
                   item
-                  lg={5}
+                  lg={4}
                   md={12}
                   xs={12}
                 >
@@ -85,11 +91,19 @@ export default function Tools() {
                 </Grid>
                 <Grid
                   item
-                  lg={5}
+                  lg={4}
                   md={12}
                   xs={12}
                 >
                   <SearchField />
+                </Grid>
+                <Grid
+                  item
+                  lg={1}
+                  md={12}
+                  xs={12}
+                >
+                  <RegexBox />
                 </Grid>
               </Grid>
             </CardContent>
