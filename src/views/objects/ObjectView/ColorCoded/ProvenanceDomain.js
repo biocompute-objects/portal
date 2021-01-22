@@ -215,80 +215,80 @@ export default function ProvenanceDomain({ items }) {
 
   return(
     <Table size="small">
-    <TableHead className={classes.tabled}>
-      <TableRow>
-        <StyledCell colSpan="5">
-          <Typography variant="h3">
-            Provenance Domain
-          </Typography>
-        </StyledCell>
-      </TableRow>
-    </TableHead>
-    <TableBody>
-      {
-        metaKeys.map(item => (
-            <TableRow>
-              <StyledCell>
-                {item}
-              </StyledCell>
-              <StyledCell colSpan="4" noGutter>
-                {
-                  item == 'License'
-                    ?
-                      <Linker color= { 'whiteLink' } uri={ provenanceMeta[item] } />
-                    :
-                      provenanceMeta[item]
-                }
-              </StyledCell>
-          </TableRow>
-          )
-        )
-      }
-      <TableRow>
-      {
-        contributorKeys.map(item => (
-            <StyledCell>{processKey(item)}</StyledCell>
-          )
-        )
-      }
-      </TableRow>
-      {
-        provenanceContributors.map(item => (
-            <TableRow>
-              {
-                contributorKeys.map(subitem => (
-                    subitem == 'email'
+      <TableHead className={classes.tabled}>
+        <TableRow>
+          <StyledCell colSpan="5">
+            <Typography variant="h3">
+              Provenance Domain
+            </Typography>
+          </StyledCell>
+        </TableRow>
+      </TableHead>
+      <TableBody>
+        {
+          metaKeys.map(item => (
+              <TableRow>
+                <StyledCell>
+                  {item}
+                </StyledCell>
+                <StyledCell colSpan="4" noGutter>
+                  {
+                    item == 'License'
                       ?
-                        <StyledCell>
-                          {
-                            <HtmlTooltip
-                              interactive
-                              title={
-                                <React.Fragment>
-                                  <Typography align="center">Profile</Typography>
-                                  <Typography align="center"><img src="/static/Hadley.png" /></Typography>
-                                  <Typography>Hadley King</Typography>
-                                  <Typography>Research Associate</Typography>
-                                  <Typography>Funny guy</Typography>
-                                  <Typography>{item[subitem]}</Typography>
-                                </React.Fragment>
-                              }
-                            >
-                              <Typography>{item[subitem]}</Typography>
-                            </HtmlTooltip>
-                          }
-                        </StyledCell>
+                        <Linker color= { 'whiteLink' } uri={ provenanceMeta[item] } />
                       :
-                        <StyledCell>{item[subitem]}</StyledCell>
-                  )
-                )
-              }
+                        provenanceMeta[item]
+                  }
+                </StyledCell>
             </TableRow>
+            )
           )
-        )
-      }
-    </TableBody>
-  </Table>
+        }
+        <TableRow>
+        {
+          contributorKeys.map(item => (
+              <StyledCell>{processKey(item)}</StyledCell>
+            )
+          )
+        }
+        </TableRow>
+        {
+          provenanceContributors.map(item => (
+              <TableRow>
+                {
+                  contributorKeys.map(subitem => (
+                      subitem == 'email'
+                        ?
+                          <StyledCell>
+                            {
+                              <HtmlTooltip
+                                interactive
+                                title={
+                                  <React.Fragment>
+                                    <Typography align="center">Profile</Typography>
+                                    <Typography align="center"><img src="/static/Hadley.png" /></Typography>
+                                    <Typography>Hadley King</Typography>
+                                    <Typography>Research Associate</Typography>
+                                    <Typography>Funny guy</Typography>
+                                    <Typography>{item[subitem]}</Typography>
+                                  </React.Fragment>
+                                }
+                              >
+                                <Typography>{item[subitem]}</Typography>
+                              </HtmlTooltip>
+                            }
+                          </StyledCell>
+                        :
+                          <StyledCell>{item[subitem]}</StyledCell>
+                    )
+                  )
+                }
+              </TableRow>
+            )
+          )
+        }
+      </TableBody>
+    </Table>
   );
 
   /*
