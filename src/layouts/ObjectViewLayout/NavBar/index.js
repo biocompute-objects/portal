@@ -17,7 +17,7 @@ import ObjectOptions from './ObjectOptions'
 
 const useStyles = makeStyles(() => ({
   desktopDrawer: {
-    width: 256,
+    width: 300,
     top: 64,
     height: 'calc(100% - 64px)'
   },
