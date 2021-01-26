@@ -7,6 +7,7 @@ import Tools from './Tools'
 import Views from './Views'
 
 export default function ObjectView() {
+  
   return (
     <div>
       <Tools />

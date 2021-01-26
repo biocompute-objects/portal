@@ -1,5 +1,5 @@
 import React from 'react';
-import { withStyles } from '@material-ui/core/styles';
+import { makeStyles, withStyles } from '@material-ui/core/styles';
 import MuiAccordion from '@material-ui/core/Accordion';
 import MuiAccordionSummary from '@material-ui/core/AccordionSummary';
 import MuiAccordionDetails from '@material-ui/core/AccordionDetails';
@@ -7,6 +7,12 @@ import Typography from '@material-ui/core/Typography';
 
 // Color-coded view
 import ColorCoded from './ColorCoded'
+
+// Tree view
+import Tree from './Tree'
+
+// Raw view
+import Raw from './Raw'
 
 const Accordion = withStyles({
   root: {
@@ -19,10 +25,10 @@ const Accordion = withStyles({
       display: 'none',
     },
     '&$expanded': {
-      margin: 'auto',
-    },
+      margin: 'auto'     
+    }
   },
-  expanded: {},
+  expanded: {}
 })(MuiAccordion);
 
 const AccordionSummary = withStyles({
@@ -50,14 +56,18 @@ const AccordionDetails = withStyles((theme) => ({
 }))(MuiAccordionDetails);
 
 export default function Views() {
+
   const [expanded, setExpanded] = React.useState('panel1');
 
   const handleChange = (panel) => (event, newExpanded) => {
     setExpanded(newExpanded ? panel : false);
   };
 
+  // The div requires custom styling as opposed to tweaking the
+  // settings in the definitions above.
+
   return (
-    <div>
+    <div style={{marginBottom: '100px'}}>
       <Accordion square expanded={expanded === 'panel1'} onChange={handleChange('panel1')}>
         <AccordionSummary aria-controls="panel1d-content" id="panel1d-header">
           <Typography>Section View</Typography>
@@ -71,7 +81,7 @@ export default function Views() {
           <Typography>Tree View</Typography>
         </AccordionSummary>
         <AccordionDetails>
-          <ColorCoded />
+          <Tree />
         </AccordionDetails>
       </Accordion>
       <Accordion square expanded={expanded === 'panel3'} onChange={handleChange('panel3')}>
@@ -79,7 +89,7 @@ export default function Views() {
           <Typography>Raw</Typography>
         </AccordionSummary>
         <AccordionDetails>
-          <ColorCoded />
+          <Raw />
         </AccordionDetails>
       </Accordion>
     </div>
