@@ -15,7 +15,6 @@ import ExecutionDomain from './ExecutionDomain'
 import IoDomain from './IoDomain'
 import ParametricDomain from './ParametricDomain'
 import ProvenanceDomain from './ProvenanceDomain'
-//import RecursiveJson from './RecursiveJson'
 import UsabilityDomain from './UsabilityDomain'
 
 const useStyles = makeStyles((theme) => ({

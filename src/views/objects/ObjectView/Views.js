@@ -1,9 +1,18 @@
+// Source: https://material-ui.com/components/tabs/
+
 import React from 'react';
-import { makeStyles, withStyles } from '@material-ui/core/styles';
-import MuiAccordion from '@material-ui/core/Accordion';
-import MuiAccordionSummary from '@material-ui/core/AccordionSummary';
-import MuiAccordionDetails from '@material-ui/core/AccordionDetails';
+import PropTypes from 'prop-types';
+import { makeStyles } from '@material-ui/core/styles';
+import AppBar from '@material-ui/core/AppBar';
+import Tabs from '@material-ui/core/Tabs';
+import Tab from '@material-ui/core/Tab';
 import Typography from '@material-ui/core/Typography';
+import Box from '@material-ui/core/Box';
+
+// Tab icons
+import OpacityIcon from '@material-ui/icons/Opacity';
+import AccountTreeIcon from '@material-ui/icons/AccountTree';
+import InsertDriveFileIcon from '@material-ui/icons/InsertDriveFile';
 
 // Color-coded view
 import ColorCoded from './ColorCoded'
@@ -14,57 +23,79 @@ import Tree from './Tree'
 // Raw view
 import Raw from './Raw'
 
-const Accordion = withStyles({
-  root: {
-    border: '1px solid rgba(0, 0, 0, .125)',
-    boxShadow: 'none',
-    '&:not(:last-child)': {
-      borderBottom: 0,
-    },
-    '&:before': {
-      display: 'none',
-    },
-    '&$expanded': {
-      margin: 'auto'     
-    }
-  },
-  expanded: {}
-})(MuiAccordion);
+function TabPanel(props) {
+  const { children, value, index, ...other } = props;
 
-const AccordionSummary = withStyles({
-  root: {
-    backgroundColor: 'rgba(0, 0, 0, .03)',
-    borderBottom: '1px solid rgba(0, 0, 0, .125)',
-    marginBottom: -1,
-    minHeight: 56,
-    '&$expanded': {
-      minHeight: 56,
-    },
-  },
-  content: {
-    '&$expanded': {
-      margin: '12px 0',
-    },
-  },
-  expanded: {},
-})(MuiAccordionSummary);
+  return (
+    <div
+      role="tabpanel"
+      hidden={value !== index}
+      id={`simple-tabpanel-${index}`}
+      aria-labelledby={`simple-tab-${index}`}
+      {...other}
+    >
+      {value === index && (
+        <Box p={3}>
+          <Typography>{children}</Typography>
+        </Box>
+      )}
+    </div>
+  );
+}
 
-const AccordionDetails = withStyles((theme) => ({
+TabPanel.propTypes = {
+  children: PropTypes.node,
+  index: PropTypes.any.isRequired,
+  value: PropTypes.any.isRequired,
+};
+
+function a11yProps(index) {
+  return {
+    id: `simple-tab-${index}`,
+    'aria-controls': `simple-tabpanel-${index}`,
+  };
+}
+
+const useStyles = makeStyles((theme) => ({
   root: {
-    padding: theme.spacing(2),
+    flexGrow: 1,
+    backgroundColor: theme.palette.background.paper,
+    marginBottom: '100px'
   },
-}))(MuiAccordionDetails);
+}));
 
 export default function Views() {
+  const classes = useStyles();
+  const [value, setValue] = React.useState(0);
 
-  const [expanded, setExpanded] = React.useState('panel1');
-
-  const handleChange = (panel) => (event, newExpanded) => {
-    setExpanded(newExpanded ? panel : false);
+  const handleChange = (event, newValue) => {
+    setValue(newValue);
   };
 
-  // The div requires custom styling as opposed to tweaking the
-  // settings in the definitions above.
+  return (
+    <div className={classes.root}>
+      <AppBar position="static">
+        <Tabs value={value} onChange={handleChange} aria-label="simple tabs example">
+          <Tab icon={<OpacityIcon />} label="Color-Coded" {...a11yProps(0)} />
+          <Tab icon={<AccountTreeIcon />} label="Tree" {...a11yProps(1)} />
+          <Tab icon={<InsertDriveFileIcon />} label="Raw" {...a11yProps(2)} />
+        </Tabs>
+      </AppBar>
+      <TabPanel value={value} index={0}>
+        <ColorCoded />
+      </TabPanel>
+      <TabPanel value={value} index={1}>
+        <Tree />
+      </TabPanel>
+      <TabPanel value={value} index={2}>
+        <Raw />
+      </TabPanel>
+    </div>
+  );
+}
+
+/*
+export default function Views() {
 
   return (
     <div style={{marginBottom: '100px'}}>
@@ -95,3 +126,4 @@ export default function Views() {
     </div>
   );
 }
+*/

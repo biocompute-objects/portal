@@ -6,7 +6,6 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 
 // Display options
-import FormLabel from '@material-ui/core/FormLabel';
 import FormControl from '@material-ui/core/FormControl';
 import FormGroup from '@material-ui/core/FormGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
@@ -14,6 +13,8 @@ import Checkbox from '@material-ui/core/Checkbox';
 import EmailIcon from '@material-ui/icons/Email';
 import GetAppIcon from '@material-ui/icons/GetApp';
 import LinkIcon from '@material-ui/icons/Link';
+import Radio from '@material-ui/core/Radio';
+import RadioGroup from '@material-ui/core/RadioGroup';
 
 // Styling
 // Source: https://stackoverflow.com/questions/43975839/material-ui-next-styling-text-inside-listitemtext
@@ -61,6 +62,13 @@ export default function ObjectOptions() {
   };
 
   const { fieldHover, descriptionDomain, errorDomain, executionDomain, ioDomain, objectDomain, parametricDomain, provenanceDomain, usabilityDomain } = state;
+
+  // Default display options.
+  const [value, setValue] = React.useState('female');
+
+  const defaultView = (event) => {
+    setValue(event.target.value);
+  };
 
   return (
     <div className={classes.root}>
@@ -125,7 +133,14 @@ export default function ObjectOptions() {
             />
           </FormGroup>
         </FormControl>
-
+        <ListItemText classes={{ primary: classes.emphasized }} primary="Default Object View" />
+        <FormControl component="fieldset" className={classes.formControl}>
+          <RadioGroup aria-label="gender" name="gender1" value={value} onChange={defaultView}>
+            <FormControlLabel value="female" control={<Radio />} label="Color-Coded" />
+            <FormControlLabel value="male" control={<Radio />} label="Tree" />
+            <FormControlLabel value="other" control={<Radio />} label="Raw" />
+          </RadioGroup>
+        </FormControl>
       </List>
     </div>
   );
