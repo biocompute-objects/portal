@@ -38,6 +38,16 @@ const ObjectViewLayout = () => {
   const classes = useStyles();
   const [isMobileNavOpen, setMobileNavOpen] = useState(false);
 
+  // Shared state to show the e-Mail dialog box.
+  // Source (example): https://reactjs.org/docs/lifting-state-up.html
+  // Note that the example as of 1/26/21 uses documentation for
+  // React version 17.0.1.
+  const [open, setOpen] = React.useState(false);
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
   return (
     <div className={classes.root}>
       <TopBar onMobileNavOpen={() => setMobileNavOpen(true)} />

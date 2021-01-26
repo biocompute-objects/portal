@@ -41,7 +41,7 @@ function ListItemLink(props) {
 // Source: https://material-ui.com/components/checkboxes/#checkbox
 
 export default function ObjectOptions() {
-
+  
   const classes = useStyles();
 
   const [state, setState] = React.useState({
