@@ -103,9 +103,12 @@ const ColorCoded = () => {
   // Context
   //const viewType = DisplayContext;
 
+/*
+  <DisplayContext.consumer>
 
+</DisplayContext.consumer>
+*/
   return (
-    <DisplayContext.consumer>
       <Container maxWidth={false}>
         <Grid
           className={classes.margined}
@@ -194,7 +197,6 @@ const ColorCoded = () => {
           </Grid>
         </Grid>
       </Container>
-    </DisplayContext.consumer>
   );
 };
 
