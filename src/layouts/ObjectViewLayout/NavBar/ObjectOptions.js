@@ -45,6 +45,7 @@ export default function ObjectOptions() {
   
   const classes = useStyles();
 
+  // Domain displays.  
   const [state, setState] = React.useState({
     fieldHover: true,
     descriptionDomain: true,

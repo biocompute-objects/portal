@@ -34,19 +34,30 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
+export const DisplayContext = React.createContext({
+  'object_domain': true, 
+  'provenance_domain': true,
+  'description_domain': true,
+  'execution_domain': true,
+  'io_domain': true,
+  'usability_domain': true,
+  'parametric_domain': true
+});
+
 const ObjectViewLayout = () => {
   const classes = useStyles();
   const [isMobileNavOpen, setMobileNavOpen] = useState(false);
 
   // Shared state to show the e-Mail dialog box.
-  // Source (example): https://reactjs.org/docs/lifting-state-up.html
+
+  // We can't use simple props passing as of React version 16.13.1,
+  // see https://github.com/ReactTraining/react-router/issues/7495
+
+  // Instead, we have to use context.
+  // Source (example): https://reactjs.org/docs/context.html
+  
   // Note that the example as of 1/26/21 uses documentation for
   // React version 17.0.1.
-  const [open, setOpen] = React.useState(false);
-
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
 
   return (
     <div className={classes.root}>
@@ -58,7 +69,9 @@ const ObjectViewLayout = () => {
       <div className={classes.wrapper}>
         <div className={classes.contentContainer}>
           <div className={classes.content}>
-            <Outlet />
+            <DisplayContext.Provider>
+              <Outlet />
+            </DisplayContext.Provider>
           </div>
         </div>
       </div>

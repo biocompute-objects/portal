@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useContext } from 'react';
 import {
   Container,
   Grid,
@@ -17,6 +17,10 @@ import ParametricDomain from './ParametricDomain'
 import ProvenanceDomain from './ProvenanceDomain'
 import UsabilityDomain from './UsabilityDomain'
 
+// Context
+// Source: https://www.digitalocean.com/community/tutorials/react-usecontext
+import { DisplayContext } from '../../../../layouts/ObjectViewLayout/index';
+
 const useStyles = makeStyles((theme) => ({
   root: {
     backgroundColor: theme.palette.background.dark,
@@ -24,8 +28,14 @@ const useStyles = makeStyles((theme) => ({
     paddingBottom: theme.spacing(3),
     paddingTop: theme.spacing(3)
   },
+  hidden: {
+    display: 'none'
+  },
   margined: {
     marginBottom: '100px'
+  },
+  showing: {
+    display: 'block'
   },
   meta: {
     backgroundColor: 'green',
@@ -58,7 +68,14 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const ColorCoded = () => {
-    
+
+  // Use the parent context.
+  // Source: https://www.digitalocean.com/community/tutorials/react-usecontext
+
+  //const contextual = useContext(DisplayContext);
+  console.log('++++++', DisplayContext);
+  //console.log('------', contextual);
+  
   const classes = useStyles();
 
   // Define the JSON object.
@@ -83,95 +100,101 @@ const ColorCoded = () => {
   const parametricDomain = dummy.parametric_domain;
   */
 
+  // Context
+  //const viewType = DisplayContext;
+
+
   return (
-    <Container maxWidth={false}>
-      <Grid
-        className={classes.margined}
-        container
-        spacing={3}
-      >
+    <DisplayContext.consumer>
+      <Container maxWidth={false}>
         <Grid
-          item
-          lg={7}
-          md={12}
-          xs={12}
+          className={classes.margined}
+          container
+          spacing={3}
         >
-        <Card className={classes.meta} >
-          <Meta items={meta} />
-        </Card>
+          <Grid
+            item
+            lg={7}
+            md={12}
+            xs={12}
+          >
+          <Card className={classes.meta} >
+            <Meta items={meta} />
+          </Card>
+          </Grid>
+          <Grid
+            item
+            lg={6}
+            md={12}
+            xs={12}
+          >
+          <Card className={classes.provenanceDomain} >
+            <ProvenanceDomain items={provenanceDomain} />
+          </Card>
+          </Grid>
+          <Grid
+            item
+            lg={6}
+            md={12}
+            xs={12}
+          >
+          <Card className={classes.usabilityDomain} >
+            <UsabilityDomain items={usabilityDomain} />
+          </Card>
+          </Grid>
+          <Grid
+            item
+            lg={12}
+            md={12}
+            xs={12}
+          >
+          <Card className={classes.descriptionDomain} >
+            <DescriptionDomain items={descriptionDomain} />
+          </Card>
+          </Grid>
+          <Grid
+            item
+            lg={12}
+            md={12}
+            xs={12}
+          >
+          <Card className={classes.executionDomain} >
+            <ExecutionDomain items={executionDomain} />
+          </Card>
+          </Grid>
+          <Grid
+            item
+            lg={12}
+            md={12}
+            xs={12}
+          >
+          <Card className={classes.ioDomain} >
+            <IoDomain items={ioDomain} />
+          </Card>
+          </Grid>
+          <Grid
+            item
+            lg={6}
+            md={12}
+            xs={12}
+          >
+          <Card className={classes.parametricDomain} >
+            <ParametricDomain items={parametricDomain} />
+          </Card>
+          </Grid>
+          <Grid
+            item
+            lg={6}
+            md={12}
+            xs={12}
+          >
+          <Card className={classes.errorDomain} >
+            <ErrorDomain items={errorDomain} />
+          </Card>
+          </Grid>
         </Grid>
-        <Grid
-          item
-          lg={6}
-          md={12}
-          xs={12}
-        >
-        <Card className={classes.provenanceDomain} >
-          <ProvenanceDomain items={provenanceDomain} />
-        </Card>
-        </Grid>
-        <Grid
-          item
-          lg={6}
-          md={12}
-          xs={12}
-        >
-        <Card className={classes.usabilityDomain} >
-          <UsabilityDomain items={usabilityDomain} />
-        </Card>
-        </Grid>
-        <Grid
-          item
-          lg={12}
-          md={12}
-          xs={12}
-        >
-        <Card className={classes.descriptionDomain} >
-          <DescriptionDomain items={descriptionDomain} />
-        </Card>
-        </Grid>
-        <Grid
-          item
-          lg={12}
-          md={12}
-          xs={12}
-        >
-        <Card className={classes.executionDomain} >
-          <ExecutionDomain items={executionDomain} />
-        </Card>
-        </Grid>
-        <Grid
-          item
-          lg={12}
-          md={12}
-          xs={12}
-        >
-        <Card className={classes.ioDomain} >
-          <IoDomain items={ioDomain} />
-        </Card>
-        </Grid>
-        <Grid
-          item
-          lg={6}
-          md={12}
-          xs={12}
-        >
-        <Card className={classes.parametricDomain} >
-          <ParametricDomain items={parametricDomain} />
-        </Card>
-        </Grid>
-        <Grid
-          item
-          lg={6}
-          md={12}
-          xs={12}
-        >
-        <Card className={classes.errorDomain} >
-          <ErrorDomain items={errorDomain} />
-        </Card>
-        </Grid>
-      </Grid>
-    </Container>
+      </Container>
+    </DisplayContext.consumer>
   );
 };
 

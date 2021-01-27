@@ -96,7 +96,7 @@ export default function ProvenanceDomain({ items }) {
 
 
   // ----- Meta Information ----- //
-
+  
   
   // An array to hold all the meta information.
   const provenanceMeta = {
@@ -190,10 +190,8 @@ export default function ProvenanceDomain({ items }) {
               // For fields that contain lists, we need to 
               // join on ','.
               if(Array.isArray(item[subitem]) && typeof(item[subitem][0]) == 'string') {
-                console.log('====', item[subitem]);
                 tempArray[subitem] = item[subitem].join(', ');
               } else {
-                console.log('++++', item[subitem]);
                 tempArray[subitem] = item[subitem];
               }
               
@@ -210,8 +208,6 @@ export default function ProvenanceDomain({ items }) {
 
     }
   );
-
-  console.log(provenanceContributors);
 
   return(
     <Table size="small">
