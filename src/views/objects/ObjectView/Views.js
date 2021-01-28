@@ -82,6 +82,20 @@ export default function Views(id) {
   const [objectInfo, setObjectInfo] = useState({});
 
   useEffect(() => {
+
+    // Construct the request.
+    /*
+    const requestUrl = 'https://127.0.0.1:8000/';
+    const requestData = {
+      'POST_read_object': [
+        {
+          'object_id': 'asdfdas',
+          'table': 
+        }
+      ]
+    };
+    */
+
     fetch('https://jsonplaceholder.typicode.com/todos/1')
       .then(response => {
         return response.json();
