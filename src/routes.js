@@ -38,7 +38,7 @@ const routes = [
     path: 'app',
     element: <ObjectViewLayout />,
     children: [
-      { path: 'objects/example', element: <ObjectView />}
+      { path: 'objects/:id', element: <ObjectView />}
     ]
   },
   {

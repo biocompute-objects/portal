@@ -9,6 +9,10 @@ import {
   Typography
 } from '@material-ui/core';
 
+// Get the host IP.
+// Source: https://stackoverflow.com/questions/57193390/how-to-get-ip-address-of-computer-when-running-react-native-app
+//import { NetworkInfo } from "react-native-network-info";
+
 const useStyles = makeStyles(() => ({
   root: {},
   appBar: {

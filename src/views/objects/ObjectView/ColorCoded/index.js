@@ -6,6 +6,9 @@ import {
 } from '@material-ui/core';
 import Card from '@material-ui/core/Card';
 
+// Rendering URL parameters.
+import { useParams } from "react-router-dom";
+
 // Rendering dynamic JSON.
 import Meta from './Meta'
 import DescriptionDomain from './DescriptionDomain'
@@ -74,6 +77,8 @@ const ColorCoded = () => {
 
   //const contextual = useContext(DisplayContext);
   console.log('++++++', DisplayContext);
+  let { id } = useParams();
+  console.log('ID', id)
   //console.log('------', contextual);
   
   const classes = useStyles();
