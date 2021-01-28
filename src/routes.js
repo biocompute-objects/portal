@@ -45,7 +45,8 @@ const routes = [
     path: '/',
     element: <MainLayout />,
     children: [
-      { path: '404', element: <Navigate to="/app/dashboard" />}
+      { path: '404', element: <Navigate to="/dashboard" />},
+      { path: '*', element: <Navigate to="/dashboard" /> }
     ]
   },
   {

@@ -96,7 +96,7 @@ export default function Views(id) {
     };
     */
 
-    fetch('https://jsonplaceholder.typicode.com/todos/1')
+    fetch('https://127.0.0.1:8000')
       .then(response => {
         return response.json();
       })
