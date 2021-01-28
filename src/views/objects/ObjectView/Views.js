@@ -84,7 +84,7 @@ export default function Views(id) {
   useEffect(() => {
 
     // Construct the request.
-    /*
+    /*/
     const requestUrl = 'https://127.0.0.1:8000/';
     const requestData = {
       'POST_read_object': [
