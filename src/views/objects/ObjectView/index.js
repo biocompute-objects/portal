@@ -1,5 +1,8 @@
 import React from 'react';
 
+// Rendering URL parameters.
+import { useParams } from "react-router-dom";
+
 // Tools
 import Tools from './Tools'
 
@@ -18,11 +21,14 @@ export default function ObjectView() {
   const handleViewChange = (view) => {
     this.setViewType({view});
   }
+
+  // Set the object requested.
+  let { id } = useParams();
   
   return (
     <div>
       <Tools />
-      <Views />
+      <Views id={id}/>
     </div>
   );
 }

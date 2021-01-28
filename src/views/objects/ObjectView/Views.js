@@ -1,6 +1,6 @@
 // Source: https://material-ui.com/components/tabs/
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
@@ -64,13 +64,32 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Views() {
+export default function Views(id) {
   const classes = useStyles();
   const [value, setValue] = React.useState(0);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
+
+  // Get the ID requested.
+
+  // Make the request to the API, then pass the
+  // result to the children.
+
+  // Source: https://www.bitnative.com/2020/07/06/four-ways-to-fetch-data-in-react/
+
+  const [objectInfo, setObjectInfo] = useState({});
+
+  useEffect(() => {
+    fetch('https://jsonplaceholder.typicode.com/todos/1')
+      .then(response => {
+        return response.json();
+      })
+      .then(json => {
+        setObjectInfo(json);
+      })
+  }, []);
 
   return (
     <div className={classes.root}>
@@ -82,13 +101,13 @@ export default function Views() {
         </Tabs>
       </AppBar>
       <TabPanel value={value} index={0}>
-        <ColorCoded />
+        <ColorCoded contents={objectInfo} />
       </TabPanel>
       <TabPanel value={value} index={1}>
-        <Tree />
+        <Tree contents={objectInfo} />
       </TabPanel>
       <TabPanel value={value} index={2}>
-        <Raw />
+        <Raw contents={objectInfo} />
       </TabPanel>
     </div>
   );
