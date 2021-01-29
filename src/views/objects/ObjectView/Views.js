@@ -96,7 +96,7 @@ export default function Views(id) {
     };
     */
 
-    fetch('https://127.0.0.1:8000', {
+    fetch('/admin', {
       method: 'POST',
       body: JSON.stringify({ 
         title: "foo", 
