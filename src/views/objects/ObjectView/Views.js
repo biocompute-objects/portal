@@ -96,12 +96,19 @@ export default function Views(id) {
     };
     */
 
-    fetch('http://34.204.34.42/', {
+    // Fetch behavior requires further processing.
+
+    // Source: https://stackoverflow.com/questions/43903767/read-the-body-of-a-fetch-promise
+    
+    fetch('http://34.204.34.42/api/bco/objects/read/', {
       method: 'POST',
       body: JSON.stringify({ 
-        title: "foo", 
-        body: "bar", 
-        userId: 1 
+        POST_read_object: [
+            {
+              table: 'bco_draft', 
+              object_id: 'https://34.204.34.42/BCO_DRAFT_e6922748342042f8a0175b871a0e165a'
+            }
+        ]
       }),
       headers: {
         "Content-type": "application/json; charset=UTF-8"
@@ -109,8 +116,8 @@ export default function Views(id) {
     }).then(response => {
         return response.json();
       })
-      .then(json => {
-        setObjectInfo(json);
+      .then(data => {
+        setObjectInfo(data.POST_read_object.contents);
       })
   }, []);
 
