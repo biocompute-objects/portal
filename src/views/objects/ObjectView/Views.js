@@ -72,41 +72,30 @@ export default function Views(id) {
     setValue(newValue);
   };
 
-  // Get the ID requested.
+  // Get the ID requested, but first, set the state.
+  const [loading, setLoading] = useState(true);
+  const [objectInfo, setObjectInfo] = useState();
 
   // Make the request to the API, then pass the
   // result to the children.
 
   // Source: https://www.bitnative.com/2020/07/06/four-ways-to-fetch-data-in-react/
+  // Source: https://stackoverflow.com/questions/60888028/how-to-wait-for-fetch-before-rendering-data-in-functional-component
 
-  const [objectInfo, setObjectInfo] = useState({});
+  // Construct the request.
 
-  useEffect(() => {
+  // Fetch behavior requires further processing.
 
-    // Construct the request.
-    /*/
-    const requestUrl = 'https://127.0.0.1:8000/';
-    const requestData = {
-      'POST_read_object': [
-        {
-          'object_id': 'asdfdas',
-          'table': 
-        }
-      ]
-    };
-    */
-
-    // Fetch behavior requires further processing.
-
-    // Source: https://stackoverflow.com/questions/43903767/read-the-body-of-a-fetch-promise
-    
+  // Source: https://stackoverflow.com/questions/43903767/read-the-body-of-a-fetch-promise
+  
+  const getObjectInfo = () => {
     fetch('http://34.204.34.42/api/bco/objects/read', {
       method: 'POST',
       body: JSON.stringify({ 
         POST_read_object: [
             {
               table: 'bco_draft', 
-              object_id: 'https://34.204.34.42/BCO_DRAFT_e6922748342042f8a0175b871a0e165a'
+              object_id: 'https://34.204.34.42/BCO_DRAFT_18c94000e60e47a48198d99c54ba04b8'
             }
         ]
       }),
@@ -115,31 +104,41 @@ export default function Views(id) {
       }
     }).then(response => {
         return response.json();
-      })
-      .then(data => {
+      }).then(data => {
         setObjectInfo(data.POST_read_object.contents);
-      })
+        setLoading(false);
+      });
+  }
+  
+  useEffect(() => {
+    setLoading(true);
+    getObjectInfo();
   }, []);
 
   return (
-    <div className={classes.root}>
-      <AppBar position="static">
-        <Tabs value={value} onChange={handleChange} aria-label="simple tabs example">
-          <Tab icon={<OpacityIcon />} label="Color-Coded" {...a11yProps(0)} />
-          <Tab icon={<AccountTreeIcon />} label="Tree" {...a11yProps(1)} />
-          <Tab icon={<InsertDriveFileIcon />} label="Raw" {...a11yProps(2)} />
-        </Tabs>
-      </AppBar>
-      <TabPanel value={value} index={0}>
-        <ColorCoded contents={objectInfo} />
-      </TabPanel>
-      <TabPanel value={value} index={1}>
-        <Tree contents={objectInfo} />
-      </TabPanel>
-      <TabPanel value={value} index={2}>
-        <Raw contents={objectInfo} />
-      </TabPanel>
-    </div>
+    loading ?
+        <div>
+          <Typography>Loading...</Typography>
+        </div>
+      :
+        <div className={classes.root}>
+          <AppBar position="static">
+            <Tabs value={value} onChange={handleChange} aria-label="simple tabs example">
+              <Tab icon={<OpacityIcon />} label="Color-Coded" {...a11yProps(0)} />
+              <Tab icon={<AccountTreeIcon />} label="Tree" {...a11yProps(1)} />
+              <Tab icon={<InsertDriveFileIcon />} label="Raw" {...a11yProps(2)} />
+            </Tabs>
+          </AppBar>
+          <TabPanel value={value} index={0}>
+            <ColorCoded contents={objectInfo} />
+          </TabPanel>
+          <TabPanel value={value} index={1}>
+            <Tree contents={objectInfo} />
+          </TabPanel>
+          <TabPanel value={value} index={2}>
+            <Raw contents={objectInfo} />
+          </TabPanel>
+        </div>
   );
 }
 
