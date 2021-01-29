@@ -7,6 +7,7 @@ import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
+import RecursiveRows from './RecursiveRows'
 
 // For links.
 import Linker from './components/Linker';
@@ -89,6 +90,7 @@ export default function ExecutionDomain({ items }) {
   // ----- None ----- //
 
   return(
+    <div>
     <Table size="small">
     <TableHead className={classes.tabled}>
       <TableRow>
@@ -99,6 +101,7 @@ export default function ExecutionDomain({ items }) {
         </StyledCell>
       </TableRow>
     </TableHead>
+    {/*
     <TableBody>
       {
         items.script.map((item, index) => (
@@ -234,6 +237,12 @@ export default function ExecutionDomain({ items }) {
           )
       }
     </TableBody>
+    */}
   </Table>
+    
+    <div className={classes.bordered}>
+        <RecursiveRows items={items}/>
+      </div>
+  </div>
   );
 }

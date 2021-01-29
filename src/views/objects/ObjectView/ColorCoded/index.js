@@ -193,6 +193,46 @@ const ColorCoded = ({ contents }) => {
             <DescriptionDomain items={descriptionDomain} />
           </Card>
           </Grid>
+          <Grid
+            item
+            lg={12}
+            md={12}
+            xs={12}
+          >
+          <Card className={classes.executionDomain} >
+            <ExecutionDomain items={executionDomain} />
+          </Card>
+          </Grid>
+          <Grid
+            item
+            lg={12}
+            md={12}
+            xs={12}
+          >
+          <Card className={classes.ioDomain} >
+            <IoDomain items={ioDomain} />
+          </Card>
+          </Grid>
+          {/*<Grid
+            item
+            lg={6}
+            md={12}
+            xs={12}
+          >
+          <Card className={classes.parametricDomain} >
+            <ParametricDomain items={parametricDomain} />
+          </Card>
+          </Grid>*/}
+          <Grid
+            item
+            lg={6}
+            md={12}
+            xs={12}
+          >
+          <Card className={classes.errorDomain} >
+            <ErrorDomain items={errorDomain} />
+          </Card>
+          </Grid>
         </Grid>
       </Container>
   );

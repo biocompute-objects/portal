@@ -7,6 +7,7 @@ import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
+import RecursiveRows from './RecursiveRows'
 
 // For links.
 import OpenInNewIcon from '@material-ui/icons/OpenInNew';
@@ -40,6 +41,7 @@ export default function ParametricDomain({ items }) {
   // ----- None ----- //
 
   return(
+    <div>
     <Table size="small">
     <TableHead className={classes.tabled}>
       <TableRow>
@@ -50,6 +52,7 @@ export default function ParametricDomain({ items }) {
         </StyledCell>
       </TableRow>
     </TableHead>
+    {/*
     <TableBody>
       <TableRow>
         {
@@ -81,6 +84,11 @@ export default function ParametricDomain({ items }) {
         )
       }
     </TableBody>
+    */}
   </Table>
+  <div className={classes.bordered}>
+        <RecursiveRows items={items}/>
+      </div>
+  </div>
   );
 }
