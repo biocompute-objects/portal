@@ -100,7 +100,7 @@ export default function Views(id) {
 
     // Source: https://stackoverflow.com/questions/43903767/read-the-body-of-a-fetch-promise
     
-    fetch('http://34.204.34.42/api/bco/objects/read/', {
+    fetch('http://34.204.34.42/api/bco/objects/read', {
       method: 'POST',
       body: JSON.stringify({ 
         POST_read_object: [
