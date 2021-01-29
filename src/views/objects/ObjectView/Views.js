@@ -96,8 +96,17 @@ export default function Views(id) {
     };
     */
 
-    fetch('https://127.0.0.1:8000')
-      .then(response => {
+    fetch('https://127.0.0.1:8000', {
+      method: 'POST',
+      body: JSON.stringify({ 
+        title: "foo", 
+        body: "bar", 
+        userId: 1 
+      }),
+      headers: {
+        "Content-type": "application/json; charset=UTF-8"
+      }
+    }).then(response => {
         return response.json();
       })
       .then(json => {
