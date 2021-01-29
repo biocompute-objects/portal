@@ -96,7 +96,7 @@ export default function Views(id) {
     };
     */
 
-    fetch('https://127.0.0.1:8000', {
+    fetch('http://34.204.34.42/', {
       method: 'POST',
       body: JSON.stringify({ 
         title: "foo", 
