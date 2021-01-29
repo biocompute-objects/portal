@@ -36,16 +36,16 @@ const Toolbar = ({ className, ...rest }) => {
         justifyContent="flex-end"
       >
         <Button className={classes.importButton}>
-          Import
+          Import BCOs
         </Button>
         <Button className={classes.exportButton}>
-          Export
+          Export BCOs
         </Button>
         <Button
           color="primary"
           variant="contained"
         >
-          Add customer
+          Other options
         </Button>
       </Box>
       <Box mt={3}>

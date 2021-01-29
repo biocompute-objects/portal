@@ -37,10 +37,15 @@ export default function MyProfile() {
       <CardActionArea className={classes.linkCard}>
         <CardContent component={RouterLink} to={"/account"}>
             <Typography className={classes.title}>
-            My Profile
+              My Profile
             </Typography>
+            <Typography align="center">Profile</Typography>
+              <Typography align="center"><img src="/static/Hadley.png" /></Typography>
+              <Typography>Hadley King</Typography>
+              <Typography>Research Associate</Typography>
+              <Typography>funny@guy.com</Typography>
             <Typography>
-            Sign in to access services
+              Sign in to access services
             </Typography>
         </CardContent>
       </CardActionArea>

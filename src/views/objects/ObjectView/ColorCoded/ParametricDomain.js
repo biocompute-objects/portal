@@ -52,7 +52,6 @@ export default function ParametricDomain({ items }) {
         </StyledCell>
       </TableRow>
     </TableHead>
-    {/*
     <TableBody>
       <TableRow>
         {
@@ -84,11 +83,7 @@ export default function ParametricDomain({ items }) {
         )
       }
     </TableBody>
-    */}
   </Table>
-  <div className={classes.bordered}>
-        <RecursiveRows items={items}/>
-      </div>
   </div>
   );
 }

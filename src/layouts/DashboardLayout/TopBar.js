@@ -32,7 +32,7 @@ const items = [
   {
     href: '/dashboard',
     icon: BarChartIcon,
-    title: 'Dashboard'
+    title: 'Home'
   },
   {
     href: '/account',
@@ -42,27 +42,12 @@ const items = [
   {
     href: '/customers',
     icon: UsersIcon,
-    title: 'Customers'
-  },
-  {
-    href: '/products',
-    icon: ShoppingBagIcon,
-    title: 'Products'
-  },
-  {
-    href: '/objects',
-    icon: ShoppingBagIcon,
-    title: 'Objects'
+    title: 'BioCompute Objects'
   },
   {
     href: '/objects/example',
     icon: ShoppingBagIcon,
     title: 'Object Example'
-  },
-  {
-    href: '/settings',
-    icon: SettingsIcon,
-    title: 'Settings'
   }
 ];
 

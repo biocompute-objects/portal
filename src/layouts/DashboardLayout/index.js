@@ -43,10 +43,10 @@ const DashboardLayout = () => {
   return (
     <div className={classes.root}>
       <TopBar onMobileNavOpen={() => setMobileNavOpen(true)} />
-      <NavBar  
+      {/*<NavBar  
         onMobileClose={() => setMobileNavOpen(false)}
         openMobile={isMobileNavOpen}
-      />
+      />*/}
       <NewsBar 
         onMobileClose={() => setMobileNavOpen(false)}
         openMobile={isMobileNavOpen}

@@ -4,7 +4,8 @@ import PropTypes from 'prop-types';
 import {
   Drawer,
   Hidden,
-  makeStyles
+  makeStyles,
+  Typography
 } from '@material-ui/core';
 
 // Twitter feed
@@ -26,6 +27,13 @@ const useStyles = makeStyles(() => ({
     cursor: 'pointer',
     width: 64,
     height: 64
+  },
+  mainHighlight: {
+    marginTop: '20px'
+  },
+  subHighlight: {
+    marginTop: '20px',
+    paddingLeft: '10px'
   }
 }));
 
@@ -59,12 +67,36 @@ const NewsBar = ({ onMobileClose, openMobile }) => {
           open
           variant="persistent"
         >
-           <TwitterTimelineEmbed
-              noFooter
-              sourceType="profile"
-              screenName="BioComputeObj"
-              options={{height: 400}}
-            />
+          <TwitterTimelineEmbed
+            noFooter
+            sourceType="profile"
+            screenName="BioComputeObj"
+            options={{height: 400}}
+          />
+          <Typography align="center" className={classes.mainHighlight} variant="h2">
+            Workshops
+          </Typography>
+          <Typography className={classes.subHighlight} variant="h4">
+            FDA Days
+          </Typography>
+          <Typography className={classes.subHighlight} variant="h4">
+            GWU BCO
+          </Typography>
+          <Typography className={classes.subHighlight} variant="h4">
+            Etc...
+          </Typography>
+          <Typography align="center" className={classes.mainHighlight} variant="h2">
+            Release Notes
+          </Typography>
+          <Typography className={classes.subHighlight} variant="h4">
+            BCO API v. 1.02.3
+          </Typography>
+          <Typography className={classes.subHighlight} variant="h4">
+            Portal v. 4.2
+          </Typography>
+          <Typography className={classes.subHighlight} variant="h4">
+            Etc...
+          </Typography>
         </Drawer>
       </Hidden>
     </>

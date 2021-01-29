@@ -101,7 +101,6 @@ export default function ExecutionDomain({ items }) {
         </StyledCell>
       </TableRow>
     </TableHead>
-    {/*
     <TableBody>
       {
         items.script.map((item, index) => (
@@ -237,12 +236,7 @@ export default function ExecutionDomain({ items }) {
           )
       }
     </TableBody>
-    */}
   </Table>
-    
-    <div className={classes.bordered}>
-        <RecursiveRows items={items}/>
-      </div>
   </div>
   );
 }
