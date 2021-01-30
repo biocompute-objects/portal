@@ -116,7 +116,8 @@ export default function Views(id) {
   }, []);
 
   return (
-    loading ?
+    loading
+      ?
         <div>
           <Typography>Loading...</Typography>
         </div>

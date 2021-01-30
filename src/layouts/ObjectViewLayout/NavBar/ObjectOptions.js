@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
@@ -15,6 +15,10 @@ import GetAppIcon from '@material-ui/icons/GetApp';
 import LinkIcon from '@material-ui/icons/Link';
 import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
+
+// Context
+// Source: https://www.digitalocean.com/community/tutorials/react-usecontext
+import { DisplayContext } from '../../ObjectViewLayout/index';
 
 // Styling
 // Source: https://stackoverflow.com/questions/43975839/material-ui-next-styling-text-inside-listitemtext
@@ -42,6 +46,13 @@ function ListItemLink(props) {
 // Source: https://material-ui.com/components/checkboxes/#checkbox
 
 export default function ObjectOptions() {
+  
+  // Use the parent context.
+  // Source: https://www.digitalocean.com/community/tutorials/react-usecontext
+
+  // As of 1/29/21, there is a problem in React with this function call.
+  // Source: https://stackoverflow.com/questions/62564671/using-usecontext-in-react-doesnt-give-me-the-expect-data
+  const contextual = useContext(DisplayContext);
   
   const classes = useStyles();
 

@@ -2,7 +2,8 @@ import React, { useContext } from 'react';
 import {
   Container,
   Grid,
-  makeStyles
+  makeStyles,
+  Typography
 } from '@material-ui/core';
 import Card from '@material-ui/core/Card';
 
@@ -122,9 +123,12 @@ const ColorCoded = ({ contents }) => {
   // Use the parent context.
   // Source: https://www.digitalocean.com/community/tutorials/react-usecontext
 
-  //const contextual = useContext(DisplayContext);
+  // As of 1/29/21, there is a problem in React with this function call.
+  // Source: https://stackoverflow.com/questions/62564671/using-usecontext-in-react-doesnt-give-me-the-expect-data
+
+  const contextual = useContext(DisplayContext);
   
-  //console.log('------', contextual);
+  console.log('------', contextual);
   
   const classes = useStyles();
   
@@ -140,103 +144,40 @@ const ColorCoded = ({ contents }) => {
   const parametricDomain = dummy.parametric_domain;
   */
 
-  // Context
-  //const viewType = DisplayContext;
-
-/*
-  <DisplayContext.consumer>
-
-</DisplayContext.consumer>
-*/
+  // Define the components to render.
+  // Source: https://stackoverflow.com/questions/48131100/react-render-array-of-components
+  // Source: https://stackoverflow.com/questions/43585840/react-render-dynamic-list-of-components
+  const renderList = [ provenanceDomain, usabilityDomain, descriptionDomain, executionDomain, ioDomain, parametricDomain, errorDomain ];
+  const compList = [ ProvenanceDomain, UsabilityDomain, DescriptionDomain, ExecutionDomain, IoDomain, ParametricDomain, ErrorDomain ];
+  const classNames = [ 'provenanceDomain', 'usabilityDomain', 'descriptionDomain', 'executionDomain', 'ioDomain', 'parametricDomain', 'errorDomain' ];
+  
   return (
-      <Container maxWidth={false}>
-        <Grid
-          className={classes.margined}
-          container
-          spacing={3}
-        >
-          <Grid
-            item
-            lg={7}
-            md={12}
-            xs={12}
-          >
-          <Card className={classes.meta} >
-            <Meta items={meta} />
-          </Card>
-          </Grid>
-          <Grid
-            item
-            lg={12}
-            md={12}
-            xs={12}
-          >
-          <Card className={classes.provenanceDomain} >
-            <ProvenanceDomain items={provenanceDomain} />
-          </Card>
-          </Grid>
-          <Grid
-            item
-            lg={12}
-            md={12}
-            xs={12}
-          >
-          <Card className={classes.usabilityDomain} >
-            <UsabilityDomain items={usabilityDomain} />
-          </Card>
-          </Grid>
-          <Grid
-            item
-            lg={12}
-            md={12}
-            xs={12}
-          >
-          <Card className={classes.descriptionDomain} >
-            <DescriptionDomain items={descriptionDomain} />
-          </Card>
-          </Grid>
-          <Grid
-            item
-            lg={12}
-            md={12}
-            xs={12}
-          >
-          <Card className={classes.executionDomain} >
-            <ExecutionDomain items={executionDomain} />
-          </Card>
-          </Grid>
-          <Grid
-            item
-            lg={12}
-            md={12}
-            xs={12}
-          >
-          <Card className={classes.ioDomain} >
-            <IoDomain items={ioDomain} />
-          </Card>
-          </Grid>
-          <Grid
-            item
-            lg={6}
-            md={12}
-            xs={12}
-          >
-          <Card className={classes.parametricDomain} >
-            <ParametricDomain items={parametricDomain} />
-          </Card>
-          </Grid>
-          <Grid
-            item
-            lg={6}
-            md={12}
-            xs={12}
-          >
-          <Card className={classes.errorDomain} >
-            <ErrorDomain items={errorDomain} />
-          </Card>
-          </Grid>
-        </Grid>
-      </Container>
+    <Container maxWidth={false}>
+      <Grid
+        className={classes.margined}
+        container
+        spacing={3}
+      >
+        {
+          compList.map((Component, index) => {
+              return(
+                <Grid
+                  className={contextual.domains[classNames[index]] ? classes.showing : classes.hiding}
+                  item
+                  lg={12}
+                  md={12}
+                  xs={12}
+                >
+                  <Card className={classes[classNames[index]]}>
+                    <Component items={renderList[index]}/>
+                  </Card>
+                </Grid>
+              )
+            }
+          )
+        }
+      </Grid>
+    </Container>
   );
 };
 

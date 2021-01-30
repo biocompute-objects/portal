@@ -34,15 +34,19 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-export const DisplayContext = React.createContext({
-  'object_domain': true, 
-  'provenance_domain': true,
-  'description_domain': true,
-  'execution_domain': true,
-  'io_domain': true,
-  'usability_domain': true,
-  'parametric_domain': true
-});
+// Define which domains we'll display.
+const domains = {
+  objectDomain: true, 
+  provenanceDomain: true,
+  descriptionDomain: true,
+  executionDomain: true,
+  ioDomain: true,
+  usabilityDomain: true,
+  parametricDomain: true
+}
+
+// Create the context.
+export const DisplayContext = React.createContext();
 
 const ObjectViewLayout = () => {
   const classes = useStyles();
@@ -69,7 +73,7 @@ const ObjectViewLayout = () => {
       <div className={classes.wrapper}>
         <div className={classes.contentContainer}>
           <div className={classes.content}>
-            <DisplayContext.Provider>
+            <DisplayContext.Provider value={{ domains }}>
               <Outlet />
             </DisplayContext.Provider>
           </div>
