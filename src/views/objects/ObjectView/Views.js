@@ -142,37 +142,3 @@ export default function Views(id) {
         </div>
   );
 }
-
-/*
-export default function Views() {
-
-  return (
-    <div style={{marginBottom: '100px'}}>
-      <Accordion square expanded={expanded === 'panel1'} onChange={handleChange('panel1')}>
-        <AccordionSummary aria-controls="panel1d-content" id="panel1d-header">
-          <Typography>Section View</Typography>
-        </AccordionSummary>
-        <AccordionDetails>
-          <ColorCoded />
-        </AccordionDetails>
-      </Accordion>
-      <Accordion square expanded={expanded === 'panel2'} onChange={handleChange('panel2')}>
-        <AccordionSummary aria-controls="panel2d-content" id="panel2d-header">
-          <Typography>Tree View</Typography>
-        </AccordionSummary>
-        <AccordionDetails>
-          <Tree />
-        </AccordionDetails>
-      </Accordion>
-      <Accordion square expanded={expanded === 'panel3'} onChange={handleChange('panel3')}>
-        <AccordionSummary aria-controls="panel3d-content" id="panel3d-header">
-          <Typography>Raw</Typography>
-        </AccordionSummary>
-        <AccordionDetails>
-          <Raw />
-        </AccordionDetails>
-      </Accordion>
-    </div>
-  );
-}
-*/

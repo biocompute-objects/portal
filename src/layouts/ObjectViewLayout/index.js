@@ -34,23 +34,43 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-// Define which domains we'll display.
-const domains = {
-  objectDomain: true, 
-  provenanceDomain: true,
-  descriptionDomain: true,
-  executionDomain: true,
-  ioDomain: true,
-  usabilityDomain: true,
-  parametricDomain: true
-}
+// Context
+// Source: https://stackoverflow.com/questions/41030361/how-to-update-react-context-from-inside-a-child-component
 
-// Create the context.
-export const DisplayContext = React.createContext();
+// Create the context, with defaults.
+export const DisplayContext = React.createContext({
+  state: {
+    objectDomain: true, 
+    provenanceDomain: true,
+    descriptionDomain: true,
+    executionDomain: true,
+    ioDomain: true,
+    usabilityDomain: true,
+    parametricDomain: true
+  },
+  setState: () => {},
+  handleChange: () => {}
+});
 
 const ObjectViewLayout = () => {
   const classes = useStyles();
   const [isMobileNavOpen, setMobileNavOpen] = useState(false);
+
+  // Domain displays.  
+  const [state, setState] = React.useState({
+    descriptionDomain: true,
+    errorDomain: true,
+    executionDomain: true,
+    ioDomain: true,
+    objectDomain: true,
+    parametricDomain: true,
+    provenanceDomain: true,
+    usabilityDomain: true
+  });
+
+  const handleChange = (event) => {
+    setState({ ...state, [event.target.name]: event.target.checked });
+  };
 
   // Shared state to show the e-Mail dialog box.
 
@@ -64,23 +84,23 @@ const ObjectViewLayout = () => {
   // React version 17.0.1.
 
   return (
-    <div className={classes.root}>
-      <TopBar onMobileNavOpen={() => setMobileNavOpen(true)} />
-      <NavBar  
-        onMobileClose={() => setMobileNavOpen(false)}
-        openMobile={isMobileNavOpen}
-      />
-      <div className={classes.wrapper}>
-        <div className={classes.contentContainer}>
-          <div className={classes.content}>
-            <DisplayContext.Provider value={{ domains }}>
-              <Outlet />
-            </DisplayContext.Provider>
+    <DisplayContext.Provider value={{ state, handleChange }}>
+      <div className={classes.root}>
+        <TopBar onMobileNavOpen={() => setMobileNavOpen(true)} />
+        <NavBar
+          onMobileClose={() => setMobileNavOpen(false)}
+          openMobile={isMobileNavOpen}
+        />
+        <div className={classes.wrapper}>
+          <div className={classes.contentContainer}>
+            <div className={classes.content}>
+                <Outlet />
+            </div>
           </div>
         </div>
+        <BottomBar onMobileNavOpen={() => setMobileNavOpen(true)} />
       </div>
-      <BottomBar onMobileNavOpen={() => setMobileNavOpen(true)} />
-    </div>
+    </DisplayContext.Provider>
   );
 };
 

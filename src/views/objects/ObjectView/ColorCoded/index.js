@@ -29,7 +29,7 @@ const useStyles = makeStyles((theme) => ({
     paddingBottom: theme.spacing(3),
     paddingTop: theme.spacing(3)
   },
-  hidden: {
+  hiding: {
     display: 'none'
   },
   margined: {
@@ -126,9 +126,8 @@ const ColorCoded = ({ contents }) => {
   // As of 1/29/21, there is a problem in React with this function call.
   // Source: https://stackoverflow.com/questions/62564671/using-usecontext-in-react-doesnt-give-me-the-expect-data
 
-  const contextual = useContext(DisplayContext);
-  
-  console.log('------', contextual);
+  const { state } = useContext(DisplayContext);
+  console.log(state);
   
   const classes = useStyles();
   
@@ -162,7 +161,7 @@ const ColorCoded = ({ contents }) => {
           compList.map((Component, index) => {
               return(
                 <Grid
-                  className={contextual.domains[classNames[index]] ? classes.showing : classes.hiding}
+                  className={state[classNames[index]] ? classes.showing : classes.hiding}
                   item
                   lg={12}
                   md={12}

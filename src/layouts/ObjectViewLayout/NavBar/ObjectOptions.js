@@ -52,31 +52,14 @@ export default function ObjectOptions() {
 
   // As of 1/29/21, there is a problem in React with this function call.
   // Source: https://stackoverflow.com/questions/62564671/using-usecontext-in-react-doesnt-give-me-the-expect-data
-  const contextual = useContext(DisplayContext);
-  
+
+  // Pull the state and change handler from the context.
+  const { state, handleChange } = useContext(DisplayContext);
+
   const classes = useStyles();
 
-  // Domain displays.  
-  const [state, setState] = React.useState({
-    fieldHover: true,
-    descriptionDomain: true,
-    errorDomain: true,
-    executionDomain: true,
-    ioDomain: true,
-    objectDomain: true,
-    parametricDomain: true,
-    provenanceDomain: true,
-    usabilityDomain: true
-  });
-
-  const handleChange = (event) => {
-    setState({ ...state, [event.target.name]: event.target.checked });
-  };
-
-  const { fieldHover, descriptionDomain, errorDomain, executionDomain, ioDomain, objectDomain, parametricDomain, provenanceDomain, usabilityDomain } = state;
-
   // Default display options.
-  const [value, setValue] = React.useState('female');
+  const [value, setValue] = React.useState('colorCoded');
 
   const defaultView = (event) => {
     setValue(event.target.value);
@@ -108,35 +91,35 @@ export default function ObjectOptions() {
         <FormControl component="fieldset" className={classes.formControl}>
           <FormGroup>
             <FormControlLabel
-              control={<Checkbox checked={fieldHover} onChange={handleChange} name="fieldHover" />}
+              control={<Checkbox checked={false} onChange={handleChange} name="fieldHover" />}
               label="Describe fields on hover"
             />
             <FormControlLabel
-              control={<Checkbox checked={objectDomain} onChange={handleChange} name="objectDomain" />}
+              control={<Checkbox checked={state.objectDomain} onChange={handleChange} name="objectDomain" />}
               label="Object Domain"
             />
             <FormControlLabel
-              control={<Checkbox checked={provenanceDomain} onChange={handleChange} name="provenanceDomain" />}
+              control={<Checkbox checked={state.provenanceDomain} onChange={handleChange} name="provenanceDomain" />}
               label="Provenance Domain"
             />
             <FormControlLabel
-              control={<Checkbox checked={descriptionDomain} onChange={handleChange} name="descriptionDomain" />}
+              control={<Checkbox checked={state.descriptionDomain} onChange={handleChange} name="descriptionDomain" />}
               label="Description Domain"
             />
             <FormControlLabel
-              control={<Checkbox checked={executionDomain} onChange={handleChange} name="executionDomain" />}
+              control={<Checkbox checked={state.executionDomain} onChange={handleChange} name="executionDomain" />}
               label="Execution Domain"
             />
             <FormControlLabel
-              control={<Checkbox checked={ioDomain} onChange={handleChange} name="ioDomain" />}
+              control={<Checkbox checked={state.ioDomain} onChange={handleChange} name="ioDomain" />}
               label="IO Domain"
             />
             <FormControlLabel
-              control={<Checkbox checked={usabilityDomain} onChange={handleChange} name="usabilityDomain" />}
+              control={<Checkbox checked={state.usabilityDomain} onChange={handleChange} name="usabilityDomain" />}
               label="Usability Domain"
             />
             <FormControlLabel
-              control={<Checkbox checked={parametricDomain} onChange={handleChange} name="parametricDomain" />}
+              control={<Checkbox checked={state.parametricDomain} onChange={handleChange} name="parametricDomain" />}
               label="Parametric Domain"
             />
             <FormControlLabel
@@ -147,10 +130,10 @@ export default function ObjectOptions() {
         </FormControl>
         <ListItemText classes={{ primary: classes.emphasized }} primary="Default Object View" />
         <FormControl component="fieldset" className={classes.formControl}>
-          <RadioGroup aria-label="gender" name="gender1" value={value} onChange={defaultView}>
-            <FormControlLabel value="female" control={<Radio />} label="Color-Coded" />
-            <FormControlLabel value="male" control={<Radio />} label="Tree" />
-            <FormControlLabel value="other" control={<Radio />} label="Raw" />
+          <RadioGroup aria-label="gender" name="viewType" value={value} onChange={defaultView}>
+            <FormControlLabel value="colorCoded" control={<Radio />} label="Color-Coded" />
+            <FormControlLabel value="tree" control={<Radio />} label="Tree" />
+            <FormControlLabel value="raw" control={<Radio />} label="Raw" />
           </RadioGroup>
         </FormControl>
       </List>
