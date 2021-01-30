@@ -37,20 +37,8 @@ const useStyles = makeStyles((theme) => ({
 // Context
 // Source: https://stackoverflow.com/questions/41030361/how-to-update-react-context-from-inside-a-child-component
 
-// Create the context, with defaults.
-export const DisplayContext = React.createContext({
-  state: {
-    objectDomain: true, 
-    provenanceDomain: true,
-    descriptionDomain: true,
-    executionDomain: true,
-    ioDomain: true,
-    usabilityDomain: true,
-    parametricDomain: true
-  },
-  setState: () => {},
-  handleChange: () => {}
-});
+// Create the context.
+export const DisplayContext = React.createContext();
 
 const ObjectViewLayout = () => {
   const classes = useStyles();
@@ -62,7 +50,7 @@ const ObjectViewLayout = () => {
     errorDomain: true,
     executionDomain: true,
     ioDomain: true,
-    objectDomain: true,
+    meta: true,
     parametricDomain: true,
     provenanceDomain: true,
     usabilityDomain: true

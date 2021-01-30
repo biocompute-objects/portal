@@ -65,6 +65,11 @@ export default function ObjectOptions() {
     setValue(event.target.value);
   };
 
+  // Split the string into two parts.
+  // Source: https://stackoverflow.com/questions/20474257/split-string-into-two-parts*/}
+
+  // TODO: abstract camelCase to split Capital Case later...
+
   return (
     <div className={classes.root}>
       <List className={classes.navHeader}>
@@ -94,34 +99,21 @@ export default function ObjectOptions() {
               control={<Checkbox checked={false} onChange={handleChange} name="fieldHover" />}
               label="Describe fields on hover"
             />
-            <FormControlLabel
-              control={<Checkbox checked={state.objectDomain} onChange={handleChange} name="objectDomain" />}
-              label="Object Domain"
-            />
-            <FormControlLabel
-              control={<Checkbox checked={state.provenanceDomain} onChange={handleChange} name="provenanceDomain" />}
-              label="Provenance Domain"
-            />
-            <FormControlLabel
-              control={<Checkbox checked={state.descriptionDomain} onChange={handleChange} name="descriptionDomain" />}
-              label="Description Domain"
-            />
-            <FormControlLabel
-              control={<Checkbox checked={state.executionDomain} onChange={handleChange} name="executionDomain" />}
-              label="Execution Domain"
-            />
-            <FormControlLabel
-              control={<Checkbox checked={state.ioDomain} onChange={handleChange} name="ioDomain" />}
-              label="IO Domain"
-            />
-            <FormControlLabel
-              control={<Checkbox checked={state.usabilityDomain} onChange={handleChange} name="usabilityDomain" />}
-              label="Usability Domain"
-            />
-            <FormControlLabel
-              control={<Checkbox checked={state.parametricDomain} onChange={handleChange} name="parametricDomain" />}
-              label="Parametric Domain"
-            />
+            {
+              
+              ['meta', 'provenanceDomain', 'descriptionDomain', 'executionDomain', 'ioDomain', 'usabilityDomain', 'parametricDomain'].map(domain => (
+                <FormControlLabel
+                  control={<Checkbox checked={state[domain]} onChange={handleChange} name={domain} />}
+                  label={
+                    domain == 'meta'
+                      ? 
+                        'Meta'
+                      :
+                        [domain.substr(0, domain.indexOf('D')).charAt(0).toUpperCase() + domain.substr(0, domain.indexOf('D')).slice(1), domain.substr(domain.indexOf('D'))].join(' ')
+                  }
+                />
+              ))
+            }
             <FormControlLabel
               control={<Checkbox name="inlineBrowser" />}
               label="Inline Browser (show all objects)"
