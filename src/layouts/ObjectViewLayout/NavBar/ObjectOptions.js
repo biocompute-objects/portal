@@ -73,12 +73,12 @@ export default function ObjectOptions() {
     <div className={classes.root}>
       <List className={classes.navHeader}>
         <ListItemText classes={{ primary: classes.emphasized }} primary="Object Options" />
-        <ListItem button>
-          <ListItemIcon>
-            <EmailIcon />
-          </ListItemIcon>
-          <ListItemText primary="eMail Object" />
-        </ListItem>
+          <ListItem button onPress={() => alert('logging...')}>
+            <ListItemIcon>
+              <EmailIcon />
+            </ListItemIcon>
+            <ListItemText primary="eMail Object" />
+          </ListItem>
         <ListItem button>
           <ListItemIcon>
             <LinkIcon />

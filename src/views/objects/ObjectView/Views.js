@@ -121,22 +121,30 @@ export default function Views(id) {
     getObjectInfo();
   }, []);
 
-  const [value, setValue] = React.useState(1);
-
-  const handleChange = (event, newValue) => {
-    setValue(newValue);
-  };
-
   // Use the parent context.
   // Source: https://www.digitalocean.com/community/tutorials/react-usecontext
 
   // As of 1/29/21, there is a problem in React with this function call.
   // Source: https://stackoverflow.com/questions/62564671/using-usecontext-in-react-doesnt-give-me-the-expect-data
 
-  // Pull the state and change handler from the context.
+  // Pull the state from the parent.
   const { 
-    view, defaultView 
+    view
   } = useContext(DisplayContext);
+
+  // Define a variable for switching views within
+  // the component (as opposed to getting the value)
+  // from the parent).
+  const [componentView, setComponentView] = React.useState(0);
+
+  const handleChange = (event, newValue) => {
+    setComponentView(newValue);
+  };
+
+  // Integers are required for this component,
+  // so typecast the value we got from the radio selector.
+
+  // Use value={Number(view)} to pull from the parent..
 
   return (
     loading
@@ -147,19 +155,19 @@ export default function Views(id) {
       :
         <div className={classes.root}>
           <AppBar position="static">
-            <Tabs value={value} onChange={handleChange} aria-label="simple tabs example">
+            <Tabs value={componentView} onChange={handleChange} aria-label="simple tabs example">
               <Tab icon={<OpacityIcon />} label="Color-Coded" {...a11yProps(0)} />
               <Tab icon={<AccountTreeIcon />} label="Tree" {...a11yProps(1)} />
               <Tab icon={<InsertDriveFileIcon />} label="Raw" {...a11yProps(2)} />
             </Tabs>
           </AppBar>
-          <TabPanel value={value} index={0}>
+          <TabPanel value={componentView} index={0}>
             <ColorCoded contents={objectInfo} />
           </TabPanel>
-          <TabPanel value={value} index={1}>
+          <TabPanel value={componentView} index={1}>
             <Tree contents={objectInfo} />
           </TabPanel>
-          <TabPanel value={value} index={2}>
+          <TabPanel value={componentView} index={2}>
             <Raw contents={objectInfo} />
           </TabPanel>
         </div>

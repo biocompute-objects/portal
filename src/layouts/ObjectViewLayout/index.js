@@ -44,7 +44,25 @@ const ObjectViewLayout = () => {
   const classes = useStyles();
   const [isMobileNavOpen, setMobileNavOpen] = useState(false);
 
-  // Domain displays
+  // Object Options
+  /*const [objectOptions, setObjectOptions] = React.useState({
+    emailObject: false,
+    derivationChain: false,
+    downloadObject: false
+  });
+  */
+
+  const [emailObject, setEmailObject] = React.useState(false);
+
+  const handleClickOpen = () => {
+    setEmailObject(true);
+  };
+
+  const handleClose = () => {
+    setEmailObject(false);
+  };
+  
+  // Display Options
   const [state, setState] = React.useState({
     descriptionDomain: true,
     errorDomain: true,
@@ -60,7 +78,7 @@ const ObjectViewLayout = () => {
     setState({ ...state, [event.target.name]: event.target.checked });
   };
 
-  // Object views  
+  // Default Object View 
   const [view, setView] = React.useState("1");
 
   const defaultView = event => {
@@ -79,7 +97,11 @@ const ObjectViewLayout = () => {
   // React version 17.0.1.
 
   return (
-    <DisplayContext.Provider value={{ state, handleChange, view, defaultView }}>
+    <DisplayContext.Provider value={{ 
+      emailObject, handleClickOpen, handleClose,
+      state, handleChange, 
+      view, defaultView 
+    }}>
       <div className={classes.root}>
         <TopBar onMobileNavOpen={() => setMobileNavOpen(true)} />
         <NavBar
