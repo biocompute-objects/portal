@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
@@ -54,16 +54,15 @@ export default function ObjectOptions() {
   // Source: https://stackoverflow.com/questions/62564671/using-usecontext-in-react-doesnt-give-me-the-expect-data
 
   // Pull the state and change handler from the context.
-  const { state, handleChange } = useContext(DisplayContext);
+  const { 
+    state, handleChange, 
+    view, defaultView 
+  } = useContext(DisplayContext);
+
+  // Strings are required to make the radio select work,
+  // we'll typecast to integer to render on the page.
 
   const classes = useStyles();
-
-  // Default display options.
-  const [value, setValue] = React.useState('colorCoded');
-
-  const defaultView = (event) => {
-    setValue(event.target.value);
-  };
 
   // Split the string into two parts.
   // Source: https://stackoverflow.com/questions/20474257/split-string-into-two-parts*/}
@@ -100,19 +99,22 @@ export default function ObjectOptions() {
               label="Describe fields on hover"
             />
             {
-              
               ['meta', 'provenanceDomain', 'descriptionDomain', 'executionDomain', 'ioDomain', 'usabilityDomain', 'parametricDomain'].map(domain => (
-                <FormControlLabel
-                  control={<Checkbox checked={state[domain]} onChange={handleChange} name={domain} />}
-                  label={
-                    domain == 'meta'
-                      ? 
-                        'Meta'
-                      :
-                        [domain.substr(0, domain.indexOf('D')).charAt(0).toUpperCase() + domain.substr(0, domain.indexOf('D')).slice(1), domain.substr(domain.indexOf('D'))].join(' ')
-                  }
-                />
-              ))
+                  <FormControlLabel
+                    control={<Checkbox checked={state[domain]} onChange={handleChange} name={domain} />}
+                    label={
+                      domain == 'meta'
+                        ? 
+                          'Meta'
+                        :
+                          [
+                            domain.substr(0, domain.indexOf('D')).charAt(0).toUpperCase() + domain.substr(0, domain.indexOf('D')).slice(1), 
+                            domain.substr(domain.indexOf('D'))
+                          ].join(' ')
+                    }
+                  />
+                )
+              )
             }
             <FormControlLabel
               control={<Checkbox name="inlineBrowser" />}
@@ -122,10 +124,10 @@ export default function ObjectOptions() {
         </FormControl>
         <ListItemText classes={{ primary: classes.emphasized }} primary="Default Object View" />
         <FormControl component="fieldset" className={classes.formControl}>
-          <RadioGroup aria-label="gender" name="viewType" value={value} onChange={defaultView}>
-            <FormControlLabel value="colorCoded" control={<Radio />} label="Color-Coded" />
-            <FormControlLabel value="tree" control={<Radio />} label="Tree" />
-            <FormControlLabel value="raw" control={<Radio />} label="Raw" />
+          <RadioGroup aria-label="gender" name="viewType" value={view} onClick={defaultView}>
+            <FormControlLabel value="0" control={<Radio />} label="Color-Coded" />
+            <FormControlLabel value="1" control={<Radio />} label="Tree" />
+            <FormControlLabel value="2" control={<Radio />} label="Raw" />
           </RadioGroup>
         </FormControl>
       </List>

@@ -1,6 +1,6 @@
 // Source: https://material-ui.com/components/tabs/
 
-import React, { useState, useEffect } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
@@ -22,6 +22,10 @@ import Tree from './Tree'
 
 // Raw view
 import Raw from './Raw'
+
+// Context
+// Source: https://www.digitalocean.com/community/tutorials/react-usecontext
+import { DisplayContext } from '../../../layouts/ObjectViewLayout/index';
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -65,12 +69,8 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function Views(id) {
+  
   const classes = useStyles();
-  const [value, setValue] = React.useState(0);
-
-  const handleChange = (event, newValue) => {
-    setValue(newValue);
-  };
 
   // Get the ID requested, but first, set the state.
   const [loading, setLoading] = useState(true);
@@ -120,6 +120,23 @@ export default function Views(id) {
     setLoading(true);
     getObjectInfo();
   }, []);
+
+  const [value, setValue] = React.useState(1);
+
+  const handleChange = (event, newValue) => {
+    setValue(newValue);
+  };
+
+  // Use the parent context.
+  // Source: https://www.digitalocean.com/community/tutorials/react-usecontext
+
+  // As of 1/29/21, there is a problem in React with this function call.
+  // Source: https://stackoverflow.com/questions/62564671/using-usecontext-in-react-doesnt-give-me-the-expect-data
+
+  // Pull the state and change handler from the context.
+  const { 
+    view, defaultView 
+  } = useContext(DisplayContext);
 
   return (
     loading

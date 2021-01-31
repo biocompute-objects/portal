@@ -44,7 +44,7 @@ const ObjectViewLayout = () => {
   const classes = useStyles();
   const [isMobileNavOpen, setMobileNavOpen] = useState(false);
 
-  // Domain displays.  
+  // Domain displays
   const [state, setState] = React.useState({
     descriptionDomain: true,
     errorDomain: true,
@@ -60,6 +60,13 @@ const ObjectViewLayout = () => {
     setState({ ...state, [event.target.name]: event.target.checked });
   };
 
+  // Object views  
+  const [view, setView] = React.useState("1");
+
+  const defaultView = event => {
+    setView(event.target.value);
+  };
+
   // Shared state to show the e-Mail dialog box.
 
   // We can't use simple props passing as of React version 16.13.1,
@@ -72,7 +79,7 @@ const ObjectViewLayout = () => {
   // React version 17.0.1.
 
   return (
-    <DisplayContext.Provider value={{ state, handleChange }}>
+    <DisplayContext.Provider value={{ state, handleChange, view, defaultView }}>
       <div className={classes.root}>
         <TopBar onMobileNavOpen={() => setMobileNavOpen(true)} />
         <NavBar
