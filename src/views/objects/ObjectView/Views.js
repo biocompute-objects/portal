@@ -68,7 +68,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Views(id) {
+export default function Views({ id, object_id }) {
   
   const classes = useStyles();
 
@@ -161,6 +161,9 @@ export default function Views(id) {
               <Tab icon={<InsertDriveFileIcon />} label="Raw" {...a11yProps(2)} />
             </Tabs>
           </AppBar>
+          <Typography>
+            Object ID: {object_id}
+          </Typography>
           <TabPanel value={componentView} index={0}>
             <ColorCoded contents={objectInfo} />
           </TabPanel>

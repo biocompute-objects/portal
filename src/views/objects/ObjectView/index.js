@@ -28,7 +28,7 @@ export default function ObjectView() {
   return (
     <div>
       <Tools />
-      <Views id={id}/>
+      <Views id={id} object_id={window.location.href} />
     </div>
   );
 }
