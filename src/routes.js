@@ -20,7 +20,7 @@ const routes = [
     element: <DashboardLayout />,
     children: [
       { path: 'dashboard', element: <DashboardView /> },
-      { path: '*', element: <Navigate to="/dashboard" /> }
+      { path: '', element: <Navigate to="/dashboard" /> }
     ]
   },
   {
@@ -35,17 +35,17 @@ const routes = [
     ]
   },
   {
-    path: '/:prefix_:state_:uuid',
+    path: '/',
     element: <ObjectViewLayout />,
     children: [
-      { path: '', element: <ObjectView /> }
+      { path: ':prefix_:state_:uuid', element: <ObjectView /> }
     ]
   },
   {
-    path: '/:prefix_:id',
+    path: '/',
     element: <ObjectViewLayout />,
     children: [
-      { path: ':id2.:id3', element: <ObjectView /> }
+      { path: ':prefix_:id/:id2.:id3', element: <ObjectView /> }
     ]
   },
   {
