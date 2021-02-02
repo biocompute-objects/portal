@@ -47,8 +47,6 @@ export default function ObjectView() {
     tableName = parsePath.split('/')[1].split('_')[0].toLowerCase() + '_publish';
 
   }
-
-  console.log(tableName);
   
   return (
     <div>

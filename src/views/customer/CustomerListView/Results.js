@@ -19,14 +19,14 @@ import Tooltip from '@material-ui/core/Tooltip';
 import DeleteIcon from '@material-ui/icons/Delete';
 import FilterListIcon from '@material-ui/icons/FilterList';
 
-function createData(objectId, name, state, source, lastUpdated, createdBy) {
-  return { objectId, name, state, source, lastUpdated, createdBy };
+function createData(objectId, name, state, source, lastUpdated) {
+  return { objectId, name, state, source, lastUpdated };
 }
 
 const rows = [
-  createData('https://34.204.34.42/BCO_DRAFT_e6922748342042f8a0175b871a0e165a', 'PubChem-compound', 'DRAFT', 'GWU-HIVE (24.35.124.3)', '01/29/21', 'Hadley King'),
-  createData('https://34.204.34.42/BCO_DRAFT_18c94000e60e47a48198d99c54ba04b8', 'SARS-CoV-2 Subtyping Pipeline based on ISMs', 'DRAFT', 'GWU-HIVE (24.35.124.3)', '01/29/21', 'Janisha Patel'),
-  createData('https://34.204.34.42/BCO_DRAFT_eb94dc8d46c84ca891e895cc18e930df', 'Transferring data to R studio', 'DRAFT', 'GWU-HIVE (24.35.124.3)', '01/29/21', 'Mike Smith'),
+  createData('https://34.204.34.42/BCO_DRAFT_e6922748342042f8a0175b871a0e165a', 'PubChem-compound', 'DRAFT', 'GWU-HIVE - 24.35.124.3 (Hadley King)', '01/29/21'),
+  createData('https://34.204.34.42/BCO_DRAFT_18c94000e60e47a48198d99c54ba04b8', 'SARS-CoV-2 Subtyping Pipeline based on ISMs', 'DRAFT', 'GWU-HIVE - 24.35.124.3 (Janisha Patel)', '01/29/21'),
+  createData('https://34.204.34.42/BCO_DRAFT_eb94dc8d46c84ca891e895cc18e930df', 'Transferring data to R studio', 'DRAFT', 'GWU-HIVE - 24.35.124.3 (Jonathan Keeney)', '01/29/21'),
 ];
 
 function descendingComparator(a, b, orderBy) {
@@ -60,8 +60,7 @@ const headCells = [
   { id: 'name', numeric: true, disablePadding: false, label: 'Name' },
   { id: 'state', numeric: false, disablePadding: false, label: 'State' },
   { id: 'source', numeric: true, disablePadding: false, label: 'Source' },
-  { id: 'lastUpdated', numeric: true, disablePadding: false, label: 'Last Updated' },
-  { id: 'createdBy', numeric: true, disablePadding: false, label: 'Created By' },
+  { id: 'lastUpdated', numeric: true, disablePadding: false, label: 'Last Updated' }
 ];
 
 function EnhancedTableHead(props) {
@@ -84,7 +83,7 @@ function EnhancedTableHead(props) {
         {headCells.map((headCell) => (
           <TableCell
             key={headCell.id}
-            align={headCell.numeric ? 'right' : 'left'}
+            align={'left'}
             padding={headCell.disablePadding ? 'none' : 'default'}
             sortDirection={orderBy === headCell.id ? order : false}
           >
@@ -309,11 +308,10 @@ export default function Results() {
                       <TableCell component="th" id={labelId} scope="row" padding="none">
                         {row.objectId}
                       </TableCell>
-                      <TableCell align="right">{row.name}</TableCell>
-                      <TableCell align="right">{row.state}</TableCell>
-                      <TableCell align="right">{row.source}</TableCell>
-                      <TableCell align="right">{row.lastUpdated}</TableCell>
-                      <TableCell align="right">{row.createdBy}</TableCell>
+                      <TableCell>{row.name}</TableCell>
+                      <TableCell>{row.state}</TableCell>
+                      <TableCell>{row.source}</TableCell>
+                      <TableCell>{row.lastUpdated}</TableCell>
                     </TableRow>
                   );
                 })}
