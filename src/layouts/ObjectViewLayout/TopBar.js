@@ -45,7 +45,7 @@ const items = [
     title: 'BioCompute Objects'
   },
   {
-    href: '/objects/example',
+    href: '/example',
     icon: ShoppingBagIcon,
     title: 'Object Example'
   }
