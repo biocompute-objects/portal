@@ -106,7 +106,7 @@ export default function Views({ object_id }) {
       "Content-type": "application/json; charset=UTF-8"
     }
     }).then(response=>response.json()).then(data=>{
-      setObjectInfo(data.POST_read_object.contents[0].object);
+      setObjectInfo(data.POST_read_object[0].contents.object);
       setLoading(false);
     })
 
