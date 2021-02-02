@@ -35,10 +35,17 @@ const routes = [
     ]
   },
   {
-    path: '/',
+    path: '/:prefix_:state_:uuid',
     element: <ObjectViewLayout />,
     children: [
-      { path: ':id', element: <ObjectView />}
+      { path: '', element: <ObjectView /> }
+    ]
+  },
+  {
+    path: '/:prefix_:id',
+    element: <ObjectViewLayout />,
+    children: [
+      { path: ':id2.:id3', element: <ObjectView /> }
     ]
   },
   {

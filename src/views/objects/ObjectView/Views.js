@@ -68,13 +68,13 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Views({ object_id }) {
+export default function Views({ table, object_id }) {
   
-  console.log(object_id)
   const classes = useStyles();
 
   // Get the ID requested, but first, set the state.
   const [loading, setLoading] = useState(true);
+  const [objectFound, setObjectFound] = useState();
   const [objectInfo, setObjectInfo] = useState();
 
   // Make the request to the API, then pass the
@@ -97,7 +97,7 @@ export default function Views({ object_id }) {
       body: JSON.stringify({
         POST_read_object: [
             {
-                table: 'bco_draft', 
+                table: table, 
                 object_id: object_id
             }
         ]
@@ -106,8 +106,28 @@ export default function Views({ object_id }) {
       "Content-type": "application/json; charset=UTF-8"
     }
     }).then(response=>response.json()).then(data=>{
-      setObjectInfo(data.POST_read_object[0].contents.object);
+      
+      // Get the bulk response.
+      const bulkResponse = data.POST_read_object[0];
+
+      // Was the object found?
+      if(bulkResponse.request_code == '200') {
+        
+        // We found the object, so set the data.
+        setObjectInfo(bulkResponse.contents.object);
+        setObjectFound(true);
+
+      } else {
+
+        // There was a problem, so show what it was.
+        setObjectInfo(bulkResponse.message);
+        setObjectFound(false);
+  
+      }
+
+      // We're no longer loading.
       setLoading(false);
+
     })
 
     /*
@@ -174,26 +194,37 @@ export default function Views({ object_id }) {
           <Typography>Loading...</Typography>
         </div>
       :
-        <div className={classes.root}>
-          <AppBar position="static">
-            <Tabs value={componentView} onChange={handleChange} aria-label="simple tabs example">
-              <Tab icon={<OpacityIcon />} label="Color-Coded" {...a11yProps(0)} />
-              <Tab icon={<AccountTreeIcon />} label="Tree" {...a11yProps(1)} />
-              <Tab icon={<InsertDriveFileIcon />} label="Raw" {...a11yProps(2)} />
-            </Tabs>
-          </AppBar>
-          <Typography>
-            Object ID: {object_id}
-          </Typography>
-          <TabPanel value={componentView} index={0}>
-            <ColorCoded contents={objectInfo} />
-          </TabPanel>
-          <TabPanel value={componentView} index={1}>
-            <Tree contents={objectInfo} />
-          </TabPanel>
-          <TabPanel value={componentView} index={2}>
-            <Raw contents={objectInfo} />
-          </TabPanel>
-        </div>
+        objectFound
+          ?
+            <div className={classes.root}>
+              <AppBar position="static">
+                <Tabs value={componentView} onChange={handleChange} aria-label="simple tabs example">
+                  <Tab icon={<OpacityIcon />} label="Color-Coded" {...a11yProps(0)} />
+                  <Tab icon={<AccountTreeIcon />} label="Tree" {...a11yProps(1)} />
+                  <Tab icon={<InsertDriveFileIcon />} label="Raw" {...a11yProps(2)} />
+                </Tabs>
+              </AppBar>
+              <Typography>
+                Object ID: {object_id}
+              </Typography>
+              <TabPanel value={componentView} index={0}>
+                <ColorCoded contents={objectInfo} />
+              </TabPanel>
+              <TabPanel value={componentView} index={1}>
+                <Tree contents={objectInfo} />
+              </TabPanel>
+              <TabPanel value={componentView} index={2}>
+                <Raw contents={objectInfo} />
+              </TabPanel>
+            </div>
+          :
+          <div className={classes.root}>
+            <Typography>
+              There was a problem with the request, see output below.
+            </Typography>
+            <Typography>
+              Server http://127.0.0.1 says: {objectInfo}
+            </Typography>
+          </div>
   );
 }

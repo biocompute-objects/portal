@@ -1,7 +1,8 @@
 import React from 'react';
 
 // Rendering URL parameters.
-import { useParams } from "react-router-dom";
+// Source: https://stackoverflow.com/a/60312798
+import { useLocation } from 'react-router-dom';
 
 // Tools
 import Tools from './Tools'
@@ -22,13 +23,37 @@ export default function ObjectView() {
     this.setViewType({view});
   }
 
+  // The table to use is based on the URL.
+
   // Set the object requested.
-  let { id } = useParams();
+  const parsePath = useLocation().pathname;
+
+  // Check against the REGEX to determine the table.
+
+  // Simply check for two underscores for a draft table,
+  // otherwise we have a publish table.
+
+  var tableName = '';
+
+  if(parsePath.indexOf('_') != parsePath.lastIndexOf('_')) {
+
+    // Draft table.
+    tableName = parsePath.split('/')[1].split('_');
+    tableName = [tableName[0], tableName[1]].join('_').toLowerCase();
+
+  } else {
+
+    // Publish table.
+    tableName = parsePath.split('/')[1].split('_')[0].toLowerCase() + '_publish';
+
+  }
+
+  console.log(tableName);
   
   return (
     <div>
       <Tools />
-      <Views id={id} object_id={window.location.href} />
+      <Views table={tableName} object_id={window.location.href} />
     </div>
   );
 }
