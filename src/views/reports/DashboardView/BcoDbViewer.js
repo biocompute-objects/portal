@@ -35,12 +35,12 @@ export default function BcoDbViewer() {
   return (
     <Card className={classes.root, classes.linkCard}>
       <CardActionArea className={classes.linkCard}>
-        <CardContent component={RouterLink} to={"/account"}>
+        <CardContent component={RouterLink} to={"/objects"}>
             <Typography className={classes.title}>
-            BCO DB Viewer
+              BCO Viewer
             </Typography>
             <Typography>
-            View BCOs on BCO Servers
+              View BCOs on BCO Servers
             </Typography>
         </CardContent>
       </CardActionArea>

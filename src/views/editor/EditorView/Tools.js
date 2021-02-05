@@ -15,6 +15,15 @@ import SearchField from './Tools/SearchField'
 // Logic field
 import LogicField from './Tools/LogicField'
 
+// Servers
+import Servers from './Tools/Servers'
+
+// Groups
+import Groups from './Tools/Groups'
+
+// Publish button
+import Button from '@material-ui/core/Button'
+
 // Regex box
 import RegexBox from './Tools/RegexBox'
 
@@ -57,14 +66,14 @@ export default function Tools() {
           >
           <Grid
             item
-            lg={7}
+            lg={3}
             md={12}
             xs={12}
           >
           <Card>
             <CardContent>
               <Typography variant="h3">
-                Search object fields
+                Generated object ID from prefix
               </Typography>
               <Grid
                 alignItems="center"
@@ -75,47 +84,91 @@ export default function Tools() {
               >
                 <Grid
                   item
-                  lg={4}
-                  md={12}
-                  xs={12}
-                >
-                  <SearchField />
-                </Grid>
-                <Grid
-                  item
                   lg={2}
                   md={12}
                   xs={12}
                 >
                   <LogicField />
                 </Grid>
+              </Grid>
+            </CardContent>
+          </Card>
+          </Grid>
+          <Grid
+            item
+            lg={3}
+            md={12}
+            xs={12}
+          >
+          <Card>
+            <CardContent>
+              <Typography variant="h3">
+                Publish object to server
+              </Typography>
+              <Grid
+                alignItems="center"
+                container
+                direction="row"
+                justify="flex-start"
+                spacing={3}
+              >
                 <Grid
                   item
-                  lg={4}
+                  lg={2}
                   md={12}
                   xs={12}
                 >
-                  <SearchField />
-                </Grid>
-                <Grid
-                  item
-                  lg={1}
-                  md={12}
-                  xs={12}
-                >
-                  <RegexBox />
+                  <Servers />
                 </Grid>
               </Grid>
             </CardContent>
           </Card>
+          </Grid>
+          <Grid
+            item
+            lg={3}
+            md={12}
+            xs={12}
+          >
           <Card>
-            <CardContent className={classes.centered}>
-              <AddCondition />
+            <CardContent>
+              <Typography variant="h3">
+                Publish object to group
+              </Typography>
+              <Grid
+                alignItems="center"
+                container
+                direction="row"
+                justify="flex-start"
+                spacing={3}
+              >
+                <Grid
+                  item
+                  lg={2}
+                  md={12}
+                  xs={12}
+                >
+                  <Groups />
+                </Grid>
+              </Grid>
+            </CardContent>
+          </Card>
+          </Grid>
+          <Grid
+            item
+            lg={3}
+            md={12}
+            xs={12}
+          >
+          <Card>
+            <CardContent>
+              <Button variant="contained" color="secondary" disableElevation fullWidth>
+                PUBLISH
+              </Button>
             </CardContent>
           </Card>
           </Grid>
         </Grid>
-        <Typography>Add object to collection, search across objects, etc...</Typography>
         </AccordionDetails>
       </Accordion>
     </div>

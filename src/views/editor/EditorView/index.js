@@ -4,6 +4,9 @@ import React from 'react';
 // Source: https://stackoverflow.com/a/60312798
 import { useLocation } from 'react-router-dom';
 
+// Tools
+import Tools from './Tools'
+
 // Views
 import Views from './Views'
 
@@ -47,6 +50,7 @@ export default function EditorView() {
   
   return (
     <div>
+      <Tools />
       <Views table={tableName} objectId={window.location.href} />
     </div>
   );

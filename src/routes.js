@@ -30,7 +30,8 @@ const routes = [
     children: [
       { path: 'account', element: <AccountView /> },
       { path: 'objects', element: <CustomerListView /> },
-      { path: 'editor', element: <EditorView /> },
+      { path: 'builder', element: <EditorView /> },
+      { path: 'validator', element: <EditorView /> },
       { path: 'products', element: <ProductListView /> },
       { path: 'settings', element: <SettingsView /> },
       { path: 'objects', element: <ObjectsListView /> }

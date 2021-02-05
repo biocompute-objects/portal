@@ -40,14 +40,19 @@ const items = [
     title: 'Account'
   },
   {
-    href: '/editor',
+    href: '/builder',
     icon: UsersIcon,
-    title: 'Editor'
+    title: 'Builder'
   },
   {
     href: '/objects',
     icon: UsersIcon,
     title: 'BioCompute Objects'
+  },
+  {
+    href: '/validator',
+    icon: UsersIcon,
+    title: 'Validator'
   }
 ];
 

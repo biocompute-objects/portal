@@ -35,7 +35,7 @@ export default function BcoBuilder() {
   return (
     <Card className={classes.root, classes.linkCard}>
       <CardActionArea className={classes.linkCard}>
-        <CardContent component={RouterLink} to={"/account"}>
+        <CardContent component={RouterLink} to={"/builder"}>
             <Typography className={classes.title}>
             BCO Builder
             </Typography>

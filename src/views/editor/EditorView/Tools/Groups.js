@@ -18,7 +18,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function LogicField() {
+export default function Groups() {
   const classes = useStyles();
   const [age, setAge] = React.useState('');
 
@@ -29,17 +29,17 @@ export default function LogicField() {
   return (
     <div>
       <FormControl className={classes.formControl}>
-        <InputLabel id="demo-simple-select-label">Prefix</InputLabel>
+        <InputLabel id="demo-simple-select-label">Group</InputLabel>
         <Select
           labelId="demo-simple-select-label"
           id="demo-simple-select"
           value={age}
           onChange={handleChange}
         >
-          <MenuItem value={10}>BCO</MenuItem>
-          <MenuItem value={10}>GLY</MenuItem>
-          <MenuItem value={20}>ONCO</MenuItem>
-          <MenuItem value={30}>HIVE</MenuItem>
+          <MenuItem value={10}>GWU-HIVE - 24.35.124.3 (Users)</MenuItem>
+          <MenuItem value={10}>GWU-HIVE - 24.35.124.3 (Admins)</MenuItem>
+          <MenuItem value={20}>FDA - 52.52.102.7 (Reviewers)</MenuItem>
+          <MenuItem value={30}>NIH - 24.45.3.54 (Internal Research)</MenuItem>
         </Select>
       </FormControl>
     </div>

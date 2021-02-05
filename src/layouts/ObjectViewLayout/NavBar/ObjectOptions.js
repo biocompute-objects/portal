@@ -94,10 +94,10 @@ export default function ObjectOptions() {
         <ListItemText classes={{ primary: classes.emphasized }} primary="Display Options" />
         <FormControl component="fieldset" className={classes.formControl}>
           <FormGroup>
-            <FormControlLabel
+            {/* <FormControlLabel
               control={<Checkbox checked={false} onChange={handleChange} name="fieldHover" />}
               label="Describe fields on hover"
-            />
+            /> */}
             {
               ['meta', 'provenanceDomain', 'descriptionDomain', 'executionDomain', 'ioDomain', 'usabilityDomain', 'parametricDomain'].map(domain => (
                   <FormControlLabel
