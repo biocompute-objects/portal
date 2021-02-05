@@ -31,7 +31,7 @@ const StyledCell = withStyles({
 })(TableCell);
 
 // Pass an object and whether or not its keys are properties.
-export default function UsabilityDomain({ items }) {
+export default function ExtensionDomain({ items }) {
   
   const classes = withStyles(), inputClasses = useStyles();
 
@@ -54,7 +54,7 @@ export default function UsabilityDomain({ items }) {
         <TableRow>
           <StyledCell colSpan="5">
             <Typography variant="h3">
-              Usability Domain
+              Extension Domain
             </Typography>
           </StyledCell>
         </TableRow>

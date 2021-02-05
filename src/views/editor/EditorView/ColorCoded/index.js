@@ -12,7 +12,7 @@ import Meta from './Meta'
 import DescriptionDomain from './DescriptionDomain'
 import ErrorDomain from './ErrorDomain'
 import ExecutionDomain from './ExecutionDomain'
-//import ExtensionDomain from './ExtensionDomain'
+import ExtensionDomain from './ExtensionDomain'
 import IoDomain from './IoDomain'
 import ParametricDomain from './ParametricDomain'
 import ProvenanceDomain from './ProvenanceDomain'
@@ -43,6 +43,9 @@ const useStyles = makeStyles((theme) => ({
   },
   executionDomain: {
     background: 'red'
+  },
+  extensionDomain: {
+    background: 'magenta'
   },
   ioDomain: {
     background: 'blue'
@@ -77,8 +80,8 @@ const ColorCoded = ({ contents }) => {
   //const compList = [ Meta, ProvenanceDomain, UsabilityDomain, DescriptionDomain, ExecutionDomain, IoDomain, ParametricDomain, ErrorDomain ];
   //const classNames = [ 'meta', 'provenanceDomain', 'usabilityDomain', 'descriptionDomain', 'executionDomain', 'ioDomain', 'parametricDomain', 'errorDomain' ];
 
-  const compList = [ Meta, ProvenanceDomain, UsabilityDomain, DescriptionDomain, ExecutionDomain, IoDomain, ParametricDomain ];
-  const classNames = [ 'meta', 'provenanceDomain', 'usabilityDomain', 'descriptionDomain', 'executionDomain', 'ioDomain', 'parametricDomain' ];
+  const compList = [ Meta, ProvenanceDomain, UsabilityDomain, DescriptionDomain, ExecutionDomain, IoDomain, ParametricDomain, ErrorDomain, ExtensionDomain ];
+  const classNames = [ 'meta', 'provenanceDomain', 'usabilityDomain', 'descriptionDomain', 'executionDomain', 'ioDomain', 'parametricDomain', 'errorDomain', 'extensionDomain' ];
   
   return (
     <Container maxWidth={false}>

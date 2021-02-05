@@ -70,7 +70,7 @@ export default function Meta() {
             Object ID
           </StyledCell>
           <StyledCell>
-            <TextField disabled id="outlined-basic" label="Object ID" variant="outlined" />
+            <TextField disabled defaultValue="http://127.0.0.1/BCO_DRAFT_441c7c1e4b6e431aaa2cefdb77d6ff0e" fullWidth id="outlined-basic" label="Object ID" variant="outlined" />
           </StyledCell>
         </TableRow>
         <TableRow>
@@ -86,7 +86,7 @@ export default function Meta() {
             eTag
           </StyledCell>
           <StyledCell>
-            <TextField disabled id="outlined-basic" label="eTag" variant="outlined" />
+            <TextField disabled defaultValue="07938835c9f20433a0e16c56607f409084a6082912496cc488e8d74668446174" fullWidth id="outlined-basic" label="eTag" variant="outlined" />
           </StyledCell>
         </TableRow>
       </TableBody>

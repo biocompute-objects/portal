@@ -1,63 +1,78 @@
 import React from 'react';
 import {
-  withStyles, Typography
+  makeStyles, withStyles, Typography
 } from '@material-ui/core';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
-import RecursiveRows from './RecursiveRows'
 
-// For links.
-import OpenInNewIcon from '@material-ui/icons/OpenInNew';
+// Multiline Input
+import TextField from '@material-ui/core/TextField';
 
-// For contact information.
-import Tooltip from '@material-ui/core/Tooltip';
+const useStyles = makeStyles((theme) => ({
+  root: {
+    '& .MuiTextField-root': {
+      margin: theme.spacing(1),
+      width: '25ch',
+    },
+  },
+}));
 
 // Cell styling
 const StyledCell = withStyles({
-  bordered: {
-    border: '1px solid black'
-  },
-  marginHolder: {
-    marginLeft: '10px'
-  },
   root: {
     color: 'white'
+  },
+  bordered: {
+    border: '1px solid black'
   }
 })(TableCell);
 
 // Pass an object and whether or not its keys are properties.
 export default function ErrorDomain({ items }) {
   
-  const classes = withStyles();
+  const classes = withStyles(), inputClasses = useStyles();
 
   // Arguments
   // ---------
-  // items: JSON object (Error Domain)
+  // items: JSON object (Usability Domain)
 
 
   // ----- Meta Information ----- //
-  
 
-  // ----- None ----- //
-  return (
-    <div>
-      <Table size="small">
-        <TableHead className={classes.tabled}>
-          <TableRow>
-            <StyledCell colSpan="5">
-              <Typography variant="h3">
-                Error Domain
-              </Typography>
-            </StyledCell>
-          </TableRow>
-        </TableHead>
-      </Table>
-      <div className={classes.bordered}>
-        <RecursiveRows items={items}/>
-      </div>
-    </div>
+  
+  // None.
+
+
+  // ----- Usability ----- //
+
+  return(
+    <Table size="small">
+      <TableHead className={classes.tabled}>
+        <TableRow>
+          <StyledCell colSpan="5">
+            <Typography variant="h3">
+              Error Domain
+            </Typography>
+          </StyledCell>
+        </TableRow>
+      </TableHead>
+      <TableBody>
+        <TableRow>
+          <StyledCell>
+            <TextField
+              color="primary"
+              fullWidth
+              id="outlined-multiline-static"
+              multiline
+              rows={4}
+              variant="outlined"
+            />
+          </StyledCell>
+        </TableRow>
+      </TableBody>
+    </Table>
   );
 }

@@ -239,7 +239,7 @@ export default function ProvenanceDomain() {
                       ?
                         <Linker color= { 'whiteLink' } uri={ provenanceMeta[item] } />
                       :
-                        <TextField disabled id="outlined-basic" label="Object ID" variant="outlined" />
+                        <TextField id="outlined-basic" variant="outlined" />
                   }
                 </StyledCell>
             </TableRow>
@@ -255,11 +255,11 @@ export default function ProvenanceDomain() {
         }
         </TableRow>
         <TableRow>
-          <StyledCell><TextField></TextField></StyledCell>
-          <StyledCell><TextField></TextField></StyledCell>
-          <StyledCell><TextField></TextField></StyledCell>
-          <StyledCell><TextField></TextField></StyledCell>
-          <StyledCell><TextField></TextField></StyledCell>
+          <StyledCell><TextField variant="outlined"></TextField></StyledCell>
+          <StyledCell><TextField variant="outlined"></TextField></StyledCell>
+          <StyledCell><TextField variant="outlined"></TextField></StyledCell>
+          <StyledCell><TextField variant="outlined"></TextField></StyledCell>
+          <StyledCell><TextField variant="outlined"></TextField></StyledCell>
         </TableRow>
         <TableRow>
           <StyledCell colSpan="5">
