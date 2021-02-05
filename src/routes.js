@@ -14,6 +14,7 @@ import ObjectView from 'src/views/objects/ObjectView';
 import ProductListView from 'src/views/product/ProductListView';
 import RegisterView from 'src/views/auth/RegisterView';
 import SettingsView from 'src/views/settings/SettingsView';
+import ValidatorView from 'src/views/validator/ValidatorView'
 
 const routes = [
   {
@@ -31,7 +32,7 @@ const routes = [
       { path: 'account', element: <AccountView /> },
       { path: 'objects', element: <CustomerListView /> },
       { path: 'builder', element: <EditorView /> },
-      { path: 'validator', element: <EditorView /> },
+      { path: 'validator', element: <ValidatorView /> },
       { path: 'products', element: <ProductListView /> },
       { path: 'settings', element: <SettingsView /> },
       { path: 'objects', element: <ObjectsListView /> }

@@ -8,6 +8,9 @@ import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 
+// Validation Button
+import Button from '@material-ui/core/Button'
+
 // Multiline Input
 import TextField from '@material-ui/core/TextField';
 
@@ -54,7 +57,7 @@ export default function Raw({ items }) {
         <TableRow>
           <StyledCell colSpan="5">
             <Typography variant="h3">
-              Raw JSON
+              Paste BioCompute Object below to be validated
             </Typography>
           </StyledCell>
         </TableRow>
@@ -70,6 +73,13 @@ export default function Raw({ items }) {
               rows={18}
               variant="outlined"
             />
+          </StyledCell>
+        </TableRow>
+        <TableRow>
+          <StyledCell>
+            <Button variant="contained" color="primary" disableElevation fullWidth>
+              Validate
+            </Button>
           </StyledCell>
         </TableRow>
       </TableBody>

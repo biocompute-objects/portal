@@ -3,19 +3,8 @@
 import React, { useContext, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
-import AppBar from '@material-ui/core/AppBar';
-import Tabs from '@material-ui/core/Tabs';
-import Tab from '@material-ui/core/Tab';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
-
-// Tab icons
-import OpacityIcon from '@material-ui/icons/Opacity';
-import AccountTreeIcon from '@material-ui/icons/AccountTree';
-import InsertDriveFileIcon from '@material-ui/icons/InsertDriveFile';
-
-// Color-coded view
-import ColorCoded from './ColorCoded'
 
 // Raw view
 import Raw from './Raw'
@@ -161,18 +150,7 @@ export default function Views({ table, objectId }) {
 
   return (
     <div className={classes.root}>
-      <AppBar position="static">
-        <Tabs value={componentView} onChange={handleChange} aria-label="simple tabs example">
-          <Tab icon={<OpacityIcon />} label="Color-Coded" {...a11yProps(0)} />
-          <Tab icon={<InsertDriveFileIcon />} label="Raw" {...a11yProps(1)} />
-        </Tabs>
-      </AppBar>
-      <TabPanel value={componentView} index={0}>
-        <ColorCoded contents={objectInfo} />
-      </TabPanel>
-      <TabPanel value={componentView} index={1}>
-        <Raw contents={objectInfo} />
-      </TabPanel>
+      <Raw contents={objectInfo} />
     </div>
   );
 }

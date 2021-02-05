@@ -275,7 +275,7 @@ export default function EnhancedTable({ onClickOpen }) {
 
   // Set the parent context setters.
   // Source: https://stackoverflow.com/questions/58936042/pass-context-between-siblings-using-context-in-react
-  const { setShowing } = useContext(ParentContext);
+  const { setGroupShowing } = useContext(ParentContext);
 
   return (
     <div className={classes.root}>
@@ -334,12 +334,12 @@ export default function EnhancedTable({ onClickOpen }) {
                 <TableCell align="center" colSpan={7}>
                   <Button
                   color="primary"
-                  onClick={() => setShowing(true)}
+                  onClick={() => setGroupShowing(true)}
                   rows={rows}
                   newServer={newServer}
                   variant="contained"
                 >
-                  Add Server
+                  Add Group
                 </Button>
                 </TableCell>
               </TableRow>

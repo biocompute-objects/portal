@@ -26,15 +26,16 @@ export const ParentContext = React.createContext();
 const Account = () => {
   const classes = useStyles();
 
-  // State for the add server dialog.
+  // State for the add server and group dialogs.
   const [showing, setShowing] = React.useState(false);
+  const [groupShowing, setGroupShowing] = React.useState(false);
 
   return (
     <Page
       className={classes.root}
       title="Account"
     >
-      <ParentContext.Provider value={{ showing, setShowing }}>
+      <ParentContext.Provider value={{ showing, setShowing, groupShowing, setGroupShowing }}>
       <Container maxWidth={false}>
         <Grid
           container

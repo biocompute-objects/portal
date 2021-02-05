@@ -35,25 +35,17 @@ const Toolbar = ({ className, ...rest }) => {
         display="flex"
         justifyContent="flex-end"
       >
-        <Button 
-          className={classes.importButton}
-          color="primary"
-          variant="contained"
-        >
-          Import BCOs
+        <Button className={classes.importButton}>
+          Import
         </Button>
-        <Button 
-          className={classes.exportButton}
-          color="primary"
-          variant="contained"
-        >
-          Export BCOs
+        <Button className={classes.exportButton}>
+          Export
         </Button>
         <Button
           color="primary"
           variant="contained"
         >
-          Other options
+          Add product
         </Button>
       </Box>
       <Box mt={3}>
@@ -74,7 +66,7 @@ const Toolbar = ({ className, ...rest }) => {
                     </InputAdornment>
                   )
                 }}
-                placeholder="Search customer"
+                placeholder="Search product"
                 variant="outlined"
               />
             </Box>
