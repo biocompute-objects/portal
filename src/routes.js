@@ -5,6 +5,7 @@ import MainLayout from 'src/layouts/MainLayout';
 import ObjectViewLayout from 'src/layouts/ObjectViewLayout';
 import AccountView from 'src/views/account/AccountView';
 import CustomerListView from 'src/views/customer/CustomerListView';
+import EditorView from 'src/views/editor/EditorView';
 import DashboardView from 'src/views/reports/DashboardView';
 import LoginView from 'src/views/auth/LoginView';
 import NotFoundView from 'src/views/errors/NotFoundView';
@@ -28,7 +29,8 @@ const routes = [
     element: <MainLayout />,
     children: [
       { path: 'account', element: <AccountView /> },
-      { path: 'customers', element: <CustomerListView /> },
+      { path: 'objects', element: <CustomerListView /> },
+      { path: 'editor', element: <EditorView /> },
       { path: 'products', element: <ProductListView /> },
       { path: 'settings', element: <SettingsView /> },
       { path: 'objects', element: <ObjectsListView /> }
