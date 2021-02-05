@@ -19,14 +19,17 @@ import Tooltip from '@material-ui/core/Tooltip';
 import DeleteIcon from '@material-ui/icons/Delete';
 import FilterListIcon from '@material-ui/icons/FilterList';
 
+// For object previews.
+import BcoPreviewPopup from '../../../utils/bcoPreviewPopup'
+
 function createData(objectId, name, state, source, lastUpdated) {
   return { objectId, name, state, source, lastUpdated };
 }
 
 const rows = [
-  createData('https://34.204.34.42/BCO_DRAFT_e6922748342042f8a0175b871a0e165a', 'PubChem-compound', 'DRAFT', 'GWU-HIVE - 24.35.124.3 (Hadley King)', '01/29/21'),
-  createData('https://34.204.34.42/BCO_DRAFT_18c94000e60e47a48198d99c54ba04b8', 'SARS-CoV-2 Subtyping Pipeline based on ISMs', 'DRAFT', 'GWU-HIVE - 24.35.124.3 (Janisha Patel)', '01/29/21'),
-  createData('https://34.204.34.42/BCO_DRAFT_eb94dc8d46c84ca891e895cc18e930df', 'Transferring data to R studio', 'DRAFT', 'GWU-HIVE - 24.35.124.3 (Jonathan Keeney)', '01/29/21'),
+  createData('http://127.0.0.1/BCO_DRAFT_441c7c1e4b6e431aaa2cefdb77d6ff0e', 'PubChem-compound', 'DRAFT', 'GWU-HIVE - 24.35.124.3 (Hadley King)', '01/29/21'),
+  createData('http://127.0.0.1/BCO_DRAFT_441c7c1e4b6e431aaa2cefdb77d6ff0e', 'SARS-CoV-2 Subtyping Pipeline based on ISMs', 'DRAFT', 'GWU-HIVE - 24.35.124.3 (Janisha Patel)', '01/29/21'),
+  createData('http://127.0.0.1/BCO_DRAFT_441c7c1e4b6e431aaa2cefdb77d6ff0e', 'Transferring data to R studio', 'DRAFT', 'GWU-HIVE - 24.35.124.3 (Jonathan Keeney)', '01/29/21'),
 ];
 
 function descendingComparator(a, b, orderBy) {
@@ -305,6 +308,9 @@ export default function Results() {
                           inputProps={{ 'aria-labelledby': labelId }}
                         />
                       </TableCell>
+                      {/* <TableCell component="th" id={labelId} scope="row" padding="none">
+                        <BcoPreviewPopup bcoLink={row.objectId} />
+                      </TableCell> */}
                       <TableCell component="th" id={labelId} scope="row" padding="none">
                         {row.objectId}
                       </TableCell>

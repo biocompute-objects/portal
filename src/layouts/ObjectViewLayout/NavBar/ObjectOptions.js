@@ -116,20 +116,20 @@ export default function ObjectOptions() {
                 )
               )
             }
-            <FormControlLabel
+            {/* <FormControlLabel
               control={<Checkbox name="inlineBrowser" />}
               label="Inline Browser (show all objects)"
-            />
+            /> */}
           </FormGroup>
         </FormControl>
-        <ListItemText classes={{ primary: classes.emphasized }} primary="Default Object View" />
+        {/* <ListItemText classes={{ primary: classes.emphasized }} primary="Default Object View" />
         <FormControl component="fieldset" className={classes.formControl}>
           <RadioGroup aria-label="gender" name="viewType" value={view} onClick={defaultView}>
             <FormControlLabel value="0" control={<Radio />} label="Color-Coded" />
             <FormControlLabel value="1" control={<Radio />} label="Tree" />
             <FormControlLabel value="2" control={<Radio />} label="Raw" />
           </RadioGroup>
-        </FormControl>
+        </FormControl> */}
       </List>
     </div>
   );

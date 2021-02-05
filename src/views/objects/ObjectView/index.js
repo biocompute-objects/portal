@@ -51,7 +51,7 @@ export default function ObjectView() {
   return (
     <div>
       <Tools />
-      <Views table={tableName} object_id={window.location.href} />
+      <Views table={tableName} objectId={window.location.href} />
     </div>
   );
 }

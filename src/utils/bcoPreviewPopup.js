@@ -1,17 +1,14 @@
 // Source: https://material-ui.com/components/tooltips/
 
 import React from 'react';
-import { withStyles, makeStyles } from '@material-ui/core/styles';
+import { withStyles } from '@material-ui/core/styles';
 import Tooltip from '@material-ui/core/Tooltip';
 import Typography from '@material-ui/core/Typography';
 
-// Context
-// Source: https://stackoverflow.com/questions/41030361/how-to-update-react-context-from-inside-a-child-component
+// For the object views.
+import Views from '../views/objects/ObjectView'
 
-// Create the context?
-export const UserProfilePopupContext = React.createContext();
-
-const HtmlTooltip = withStyles((theme) => ({
+const BcoTooltip = withStyles((theme) => ({
   tooltip: {
     backgroundColor: '#f5f5f9',
     color: 'rgba(0, 0, 0, 0.87)',
@@ -21,21 +18,31 @@ const HtmlTooltip = withStyles((theme) => ({
   },
 }))(Tooltip);
 
-export default function UserProfilePopup(userInfo) {
-  return (
+const Content = React.forwardRef((props, ref) => {
+	console.log('props: ', props)
+	console.log(props.bcoLink)
+	console.log('ref: ', ref)
+	
+	return (
+	  <div {...props} ref={React.useRef(props.bcoLink)}>
+			<Views table={'bco_draft'} objectId={props.bcoLink} />
+	  </div>
+	);
+});
+
+export default function BcoPreviewPopup({ bcoLink }) {
+  
+	// Process the link to determine the table.
+	console.log('-----', bcoLink)
+	
+	return (
     <div>
-      <HtmlTooltip
+      <BcoTooltip
         interactive
-				title={
-					<React.Fragment>
-						<Typography align='center'>BCO Preview for http://127.0.0.1/...</Typography>
-						{
-							<Views />
-						}
-					</React.Fragment>
-				}
+				title='BCO Preview'
 			>
-      </HtmlTooltip>
+				<Content bcoLink={bcoLink} />
+      </BcoTooltip>
     </div>
   );
 }

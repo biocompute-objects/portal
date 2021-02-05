@@ -25,7 +25,7 @@ import Raw from './Raw'
 
 // Context
 // Source: https://www.digitalocean.com/community/tutorials/react-usecontext
-import { DisplayContext } from '../../../layouts/ObjectViewLayout/index';
+//import { DisplayContext } from '../../../layouts/ObjectViewLayout/index';
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -68,7 +68,10 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Views({ table, object_id }) {
+export default function Views({ table, objectId }) {
+  
+  console.log('%%%%', table)
+  console.log('$$$$', objectId)
   
   const classes = useStyles();
 
@@ -98,7 +101,7 @@ export default function Views({ table, object_id }) {
         POST_read_object: [
             {
                 table: table, 
-                object_id: object_id
+                object_id: objectId
             }
         ]
     }),
@@ -107,6 +110,7 @@ export default function Views({ table, object_id }) {
     }
     }).then(response=>response.json()).then(data=>{
       
+      console.log('+++++++++++++++++', data)
       // Get the bulk response.
       const bulkResponse = data.POST_read_object[0];
 
@@ -169,9 +173,9 @@ export default function Views({ table, object_id }) {
   // Source: https://stackoverflow.com/questions/62564671/using-usecontext-in-react-doesnt-give-me-the-expect-data
 
   // Pull the state from the parent.
-  const { 
-    view
-  } = useContext(DisplayContext);
+  //const { 
+  //  view
+  //} = useContext(DisplayContext);
 
   // Define a variable for switching views within
   // the component (as opposed to getting the value)
@@ -204,9 +208,9 @@ export default function Views({ table, object_id }) {
                   <Tab icon={<InsertDriveFileIcon />} label="Raw" {...a11yProps(2)} />
                 </Tabs>
               </AppBar>
-              <Typography>
-                Object ID: {object_id}
-              </Typography>
+              {/* <Typography>
+                Object ID: {objectId}
+              </Typography> */}
               <TabPanel value={componentView} index={0}>
                 <ColorCoded contents={objectInfo} />
               </TabPanel>
