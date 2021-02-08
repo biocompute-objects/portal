@@ -22,14 +22,20 @@ import FilterListIcon from '@material-ui/icons/FilterList';
 // For object previews.
 import BcoPreviewPopup from '../../../utils/bcoPreviewPopup'
 
+// Links
+import Linker from './Linker'
+
 function createData(objectId, name, state, source, lastUpdated) {
   return { objectId, name, state, source, lastUpdated };
 }
 
 const rows = [
   createData('http://127.0.0.1/BCO_DRAFT_441c7c1e4b6e431aaa2cefdb77d6ff0e', 'PubChem-compound', 'DRAFT', 'GWU-HIVE - 24.35.124.3 (Hadley King)', '01/29/21'),
-  createData('http://127.0.0.1/BCO_DRAFT_441c7c1e4b6e431aaa2cefdb77d6ff0e', 'SARS-CoV-2 Subtyping Pipeline based on ISMs', 'DRAFT', 'GWU-HIVE - 24.35.124.3 (Janisha Patel)', '01/29/21'),
-  createData('http://127.0.0.1/BCO_DRAFT_441c7c1e4b6e431aaa2cefdb77d6ff0e', 'Transferring data to R studio', 'DRAFT', 'GWU-HIVE - 24.35.124.3 (Jonathan Keeney)', '01/29/21'),
+  createData('http://127.0.0.1/BCO_DRAFT_1332b9b3b1d041e5b8018d84c66bad43', 'SARS-CoV-2 Subtyping Pipeline based on ISMs', 'DRAFT', 'GWU-HIVE - 24.35.124.3 (Janisha Patel)', '01/29/21'),
+  createData('http://127.0.0.1/BCO_1/1.0', 'R Safety Assessment Algorithm for Aluminum in Infant Vaccines', 'PUBLISHED', 'GWU-HIVE - 24.35.124.3 (Jonathan Keeney)', '01/29/21'),
+  createData('http://127.0.0.1/BCO_1/1.1', 'R Safety Assessment Algorithm for Aluminum in Infant Vaccines', 'PUBLISHED', 'GWU-HIVE - 24.35.124.3 (Jonathan Keeney)', '01/29/21'),
+  createData('http://127.0.0.1/BCO_1/1.2', 'R Safety Assessment Algorithm for Aluminum in Infant Vaccines', 'PUBLISHED', 'GWU-HIVE - 24.35.124.3 (Jonathan Keeney)', '01/29/21'),
+  createData('http://127.0.0.1/BCO_2/1.0', 'Merck RVDB (v18) Curation Pipeline', 'PUBLISHED', 'GWU-HIVE - 24.35.124.3 (Hadley King)', '01/29/21'),
 ];
 
 function descendingComparator(a, b, orderBy) {
@@ -312,7 +318,7 @@ export default function Results() {
                         <BcoPreviewPopup bcoLink={row.objectId} />
                       </TableCell> */}
                       <TableCell component="th" id={labelId} scope="row" padding="none">
-                        {row.objectId}
+                        <Linker color= { 'whiteLink' } uri={ row.objectId } />
                       </TableCell>
                       <TableCell>{row.name}</TableCell>
                       <TableCell>{row.state}</TableCell>

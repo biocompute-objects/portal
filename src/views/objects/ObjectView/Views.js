@@ -14,6 +14,9 @@ import OpacityIcon from '@material-ui/icons/Opacity';
 import AccountTreeIcon from '@material-ui/icons/AccountTree';
 import InsertDriveFileIcon from '@material-ui/icons/InsertDriveFile';
 
+// Object status chips
+import Chip from '@material-ui/core/Chip';
+
 // Color-coded view
 import ColorCoded from './ColorCoded'
 
@@ -207,6 +210,8 @@ export default function Views({ table, objectId }) {
                   <Tab icon={<AccountTreeIcon />} label="Tree" {...a11yProps(1)} />
                   <Tab icon={<InsertDriveFileIcon />} label="Raw" {...a11yProps(2)} />
                 </Tabs>
+                <Chip color='primary' label={'DRAFT'}></Chip>
+                <Chip color='primary' label={'PUBLISHED'}></Chip>
               </AppBar>
               {/* <Typography>
                 Object ID: {objectId}
