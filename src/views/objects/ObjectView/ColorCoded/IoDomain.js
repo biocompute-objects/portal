@@ -11,9 +11,6 @@ import TableRow from '@material-ui/core/TableRow';
 // For links.
 import Linker from './components/Linker';
 
-// For contact information.
-import Tooltip from '@material-ui/core/Tooltip';
-
 // Cell styling
 const StyledCell = withStyles({
   root: {
@@ -61,7 +58,7 @@ export default function IoDomain({ items }) {
       <TableRow>
         {
           ['Filename', 'URI', 'Access Time', 'SHA1 Checksum'].map(item => (
-              item == 'SHA1 Checksum'
+              item === 'SHA1 Checksum'
                 ?
                   <StyledCell colSpan="2">
                     <Typography>
@@ -83,7 +80,7 @@ export default function IoDomain({ items }) {
             <TableRow>
               {
                 ['filename', 'uri', 'access_time', 'sha1_checksum'].map(subitem => (
-                    subitem == 'sha1_checksum'
+                    subitem === 'sha1_checksum'
                       ?
                         subitem in item.uri
                           ?
@@ -95,7 +92,7 @@ export default function IoDomain({ items }) {
                       :                      
                         subitem in item.uri
                           ?
-                            subitem == 'uri'
+                            subitem === 'uri'
                               ?
                                 <StyledCell>
                                   <Linker color= { 'whiteLink' } uri={ item.uri[subitem] } />
@@ -138,7 +135,7 @@ export default function IoDomain({ items }) {
                 ['filename', 'uri', 'access_time', 'sha1_checksum'].map(subitem => (
                     subitem in item.uri
                     ?
-                      subitem == 'uri'
+                      subitem === 'uri'
                         ?
                           <StyledCell>
                             <Linker color= { 'whiteLink' } uri={ item.uri[subitem] } />

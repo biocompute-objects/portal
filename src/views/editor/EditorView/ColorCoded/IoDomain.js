@@ -11,14 +11,8 @@ import TableRow from '@material-ui/core/TableRow';
 // Inputs
 import TextField from '@material-ui/core/TextField';
 
-// For links.
-import Linker from './components/Linker';
-
 // Add buttons
-import Button from '@material-ui/core/Button'
-
-// For contact information.
-import Tooltip from '@material-ui/core/Tooltip';
+import Button from '@material-ui/core/Button';
 
 // Cell styling
 const StyledCell = withStyles({

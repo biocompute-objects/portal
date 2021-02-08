@@ -44,7 +44,7 @@ const sample_permissions = {"DRUGREVIEW":
   },
   "BCOGroup": 
   {"biostats": 
-    {"read": "http://biocomputeobject.org/bco/v_(\d+)", 
+    {"read": "http://biocomputeobject.org/bco/v_(d+)", 
     "write": "yes", 
     "execute": "no"}
   }
@@ -75,42 +75,42 @@ export default function Permissions() {
                         // j is the first table of the group.
                         // k is the first item of the table.
                         return(
-                          j == 0 && k == 0
+                          j === 0 && k === 0
                             ? <TableRow>
-                                <TableCell className={i == Object.keys(sample_permissions).length-1 ? classes.noBorderBottom : null} rowSpan={keys_pointer.length*subkeys_pointer.length}>{key}</TableCell>
-                                <TableCell align="right" className={j == keys_pointer.length-1 ? classes.noBorderBottom : null} rowSpan={subkeys_pointer.length}>{subkey}</TableCell>
+                                <TableCell className={i === Object.keys(sample_permissions).length-1 ? classes.noBorderBottom : null} rowSpan={keys_pointer.length*subkeys_pointer.length}>{key}</TableCell>
+                                <TableCell align="right" className={j === keys_pointer.length-1 ? classes.noBorderBottom : null} rowSpan={subkeys_pointer.length}>{subkey}</TableCell>
                                 <TableCell align="right" className={classes.permissionList}>
                                   {
-                                    values_collapsed == "no" 
+                                    values_collapsed === "no" 
                                       ? <Chip size="small" className={classes.permissionNone} label={subsubkey} />
-                                      : values_collapsed == "all" 
+                                      : values_collapsed === "all" 
                                       ? <Chip size="small" className={classes.permissionFull} label={[subsubkey, values_collapsed].join(' ')} />
                                       : <Chip size="small" className={classes.permissionPartial} label={[subsubkey, values_collapsed].join(' ')} />
                                   }
                                 </TableCell>
                               </TableRow>
                             :
-                          j == 0 && k > 0
+                          j === 0 && k > 0
                             ? <TableRow>
                                 <TableCell align="right" className={classes.permissionList}>
                                   {
-                                    values_collapsed == "no" 
+                                    values_collapsed === "no" 
                                       ? <Chip size="small" className={classes.permissionNone} label={subsubkey} />
-                                      : values_collapsed == "all" 
+                                      : values_collapsed === "all" 
                                       ? <Chip size="small" className={classes.permissionFull} label={[subsubkey, values_collapsed].join(' ')} />
                                       : <Chip size="small" className={classes.permissionPartial} label={[subsubkey, values_collapsed].join(' ')} />
                                   }
                                 </TableCell>
                               </TableRow>
                             : 
-                          j > 0 && k == 0
+                          j > 0 && k === 0
                             ? <TableRow>
-                                <TableCell align="right" className={j == keys_pointer.length-1 ? classes.noBorderBottom : null} rowSpan={subkeys_pointer.length}>{subkey}</TableCell>
+                                <TableCell align="right" className={j === keys_pointer.length-1 ? classes.noBorderBottom : null} rowSpan={subkeys_pointer.length}>{subkey}</TableCell>
                                 <TableCell align="right" className={classes.permissionList}>
                                   {
-                                    values_collapsed == "no" 
+                                    values_collapsed === "no" 
                                       ? <Chip size="small" className={classes.permissionNone} label={subsubkey} />
-                                      : values_collapsed == "all" 
+                                      : values_collapsed === "all" 
                                       ? <Chip size="small" className={classes.permissionFull} label={[subsubkey, values_collapsed].join(' ')} />
                                       : <Chip size="small" className={classes.permissionPartial} label={[subsubkey, values_collapsed].join(' ')} />
                                   }
@@ -120,9 +120,9 @@ export default function Permissions() {
                               <TableRow>
                                 <TableCell align="right" className={classes.permissionList}>
                                   {
-                                    values_collapsed == "no" 
+                                    values_collapsed === "no" 
                                       ? <Chip size="small" className={classes.permissionNone} label={subsubkey} />
-                                      : values_collapsed == "all" 
+                                      : values_collapsed === "all" 
                                       ? <Chip size="small" className={classes.permissionFull} label={[subsubkey, values_collapsed].join(' ')} />
                                       : <Chip size="small" className={classes.permissionPartial} label={[subsubkey, values_collapsed].join(' ')} />
                                   }

@@ -7,7 +7,6 @@ import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
-import RecursiveRows from './RecursiveRows'
 
 // Inputs
 import TextField from '@material-ui/core/TextField';
@@ -15,11 +14,6 @@ import TextField from '@material-ui/core/TextField';
 // Add environment variable
 import Button from '@material-ui/core/Button'
 
-// For links.
-import Linker from './components/Linker';
-
-// For contact information.
-import Tooltip from '@material-ui/core/Tooltip';
 //import { TextInput } from 'react-native';
 
 // Cell styling
@@ -48,9 +42,9 @@ const processKey = (ikey) => {
     var capJoined = [];
 
     splitUp.map(value => {
-      if(value == 'id') {
+      if(value === 'id') {
         capJoined.push('ID')
-      } else if(value == 'io') {
+      } else if(value === 'io') {
         capJoined.push('IO')
       } else {
         capJoined.push(value.charAt(0).toUpperCase() + value.slice(1));
@@ -61,15 +55,15 @@ const processKey = (ikey) => {
     returnable = capJoined.join(' ')
 
   } else {
-    if(ikey == 'etag') {
+    if(ikey === 'etag') {
       returnable = 'eTag';
-    } else if(ikey == 'url') {
+    } else if(ikey === 'url') {
       returnable = 'URL';
-    } else if(ikey == 'uri') {
+    } else if(ikey === 'uri') {
       returnable = 'URI'
-    } else if(ikey == 'email') {
+    } else if(ikey === 'email') {
       returnable = 'eMail'
-    } else if(ikey == 'orcid') {
+    } else if(ikey === 'orcid') {
       returnable = 'ORCID'
     } else {
       returnable = ikey.charAt(0).toUpperCase() + ikey.slice(1);

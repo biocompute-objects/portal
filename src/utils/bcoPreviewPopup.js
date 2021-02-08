@@ -3,7 +3,6 @@
 import React from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import Tooltip from '@material-ui/core/Tooltip';
-import Typography from '@material-ui/core/Typography';
 
 // For the object views.
 import Views from '../views/objects/ObjectView'

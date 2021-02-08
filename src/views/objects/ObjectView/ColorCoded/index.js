@@ -2,8 +2,7 @@ import React, { useContext } from 'react';
 import {
   Container,
   Grid,
-  makeStyles,
-  Typography
+  makeStyles
 } from '@material-ui/core';
 import Card from '@material-ui/core/Card';
 

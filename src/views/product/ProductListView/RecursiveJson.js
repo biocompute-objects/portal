@@ -56,20 +56,20 @@ export default function RecursiveJson({ items, propertiesFlag }) {
   return (
     <ul className={classes.listed}>
       {
-        typeof(items) == 'object'
+        typeof(items) === 'object'
           ?
-            Array.isArray(items) == true
+            Array.isArray(items) === true
               ?
                 <RecursiveJson items = {items[0]} />
               :
                 itemsKeys.map(item => (
-                    item != "definitions"
+                    item !== "definitions"
                       ?
-                        item == "properties"
+                        item === "properties"
                           ?
                             <RecursiveJson items = {items[item]} propertiesFlag = {true} />
                           :
-                            propertiesFlag == true
+                            propertiesFlag === true
                               ?
                                 <li className={classes.listed}>
                                     {item}

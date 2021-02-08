@@ -2,7 +2,6 @@ import React from 'react';
 import {
   Box,
   Container,
-  Divider,
   Grid,
   makeStyles
 } from '@material-ui/core';
@@ -28,9 +27,6 @@ import Media from './Media'
 
 // Other
 import Other from './Other'
-
-// News
-import News from './News'
 
 
 

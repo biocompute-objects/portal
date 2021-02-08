@@ -16,13 +16,8 @@ import InputIcon from '@material-ui/icons/Input';
 import Logo from 'src/components/Logo';
 
 import {
-  AlertCircle as AlertCircleIcon,
   BarChart as BarChartIcon,
-  Lock as LockIcon,
-  Settings as SettingsIcon,
-  ShoppingBag as ShoppingBagIcon,
   User as UserIcon,
-  UserPlus as UserPlusIcon,
   Users as UsersIcon
 } from 'react-feather';
 import NavItem from './NavBar/NavItem';

@@ -9,12 +9,6 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import RecursiveRows from './RecursiveRows'
 
-// For links.
-import OpenInNewIcon from '@material-ui/icons/OpenInNew';
-
-// For contact information.
-import Tooltip from '@material-ui/core/Tooltip';
-
 // Cell styling
 const StyledCell = withStyles({
   bordered: {

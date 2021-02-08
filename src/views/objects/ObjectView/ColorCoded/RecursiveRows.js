@@ -2,14 +2,6 @@ import React from 'react';
 import {
   makeStyles, Typography
 } from '@material-ui/core';
-import TableCell from '@material-ui/core/TableCell';
-import TableRow from '@material-ui/core/TableRow';
-
-// For links.
-import OpenInNewIcon from '@material-ui/icons/OpenInNew';
-
-// For contact information.
-import Tooltip from '@material-ui/core/Tooltip';
 
 // Styling
 const useStyles = makeStyles((theme) => ({
@@ -39,11 +31,11 @@ export default function RecursiveRows({ items }) {
   return (
     <ul className={classes.listed}>
       {
-        typeof(items) == 'object'
+        typeof(items) === 'object'
           ?
-            Array.isArray(items) == true
+            Array.isArray(items) === true
               ?
-                typeof(items[0]) == 'string'
+                typeof(items[0]) === 'string'
                   ?
                     items.map(item => (
                         <li className={classes.listed}>

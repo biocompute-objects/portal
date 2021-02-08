@@ -7,19 +7,12 @@ import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
-import RecursiveRows from './RecursiveRows'
 
 // Inputs
 import TextField from '@material-ui/core/TextField';
 
 // Add contributor
 import Button from '@material-ui/core/Button'
-
-// For links.
-import OpenInNewIcon from '@material-ui/icons/OpenInNew';
-
-// For contact information.
-import Tooltip from '@material-ui/core/Tooltip';
 
 // Cell styling
 const StyledCell = withStyles({

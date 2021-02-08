@@ -56,9 +56,9 @@ const processKey = (ikey) => {
     var capJoined = [];
 
     splitUp.map(value => {
-      if(value == 'id') {
+      if(value === 'id') {
         capJoined.push('ID')
-      } else if(value == 'io') {
+      } else if(value === 'io') {
         capJoined.push('IO')
       } else {
         capJoined.push(value.charAt(0).toUpperCase() + value.slice(1));
@@ -69,15 +69,15 @@ const processKey = (ikey) => {
     returnable = capJoined.join(' ')
 
   } else {
-    if(ikey == 'etag') {
+    if(ikey === 'etag') {
       returnable = 'eTag';
-    } else if(ikey == 'url') {
+    } else if(ikey === 'url') {
       returnable = 'URL';
-    } else if(ikey == 'uri') {
+    } else if(ikey === 'uri') {
       returnable = 'URI'
-    } else if(ikey == 'email') {
+    } else if(ikey === 'email') {
       returnable = 'eMail'
-    } else if(ikey == 'orcid') {
+    } else if(ikey === 'orcid') {
       returnable = 'ORCID'
     } else {
       returnable = ikey.charAt(0).toUpperCase() + ikey.slice(1);
@@ -235,7 +235,7 @@ export default function ProvenanceDomain() {
                 </StyledCell>
                 <StyledCell colSpan="4" noGutter>
                   {
-                    item == 'License'
+                    item === 'License'
                       ?
                         <Linker color= { 'whiteLink' } uri={ provenanceMeta[item] } />
                       :

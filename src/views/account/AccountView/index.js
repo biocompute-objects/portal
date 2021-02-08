@@ -7,7 +7,6 @@ import {
 import Page from 'src/components/Page';
 import Profile from './Profile';
 import ServerInfo from './ServerInfo';
-import ProfileDetails from './ProfileDetails';
 import AddServer from './AddServer'
 
 const useStyles = makeStyles((theme) => ({

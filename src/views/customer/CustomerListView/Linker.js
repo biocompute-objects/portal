@@ -5,7 +5,6 @@ import {
 
 // For links.
 import Link from '@material-ui/core/Link';
-import OpenInNewIcon from '@material-ui/icons/OpenInNew';
 
 // SVG/Link styling
 const useStyles = makeStyles((theme) => ({

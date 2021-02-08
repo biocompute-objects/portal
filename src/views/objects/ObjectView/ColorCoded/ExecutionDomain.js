@@ -7,7 +7,6 @@ import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
-import RecursiveRows from './RecursiveRows'
 
 // For links.
 import Linker from './components/Linker';
@@ -41,9 +40,9 @@ const processKey = (ikey) => {
     var capJoined = [];
 
     splitUp.map(value => {
-      if(value == 'id') {
+      if(value === 'id') {
         capJoined.push('ID')
-      } else if(value == 'io') {
+      } else if(value === 'io') {
         capJoined.push('IO')
       } else {
         capJoined.push(value.charAt(0).toUpperCase() + value.slice(1));
@@ -54,15 +53,15 @@ const processKey = (ikey) => {
     returnable = capJoined.join(' ')
 
   } else {
-    if(ikey == 'etag') {
+    if(ikey === 'etag') {
       returnable = 'eTag';
-    } else if(ikey == 'url') {
+    } else if(ikey === 'url') {
       returnable = 'URL';
-    } else if(ikey == 'uri') {
+    } else if(ikey === 'uri') {
       returnable = 'URI'
-    } else if(ikey == 'email') {
+    } else if(ikey === 'email') {
       returnable = 'eMail'
-    } else if(ikey == 'orcid') {
+    } else if(ikey === 'orcid') {
       returnable = 'ORCID'
     } else {
       returnable = ikey.charAt(0).toUpperCase() + ikey.slice(1);
@@ -104,7 +103,7 @@ export default function ExecutionDomain({ items }) {
     <TableBody>
       {
         items.script.map((item, index) => (
-            index == 0
+            index === 0
               ?
                 <TableRow>
                   <StyledCell rowSpan={items.script.length}>
@@ -163,7 +162,7 @@ export default function ExecutionDomain({ items }) {
                 ['filename', 'uri', 'access_time', 'sha1_checksum'].map(subitem => (
                     subitem in item.uri
                       ?
-                        subitem == 'uri'
+                        subitem === 'uri'
                           ?
                             <StyledCell>
                               <Linker color= { 'whiteLink' } uri={ item.uri.uri } />
@@ -189,7 +188,7 @@ export default function ExecutionDomain({ items }) {
       <TableRow>
         {
           ['Name', 'URL'].map(item => (
-              item == 'Name'
+              item = 'Name'
                 ?
                   <StyledCell>
                     <Typography>

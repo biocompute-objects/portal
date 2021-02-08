@@ -8,7 +8,6 @@ import CustomerListView from 'src/views/customer/CustomerListView';
 import EditorView from 'src/views/editor/EditorView';
 import DashboardView from 'src/views/reports/DashboardView';
 import LoginView from 'src/views/auth/LoginView';
-import NotFoundView from 'src/views/errors/NotFoundView';
 import ObjectsListView from 'src/views/objects/ObjectsListView';
 import ObjectView from 'src/views/objects/ObjectView';
 import ProductListView from 'src/views/product/ProductListView';
