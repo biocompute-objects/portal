@@ -20,7 +20,7 @@ import {
   User as UserIcon,
   Users as UsersIcon
 } from 'react-feather';
-import NavItem from './NavBar/NavItem';
+import NavItem from './NavItem';
 
 // Navigation.
 const items = [

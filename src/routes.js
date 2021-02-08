@@ -9,7 +9,6 @@ import MainLayout from 'src/layouts/MainLayout';
 import ObjectsListView from 'src/views/objects/ObjectsListView';
 import ObjectView from 'src/views/objects/ObjectView';
 import ObjectViewLayout from 'src/layouts/ObjectViewLayout';
-import ProductListView from 'src/views/product/ProductListView';
 import RegisterView from 'src/views/auth/RegisterView';
 import ValidatorView from 'src/views/validator/ValidatorView'
 
@@ -38,8 +37,7 @@ const routes = [
       { path: 'account', element: <AccountView /> },
       { path: 'objects', element: <ObjectsListView /> },
       { path: 'builder', element: <BuilderView /> },
-      { path: 'validator', element: <ValidatorView /> },
-      { path: 'products', element: <ProductListView /> }
+      { path: 'validator', element: <ValidatorView /> }
     ]
   },
   {

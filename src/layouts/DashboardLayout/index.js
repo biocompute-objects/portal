@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { Outlet } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core';
-import TopBar from './TopBar';
+import TopBar from '../shared/TopBar';
 import BottomBar from './BottomBar'
-import NavBar from './NavBar'
+//import NavBar from './NavBar'
 import NewsBar from './NewsBar'
 
 const useStyles = makeStyles((theme) => ({
