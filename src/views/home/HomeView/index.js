@@ -45,7 +45,7 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-const Dashboard = () => {
+const HomeView = () => {
   const classes = useStyles();
 
   return (
@@ -174,4 +174,4 @@ const Dashboard = () => {
   );
 };
 
-export default Dashboard;
+export default HomeView;

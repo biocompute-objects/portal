@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import {
   Box,
   Container,
@@ -6,7 +6,6 @@ import {
   makeStyles
 } from '@material-ui/core';
 import Page from 'src/components/Page';
-import Toolbar from './Toolbar';
 
 // Rendering dynamic JSON.
 import RecursiveJson from './RecursiveJson'

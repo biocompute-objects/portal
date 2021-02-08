@@ -2,14 +2,12 @@ import React, { useState } from 'react';
 import {
   Box,
   Container,
-  Grid,
   makeStyles
 } from '@material-ui/core';
 import Page from 'src/components/Page';
+import Results from './Results';
 import Toolbar from './Toolbar';
-
-// Rendering dynamic JSON.
-import RecursiveJson from './RecursiveJson'
+import data from './data'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -17,38 +15,26 @@ const useStyles = makeStyles((theme) => ({
     minHeight: '100%',
     paddingBottom: theme.spacing(3),
     paddingTop: theme.spacing(3)
-  },
-  productCard: {
-    height: '100%'
   }
 }));
 
-const ObjectsList = () => {
-    
+const ObjectsListView = () => {
   const classes = useStyles();
+  const [customers] = useState(data);
 
-  // Define the JSON object.   
-  const objected = {
-  };
-  
   return (
     <Page
       className={classes.root}
-      title="Products"
+      title="BioCompute Objects"
     >
       <Container maxWidth={false}>
-        {/* <Toolbar /> */}
+        <Toolbar />
         <Box mt={3}>
-          <Grid
-            container
-            spacing={3}
-          >
-            <RecursiveJson items={objected} propertiesFlag={false} />
-          </Grid>
+          <Results customers={customers} />
         </Box>
       </Container>
     </Page>
   );
 };
 
-export default ObjectsList;
+export default ObjectsListView;

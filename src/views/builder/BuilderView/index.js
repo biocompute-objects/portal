@@ -14,7 +14,7 @@ import Views from './Views'
 
 // The state model is based on https://reactjs.org/docs/lifting-state-up.html
 
-export default function EditorView() {
+export default function BuilderView() {
   
   // Declare the view type.
   const [viewType, setViewType] = React.useState('color');

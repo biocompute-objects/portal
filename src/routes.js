@@ -1,26 +1,33 @@
 import React from 'react';
 import { Navigate } from 'react-router-dom';
-import DashboardLayout from 'src/layouts/DashboardLayout';
-import MainLayout from 'src/layouts/MainLayout';
-import ObjectViewLayout from 'src/layouts/ObjectViewLayout';
 import AccountView from 'src/views/account/AccountView';
-import CustomerListView from 'src/views/customer/CustomerListView';
-import EditorView from 'src/views/editor/EditorView';
-import DashboardView from 'src/views/reports/DashboardView';
+import BuilderView from 'src/views/builder/BuilderView';
+import DashboardLayout from 'src/layouts/DashboardLayout';
+import HomeView from 'src/views/home/HomeView';
 import LoginView from 'src/views/auth/LoginView';
+import MainLayout from 'src/layouts/MainLayout';
 import ObjectsListView from 'src/views/objects/ObjectsListView';
 import ObjectView from 'src/views/objects/ObjectView';
+import ObjectViewLayout from 'src/layouts/ObjectViewLayout';
 import ProductListView from 'src/views/product/ProductListView';
 import RegisterView from 'src/views/auth/RegisterView';
-import SettingsView from 'src/views/settings/SettingsView';
 import ValidatorView from 'src/views/validator/ValidatorView'
+
 
 const routes = [
   {
     path: '/',
+    element: <MainLayout />,
+    children: [
+      { path: 'login', element: <LoginView /> },
+      { path: 'register', element: <RegisterView /> }
+    ]
+  },
+  {
+    path: '/',
     element: <DashboardLayout />,
     children: [
-      { path: 'dashboard', element: <DashboardView /> },
+      { path: 'dashboard', element: <HomeView /> },
       { path: '', element: <Navigate to="/dashboard" /> }
     ]
   },
@@ -29,12 +36,10 @@ const routes = [
     element: <MainLayout />,
     children: [
       { path: 'account', element: <AccountView /> },
-      { path: 'objects', element: <CustomerListView /> },
-      { path: 'builder', element: <EditorView /> },
+      { path: 'objects', element: <ObjectsListView /> },
+      { path: 'builder', element: <BuilderView /> },
       { path: 'validator', element: <ValidatorView /> },
-      { path: 'products', element: <ProductListView /> },
-      { path: 'settings', element: <SettingsView /> },
-      { path: 'objects', element: <ObjectsListView /> }
+      { path: 'products', element: <ProductListView /> }
     ]
   },
   {
@@ -57,17 +62,6 @@ const routes = [
     children: [
       { path: '404', element: <Navigate to="/dashboard" />},
       { path: '*', element: <Navigate to="/dashboard" /> }
-    ]
-  },
-  {
-    path: '/',
-    element: <MainLayout />,
-    children: [
-      { path: 'login', element: <LoginView /> },
-      { path: 'register', element: <RegisterView /> },
-      { path: '404', element: <Navigate to="/app/dashboard" /> },
-      { path: '/', element: <Navigate to="/app/dashboard" /> },
-      { path: '*', element: <Navigate to="/404" /> }
     ]
   }
 ];

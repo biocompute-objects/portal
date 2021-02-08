@@ -4,10 +4,10 @@ import {
   Grid,
   makeStyles
 } from '@material-ui/core';
+import AddServer from './AddServer'
 import Page from 'src/components/Page';
 import Profile from './Profile';
 import ServerInfo from './ServerInfo';
-import AddServer from './AddServer'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -22,7 +22,7 @@ const useStyles = makeStyles((theme) => ({
 // Source: https://stackoverflow.com/questions/58936042/pass-context-between-siblings-using-context-in-react
 export const ParentContext = React.createContext();
 
-const Account = () => {
+const AccountView = () => {
   const classes = useStyles();
 
   // State for the add server and group dialogs.
@@ -71,4 +71,4 @@ const Account = () => {
   );
 };
 
-export default Account;
+export default AccountView;

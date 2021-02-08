@@ -2,12 +2,13 @@ import React, { useState } from 'react';
 import {
   Box,
   Container,
+  Grid,
   makeStyles
 } from '@material-ui/core';
 import Page from 'src/components/Page';
-import Results from './Results';
-import Toolbar from './Toolbar';
-import data from './data';
+
+// Rendering dynamic JSON.
+import RecursiveJson from './RecursiveJson'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -15,26 +16,38 @@ const useStyles = makeStyles((theme) => ({
     minHeight: '100%',
     paddingBottom: theme.spacing(3),
     paddingTop: theme.spacing(3)
+  },
+  productCard: {
+    height: '100%'
   }
 }));
 
-const CustomerListView = () => {
+const ObjectsList = () => {
+    
   const classes = useStyles();
-  const [customers] = useState(data);
 
+  // Define the JSON object.   
+  const objected = {
+  };
+  
   return (
     <Page
       className={classes.root}
-      title="Customers"
+      title="Products"
     >
       <Container maxWidth={false}>
-        <Toolbar />
+        {/* <Toolbar /> */}
         <Box mt={3}>
-          <Results customers={customers} />
+          <Grid
+            container
+            spacing={3}
+          >
+            <RecursiveJson items={objected} propertiesFlag={false} />
+          </Grid>
         </Box>
       </Container>
     </Page>
   );
 };
 
-export default CustomerListView;
+export default ObjectsList;
