@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   withStyles, Typography
 } from '@material-ui/core';
@@ -40,22 +40,40 @@ export default function DescriptionDomain({ items, cF }) {
   // State
   const [rows, setRows] = useState(items.pipeline_steps);
 
+  // Couldn't get the re-render to work without this.
+  const [rerender, setRerender] = useState(0);
+
+  // Remove row
+  const removeRows = (which) => {
+
+    // Remove based on the which (index).
+    rows.splice(which)
+
+    setRows(rows)
+
+    setRerender(rerender+1)
+
+  }
+  
   // Add row
   const addRows = () => {
-    setRows(
-      rows.push(
-        rows[0]
-      )
+
+    // For some reason we can't have the push
+    // call inside of setRows.
+    rows.push(
+      {
+        "step": "",
+        "number": "",
+        "name": "",
+        "description": "",
+        "input_list": "",
+        "output_list": ""
+      }
     )
-    /*{
-      "step": "",
-      "number": "",
-      "name": "",
-      "description": "",
-      "input_list": "",
-      "output_list": ""
-    }*/
-    console.log('rows:', rows);
+    setRows(rows)
+
+    setRerender(rerender+1)
+    
   }
 
 
@@ -118,7 +136,7 @@ export default function DescriptionDomain({ items, cF }) {
         }
       </TableRow>
       {
-        rows.map(item => (
+        rows.map((item, index) => (
             <TableRow>
               <StyledCell className={classes.stepNumber} ><TextField variant="outlined" defaultValue={item.step_number} /></StyledCell>
               <StyledCell><TextField fullWidth variant="outlined" defaultValue={item.name} /></StyledCell>
@@ -157,13 +175,18 @@ export default function DescriptionDomain({ items, cF }) {
                   </AccordionDetails>
                 </Accordion>
               </StyledCell>
+              <StyledCell>
+                <Button variant="contained" color="primary" disableElevation fullWidth>
+                  Remove {index}
+                </Button>
+              </StyledCell>
             </TableRow>
           )
         )
       }
       <TableRow>
           <StyledCell colSpan="5">
-            <Button variant="contained" color="primary" disableElevation fullWidth onClick={addRows}>
+            <Button variant="contained" color="primary" disableElevation fullWidth onClick={() => addRows()}>
               Add Step
             </Button>
           </StyledCell>
