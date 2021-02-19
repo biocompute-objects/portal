@@ -90,7 +90,7 @@ const processKey = (ikey) => {
 }
 
 // Pass an object and whether or not its keys are properties.
-export default function ProvenanceDomain() {
+export default function ProvenanceDomain({ items, cF }) {
   
   const classes = withStyles();
 
@@ -98,19 +98,19 @@ export default function ProvenanceDomain() {
   // ---------
   // items: JSON object (Provenance Domain)
 
-  // The arrays containing the information can be processed here.
+  // The arrays containing the information can be processed here.  
 
 
   // ----- Meta Information ----- //
   
-  
-  // An array to hold all the meta information.
+
+  // An array to hold all the meta information.  
   const provenanceMeta = {
-    'Name': 'dummy',
-    'Version': 'MIT',
-    'License': 'https://creativecommons.org/licenses/by/4.0/',
-    'Created': 'dummy',
-    'Modified': 'dummy'
+    'Name': cF(items.name),
+    'Version': cF(items.version),
+    'License': cF(items.license),
+    'Created': cF(items.created),
+    'Modified': cF(items.modified)
   }
 
   // Define the meta keys.
@@ -239,7 +239,7 @@ export default function ProvenanceDomain() {
                       ?
                         <Linker color= { 'whiteLink' } uri={ provenanceMeta[item] } />
                       :
-                        <TextField id="outlined-basic" variant="outlined" />
+                        <TextField id="outlined-basic" defaultValue={provenanceMeta[item]} variant="outlined" />
                   }
                 </StyledCell>
             </TableRow>
@@ -255,11 +255,12 @@ export default function ProvenanceDomain() {
         }
         </TableRow>
         <TableRow>
-          <StyledCell><TextField variant="outlined"></TextField></StyledCell>
-          <StyledCell><TextField variant="outlined"></TextField></StyledCell>
-          <StyledCell><TextField variant="outlined"></TextField></StyledCell>
-          <StyledCell><TextField variant="outlined"></TextField></StyledCell>
-          <StyledCell><TextField variant="outlined"></TextField></StyledCell>
+          {
+            [1,2,3,4,5].map(item => (
+                <StyledCell><TextField variant="outlined"></TextField></StyledCell>
+              )
+            )
+          }
         </TableRow>
         <TableRow>
           <StyledCell colSpan="5">

@@ -41,6 +41,13 @@ const routes = [
     ]
   },
   {
+    path: '/builder',
+    element: <MainLayout />,
+    children: [
+      { path: ':prefix_:state_:uuid', element: <BuilderView /> }
+    ]
+  },
+  {
     path: '/',
     element: <ObjectViewLayout />,
     children: [

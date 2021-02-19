@@ -31,7 +31,7 @@ const StyledCell = withStyles({
 })(TableCell);
 
 // Pass an object and whether or not its keys are properties.
-export default function ErrorDomain({ items }) {
+export default function ErrorDomain({ items, cF }) {
   
   const classes = withStyles(), inputClasses = useStyles();
 
@@ -44,6 +44,8 @@ export default function ErrorDomain({ items }) {
 
   
   // None.
+  console.log('=++++++++++++++++', items)
+  console.log(cF(items))
 
 
   // ----- Usability ----- //
@@ -64,10 +66,11 @@ export default function ErrorDomain({ items }) {
           <StyledCell>
             <TextField
               color="primary"
+              defaultValue={JSON.stringify(cF(items), null, 4)}
               fullWidth
               id="outlined-multiline-static"
               multiline
-              rows={4}
+              rows={8}
               variant="outlined"
             />
           </StyledCell>

@@ -31,7 +31,7 @@ const StyledCell = withStyles({
 })(TableCell);
 
 // Pass an object and whether or not its keys are properties.
-export default function UsabilityDomain({ items }) {
+export default function UsabilityDomain({ items, cF }) {
   
   const classes = withStyles(), inputClasses = useStyles();
 
@@ -64,6 +64,7 @@ export default function UsabilityDomain({ items }) {
           <StyledCell>
             <TextField
               color="primary"
+              defaultValue={cF(items)}
               fullWidth
               id="outlined-multiline-static"
               multiline

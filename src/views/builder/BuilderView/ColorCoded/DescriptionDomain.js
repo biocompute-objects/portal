@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   withStyles, Typography
 } from '@material-ui/core';
@@ -27,23 +27,43 @@ import LinkerInList from './components/LinkerInList'
 // Cell styling
 const StyledCell = withStyles({
   root: {
+    border: '1px solid black',
     color: 'white'
-  },
-  bordered: {
-    border: '1px solid black'
   }
 })(TableCell);
 
 // Pass an object.
-export default function DescriptionDomain({ items }) {
+export default function DescriptionDomain({ items, cF }) {
   
   const classes = withStyles();
+
+  // State
+  const [rows, setRows] = useState(items.pipeline_steps);
+
+  // Add row
+  const addRows = () => {
+    setRows(
+      rows.push(
+        rows[0]
+      )
+    )
+    /*{
+      "step": "",
+      "number": "",
+      "name": "",
+      "description": "",
+      "input_list": "",
+      "output_list": ""
+    }*/
+    console.log('rows:', rows);
+  }
+
 
   // Arguments
   // ---------
   // items: JSON object (Description Domain)
 
-
+  
   // ----- Meta Information ----- //
 
   
@@ -57,6 +77,7 @@ export default function DescriptionDomain({ items }) {
   
 
   // None.
+  console.log(':::::', items)
 
 
   // ----- Description ----- //
@@ -77,8 +98,8 @@ export default function DescriptionDomain({ items }) {
         <StyledCell>
           Keywords
         </StyledCell>
-        <StyledCell>
-          <TextField variant="outlined"></TextField>
+        <StyledCell colspan="4">
+          <TextField fullWidth variant="outlined" defaultValue={items.keywords} />
         </StyledCell>
       </TableRow>
       <TableRow>
@@ -96,48 +117,53 @@ export default function DescriptionDomain({ items }) {
           )
         }
       </TableRow>
-      <TableRow>
-        <StyledCell><TextField variant="outlined"></TextField></StyledCell>
-        <StyledCell><TextField variant="outlined"></TextField></StyledCell>
-        <StyledCell><TextField variant="outlined"></TextField></StyledCell>
-        <StyledCell>
-          <Accordion>
-            <AccordionSummary
-              expandIcon={<ExpandMoreIcon />}
-              aria-controls="panel1a-content"
-              id="panel1a-header"
-            >
-            <Typography>Show Inputs</Typography>
-            </AccordionSummary>
-            <AccordionDetails>
-              <List>
-                <LinkerInList color={ 'blackLink' } uri={ 'https://source1.com' } />
-                <Typography>&nbsp;+ Add Input</Typography>
-              </List>
-            </AccordionDetails>
-          </Accordion>
-        </StyledCell>
-        <StyledCell>
-        <Accordion>
-            <AccordionSummary
-              expandIcon={<ExpandMoreIcon />}
-              aria-controls="panel1a-content"
-              id="panel1a-header"
-            >
-            <Typography>Show Outputs</Typography>
-            </AccordionSummary>
-            <AccordionDetails>
-              <List>
-                <LinkerInList color={ 'blackLink' } uri={ 'https://source1.com' } />
-                <Typography>&nbsp;+ Add Output</Typography>
-              </List>
-            </AccordionDetails>
-          </Accordion>
-        </StyledCell>
-      </TableRow>
+      {
+        rows.map(item => (
+            <TableRow>
+              <StyledCell className={classes.stepNumber} ><TextField variant="outlined" defaultValue={item.step_number} /></StyledCell>
+              <StyledCell><TextField fullWidth variant="outlined" defaultValue={item.name} /></StyledCell>
+              <StyledCell><TextField variant="outlined" defaultValue={item.description} multiline rows={4}/></StyledCell>
+              <StyledCell>
+                <Accordion>
+                  <AccordionSummary
+                    expandIcon={<ExpandMoreIcon />}
+                    aria-controls="panel1a-content"
+                    id="panel1a-header"
+                  >
+                  <Typography>Show Inputs</Typography>
+                  </AccordionSummary>
+                  <AccordionDetails>
+                    <List>
+                      <LinkerInList color={ 'blackLink' } uri={ 'https://source1.com' } />
+                      <Typography>&nbsp;+ Add Input</Typography>
+                    </List>
+                  </AccordionDetails>
+                </Accordion>
+              </StyledCell>
+              <StyledCell>
+                <Accordion>
+                  <AccordionSummary
+                    expandIcon={<ExpandMoreIcon />}
+                    aria-controls="panel1a-content"
+                    id="panel1a-header"
+                  >
+                  <Typography>Show Outputs</Typography>
+                  </AccordionSummary>
+                  <AccordionDetails>
+                    <List>
+                      <LinkerInList color={ 'blackLink' } uri={ 'https://source1.com' } />
+                      <Typography>&nbsp;+ Add Output</Typography>
+                    </List>
+                  </AccordionDetails>
+                </Accordion>
+              </StyledCell>
+            </TableRow>
+          )
+        )
+      }
       <TableRow>
           <StyledCell colSpan="5">
-            <Button variant="contained" color="primary" disableElevation fullWidth>
+            <Button variant="contained" color="primary" disableElevation fullWidth onClick={addRows}>
               Add Step
             </Button>
           </StyledCell>

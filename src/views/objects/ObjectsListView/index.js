@@ -29,9 +29,7 @@ const ObjectsListView = () => {
     >
       <Container maxWidth={false}>
         <Toolbar />
-        <Box mt={3}>
-          <Results customers={customers} />
-        </Box>
+        <Results customers={customers} />
       </Container>
     </Page>
   );

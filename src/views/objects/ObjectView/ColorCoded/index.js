@@ -88,7 +88,7 @@ const ColorCoded = ({ contents }) => {
 
   // Note that the meta information is generated directly from the object,
   // but is not contained in the object itself.
-
+  
   const meta = {
     "object_id": contents.object_id, 
     "spec_version": contents.spec_version,

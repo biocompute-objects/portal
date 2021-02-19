@@ -25,7 +25,7 @@ const StyledCell = withStyles({
 })(TableCell);
 
 // Pass an object and whether or not its keys are properties.
-export default function IoDomain({ items }) {
+export default function IoDomain({ items, cF }) {
   
   const classes = withStyles();
 
@@ -80,20 +80,25 @@ export default function IoDomain({ items }) {
           </Typography>
         </StyledCell>
       </TableRow>
-      <TableRow>
-        <StyledCell>
-          <TextField variant="outlined"></TextField>
-        </StyledCell>
-        <StyledCell>
-          <TextField variant="outlined"></TextField>
-        </StyledCell>
-        <StyledCell>
-          <TextField variant="outlined"></TextField>
-        </StyledCell>
-        <StyledCell colSpan="2">
-          <TextField variant="outlined"></TextField>
-        </StyledCell>
-      </TableRow>
+      {
+        items.input_subdomain.map(item => (
+            <TableRow>
+              <StyledCell>
+                <TextField defaultValue={cF(item.uri.filename)} variant="outlined" />
+              </StyledCell>
+              <StyledCell>
+                <TextField defaultValue={cF(item.uri.uri)} variant="outlined" />
+              </StyledCell>
+              <StyledCell>
+                <TextField defaultValue={cF(item.uri.access_time)} variant="outlined" />
+              </StyledCell>
+              <StyledCell colSpan="2">
+                <TextField defaultValue={cF(item.uri.sha1_checksum)} variant="outlined" />
+              </StyledCell>
+            </TableRow>
+          )
+        )
+      }
       <TableRow>
           <StyledCell colSpan="5">
             <Button variant="contained" color="primary" disableElevation fullWidth>
@@ -135,23 +140,28 @@ export default function IoDomain({ items }) {
           </Typography>
         </StyledCell>
       </TableRow>
-      <TableRow>
-        <StyledCell>
-          <TextField variant="outlined"></TextField>
-        </StyledCell>
-        <StyledCell>
-          <TextField variant="outlined"></TextField>
-        </StyledCell>
-        <StyledCell>
-          <TextField variant="outlined"></TextField>
-        </StyledCell>
-        <StyledCell>
-          <TextField variant="outlined"></TextField>
-        </StyledCell>
-        <StyledCell>
-          <TextField variant="outlined"></TextField>
-        </StyledCell>
-      </TableRow>
+      {
+        items.output_subdomain.map(item => (
+            <TableRow>
+              <StyledCell>
+                <TextField defaultValue={cF(item.mediatype)} variant="outlined" />
+              </StyledCell>
+              <StyledCell>
+                <TextField defaultValue={cF(item.uri.filename)} variant="outlined" />
+              </StyledCell>
+              <StyledCell>
+                <TextField defaultValue={cF(item.uri.uri)} variant="outlined" />
+              </StyledCell>
+              <StyledCell>
+                <TextField defaultValue={cF(item.uri.access_time)} variant="outlined" />
+              </StyledCell>
+              <StyledCell>
+                <TextField defaultValue={cF(item.uri.sha1_checksum)} variant="outlined" />
+              </StyledCell>
+            </TableRow>
+          )
+        )
+      }
       <TableRow>
           <StyledCell colSpan="5">
             <Button variant="contained" color="primary" disableElevation fullWidth>

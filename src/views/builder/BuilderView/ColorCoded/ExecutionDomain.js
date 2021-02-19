@@ -76,7 +76,7 @@ const processKey = (ikey) => {
 }
 
 // Pass an object and whether or not its keys are properties.
-export default function ExecutionDomain({ items }) {
+export default function ExecutionDomain({ items, cF }) {
   
   const classes = withStyles();
 
@@ -110,7 +110,7 @@ export default function ExecutionDomain({ items }) {
           </Typography>
         </StyledCell>
         <StyledCell colSpan="5">
-          <TextField variant="outlined"></TextField>
+          <TextField defaultValue={items.script} variant="outlined" />
         </StyledCell>
       </TableRow>
       <TableRow>

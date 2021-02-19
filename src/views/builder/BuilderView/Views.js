@@ -67,6 +67,11 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Views({ table, objectId }) {
   
+  console.log('%%%%%%%%')
+  console.log(table)
+  console.log(objectId)
+  console.log('##########')
+  
   const classes = useStyles();
 
   // Get the ID requested, but first, set the state.
@@ -109,10 +114,10 @@ export default function Views({ table, objectId }) {
       const bulkResponse = data.POST_read_object[0];
 
       // Was the object found?
-      if(bulkResponse.request_code == '200') {
+      if(bulkResponse.request_code === '200') {
         
         // We found the object, so set the data.
-        setObjectInfo(bulkResponse.contents.object);
+        setObjectInfo(bulkResponse.content);
         setObjectFound(true);
 
       } else {
@@ -160,19 +165,39 @@ export default function Views({ table, objectId }) {
   // Use value={Number(view)} to pull from the parent..
 
   return (
-    <div className={classes.root}>
-      <AppBar position="static">
-        <Tabs value={componentView} onChange={handleChange} aria-label="simple tabs example">
-          <Tab icon={<OpacityIcon />} label="Color-Coded" {...a11yProps(0)} />
-          <Tab icon={<InsertDriveFileIcon />} label="Raw" {...a11yProps(1)} />
-        </Tabs>
-      </AppBar>
-      <TabPanel value={componentView} index={0}>
-        <ColorCoded contents={objectInfo} />
-      </TabPanel>
-      <TabPanel value={componentView} index={1}>
-        <Raw contents={objectInfo} />
-      </TabPanel>
-    </div>
+    loading
+      ?
+        <div>
+          <Typography>Loading...</Typography>
+        </div>
+      :
+        objectFound
+          ?
+            <div className={classes.root}>
+              <AppBar position="static">
+                <Tabs value={componentView} onChange={handleChange} aria-label="simple tabs example">
+                  <Tab icon={<OpacityIcon />} label="Color-Coded" {...a11yProps(0)} />
+                  <Tab icon={<InsertDriveFileIcon />} label="Raw" {...a11yProps(1)} />
+                </Tabs>
+              </AppBar>
+              {/* <Typography>
+                Object ID: {objectId}
+              </Typography> */}
+              <TabPanel value={componentView} index={0}>
+                <ColorCoded contents={objectInfo} />
+              </TabPanel>
+              <TabPanel value={componentView} index={1}>
+                <Raw contents={objectInfo} />
+              </TabPanel>
+            </div>
+          :
+          <div className={classes.root}>
+            <Typography>
+              There was a problem with the request, see output below.
+            </Typography>
+            <Typography>
+              Server http://127.0.0.1 says: {objectInfo}
+            </Typography>
+          </div>
   );
 }

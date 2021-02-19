@@ -25,7 +25,7 @@ const StyledCell = withStyles({
 })(TableCell);
 
 // Pass an object and whether or not its keys are properties.
-export default function ParametricDomain({ items }) {
+export default function ParametricDomain({ items, cF }) {
   
   const classes = withStyles();
 
@@ -64,11 +64,19 @@ export default function ParametricDomain({ items }) {
           )
         }
       </TableRow>
-      <TableRow>
-        <StyledCell><TextField variant="outlined"></TextField></StyledCell>
-        <StyledCell><TextField variant="outlined"></TextField></StyledCell>
-        <StyledCell><TextField variant="outlined"></TextField></StyledCell>
-      </TableRow>
+      {
+        items.map(item => (
+            <TableRow>
+              {
+                ['step', 'param', 'value'].map(subitem => (
+                    <StyledCell><TextField defaultValue={cF(item[subitem])} variant="outlined" /></StyledCell>
+                  )
+                )
+              }
+            </TableRow>
+          )
+        )
+      }
       <TableRow>
           <StyledCell colSpan="5">
             <Button variant="contained" color="primary" disableElevation fullWidth>

@@ -17,6 +17,9 @@ import ParametricDomain from './ParametricDomain'
 import ProvenanceDomain from './ProvenanceDomain'
 import UsabilityDomain from './UsabilityDomain'
 
+// Checking for field value existence
+import cF from '../../../../utils/cF'
+
 const useStyles = makeStyles((theme) => ({
   root: {
     backgroundColor: theme.palette.background.dark,
@@ -65,6 +68,7 @@ const ColorCoded = ({ contents }) => {
   // contents is the actual object information.
   // Set the right sub-key.
   
+  console.log('^^^^', contents)
   const classes = useStyles();
 
   // Define the components to render.
@@ -73,14 +77,17 @@ const ColorCoded = ({ contents }) => {
 
   // Note that the meta information is generated directly from the object,
   // but is not contained in the object itself.
+  const meta = {
+    "object_id": contents.object_id, 
+    "spec_version": contents.spec_version,
+    "etag": contents.eTag
+  }
 
-  const meta = {}
-  const renderList = [];
-  //const compList = [ Meta, ProvenanceDomain, UsabilityDomain, DescriptionDomain, ExecutionDomain, IoDomain, ParametricDomain, ErrorDomain ];
-  //const classNames = [ 'meta', 'provenanceDomain', 'usabilityDomain', 'descriptionDomain', 'executionDomain', 'ioDomain', 'parametricDomain', 'errorDomain' ];
+  const renderList = [ meta, contents.provenance_domain, contents.usability_domain, contents.description_domain, contents.execution_domain, contents.io_domain, contents.parametric_domain, contents.error_domain ];
+  const compList = [ Meta, ProvenanceDomain, UsabilityDomain, DescriptionDomain, ExecutionDomain, IoDomain, ParametricDomain, ErrorDomain ];
+  const classNames = [ 'meta', 'provenanceDomain', 'usabilityDomain', 'descriptionDomain', 'executionDomain', 'ioDomain', 'parametricDomain', 'errorDomain' ];
 
-  const compList = [ Meta, ProvenanceDomain, UsabilityDomain, DescriptionDomain, ExecutionDomain, IoDomain, ParametricDomain, ErrorDomain, ExtensionDomain ];
-  const classNames = [ 'meta', 'provenanceDomain', 'usabilityDomain', 'descriptionDomain', 'executionDomain', 'ioDomain', 'parametricDomain', 'errorDomain', 'extensionDomain' ];
+  // If a domain isn't defined at all, send a fake domain.
   
   return (
     <Container maxWidth={false}>
@@ -91,6 +98,7 @@ const ColorCoded = ({ contents }) => {
       >
         {
           compList.map((Component, index) => {
+            console.log(typeof(renderList[index]) === 'undefined')
               return(
                 <Grid
                   item
@@ -99,7 +107,9 @@ const ColorCoded = ({ contents }) => {
                   xs={12}
                 >
                   <Card className={classes[classNames[index]]}>
-                    <Component />
+                    <Component items={
+                      typeof(renderList[index]) === 'undefined' ? {"fake": "fake"} : renderList[index]
+                    } cF={cF} />
                   </Card>
                 </Grid>
               )
