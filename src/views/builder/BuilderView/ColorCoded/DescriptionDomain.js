@@ -47,9 +47,19 @@ export default function DescriptionDomain({ items, cF }) {
   const removeRows = (which) => {
 
     // Remove based on the which (index).
-    rows.splice(which)
+    /*console.log('which: ', which)
+    console.log('row_pre_delete: ', rows)
+    rows.splice(which, 1);
+    //console.log('row_delete: ', spliced)
 
     setRows(rows)
+
+    setRerender(rerender+1)
+    console.log('rerender', rerender)*/
+
+    var dummy = rows;
+    dummy.splice(which, 1);
+    setRows(dummy)
 
     setRerender(rerender+1)
 
@@ -60,7 +70,8 @@ export default function DescriptionDomain({ items, cF }) {
 
     // For some reason we can't have the push
     // call inside of setRows.
-    rows.push(
+    var dummy = rows;
+    dummy.push(
       {
         "step": "",
         "number": "",
@@ -70,9 +81,10 @@ export default function DescriptionDomain({ items, cF }) {
         "output_list": ""
       }
     )
-    setRows(rows)
+    setRows(dummy)
 
     setRerender(rerender+1)
+    console.log('rerender', rerender)
     
   }
 
@@ -117,7 +129,7 @@ export default function DescriptionDomain({ items, cF }) {
           Keywords
         </StyledCell>
         <StyledCell colspan="4">
-          <TextField fullWidth variant="outlined" defaultValue={items.keywords} />
+          <TextField fullWidth variant="outlined" value={items.keywords} />
         </StyledCell>
       </TableRow>
       <TableRow>
@@ -137,10 +149,10 @@ export default function DescriptionDomain({ items, cF }) {
       </TableRow>
       {
         rows.map((item, index) => (
-            <TableRow>
-              <StyledCell className={classes.stepNumber} ><TextField variant="outlined" defaultValue={item.step_number} /></StyledCell>
-              <StyledCell><TextField fullWidth variant="outlined" defaultValue={item.name} /></StyledCell>
-              <StyledCell><TextField variant="outlined" defaultValue={item.description} multiline rows={4}/></StyledCell>
+            <TableRow key={index}>
+              <StyledCell className={classes.stepNumber}><TextField onClick={e => items.step_number = 'asdfasd'} variant="outlined" value={item.step_number} /></StyledCell>
+              <StyledCell><TextField fullWidth variant="outlined" value={item.name} /></StyledCell>
+              <StyledCell><TextField variant="outlined" value={item.description} multiline rows={4}/></StyledCell>
               <StyledCell>
                 <Accordion>
                   <AccordionSummary
@@ -176,7 +188,7 @@ export default function DescriptionDomain({ items, cF }) {
                 </Accordion>
               </StyledCell>
               <StyledCell>
-                <Button variant="contained" color="primary" disableElevation fullWidth>
+                <Button variant="contained" color="primary" disableElevation fullWidth onClick={() => removeRows(index)}>
                   Remove {index}
                 </Button>
               </StyledCell>
