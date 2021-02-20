@@ -73,7 +73,7 @@ export default function DescriptionDomain({ items, cF }) {
     var dummy = rows;
     dummy.push(
       {
-        "step": "",
+        "step_number": "",
         "number": "",
         "name": "",
         "description": "",
@@ -150,9 +150,9 @@ export default function DescriptionDomain({ items, cF }) {
       {
         rows.map((item, index) => (
             <TableRow key={index}>
-              <StyledCell className={classes.stepNumber}><TextField onClick={e => items.step_number = 'asdfasd'} variant="outlined" value={item.step_number} /></StyledCell>
-              <StyledCell><TextField fullWidth variant="outlined" value={item.name} /></StyledCell>
-              <StyledCell><TextField variant="outlined" value={item.description} multiline rows={4}/></StyledCell>
+              <StyledCell className={classes.stepNumber}><TextField variant="outlined" value={index+1} /></StyledCell>
+              <StyledCell><TextField fullWidth variant="outlined" defaultValue={item.name} /></StyledCell>
+              <StyledCell><TextField variant="outlined" defaultValue={item.description} multiline rows={4}/></StyledCell>
               <StyledCell>
                 <Accordion>
                   <AccordionSummary
