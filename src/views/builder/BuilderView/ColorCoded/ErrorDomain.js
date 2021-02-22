@@ -66,7 +66,7 @@ export default function ErrorDomain({ items, cF }) {
           <StyledCell>
             <TextField
               color="primary"
-              defaultValue={JSON.stringify(cF(items), null, 4)}
+              defaultValue={JSON.stringify(cF(items.errd), null, 4)}
               fullWidth
               id="outlined-multiline-static"
               multiline

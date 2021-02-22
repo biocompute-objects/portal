@@ -64,12 +64,13 @@ export default function UsabilityDomain({ items, cF }) {
           <StyledCell>
             <TextField
               color="primary"
-              defaultValue={cF(items)}
+              defaultValue={cF(items.ud)}
               fullWidth
               id="outlined-multiline-static"
               multiline
               rows={4}
               variant="outlined"
+              onChange={(e) => items.setUd(e.target.value)}
             />
           </StyledCell>
         </TableRow>
