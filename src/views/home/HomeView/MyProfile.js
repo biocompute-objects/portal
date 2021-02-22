@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useState} from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
+import Login from './Login';
 import CardActionArea from '@material-ui/core/CardActionArea';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
@@ -31,7 +32,12 @@ const useStyles = makeStyles({
 
 export default function MyProfile() {
   const classes = useStyles();
+  const [token, setToken] = useState();
 
+  if(!token) {
+    return <Login setToken={setToken} />
+  }
+  
   return (
     <Card className={classes.root, classes.linkCard}>
       <CardActionArea className={classes.linkCard}>
