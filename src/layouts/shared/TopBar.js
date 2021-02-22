@@ -30,11 +30,6 @@ const items = [
     title: 'Home'
   },
   {
-    href: '/account',
-    icon: UserIcon,
-    title: 'Account'
-  },
-  {
     href: '/builder',
     icon: UsersIcon,
     title: 'Builder'
@@ -43,13 +38,24 @@ const items = [
     href: '/objects',
     icon: UsersIcon,
     title: 'BioCompute Objects'
+  }
+];
+
+/*
+
+  {
+    href: '/account',
+    icon: UserIcon,
+    title: 'Account'
   },
+  ,
   {
     href: '/validator',
     icon: UsersIcon,
     title: 'Validator'
   }
-];
+
+*/
 
 const useStyles = makeStyles(() => ({
   root: {},

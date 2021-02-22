@@ -63,7 +63,7 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-const ColorCoded = ({ contents }) => {
+const ColorCoded = ({ compCheck, contents }) => {
   
   // contents is the actual object information.  
   console.log('^^^^', contents)
@@ -78,8 +78,25 @@ const ColorCoded = ({ contents }) => {
     }
   )
   console.log('######', contents)
+
+  // Compliance-checking functions
+  const checkBlank = (value) => {
+    if(value === '' || value === "" || value === null) {
+      return 1
+    }
+  }
+
+  /*const checkUri = (value) => {
+    need URI regex
+  }*/
+
+  /*const checkDateTime = (value) => {
+    need specification on datetime format
+  }*/
   
   // State
+
+  // Provenance domain
   const [pdName, setPdName] = useState(contents.provenance_domain.name);
   const [pdVersion, setPdVersion] = useState(contents.provenance_domain.version);
   const [pdLicense, setPdLicense] = useState(contents.provenance_domain.license);
@@ -94,11 +111,14 @@ const ColorCoded = ({ contents }) => {
     "orcid": ""
   });
 
+  // Usability domain
   const [ud, setUd] = useState(contents.usability_domain);
 
+  // Description domain
   const [ddKeywords, setDd] = useState(contents.description_domain.keywords);
   const [ddPipelineSteps, setDdPipelineSteps] = useState(contents.description_domain.pipeline_steps);
 
+  // Execution domain
   const [edScript, setEdScript] = useState(contents.execution_domain.script);
   const [edScriptDriver, setEdScriptDriver] = useState(contents.execution_domain.script_driver);
   const [edSoftwarePrerequisites, setEdSoftwarePrerequisites] = useState(contents.execution_domain.software_prerequisites);
@@ -121,55 +141,20 @@ const ColorCoded = ({ contents }) => {
     "uri": ""
   });
 
+  // IO Domain
   const [iodInputSubdomain, setIodInputSubdomain] = useState(contents.io_domain.input_subdomain);
   const [iodOutputSubdomain, setIodOutputSubdomain] = useState(contents.io_domain.output_subdomain);  
 
+  // Parameter domain
   const [pad, setPad] = useState(contents.parametric_domain);
 
+  // Error domain
   const [errd, setErrd] = useState(contents.error_domain);
 
+  // Extension domain
   const [exd, setExd] = useState(contents.extension_domain);
 
-  // State
-  /*const [rows, setRows] = useState(items.pipeline_steps);
-  const [descriptionKeywords, setDescriptionKeywords] = useState(contents.description_domain.keywords)
-
-  // Couldn't get the re-render to work without this.
-  const [rerender, setRerender] = useState(0);
-
-  // Remove row
-  const removeRows = (which) => {
-
-    var dummy = rows;
-    dummy.splice(which, 1);
-    setRows(dummy)
-
-    setRerender(rerender+1)
-
-  }
-  
-  // Add row
-  const addRows = () => {
-
-    // For some reason we can't have the push
-    // call inside of setRows.
-    var dummy = rows;
-    dummy.push(
-      {
-        "step_number": "",
-        "number": "",
-        "name": "",
-        "description": "",
-        "input_list": "",
-        "output_list": ""
-      }
-    )
-    setRows(dummy)
-
-    setRerender(rerender+1)
-    
-  }*/
-
+  // To trigger re-renders
   const [rerender, setRerender] = useState(0);
   
   // Generic add row
@@ -191,17 +176,6 @@ const ColorCoded = ({ contents }) => {
 
   }
 
-  // Remove row
-  /*const removeRows = (which) => {
-
-    var dummy = rows;
-    dummy.splice(which, 1);
-    setRows(dummy)
-
-    setRerender(rerender+1)
-
-  }*/
-
   // Define the components to render.
   // Source: https://stackoverflow.com/questions/48131100/react-render-array-of-components
   // Source: https://stackoverflow.com/questions/43585840/react-render-dynamic-list-of-components
@@ -216,19 +190,18 @@ const ColorCoded = ({ contents }) => {
 
   const renderList = [ 
     meta, 
-    { pdName, pdVersion, pdLicense, pdCreated, pdModifed, pdContributors, pdRowTemplate, rerender, setRerender }, 
-    { ud, setUd },
-    { ddKeywords, ddPipelineSteps, rerender, setDdPipelineSteps, setRerender },
-    { edScript, edScriptDriver, edSoftwarePrerequisites, edSoftwarePrerequisitesRowTemplate, edExternalDataEndpoints, edExternalDataEndpointsRowTemplate, edEnvironmentVariables, edEnvironmentVariablesRowTemplate },
-    { iodInputSubdomain, iodOutputSubdomain, setIodInputSubdomain, setIodOutputSubdomain, rerender, setRerender },
-    { pad, rerender, setPad, setRerender },
-    { errd }, 
-    { exd }
+    { compCheck, checkBlank, pdName, pdVersion, pdLicense, pdCreated, pdModifed, pdContributors, pdRowTemplate, rerender, setRerender }, 
+    { compCheck, checkBlank, ud, setUd },
+    { compCheck, checkBlank, ddKeywords, ddPipelineSteps, rerender, setDdPipelineSteps, setRerender },
+    { compCheck, checkBlank, edScript, edScriptDriver, edSoftwarePrerequisites, edSoftwarePrerequisitesRowTemplate, edExternalDataEndpoints, edExternalDataEndpointsRowTemplate, edEnvironmentVariables, edEnvironmentVariablesRowTemplate },
+    { compCheck, checkBlank, iodInputSubdomain, iodOutputSubdomain, setIodInputSubdomain, setIodOutputSubdomain, rerender, setRerender },
+    { compCheck, checkBlank, pad, rerender, setPad, setRerender },
+    { compCheck, checkBlank, errd }, 
+    { compCheck, checkBlank, exd }
   ];
-  const compList = [ Meta, ProvenanceDomain, UsabilityDomain, DescriptionDomain, ExecutionDomain, IoDomain, ParametricDomain, ErrorDomain ];
-  const classNames = [ 'meta', 'provenanceDomain', 'usabilityDomain', 'descriptionDomain', 'executionDomain', 'ioDomain', 'parametricDomain', 'errorDomain' ];
-
-  // If a domain isn't defined at all, send a fake domain.  
+  const compList = [ Meta, ProvenanceDomain, UsabilityDomain, DescriptionDomain, ExecutionDomain, IoDomain, ParametricDomain, ErrorDomain, ExtensionDomain ];
+  const classNames = [ 'meta', 'provenanceDomain', 'usabilityDomain', 'descriptionDomain', 'executionDomain', 'ioDomain', 'parametricDomain', 'errorDomain', 'extensionDomain' ];
+ 
   return (
     <Container maxWidth={false}>
       <Grid
@@ -246,9 +219,7 @@ const ColorCoded = ({ contents }) => {
                   xs={12}
                 >
                   <Card className={classes[classNames[index]]}>
-                    <Component items={
-                      typeof(renderList[index]) === 'undefined' ? {"fake": "fake"} : renderList[index]
-                    } cF={cF} />
+                    <Component items={renderList[index]} cF={cF} />
                   </Card>
                 </Grid>
               )

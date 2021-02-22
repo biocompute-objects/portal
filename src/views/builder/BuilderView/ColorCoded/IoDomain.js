@@ -221,7 +221,7 @@ export default function IoDomain({ items, cF }) {
                 <TextField value={cF(item.uri.filename)} variant="outlined" onChange={(e) => setInputInput(e, index, 'filename')} />
               </StyledCell>
               <StyledCell>
-                <TextField value={cF(item.uri.uri)} variant="outlined" onChange={(e) => setInputInput(e, index, 'uri')} />
+                <TextField error={cF(item.uri.uri) === "" ? true : false} value={cF(item.uri.uri)} variant="outlined" onChange={(e) => setInputInput(e, index, 'uri')} />
               </StyledCell>
               <StyledCell>
                 <TextField value={cF(item.uri.access_time)} variant="outlined" onChange={(e) => setInputInput(e, index, 'access_time')} />
@@ -283,13 +283,13 @@ export default function IoDomain({ items, cF }) {
         items.iodOutputSubdomain.map((item, index) => (
             <TableRow>
               <StyledCell>
-                <TextField value={cF(item.mediatype)} variant="outlined" onChange={(e) => setInputOutput(e, index, 'mediatype', true)} />
+                <TextField error={cF(item.mediatype) === "" ? true : false} value={cF(item.mediatype)} variant="outlined" onChange={(e) => setInputOutput(e, index, 'mediatype', true)} />
               </StyledCell>
               <StyledCell>
                 <TextField value={cF(item.uri.filename)} variant="outlined" onChange={(e) => setInputOutput(e, index, 'filename')} />
               </StyledCell>
               <StyledCell>
-                <TextField value={cF(item.uri.uri)} variant="outlined" onChange={(e) => setInputOutput(e, index, 'uri')} />
+                <TextField error={cF(item.uri.uri) === "" ? true : false} value={cF(item.uri.uri)} variant="outlined" onChange={(e) => setInputOutput(e, index, 'uri')} />
               </StyledCell>
               <StyledCell>
                 <TextField value={cF(item.uri.access_time)} variant="outlined" onChange={(e) => setInputOutput(e, index, 'access_time')} />

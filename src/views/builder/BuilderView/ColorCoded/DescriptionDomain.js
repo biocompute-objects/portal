@@ -35,7 +35,7 @@ const StyledCell = withStyles({
 
 // Pass an object.
 /*export default function DescriptionDomain({ addRows, removeRows, descriptionKeywords, items, cF }) {*/
-export default function DescriptionDomain({ items, cF }) {
+export default function DescriptionDomain({ compCheck, checkBlank, items, cF }) {
   
   //console.log('@@@@@@@@@@@@', items);
   
@@ -94,8 +94,8 @@ export default function DescriptionDomain({ items, cF }) {
       "step_number": "",
       "name": "",
       "description": "",
-      "input_list": "",
-      "output_list": ""
+      "input_list": [],
+      "output_list": []
     });
 
     // Update the state.
@@ -226,9 +226,9 @@ export default function DescriptionDomain({ items, cF }) {
       {
         items.ddPipelineSteps.map((item, index) => (
             <TableRow key={index}>
-              <StyledCell className={classes.stepNumber}><TextField variant="outlined" value={index+1} /></StyledCell>
-              <StyledCell><TextField fullWidth variant="outlined" value={cF(item.name)} onChange={(e) => setInput(e, index, 'name')} /></StyledCell>
-              <StyledCell><TextField variant="outlined" multiline rows={4} value={cF(item.description)} onChange={(e) => setInput(e, index, 'description')} /></StyledCell>
+              <StyledCell className={classes.stepNumber}><TextField variant="outlined" value={index+1} />{compCheck}</StyledCell>
+              <StyledCell><TextField error={cF(item.name) === "" ? true : false} fullWidth variant="outlined" value={cF(item.name)} onChange={(e) => setInput(e, index, 'name')} /></StyledCell>
+              <StyledCell><TextField error={cF(item.description) === "" ? true : false} variant="outlined" multiline rows={4} value={cF(item.description)} onChange={(e) => setInput(e, index, 'description')} /></StyledCell>
               <StyledCell>
                 <Accordion>
                   <AccordionSummary
@@ -247,7 +247,7 @@ export default function DescriptionDomain({ items, cF }) {
                               <TextField label={'Filename'} fullWidth variant="outlined" value={cF(subitem.filename)} onChange={(e) => setListInput(e, index, 'input_list', subindex, 'filename')} />
                             </ListItem>
                             <ListItem>
-                              <TextField label={'URI'} fullWidth variant="outlined" value={cF(subitem.uri)} onChange={(e) => setListInput(e, index, 'input_list', subindex, 'uri')} />
+                              <TextField error={cF(subitem.uri) === "" ? true : false} label={'URI'} fullWidth variant="outlined" value={cF(subitem.uri)} onChange={(e) => setListInput(e, index, 'input_list', subindex, 'uri')} />
                             </ListItem>
                             <ListItem>
                               <TextField label={'Access Time'} fullWidth variant="outlined" value={cF(subitem.access_time)} onChange={(e) => setListInput(e, index, 'input_list', subindex, 'access_time')} />
@@ -301,7 +301,7 @@ export default function DescriptionDomain({ items, cF }) {
                               <TextField label={'Filename'} fullWidth variant="outlined" value={cF(subitem.filename)} onChange={(e) => setListInput(e, index, 'output_list', subindex, 'filename')} />
                             </ListItem>
                             <ListItem>
-                              <TextField label={'URI'} fullWidth variant="outlined" value={cF(subitem.uri)} onChange={(e) => setListInput(e, index, 'output_list', subindex, 'uri')} />
+                              <TextField error={cF(subitem.uri) === "" ? true : false} label={'URI'} fullWidth variant="outlined" value={cF(subitem.uri)} onChange={(e) => setListInput(e, index, 'output_list', subindex, 'uri')} />
                             </ListItem>
                             <ListItem>
                               <TextField label={'Access Time'} fullWidth variant="outlined" value={cF(subitem.access_time)} onChange={(e) => setListInput(e, index, 'output_list', subindex, 'access_time')} />

@@ -9,6 +9,9 @@ import Tab from '@material-ui/core/Tab';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
 
+// Redirecting after draft object creation.
+import { useHistory } from 'react-router-dom';
+
 // Tab icons
 import OpacityIcon from '@material-ui/icons/Opacity';
 import AccountTreeIcon from '@material-ui/icons/AccountTree';
@@ -65,10 +68,12 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Views({ table, objectId }) {
+export default function Views({ compCheck, table, objectId }) {
   
   console.log('%%%%%%%%')
+  console.log(compCheck)
   console.log(table)
+  console.log('typeof(table):', typeof(table))
   console.log(objectId)
   console.log('##########')
   
@@ -90,6 +95,43 @@ export default function Views({ table, objectId }) {
   // Fetch behavior requires further processing.
 
   // Source: https://stackoverflow.com/questions/43903767/read-the-body-of-a-fetch-promise
+
+  // TODO: fix this call later to not rely on the URL passed in?
+  // TODO: fix this later to allow for the use of prefixes.
+   //    attach_id: 'True',
+
+  // If no object ID is provided, then a new one is generated.
+  const newDraftObject = () => {
+    
+    // Object ID and eTag are generated on server.
+    
+    // Call the API.    
+    fetch('http://127.0.0.1:8000/bco/objects/create', {
+      method: 'POST',
+      body: JSON.stringify({
+        POST_create_new_object: [
+            {
+              table: 'bco_draft',
+              schema: 'IEEE',
+              contents: JSON.parse('{"spec_version":"IEEE","provenance_domain":{"name":"","version":"","created":"","modified":"","contributors":[{"contribution":"","name":""}],"license":""},"usability_domain":[""],"description_domain":{"keywords":[""],"pipeline_steps":[{"step_number":0,"name":"","description":"","input_list":[{"uri":{"uri":""}}],"output_list":[{"uri":{"uri":""}}]}]},"execution_domain":{"script":[{"uri":{"uri":""}}],"script_driver":"","software_prerequisites":[{"name":"","version":"","uri":{"uri":""}}],"external_data_endpoints":[{"name":"","url":""}],"environment_variables":{"key":"value"}},"io_domain":{"input_subdomain":[{"uri":{"uri":""}}],"output_subdomain":[{"mediatype":"","uri":{"uri":""}}]},"parametric_domain":[{"param":"","value":"","step":""}]}'),
+              state: 'DRAFT'
+            }
+        ]
+    }),
+    headers: {
+      "Content-type": "application/json; charset=UTF-8"
+    }
+    }).then(response=>response.json()).then(data=>{
+      console.log(data);
+
+      const history = useHistory();
+      history.push('https://www.google.com');
+
+      // Parse the response data for the URL to re-direct to.
+      //return  <Navigate to="https://google.com" />
+
+    })
+  }
   
   const getObjectInfo = () => {
     
@@ -109,7 +151,8 @@ export default function Views({ table, objectId }) {
     }
     }).then(response=>response.json()).then(data=>{
       
-      console.log('+++++++++++++++++', data)
+      console.log('+++++++++++++++++', data);
+
       // Get the bulk response.
       const bulkResponse = data.POST_read_object[0];
 
@@ -135,8 +178,22 @@ export default function Views({ table, objectId }) {
   }
   
   useEffect(() => {
+
+    // Default to the loading state.
     setLoading(true);
-    getObjectInfo();
+
+    // Were a table and object ID provided?
+    if(typeof(table) === 'undefined' || typeof(objectId) === 'undefined') {
+
+      // We need a new draft object.
+      newDraftObject();
+
+    } else {
+      
+      // Look for the object ID provided.
+      getObjectInfo();
+    }
+    
   }, []);
 
   // Use the parent context.
@@ -184,7 +241,7 @@ export default function Views({ table, objectId }) {
                 Object ID: {objectId}
               </Typography> */}
               <TabPanel value={componentView} index={0}>
-                <ColorCoded contents={objectInfo} />
+                <ColorCoded compCheck={compCheck} contents={objectInfo} />
               </TabPanel>
               <TabPanel value={componentView} index={1}>
                 <Raw contents={objectInfo} />

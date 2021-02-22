@@ -64,6 +64,7 @@ export default function UsabilityDomain({ items, cF }) {
           <StyledCell>
             <TextField
               color="primary"
+              error={cF(items.ud) === "" ? true : false} 
               defaultValue={cF(items.ud)}
               fullWidth
               id="outlined-multiline-static"

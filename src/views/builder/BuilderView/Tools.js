@@ -46,7 +46,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Tools() {
+export default function Tools({ compCheck, setCompCheck }) {
   const classes = useStyles();
 
   return (
@@ -162,7 +162,7 @@ export default function Tools() {
           >
           <Card>
             <CardContent>
-              <Button variant="contained" color="secondary" disableElevation fullWidth>
+              <Button variant="contained" color="secondary" disableElevation fullWidth onClick={() => setCompCheck(compCheck + 1)}>
                 PUBLISH
               </Button>
             </CardContent>

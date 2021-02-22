@@ -14,6 +14,9 @@ import TextField from '@material-ui/core/TextField';
 // Add contributor
 import Button from '@material-ui/core/Button'
 
+// Contribution select
+import Contribution from './components/Contribution'
+
 // For links.
 import Linker from './components/Linker';
 
@@ -106,26 +109,17 @@ export default function ProvenanceDomain({ items, cF }) {
 
   // An array to hold all the meta information.  
   const provenanceMeta = {
-    'Name': cF(items.name),
     'Version': cF(items.version),
     'License': cF(items.license),
     'Created': cF(items.created),
-    'Modified': cF(items.modified)
+    'Modified': cF(items.modified),
+    'Derived from': cF(items.derived_from),
+    'Obsolete after': cF(items.obsolete_after)
   }
 
   // Define the meta keys.
   const metaKeys = Object.keys(provenanceMeta);
 
-  // Try to add optional keys.
-  try {
-    metaKeys['Embargo'] = 'dummy';
-  } finally {
-
-    // Leave metaKeys alone if the embargo
-    // wasn't there.
-    
-  }
-  
 
   // ----- Contributors ----- //
 
@@ -219,7 +213,7 @@ export default function ProvenanceDomain({ items, cF }) {
     <Table size="small">
       <TableHead className={classes.tabled}>
         <TableRow>
-          <StyledCell colSpan="5">
+          <StyledCell colSpan="6">
             <Typography variant="h3">
               Provenance Domain
             </Typography>
@@ -227,29 +221,105 @@ export default function ProvenanceDomain({ items, cF }) {
         </TableRow>
       </TableHead>
       <TableBody>
-        {
-          metaKeys.map(item => (
-              <TableRow>
-                <StyledCell>
-                  {item}
-                </StyledCell>
-                <StyledCell colSpan="4" noGutter>
-                  {
-                    item === 'License'
-                      ?
-                        <Linker color= { 'whiteLink' } uri={ provenanceMeta[item] } />
-                      :
-                        <TextField id="outlined-basic" defaultValue={provenanceMeta[item]} variant="outlined" />
-                  }
-                </StyledCell>
-            </TableRow>
-            )
-          )
-        }
+        <TableRow>
+          <StyledCell>
+            Name
+          </StyledCell>
+          <StyledCell noGutter>
+            <TextField fullWidth id="outlined-basic" defaultValue={cF(items.name)} variant="outlined" />
+          </StyledCell>
+          <StyledCell>
+            Version
+          </StyledCell>
+          <StyledCell noGutter>
+            <TextField fullWidth id="outlined-basic" defaultValue={cF(items.version)} variant="outlined" />
+          </StyledCell>
+          <StyledCell>
+            License
+          </StyledCell>
+          <StyledCell noGutter>
+            <TextField fullWidth id="outlined-basic" defaultValue={cF(items.license)} variant="outlined" />
+          </StyledCell>
+        </TableRow>
+        <TableRow>
+          <StyledCell>
+            Derived From
+          </StyledCell>
+          <StyledCell colSpan="5" noGutter>
+            <TextField fullWidth id="outlined-basic" defaultValue={cF(items.derived_from)} variant="outlined" />
+          </StyledCell>
+        </TableRow>
+        <TableRow>
+        </TableRow>
+        <TableRow>
+          <StyledCell>
+            Created
+          </StyledCell>
+          <StyledCell noGutter>
+            <TextField fullWidth id="outlined-basic" defaultValue={cF(items.created)} variant="outlined" />
+          </StyledCell>
+          <StyledCell>
+            Modified
+          </StyledCell>
+          <StyledCell noGutter>
+            <TextField fullWidth id="outlined-basic" defaultValue={cF(items.modified)} variant="outlined" />
+          </StyledCell>
+          <StyledCell>
+            Obsolete After
+          </StyledCell>
+          <StyledCell noGutter>
+            <TextField fullWidth id="outlined-basic" defaultValue={cF(items.obsolete_after)} variant="outlined" />
+          </StyledCell>
+        </TableRow>
+        <TableRow>
+          <StyledCell colSpan="6">Embargo</StyledCell>
+        </TableRow>
+        <TableRow>
+          <StyledCell>Start Time</StyledCell>
+          <StyledCell colSpan="5">End Time</StyledCell>
+        </TableRow>
+        <TableRow>
+          <StyledCell><TextField variant="outlined"></TextField></StyledCell>
+          <StyledCell colSpan="5"><TextField variant="outlined"></TextField></StyledCell>
+        </TableRow>
+        <TableRow>
+          <StyledCell colSpan="6">Review</StyledCell>
+        </TableRow>
+        <TableRow>
+          <StyledCell>Date</StyledCell>
+          <StyledCell>Status</StyledCell>
+          <StyledCell>Reviewer</StyledCell>
+          <StyledCell colSpan="3">Reviewer Comment</StyledCell> 
+        </TableRow>
+        <TableRow>
+          <StyledCell><TextField variant="outlined"></TextField></StyledCell>
+          <StyledCell><TextField variant="outlined"></TextField></StyledCell>
+          <StyledCell><TextField variant="outlined"></TextField></StyledCell>
+          <StyledCell colSpan="2"><TextField fullWidth multiline rows={4} variant="outlined"></TextField></StyledCell>
+          <StyledCell>
+            <Button variant="contained" color="primary" disableElevation fullWidth onClick={() => alert('here')}>
+              Remove
+            </Button>
+          </StyledCell>
+        </TableRow>
+        <TableRow>
+          <StyledCell colSpan="5">
+            <Button variant="contained" color="primary" disableElevation fullWidth>
+              Add Reviewer
+            </Button>
+          </StyledCell>
+        </TableRow>
+        <TableRow>
+          <StyledCell colSpan="6">Contributors</StyledCell>
+        </TableRow>
         <TableRow>
         {
           ['Name', 'Contribution', 'Affiliation', 'eMail', 'ORCID'].map(item => (
-              <StyledCell>{item}</StyledCell>
+              item !== 'ORCID'
+                ?
+                  <StyledCell>{item}</StyledCell>
+                :
+                  <StyledCell colSpan="2">{item}</StyledCell>
             )
           )
         }
@@ -257,14 +327,23 @@ export default function ProvenanceDomain({ items, cF }) {
         <TableRow>
           {
             [1,2,3,4,5].map(item => (
-                <StyledCell><TextField variant="outlined"></TextField></StyledCell>
+                item === 2
+                  ?
+                    <StyledCell><Contribution /></StyledCell>
+                  :
+                    <StyledCell><TextField variant="outlined"></TextField></StyledCell>
               )
             )
           }
+          <StyledCell>
+            <Button variant="contained" color="primary" disableElevation fullWidth onClick={() => alert('here')}>
+              Remove
+            </Button>
+          </StyledCell>
         </TableRow>
         <TableRow>
           <StyledCell colSpan="5">
-            <Button variant="contained" color="primary" disableElevation fullWidth>
+            <Button fillWidth variant="contained" color="primary" disableElevation fullWidth>
               Add Contributor
             </Button>
           </StyledCell>

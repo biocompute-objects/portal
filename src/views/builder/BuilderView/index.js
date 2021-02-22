@@ -17,9 +17,15 @@ import Views from './Views'
 export default function BuilderView() {
 
   // Set the state.
-  const [loading, setLoading] = useState(true);
-  const [objectFound, setObjectFound] = useState();
-  const [objectInfo, setObjectInfo] = useState();
+  //const [loading, setLoading] = useState(true);
+  //const [objectFound, setObjectFound] = useState();
+  //const [objectInfo, setObjectInfo] = useState();
+
+  // Object compliance (incremented every time object compliance is checked
+  // so as to enforce a re-render).
+
+  // Could use context handler, but for now just pass directly.
+  const [complianceCheck, setComplianceCheck] = useState(0);
 
   // Behavior for urls (the table and data to use are based on the URL)
   // https://.../builder -> ask for a new draft ID
@@ -69,8 +75,8 @@ export default function BuilderView() {
   
   return (
     <div>
-      <Tools />
-      <Views table={tableName} objectId={objectId} />
+      <Tools compCheck={complianceCheck} setCompCheck={setComplianceCheck}/>
+      <Views compCheck={complianceCheck} table={tableName} objectId={objectId} />
     </div>
   );
 }
