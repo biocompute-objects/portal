@@ -15,13 +15,6 @@ import Views from './Views'
 // The state model is based on https://reactjs.org/docs/lifting-state-up.html
 
 export default function ObjectView() {
-  
-  // Declare the view type.
-  const [viewType, setViewType] = React.useState('color');
-  
-  const handleViewChange = (view) => {
-    this.setViewType({view});
-  }
 
   // The table to use is based on the URL.
 

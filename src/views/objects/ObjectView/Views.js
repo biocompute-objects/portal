@@ -203,13 +203,13 @@ export default function Views({ table, objectId }) {
               </TabPanel>
             </div>
           :
-          <div className={classes.root}>
-            <Typography>
-              There was a problem with the request, see output below.
-            </Typography>
-            <Typography>
-              Server http://127.0.0.1 says: {objectInfo}
-            </Typography>
-          </div>
+            <div className={classes.root}>
+              <Typography>
+                There was a problem with the request, see output below.
+              </Typography>
+              <Typography>
+                Server http://127.0.0.1 says: {objectInfo}
+              </Typography>
+            </div>
   );
 }
