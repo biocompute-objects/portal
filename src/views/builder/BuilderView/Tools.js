@@ -46,7 +46,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Tools() {
+export default function Tools({ setSaving, setPublishing, compCheck, setCompCheck }) {
   const classes = useStyles();
 
   return (
@@ -162,7 +162,13 @@ export default function Tools() {
           >
           <Card>
             <CardContent>
-              <Button variant="contained" color="secondary" disableElevation fullWidth>
+              <Button variant="contained" color="secondary" disableElevation fullWidth onClick={() => setSaving(1)}>
+                SAVE DRAFT
+              </Button>
+              <Typography>
+                &nbsp;
+              </Typography>
+              <Button variant="contained" color="primary"disableElevation fullWidth onClick={() => setPublishing(1)}>
                 PUBLISH
               </Button>
             </CardContent>

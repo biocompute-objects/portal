@@ -25,19 +25,6 @@ import BcoPreviewPopup from '../../../utils/bcoPreviewPopup'
 // Links
 import Linker from './Linker'
 
-function createData(objectId, name, state, source, lastUpdated) {
-  return { objectId, name, state, source, lastUpdated };
-}
-
-const rows = [
-  createData('http://127.0.0.1/BCO_DRAFT_441c7c1e4b6e431aaa2cefdb77d6ff0e', 'PubChem-compound', 'DRAFT', 'GWU-HIVE - 24.35.124.3 (Hadley King)', '01/29/21'),
-  createData('http://127.0.0.1/BCO_DRAFT_1332b9b3b1d041e5b8018d84c66bad43', 'SARS-CoV-2 Subtyping Pipeline based on ISMs', 'DRAFT', 'GWU-HIVE - 24.35.124.3 (Janisha Patel)', '01/29/21'),
-  createData('http://127.0.0.1/BCO_1/1.0', 'R Safety Assessment Algorithm for Aluminum in Infant Vaccines', 'PUBLISHED', 'GWU-HIVE - 24.35.124.3 (Jonathan Keeney)', '01/29/21'),
-  createData('http://127.0.0.1/BCO_1/1.1', 'R Safety Assessment Algorithm for Aluminum in Infant Vaccines', 'PUBLISHED', 'GWU-HIVE - 24.35.124.3 (Jonathan Keeney)', '01/29/21'),
-  createData('http://127.0.0.1/BCO_1/1.2', 'R Safety Assessment Algorithm for Aluminum in Infant Vaccines', 'PUBLISHED', 'GWU-HIVE - 24.35.124.3 (Jonathan Keeney)', '01/29/21'),
-  createData('http://127.0.0.1/BCO_2/1.0', 'Merck RVDB (v18) Curation Pipeline', 'PUBLISHED', 'GWU-HIVE - 24.35.124.3 (Hadley King)', '01/29/21'),
-];
-
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
     return -1;
@@ -210,7 +197,12 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Results() {
+export default function Results({ rowInfo }) {
+  
+  // The row data from the parent.
+  const rows = rowInfo;
+  console.log('row-child:', rows)
+  
   const classes = useStyles();
   const [order, setOrder] = React.useState('asc');
   const [orderBy, setOrderBy] = React.useState('objectId');
@@ -305,7 +297,7 @@ export default function Results() {
                       role="checkbox"
                       aria-checked={isItemSelected}
                       tabIndex={-1}
-                      key={row.name}
+                      key={index}
                       selected={isItemSelected}
                     >
                       <TableCell padding="checkbox">

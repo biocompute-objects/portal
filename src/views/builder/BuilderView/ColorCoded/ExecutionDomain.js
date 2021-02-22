@@ -199,6 +199,18 @@ export default function ExecutionDomain({ items, cF }) {
         </StyledCell>
       </TableRow>
       <TableRow>
+        <StyledCell>
+          <Typography>
+            Key
+          </Typography>
+        </StyledCell>
+        <StyledCell>
+          <Typography>
+            Value
+          </Typography>
+        </StyledCell>
+      </TableRow>
+      <TableRow>
         <StyledCell colSpan="6">
           <Button variant="contained" color="primary" disableElevation fullWidth>
             Add Environment Variable

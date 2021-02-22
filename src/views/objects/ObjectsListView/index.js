@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Box,
   Container,
@@ -7,7 +7,11 @@ import {
 import Page from 'src/components/Page';
 import Results from './Results';
 import Toolbar from './Toolbar';
-import data from './data'
+import { PictureAsPdfOutlined } from '@material-ui/icons';
+import Typography from '@material-ui/core/Typography';
+
+// Checking for field value existence
+import cF from '../../../utils/cF'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -19,8 +23,71 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const ObjectsListView = () => {
+
   const classes = useStyles();
-  const [customers] = useState(data);
+
+  // Function and state for loading object listing
+  const [loading, setLoading] = useState(true);
+  const [rows, setRows] = useState();
+
+  function createData(objectId, name, state, source, lastUpdated) {
+      return { objectId, name, state, source, lastUpdated };
+  }
+
+  // Row data
+  var rowData = [];
+
+  const getObjectsListing = () => {
+    
+    // Call the API.    
+    fetch('http://127.0.0.1:8000/bco/objects/read', {
+      method: 'POST',
+      body: JSON.stringify({
+        POST_read_object: [
+          {
+            table: 'bco_draft'
+          },
+          {
+            table: 'bco_publish'
+          }
+        ]
+    }),
+    headers: {
+      "Content-type": "application/json; charset=UTF-8"
+    }
+    }).then(response=>response.json()).then(data=>{
+      
+      console.log('+++++++++++++++++', data)
+      // Get the bulk response.
+      const bulkResponse = data.POST_read_object;
+
+      // Go over each result.
+      for(let responseInfo of bulkResponse) {
+
+        // Were the objects found?
+        if(responseInfo.request_code === '200') {
+          
+          responseInfo.content.map(item => {
+              rowData.push(createData(item.fields.object_id, cF(cF(item.fields.contents.provenance_domain).name), item.fields.state, 'GWU-HIVE - 24.35.124.3 (Hadley King)', '01/29/21'));
+            }
+          )
+
+        }
+
+      }
+
+      // We're no longer loading.
+      setRows(rowData);
+      setLoading(false);
+
+    })
+    
+  }
+
+useEffect(() => {
+  setLoading(true);
+  getObjectsListing();
+}, []);
 
   return (
     <Page
@@ -29,7 +96,15 @@ const ObjectsListView = () => {
     >
       <Container maxWidth={false}>
         <Toolbar />
-        <Results customers={customers} />
+        {
+          loading
+            ?
+              <div>
+                <Typography>Loading...</Typography>
+              </div>
+            :
+              <Results rowInfo={rows} />
+        }
       </Container>
     </Page>
   );
