@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Container,
   Grid,
@@ -63,7 +63,7 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-const ColorCoded = ({ compCheck, contents }) => {
+const ColorCoded = ({ saving, setSaving, publishing, setPublishing, compCheck, contents }) => {
   
   // contents is the actual object information.  
   console.log('^^^^', contents)
@@ -95,6 +95,190 @@ const ColorCoded = ({ compCheck, contents }) => {
   }*/
   
   // State
+
+  // TODO: Make sure this is written correctly?
+
+  // For saving drafts
+  useEffect(() => {
+
+    // Default to the loading state.
+    //setLoading(true);
+
+    // Update the draft.    
+    if(saving === 1) {
+
+      // TODO: Find cleaner way to send this?
+      // De-structure the URL.
+
+      // Split the URI and re-construct the route.
+      const splitUp = window.location.href.split('/');
+      const destructured = splitUp[0] + '//' + splitUp[2] + '/' + splitUp[4];
+      
+      // Call the API.    
+      fetch('http://127.0.0.1:8000/bco/objects/create', {
+        method: 'POST',
+        body: JSON.stringify({
+          POST_create_new_object: [
+              {
+                table: 'bco_draft',
+                object_id: destructured,
+                schema: 'IEEE',
+                contents: {
+                  "object_id": destructured,
+                  "etag": contents.eTag,
+                  "spec_version": "IEEE",
+                  "provenance_domain": {
+                    "name": pdName,
+                    "version": pdVersion,
+                    "created": pdCreated,
+                    "modified": pdModifed,
+                    "contributors": pdContributors,
+                    "license": pdLicense
+                  },
+                  "usability_domain": ud,
+                  "description_domain": {
+                    "keywords": ddKeywords,
+                    "pipeline_steps": ddPipelineSteps
+                  },
+                  "execution_domain": {
+                    "script": edScript,
+                    "script_driver": edScriptDriver,
+                    "software_prerequisites": edSoftwarePrerequisites,
+                    "external_data_endpoints": edExternalDataEndpoints,
+                    "environment_variables": edEnvironmentVariables
+                  },
+                  "io_domain": {
+                    "input_subdomain": iodInputSubdomain,
+                    "output_subdomain": iodOutputSubdomain
+                  },
+                  "parametric_domain": pad,
+                  "error_domain": errd,
+                  "extension_domain": exd
+                },
+                state: 'DRAFT'
+              }
+          ]
+      }),
+      headers: {
+        "Content-type": "application/json; charset=UTF-8"
+      }
+      }).then(response=>response.json()).then(data=>{
+        
+        console.log('+++++++++++++++++', data);
+
+        // Get the bulk response.
+        const bulkResponse = data.POST_create_new_object[0];
+
+        // Was the object found?
+        if(bulkResponse.request_code === '200') {
+          
+          // We found the object, so set the data.
+          alert('The object with ID \n\n' + destructured + '\n\n was saved successfully.')
+
+        } else {
+
+          // There was a problem, so show what it was.
+          alert('There was a problem saving the object with ID \n\n' + destructured + '\n\n  See errors below...\n\n' + bulkResponse.message);
+    
+        }
+
+        // We're no longer saving.
+        setSaving(0);
+
+      })
+      
+    }
+    
+  }, [saving]);
+
+  // For publishing drafts
+  useEffect(() => {
+
+    // Update the draft.    
+    if(publishing === 1) {
+
+      // TODO: Find cleaner way to send this?
+      // De-structure the URL.
+
+      // Split the URI and re-construct the route.
+      const splitUp = window.location.href.split('/');
+      const destructured = splitUp[0] + '//' + splitUp[2] + '/' + splitUp[4];
+      
+      // Call the API.    
+      fetch('http://127.0.0.1:8000/bco/objects/create', {
+        method: 'POST',
+        body: JSON.stringify({
+          POST_create_new_object: [
+              {
+                table: 'bco_publish',
+                schema: 'IEEE',
+                contents: {
+                  "object_id": destructured,
+                  "etag": contents.eTag,
+                  "spec_version": "IEEE",
+                  "provenance_domain": {
+                    "name": pdName,
+                    "version": pdVersion,
+                    "created": pdCreated,
+                    "modified": pdModifed,
+                    "contributors": pdContributors,
+                    "license": pdLicense
+                  },
+                  "usability_domain": ud,
+                  "description_domain": {
+                    "keywords": ddKeywords,
+                    "pipeline_steps": ddPipelineSteps
+                  },
+                  "execution_domain": {
+                    "script": edScript,
+                    "script_driver": edScriptDriver,
+                    "software_prerequisites": edSoftwarePrerequisites,
+                    "external_data_endpoints": edExternalDataEndpoints,
+                    "environment_variables": edEnvironmentVariables
+                  },
+                  "io_domain": {
+                    "input_subdomain": iodInputSubdomain,
+                    "output_subdomain": iodOutputSubdomain
+                  },
+                  "parametric_domain": pad,
+                  "error_domain": errd,
+                  "extension_domain": exd
+                },
+                state: 'PUBLISHED'
+              }
+          ]
+      }),
+      headers: {
+        "Content-type": "application/json; charset=UTF-8"
+      }
+      }).then(response=>response.json()).then(data=>{
+        
+        console.log('+++++++++++++++++', data);
+
+        // Get the bulk response.
+        const bulkResponse = data.POST_create_new_object[0];
+
+        // Was the object found?
+        if(bulkResponse.request_code === '200') {
+          
+          // We found the object, so set the data.
+          alert('The object with ID \n\n' + destructured + '\n\n was saved successfully with ID \n\n' + bulkResponse['object_id'] + '\n\nClosing this alert will re-direct you to the object view page for this object.')
+
+        } else {
+
+          // There was a problem, so show what it was.
+          alert('There was a problem saving the object with ID \n\n' + destructured + '\n\nSee errors below...\n\n' + bulkResponse.message);
+    
+        }
+
+        // We're no longer publishing.
+        setPublishing(0);
+
+      })
+
+    }
+    
+  }, [publishing]);
 
   // Provenance domain
   const [pdName, setPdName] = useState(contents.provenance_domain.name);
@@ -158,7 +342,7 @@ const ColorCoded = ({ compCheck, contents }) => {
   const [rerender, setRerender] = useState(0);
   
   // Generic add row
-  const addRows = ({ stateVariable, stateVariableSetter, rowTemplate }) => {
+  /*const addRows = ({ stateVariable, stateVariableSetter, rowTemplate }) => {
 
     // For some reason we can't have the push
     // call inside of setRows.
@@ -174,7 +358,7 @@ const ColorCoded = ({ compCheck, contents }) => {
 
     setRerender(rerender+1)
 
-  }
+  }*/
 
   // Define the components to render.
   // Source: https://stackoverflow.com/questions/48131100/react-render-array-of-components

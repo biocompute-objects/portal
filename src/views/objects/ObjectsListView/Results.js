@@ -211,6 +211,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function Results() {
+  
   const classes = useStyles();
   const [order, setOrder] = React.useState('asc');
   const [orderBy, setOrderBy] = React.useState('objectId');
@@ -305,7 +306,7 @@ export default function Results() {
                       role="checkbox"
                       aria-checked={isItemSelected}
                       tabIndex={-1}
-                      key={row.name}
+                      key={index}
                       selected={isItemSelected}
                     >
                       <TableCell padding="checkbox">

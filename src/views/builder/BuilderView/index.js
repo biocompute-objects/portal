@@ -27,6 +27,12 @@ export default function BuilderView() {
   // Could use context handler, but for now just pass directly.
   const [complianceCheck, setComplianceCheck] = useState(0);
 
+  // For saving drafts.
+  const [saveDraft, setSaveDraft] = useState(0);
+
+  // For publishing.
+  const [publish, setPublish] = useState(0);
+
   // Behavior for urls (the table and data to use are based on the URL)
   // https://.../builder -> ask for a new draft ID
   // https://.../builder/PREFIX_DRAFT_... -> load the draft information.
@@ -75,8 +81,8 @@ export default function BuilderView() {
   
   return (
     <div>
-      <Tools compCheck={complianceCheck} setCompCheck={setComplianceCheck}/>
-      <Views compCheck={complianceCheck} table={tableName} objectId={objectId} />
+      <Tools setSaving={setSaveDraft} setPublishing={setPublish} compCheck={complianceCheck} setCompCheck={setComplianceCheck}/>
+      <Views saving={saveDraft} setSaving={setSaveDraft} publishing={publish} setPublishing={setPublish} compCheck={complianceCheck} table={tableName} objectId={objectId} />
     </div>
   );
 }

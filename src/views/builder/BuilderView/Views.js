@@ -9,8 +9,9 @@ import Tab from '@material-ui/core/Tab';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
 
-// Redirecting after draft object creation.
-import { useHistory } from 'react-router-dom';
+// Dummy redirecting after draft object creation.
+// See https://www.codegrepper.com/code-examples/javascript/useHistory+is+not+exported+form+react-router-dom
+import { useNavigate } from 'react-router-dom';
 
 // Tab icons
 import OpacityIcon from '@material-ui/icons/Opacity';
@@ -68,7 +69,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Views({ compCheck, table, objectId }) {
+export default function Views({ saving, setSaving, publishing, setPublishing, compCheck, table, objectId }) {
   
   console.log('%%%%%%%%')
   console.log(compCheck)
@@ -100,6 +101,13 @@ export default function Views({ compCheck, table, objectId }) {
   // TODO: fix this later to allow for the use of prefixes.
    //    attach_id: 'True',
 
+  let history = useNavigate();
+  
+  // Redirect
+  function redirect(where) {
+    return history(where);
+  }
+
   // If no object ID is provided, then a new one is generated.
   const newDraftObject = () => {
     
@@ -122,13 +130,17 @@ export default function Views({ compCheck, table, objectId }) {
       "Content-type": "application/json; charset=UTF-8"
     }
     }).then(response=>response.json()).then(data=>{
+
       console.log(data);
 
-      const history = useHistory();
-      history.push('https://www.google.com');
+      // Parse the response data for the URL to re-direct to,
+      // making sure we're going to the BUILDER page.
 
-      // Parse the response data for the URL to re-direct to.
-      //return  <Navigate to="https://google.com" />
+      // Split the URI and re-construct the route.
+      const splitUp = data.POST_create_new_object[0]['object_id'].split('/');
+
+      // Now re-direct.
+      redirect('/builder/' + splitUp[3]);
 
     })
   }
@@ -192,6 +204,7 @@ export default function Views({ compCheck, table, objectId }) {
       
       // Look for the object ID provided.
       getObjectInfo();
+
     }
     
   }, []);
@@ -241,7 +254,7 @@ export default function Views({ compCheck, table, objectId }) {
                 Object ID: {objectId}
               </Typography> */}
               <TabPanel value={componentView} index={0}>
-                <ColorCoded compCheck={compCheck} contents={objectInfo} />
+                <ColorCoded saving={saving} setSaving={setSaving} publishing={publishing} setPublishing={setPublishing} compCheck={compCheck} contents={objectInfo} />
               </TabPanel>
               <TabPanel value={componentView} index={1}>
                 <Raw contents={objectInfo} />
@@ -249,6 +262,7 @@ export default function Views({ compCheck, table, objectId }) {
             </div>
           :
           <div className={classes.root}>
+            <rD />
             <Typography>
               There was a problem with the request, see output below.
             </Typography>

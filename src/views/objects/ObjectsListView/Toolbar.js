@@ -60,7 +60,7 @@ const Toolbar = ({ className, ...rest }) => {
         <Card>
           <CardContent>
             <Box maxWidth={500}>
-              <TextField
+              {/* <TextField
                 fullWidth
                 InputProps={{
                   startAdornment: (
@@ -76,7 +76,7 @@ const Toolbar = ({ className, ...rest }) => {
                 }}
                 placeholder="Search customer"
                 variant="outlined"
-              />
+              /> */}
             </Box>
           </CardContent>
         </Card>
