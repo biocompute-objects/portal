@@ -284,16 +284,13 @@ const ColorCoded = ({ saving, setSaving, publishing, setPublishing, compCheck, c
   const [pdName, setPdName] = useState(contents.provenance_domain.name);
   const [pdVersion, setPdVersion] = useState(contents.provenance_domain.version);
   const [pdLicense, setPdLicense] = useState(contents.provenance_domain.license);
+  const [pdDerivedFrom, setPdDerivedFrom] = useState(contents.provenance_domain.derived_from);
   const [pdCreated, setPdCreated] = useState(contents.provenance_domain.created);
   const [pdModifed, setPdModified] = useState(contents.provenance_domain.modified);
+  const [pdObsoleteAfter, setPdObsoleteAfter] = useState(contents.provenance_domain.obsolete_after);
+  const [pdEmbargo, setPdEmbargo] = useState(contents.provenance_domain.embargo);
+  const [pdReview, setPdReview] = useState(contents.provenance_domain.review);
   const [pdContributors, setPdContributors] = useState(contents.provenance_domain.contributors);
-  const [pdRowTemplate, setPdRowTemplate] = useState({
-    "name": "",
-    "contribution": "",
-    "affiliation": "",
-    "email": "",
-    "orcid": ""
-  });
 
   // Usability domain
   const [ud, setUd] = useState(contents.usability_domain);
@@ -374,7 +371,7 @@ const ColorCoded = ({ saving, setSaving, publishing, setPublishing, compCheck, c
 
   const renderList = [ 
     meta, 
-    { compCheck, checkBlank, pdName, pdVersion, pdLicense, pdCreated, pdModifed, pdContributors, pdRowTemplate, rerender, setRerender }, 
+    { compCheck, checkBlank, pdName, pdVersion, pdLicense, pdDerivedFrom, pdCreated, pdModifed, pdObsoleteAfter, pdEmbargo, pdReview, pdContributors, rerender, setRerender, setPdName, setPdVersion, setPdLicense, setPdDerivedFrom, setPdCreated, setPdModified, setPdObsoleteAfter, setPdEmbargo, setPdReview, setPdContributors }, 
     { compCheck, checkBlank, ud, setUd },
     { compCheck, checkBlank, ddKeywords, ddPipelineSteps, rerender, setDdPipelineSteps, setRerender },
     { compCheck, checkBlank, edScript, edScriptDriver, edSoftwarePrerequisites, edSoftwarePrerequisitesRowTemplate, edExternalDataEndpoints, edExternalDataEndpointsRowTemplate, edEnvironmentVariables, edEnvironmentVariablesRowTemplate },

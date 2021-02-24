@@ -38,19 +38,11 @@ const MenuProps = {
 };
 
 const contributions = [
-	'authoredBy',
-	'contributedBy',
-	'createdAt',
-	'createdBy',
-	'createdWith',
-	'curatedBy',
-	'derivedFrom',
-	'importedBy',
-	'importedFrom',
-	'providedBy',
-	'retrievedBy',
-	'retrievedFrom',
-	'sourceAccessedBy'
+	'unreviewed',
+	'in-review',
+	'approved',
+	'rejected',
+	'suspended'
 ];
 
 function getStyles(name, contribution, theme) {
@@ -62,7 +54,7 @@ function getStyles(name, contribution, theme) {
   };
 }
 
-export default function Contribution() {
+export default function ContributionReviewer() {
 
   const classes = useStyles();
   const theme = useTheme();

@@ -58,7 +58,7 @@ export default function Meta({ items }) {
       <TableHead className={classes.tabled}>
         <TableRow>
           <StyledCell colSpan="5">
-            <Typography variant="h3">
+            <Typography variant="h1">
               Object Information
             </Typography>
           </StyledCell>
@@ -67,15 +67,19 @@ export default function Meta({ items }) {
       <TableBody>
         <TableRow>
           <StyledCell>
-            Object ID
+            <Typography variant="h3">
+              Object ID
+            </Typography>
           </StyledCell>
           <StyledCell>
-            <TextField disabled defaultValue={items.object_id} fullWidth id="outlined-basic" label="Object ID" variant="outlined" />
+            <TextField disabled defaultValue={items.object_id} fullWidth id="outlined-basic" variant="outlined" />
           </StyledCell>
         </TableRow>
         <TableRow>
           <StyledCell>
-            Spec Version
+            <Typography variant="h3">
+              Spec Version
+            </Typography>
           </StyledCell>
           <StyledCell>
             <Linker color={ 'whiteLink' } uri={ 'https://opensource.ieee.org/2791-object/ieee-2791-schema/' } />
@@ -83,7 +87,9 @@ export default function Meta({ items }) {
         </TableRow>
         <TableRow>
           <StyledCell>
-            eTag
+            <Typography variant="h3">
+              eTag
+            </Typography>
           </StyledCell>
           <StyledCell>
             <TextField disabled defaultValue={items.etag} fullWidth id="outlined-basic" variant="outlined" />

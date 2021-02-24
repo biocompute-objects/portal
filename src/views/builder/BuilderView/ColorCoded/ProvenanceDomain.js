@@ -1,12 +1,18 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import {
-  withStyles, Typography
+  makeStyles, withStyles, Typography
 } from '@material-ui/core';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
+
+// Datetime picker
+import Datetime from 'react-datetime';
+import "react-datetime/css/react-datetime.css";
+
+import DatePicker from "react-datepicker";
 
 // Inputs
 import TextField from '@material-ui/core/TextField';
@@ -17,85 +23,217 @@ import Button from '@material-ui/core/Button'
 // Contribution select
 import Contribution from './components/Contribution'
 
-// For links.
-import Linker from './components/Linker';
+// Reviewer contribution select
+import ContributionReviewer from './components/ContributionReviewer';
 
-// For contact information.
-import Tooltip from '@material-ui/core/Tooltip';
+// Section cell styling
+const useStyles = makeStyles((theme) => ({
+  header: {
+    color: 'white'
+  },
+  missingHeader: {
+    color: 'red'
+  }
+}));
 
 // Cell styling
 const StyledCell = withStyles({
   root: {
     color: 'white'
-  },
-  bordered: {
-    border: '1px solid black'
   }
 })(TableCell);
-
-// Tooltip styling
-const HtmlTooltip = withStyles((theme) => ({
-  tooltip: {
-    backgroundColor: '#f5f5f9',
-    color: 'rgba(0, 0, 0, 0.87)',
-    maxWidth: 220,
-    border: '1px solid #dadde9',
-  },
-}))(Tooltip);
-
-// A function to process a key.
-const processKey = (ikey) => {
-  
-  // Define the returnable variable.
-  var returnable = '';
-  
-  // Split on the underscore, then capitalize.
-  const splitUp = ikey.split('_');
-
-  // Only process if we have anything.
-  if(splitUp.length > 1) {
-
-    // Join and return.
-    var capJoined = [];
-
-    splitUp.map(value => {
-      if(value === 'id') {
-        capJoined.push('ID')
-      } else if(value === 'io') {
-        capJoined.push('IO')
-      } else {
-        capJoined.push(value.charAt(0).toUpperCase() + value.slice(1));
-      }
-    });
-
-    // Kick it back.
-    returnable = capJoined.join(' ')
-
-  } else {
-    if(ikey === 'etag') {
-      returnable = 'eTag';
-    } else if(ikey === 'url') {
-      returnable = 'URL';
-    } else if(ikey === 'uri') {
-      returnable = 'URI'
-    } else if(ikey === 'email') {
-      returnable = 'eMail'
-    } else if(ikey === 'orcid') {
-      returnable = 'ORCID'
-    } else {
-      returnable = ikey.charAt(0).toUpperCase() + ikey.slice(1);
-    }
-  }
-
-  // Kick it back.
-  return(returnable)
-
-}
 
 // Pass an object and whether or not its keys are properties.
 export default function ProvenanceDomain({ items, cF }) {
   
-  const classes = withStyles();
+  const classes = useStyles();
+
+  console.log('ProvenanceDomain:', items);
+
+  // State for showing missing sections.
+  const [missingContributors, setMissingContributors] = useState(false);
+
+  // TODO: For some reason didn't work with [items.pdContributors]
+
+  useEffect(() => {
+    if(items.pdContributors.length == 0) {
+      setMissingContributors(true);
+    } else {
+      setMissingContributors(false);
+    }
+  }, [items])
+
+  // Check for semantic versioning
+  // Source: https://semver.org/spec/v2.0.0.html
+  // Source: https://stackoverflow.com/questions/43134195/how-to-allow-only-numbers-in-textbox-and-format-as-us-mobile-number-format-in-re
+  // Source: https://stackoverflow.com/questions/6603015/check-whether-a-string-matches-a-regex-in-js
+  // Source: https://stackoverflow.com/questions/17885855/use-dynamic-variable-string-as-regex-pattern-in-javascript
+
+  const checkSemanticVersioning = (e) => {
+    
+    // TODO: Fix so that version dots exists in input.
+    // TODO: Fix so that 
+    
+    // Only allow numbers and periods.
+    const onlyNumsPeriods = e.replace(/[^0-9\.]/g, '');
+
+    // REGEX patterns that are allowed.
+    const patternZero = new RegExp('^$');
+    const patternOne = new RegExp('^[1-9]+$');
+    const patternTwo = new RegExp('^[1-9]+\.$');
+    const patternThree = new RegExp('^[1-9]+\.[1-9]+[0-9]*$');
+    const patternFour = new RegExp('^[1-9]+\.[1-9]+[0-9]*\.$');
+    const patternFive = new RegExp('^[1-9]+\.[1-9]+[0-9]*\.[1-9]+[0-9]*$');
+
+    if(patternZero.test(onlyNumsPeriods)) {
+
+      items.setPdVersion(onlyNumsPeriods);
+
+    } else if(patternOne.test(onlyNumsPeriods)) {
+
+      items.setPdVersion(onlyNumsPeriods);
+
+    } else if(patternTwo.test(onlyNumsPeriods)) {
+
+      items.setPdVersion(onlyNumsPeriods);
+      
+    } else if(patternThree.test(onlyNumsPeriods)) {
+
+      items.setPdVersion(onlyNumsPeriods);
+      
+    } else if(patternFour.test(onlyNumsPeriods)) {
+
+      items.setPdVersion(onlyNumsPeriods);
+      
+    } else if(patternFive.test(onlyNumsPeriods)) {
+
+      
+      items.setPdVersion(onlyNumsPeriods);
+
+      // Remove the error flag only on this pattern,
+      // since we have a fully semantic version number.
+      // set...
+
+    }
+
+  }
+
+  // Check for an e-mail input
+  // Source: https://stackoverflow.com/questions/52188192/what-is-the-simplest-and-shortest-way-for-validating-an-email-in-react
+
+  const checkeMailInput = (e) => {
+
+
+
+  }
+
+  // Set an input value
+
+  // There were problems with value/defaultValue,
+  // so I opted to put in a custom handler based 
+  // on the response at https://github.com/facebook/react/issues/8053#issuecomment-255555133
+
+  // See also https://stackoverflow.com/questions/42807901/react-input-element-value-vs-default-value
+  const setInput = (event, i, inputName, which) => {
+    
+    // Get the state variable.
+    var dummy = items[which];
+
+    // Change the value at the given index.
+    dummy[i][inputName] = event.target.value;
+
+    // Cases
+    if(which == 'pdReview') {
+
+      // Update the state.
+      items.setPdReview(dummy);
+
+    } else if(which == 'pdContributors') {
+      
+      // Update the state.
+      items.setPdContributors(dummy);
+
+    }
+
+    // Needed to re-render the page.
+    items.setRerender(items.rerender+1);
+
+  }
+  
+  // Add a row
+  const addRows = (which) => {
+
+    // Get the state variable.
+    var dummy = items[which];
+
+    // Cases
+    if(which == 'pdReview') {
+
+      // Push the new row.
+      dummy.push({
+        "date": "",
+        "status": "",
+        "reviewer": {
+          "name": "",
+          "affiliation": "",
+          "email": "",
+          "contribution": ""
+        },
+        "reviewer_comment": ""
+      });
+
+      // Update the state.
+      items.setPdReview(dummy);
+
+    } else if(which == 'pdContributors') {
+
+      // Push the new row.
+      dummy.push({
+        "name": "",
+        "contribution": "",
+        "affiliation": "",
+        "email": "",
+        "orcid": ""
+      });
+
+      // Update the state.
+      items.setPdContributors(dummy);
+
+    }
+
+    // Needed to re-render the page.
+    items.setRerender(items.rerender+1)
+
+  }
+
+  // Remove a row
+  const removeRows = (which, i) => {
+
+    // Get the state variable.
+    var dummy = items[which];
+
+    // Remove the index.
+    dummy.splice(i, 1);
+
+    // Cases
+
+    if(which == 'pdReview') {
+
+      // Update the state.
+      items.setPdReview(dummy);
+
+    } else if(which == 'pdContributors') {
+
+      // Update the state.
+      console.log('asdfffffffffffffff')
+      items.setPdContributors(dummy);
+
+    }
+    
+    // Needed to re-render the page.
+    items.setRerender(items.rerender+1)
+
+  }
 
   // Arguments
   // ---------
@@ -105,116 +243,13 @@ export default function ProvenanceDomain({ items, cF }) {
 
 
   // ----- Meta Information ----- //
-  
-
-  // An array to hold all the meta information.  
-  const provenanceMeta = {
-    'Version': cF(items.version),
-    'License': cF(items.license),
-    'Created': cF(items.created),
-    'Modified': cF(items.modified),
-    'Derived from': cF(items.derived_from),
-    'Obsolete after': cF(items.obsolete_after)
-  }
-
-  // Define the meta keys.
-  const metaKeys = Object.keys(provenanceMeta);
-
-
-  // ----- Contributors ----- //
-
-
-  // Define the *unique* contributor keys.
-  // We want the unique keys because not all contributors will
-  // have the same keys.
-  // var contributorKeys = [];
-  // items.contributors.map(item => {
-  //     contributorKeys.push(Object.keys(item));
-  //   }
-  // );
-
-  // Collapse the array of arrays.
-  // Source: https://stackoverflow.com/questions/19191474/how-do-i-collapse-an-array-of-arrays-into-an-array-of-all-the-elements
-  // var collapsed = [];
-  // collapsed = (collapsed.concat.apply(collapsed, contributorKeys)).filter(Boolean);
-  
-  // // Unique keys.
-  // // Source: https://stackoverflow.com/questions/1960473/get-all-unique-values-in-a-javascript-array-remove-duplicates
-  // function onlyUnique(value, index, self) {
-  //   return self.indexOf(value) === index;
-  // }
-  
-  // contributorKeys = collapsed.filter(onlyUnique);
-
-  // // Re-arrange the keys in tempArray for display purposes.
-
-  // // The two that are "guaranteed" to be there (as of
-  // // IEEE 2791-2020 are "name" and "contribution").
-
-  // // Source: https://stackoverflow.com/questions/1187518/how-to-get-the-difference-between-two-arrays-in-javascript
-
-  // // Temp array to help with the rearrangement.
-  // var tempArray = contributorKeys.filter(x => !['name', 'contribution'].includes(x));
-  // tempArray.unshift('name', 'contribution');
-  // contributorKeys = tempArray;
-
-  // // An array to hold all the contributors.
-  // var provenanceContributors = [];
-
-  // // Go over each contributor and see what fields they have.
-  // items.contributors.map(item => {
-    
-  //   // Construct a temporary array to hold the 
-  //   // contributor information.
-  //   var tempArray = {};
-    
-  //   contributorKeys.map(subitem => {
-      
-  //         // See if the key exists.  If not, just put 'None'.      
-  //         if(subitem in item) {
-            
-  //           // Even if the key exists, the field
-  //           // may be blank, so check for blank fields.
-  //           var blank_flag = 0;
-  //           for(var i of ['', "", [], {}]) {
-  //             if(item[subitem] === i) {
-  //               tempArray[subitem] = 'None';
-  //               blank_flag = 1;
-  //               break;
-  //             }
-  //           }
-
-  //           // Was the value blank?
-  //           if(blank_flag === 0){
-              
-  //             // For fields that contain lists, we need to 
-  //             // join on ','.
-  //             if(Array.isArray(item[subitem]) && typeof(item[subitem][0]) == 'string') {
-  //               tempArray[subitem] = item[subitem].join(', ');
-  //             } else {
-  //               tempArray[subitem] = item[subitem];
-  //             }
-              
-  //           }
-            
-  //         } else {
-  //           tempArray[subitem] = 'None';
-  //         }
-  //       }
-  //     )
-
-  //   // Add the temp array to provenanceContributors.
-  //   provenanceContributors.push(tempArray);
-
-  //   }
-  // );
 
   return(
     <Table size="small">
-      <TableHead className={classes.tabled}>
+      <TableHead>
         <TableRow>
-          <StyledCell colSpan="6">
-            <Typography variant="h3">
+          <StyledCell colSpan="8">
+            <Typography variant="h1">
               Provenance Domain
             </Typography>
           </StyledCell>
@@ -225,28 +260,28 @@ export default function ProvenanceDomain({ items, cF }) {
           <StyledCell>
             Name
           </StyledCell>
-          <StyledCell noGutter>
-            <TextField fullWidth id="outlined-basic" defaultValue={cF(items.name)} variant="outlined" />
+          <StyledCell colSpan="3" noGutter>
+            <TextField error={cF(items.pdName) === "" ? true : false} fullWidth id="outlined-basic" value={cF(items.pdName)} onChange={(e) => items.setPdName(e.target.value)} variant="outlined" />
           </StyledCell>
           <StyledCell>
             Version
           </StyledCell>
           <StyledCell noGutter>
-            <TextField fullWidth id="outlined-basic" defaultValue={cF(items.version)} variant="outlined" />
+            <TextField error={cF(items.pdVersion) === "" ? true : false} fullWidth id="outlined-basic" value={cF(items.pdVersion)} onChange={(e) => checkSemanticVersioning(e.target.value)} variant="outlined" />
           </StyledCell>
           <StyledCell>
             License
           </StyledCell>
-          <StyledCell noGutter>
-            <TextField fullWidth id="outlined-basic" defaultValue={cF(items.license)} variant="outlined" />
+          <StyledCell colSpan="3" noGutter>
+            <TextField error={cF(items.pdLicense) === "" ? true : false} fullWidth id="outlined-basic" value={cF(items.pdLicense)} onChange={(e) => items.setPdLicense(e.target.value)} variant="outlined" />
           </StyledCell>
         </TableRow>
         <TableRow>
           <StyledCell>
             Derived From
           </StyledCell>
-          <StyledCell colSpan="5" noGutter>
-            <TextField fullWidth id="outlined-basic" defaultValue={cF(items.derived_from)} variant="outlined" />
+          <StyledCell colSpan="9" noGutter>
+            <TextField fullWidth id="outlined-basic" value={cF(items.pdDerivedFrom)} onChange={(e) => items.setPdDerivedFrom(e.target.value)} variant="outlined" />
           </StyledCell>
         </TableRow>
         <TableRow>
@@ -256,132 +291,120 @@ export default function ProvenanceDomain({ items, cF }) {
             Created
           </StyledCell>
           <StyledCell noGutter>
-            <TextField fullWidth id="outlined-basic" defaultValue={cF(items.created)} variant="outlined" />
+            <TextField label={"YYYY-MM-DDTHH:MM:SS+HH:MM"} fullWidth id="outlined-basic" value={cF(items.pdDerivedFrom)} onChange={(e) => items.setPdCreated(e.target.value)} variant="outlined" />
           </StyledCell>
           <StyledCell>
             Modified
           </StyledCell>
           <StyledCell noGutter>
-            <TextField fullWidth id="outlined-basic" defaultValue={cF(items.modified)} variant="outlined" />
+            <DatePicker />
           </StyledCell>
           <StyledCell>
             Obsolete After
           </StyledCell>
           <StyledCell noGutter>
-            <TextField fullWidth id="outlined-basic" defaultValue={cF(items.obsolete_after)} variant="outlined" />
+          <Datetime />
+          </StyledCell>
+          <StyledCell>
+            Embargo Start Time
+          </StyledCell>
+          <StyledCell noGutter>
+          <Datetime />
+          </StyledCell>
+          <StyledCell>
+            Embargo End Time
+          </StyledCell>
+          <StyledCell noGutter>
+          <Datetime />
           </StyledCell>
         </TableRow>
         <TableRow>
-          <StyledCell colSpan="6">Embargo</StyledCell>
-        </TableRow>
-        <TableRow>
-          <StyledCell>Start Time</StyledCell>
-          <StyledCell colSpan="5">End Time</StyledCell>
-        </TableRow>
-        <TableRow>
-          <StyledCell><TextField variant="outlined"></TextField></StyledCell>
-          <StyledCell colSpan="5"><TextField variant="outlined"></TextField></StyledCell>
-        </TableRow>
-        <TableRow>
-          <StyledCell colSpan="6">Review</StyledCell>
+          <StyledCell colSpan="10">
+            <Typography variant="h3">
+              Review
+            </Typography>
+          </StyledCell>
         </TableRow>
         <TableRow>
           <StyledCell>Date</StyledCell>
           <StyledCell>Status</StyledCell>
-          <StyledCell>Reviewer</StyledCell>
-          <StyledCell colSpan="3">Reviewer Comment</StyledCell> 
+          <StyledCell>Reviewer Name</StyledCell>
+          <StyledCell>Reviewer Affiliation</StyledCell>
+          <StyledCell>Reviewer e-Mail</StyledCell>
+          <StyledCell>Reviewer Contribution</StyledCell>
+          <StyledCell colSpan="4">Reviewer Comment</StyledCell>
         </TableRow>
-        <TableRow>
-          <StyledCell><TextField variant="outlined"></TextField></StyledCell>
-          <StyledCell><TextField variant="outlined"></TextField></StyledCell>
-          <StyledCell><TextField variant="outlined"></TextField></StyledCell>
-          <StyledCell colSpan="2"><TextField fullWidth multiline rows={4} variant="outlined"></TextField></StyledCell>
-          <StyledCell>
-            <Button variant="contained" color="primary" disableElevation fullWidth onClick={() => alert('here')}>
-              Remove
-            </Button>
-          </StyledCell>
-        </TableRow>
-        <TableRow>
-          <StyledCell colSpan="5">
-            <Button variant="contained" color="primary" disableElevation fullWidth>
-              Add Reviewer
-            </Button>
-          </StyledCell>
-        </TableRow>
-        <TableRow>
-          <StyledCell colSpan="6">Contributors</StyledCell>
-        </TableRow>
-        <TableRow>
         {
-          ['Name', 'Contribution', 'Affiliation', 'eMail', 'ORCID'].map(item => (
-              item !== 'ORCID'
-                ?
-                  <StyledCell>{item}</StyledCell>
-                :
-                  <StyledCell colSpan="2">{item}</StyledCell>
+          items.pdReview.map((item, index) => (
+              <TableRow key={index}>
+                <StyledCell><TextField fullWidth variant="outlined" value={cF(item.date)} onChange={(e) => setInput(e, index, 'date')} /></StyledCell>
+                <StyledCell>
+                  <ContributionReviewer />
+                </StyledCell>
+                <StyledCell>
+                  <TextField error={cF(item.reviewer.name) === "" ? true : false} fullWidth variant="outlined" value={cF(item.reviewer.name)} onChange={(e) => setInput(e, 'pdReview', index)} />
+                </StyledCell>
+                <StyledCell><TextField fullWidth variant="outlined" value={cF(item.reviewer.affiliation)} onChange={(e) => setInput(e, index, 'reviewer')} /></StyledCell>
+                <StyledCell><TextField fullWidth variant="outlined" value={cF(item.reviewer.email)} onChange={(e) => setInput(e, index, 'reviewer')} /></StyledCell>
+                <StyledCell><Contribution /></StyledCell>
+                <StyledCell colSpan="3"><TextField fullWidth variant="outlined" multiline rows={4} value={cF(item.reviewer_comment)} onChange={(e) => setInput(e, index, 'reviewer_comment')} /></StyledCell>
+                <StyledCell>
+                  <Button variant="contained" color="primary" disableElevation fullWidth onClick={() => removeRows('pdReview', index)}>
+                    Remove
+                  </Button>
+                </StyledCell>
+              </TableRow>
             )
           )
         }
-        </TableRow>
         <TableRow>
-          {
-            [1,2,3,4,5].map(item => (
-                item === 2
-                  ?
-                    <StyledCell><Contribution /></StyledCell>
-                  :
-                    <StyledCell><TextField variant="outlined"></TextField></StyledCell>
-              )
-            )
-          }
-          <StyledCell>
-            <Button variant="contained" color="primary" disableElevation fullWidth onClick={() => alert('here')}>
-              Remove
+          <StyledCell colSpan="9">
+            <Button variant="contained" color="primary" disableElevation fullWidth onClick={() => addRows('pdReview')}>
+              Add Reviewer
             </Button>
           </StyledCell>
+          <StyledCell></StyledCell>
         </TableRow>
         <TableRow>
-          <StyledCell colSpan="5">
-            <Button fillWidth variant="contained" color="primary" disableElevation fullWidth>
+          <TableCell colSpan="10">
+            <Typography className={missingContributors ? classes.missingHeader : classes.header} variant="h3">
+              Contributors
+            </Typography>
+          </TableCell>
+        </TableRow>
+        <TableRow>
+          <TableCell className={missingContributors ? classes.missingHeader : classes.header} colSpan="2">Name</TableCell>
+          <TableCell className={missingContributors ? classes.missingHeader : classes.header}>Contribution</TableCell>
+          <TableCell className={missingContributors ? classes.missingHeader : classes.header} colSpan="2">Affiliation</TableCell>
+          <TableCell className={missingContributors ? classes.missingHeader : classes.header} colSpan="2">eMail</TableCell>
+          <TableCell className={missingContributors ? classes.missingHeader : classes.header} colSpan="3">ORCID</TableCell>
+        </TableRow>
+          {
+            items.pdContributors.map((item, index) => 
+              <TableRow key={index}>
+                <StyledCell colSpan="2"><TextField error={cF(item.name) === "" ? true : false} fullWidth variant="outlined" value={cF(item.name)} onChange={(e) => setInput(e, index, 'name', 'pdContributors')} /></StyledCell>
+                <StyledCell><Contribution /></StyledCell>
+                <StyledCell colSpan="2"><TextField fullWidth variant="outlined" value={cF(item.affiliation)} onChange={(e) => setInput(e, index, 'affiliation', 'pdContributors')} /></StyledCell>
+                <StyledCell colSpan="2"><TextField fullWidth variant="outlined" value={cF(item.email)} onChange={(e) => setInput(e, index, 'email', 'pdContributors')} /></StyledCell>
+                <StyledCell colSpan="2"><TextField fullWidth variant="outlined" value={cF(item.orcid)} onChange={(e) => setInput(e, index, 'orcid', 'pdContributors')} /></StyledCell>
+                <StyledCell>
+                  <Button variant="contained" color="primary" disableElevation fullWidth onClick={() => removeRows('pdContributors', index)}>
+                    Remove
+                  </Button>
+                </StyledCell>
+              </TableRow>
+            )
+          }
+        <TableRow>
+          <StyledCell colSpan="9">
+            <Button variant="contained" color="primary" disableElevation fullWidth onClick={() => addRows('pdContributors')}>
               Add Contributor
             </Button>
+          </StyledCell>
+          <StyledCell>
           </StyledCell>
         </TableRow>
       </TableBody>
     </Table>
   );
-
-  /*
-  return (
-    <ul className={classes.listed}>
-      {
-        typeof(items) == 'object'
-          ?
-            Array.isArray(items) == true
-              ?
-                typeof(items[0]) == 'string'
-                  ?
-                    items.map(item => (
-                        <li className={classes.listed}>
-                          {item}
-                        </li>
-                      )
-                    )
-                  :
-                  <RecursiveJson items = {items[0]} />
-              :
-                itemsKeys.map(item => (
-                    <li className={classes.listed}>
-                        {processKey(item)}
-                        {<RecursiveJson items = {items[item]} />}
-                    </li>
-                  )
-                )
-          :
-            <li className={classes.listed}>{items}</li>
-      }
-    </ul>
-  );
-  */
 }

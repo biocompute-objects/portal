@@ -121,7 +121,7 @@ export default function Views({ saving, setSaving, publishing, setPublishing, co
             {
               table: 'bco_draft',
               schema: 'IEEE',
-              contents: JSON.parse('{"spec_version":"IEEE","provenance_domain":{"name":"","version":"","created":"","modified":"","contributors":[{"contribution":"","name":""}],"license":""},"usability_domain":[""],"description_domain":{"keywords":[""],"pipeline_steps":[{"step_number":0,"name":"","description":"","input_list":[{"uri":{"uri":""}}],"output_list":[{"uri":{"uri":""}}]}]},"execution_domain":{"script":[{"uri":{"uri":""}}],"script_driver":"","software_prerequisites":[{"name":"","version":"","uri":{"uri":""}}],"external_data_endpoints":[{"name":"","url":""}],"environment_variables":{"key":"value"}},"io_domain":{"input_subdomain":[{"uri":{"uri":""}}],"output_subdomain":[{"mediatype":"","uri":{"uri":""}}]},"parametric_domain":[{"param":"","value":"","step":""}]}'),
+              contents: JSON.parse('{"spec_version":"IEEE","provenance_domain":{"name":"","version":"","created":"","modified":"","derived_from":"","embargo":{"start_time":"","end_time":""},"obsolete_after":"","review":[{"date":"","reviewer_comment":"","status":"","reviewer":{"name":"","affiliation":"","email":"","contribution":""}}],"contributors":[{"contribution":"","name":""}],"license":""},"usability_domain":[""],"description_domain":{"keywords":[""],"pipeline_steps":[{"step_number":0,"name":"","description":"","input_list":[{"uri":{"uri":""}}],"output_list":[{"uri":{"uri":""}}]}]},"execution_domain":{"script":[{"uri":{"uri":""}}],"script_driver":"","software_prerequisites":[{"name":"","version":"","uri":{"uri":""}}],"external_data_endpoints":[{"name":"","url":""}],"environment_variables":{"key":"value"}},"io_domain":{"input_subdomain":[{"uri":{"uri":""}}],"output_subdomain":[{"mediatype":"","uri":{"uri":""}}]},"parametric_domain":[{"param":"","value":"","step":""}]}'),
               state: 'DRAFT'
             }
         ]
@@ -131,7 +131,7 @@ export default function Views({ saving, setSaving, publishing, setPublishing, co
     }
     }).then(response=>response.json()).then(data=>{
 
-      console.log(data);
+      console.log('NEW DRAFT OBJECT: ', data);
 
       // Parse the response data for the URL to re-direct to,
       // making sure we're going to the BUILDER page.

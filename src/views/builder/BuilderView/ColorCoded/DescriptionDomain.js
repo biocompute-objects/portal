@@ -28,7 +28,6 @@ import LinkerInList from './components/LinkerInList'
 // Cell styling
 const StyledCell = withStyles({
   root: {
-    border: '1px solid black',
     color: 'white'
   }
 })(TableCell);
@@ -247,7 +246,7 @@ export default function DescriptionDomain({ compCheck, checkBlank, items, cF }) 
                               <TextField label={'Filename'} fullWidth variant="outlined" value={cF(subitem.filename)} onChange={(e) => setListInput(e, index, 'input_list', subindex, 'filename')} />
                             </ListItem>
                             <ListItem>
-                              <TextField error={cF(subitem.uri) === "" ? true : false} label={'URI'} fullWidth variant="outlined" value={cF(subitem.uri)} onChange={(e) => setListInput(e, index, 'input_list', subindex, 'uri')} />
+                              <TextField error={cF(subitem.uri.uri) === "" ? true : false} label={'URI'} fullWidth variant="outlined" value={cF(subitem.uri.uri)} onChange={(e) => setListInput(e, index, 'input_list', subindex, 'uri')} />
                             </ListItem>
                             <ListItem>
                               <TextField label={'Access Time'} fullWidth variant="outlined" value={cF(subitem.access_time)} onChange={(e) => setListInput(e, index, 'input_list', subindex, 'access_time')} />
@@ -301,7 +300,7 @@ export default function DescriptionDomain({ compCheck, checkBlank, items, cF }) 
                               <TextField label={'Filename'} fullWidth variant="outlined" value={cF(subitem.filename)} onChange={(e) => setListInput(e, index, 'output_list', subindex, 'filename')} />
                             </ListItem>
                             <ListItem>
-                              <TextField error={cF(subitem.uri) === "" ? true : false} label={'URI'} fullWidth variant="outlined" value={cF(subitem.uri)} onChange={(e) => setListInput(e, index, 'output_list', subindex, 'uri')} />
+                              <TextField error={cF(subitem.uri.uri) === "" ? true : false} label={'URI'} fullWidth variant="outlined" value={cF(subitem.uri.uri)} onChange={(e) => setListInput(e, index, 'output_list', subindex, 'uri')} />
                             </ListItem>
                             <ListItem>
                               <TextField label={'Access Time'} fullWidth variant="outlined" value={cF(subitem.access_time)} onChange={(e) => setListInput(e, index, 'output_list', subindex, 'access_time')} />
