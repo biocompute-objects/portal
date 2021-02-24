@@ -56,7 +56,7 @@ export default function ProvenanceDomain({ items, cF }) {
   // TODO: For some reason didn't work with [items.pdContributors]
 
   useEffect(() => {
-    if(items.pdContributors.length == 0) {
+    if(items.pdContributors.length === 0) {
       setMissingContributors(true);
     } else {
       setMissingContributors(false);
