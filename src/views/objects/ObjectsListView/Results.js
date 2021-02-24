@@ -310,7 +310,7 @@ export default function Results({ rowInfo }) {
                         <BcoPreviewPopup bcoLink={row.objectId} />
                       </TableCell> */}
                       <TableCell component="th" id={labelId} scope="row" padding="none">
-                        <Linker color= { 'whiteLink' } uri={ row.objectId } />
+                        <Linker color= { 'blueLink' } uri={ row.objectId } />
                       </TableCell>
                       <TableCell>{row.name}</TableCell>
                       <TableCell>{row.state}</TableCell>
