@@ -5,6 +5,9 @@ import CardActionArea from '@material-ui/core/CardActionArea';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
 
+// Routing to pages
+import { Link as RouterLink } from 'react-router-dom';
+
 const useStyles = makeStyles({
   root: {
     minWidth: 275,
@@ -29,7 +32,10 @@ const useStyles = makeStyles({
 export default function Login() {
   const classes = useStyles();
   return (
+
+    <Card className={classes.root, classes.linkCard}>
     <form>
+      <Typography className={classes.title}>Portal Login</Typography>
       <label>
         <p>Username</p>
         <input type="text" />
@@ -42,5 +48,6 @@ export default function Login() {
         <button type="submit">Submit</button>
       </div>
     </form>
+	</Card>
   )
 }

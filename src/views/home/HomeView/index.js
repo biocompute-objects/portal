@@ -31,7 +31,7 @@ const HomeView = () => {
     <Page className={classes.root} title="Dashboard">
     <Container maxWidth={false}>
 	  <Grid container justify='center' spacing={3}>
-	  <Grid item lg={8} sm={6} xl={8} xs={12}>
+	  <Grid item lg={12} sm={8} xl={8} xs={12}>
         <Container maxWidth={false}>
           <Grid container justify='center' spacing={3}>
             <Grid item lg={4} sm={6} xl={4} xs={12}><BcoDbViewer /></Grid>
