@@ -199,6 +199,21 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Results({ rowInfo }) {
   
+  // For development only.
+  const addPortNumber = (uri) => {
+
+    // Add port number 3000.
+
+    // Look for the index of the localhost url.
+    const localhostUrlIndex = uri.indexOf('127.0.0.1');
+
+    // Construct the new URI.
+    const newUri = uri.substring(0,localhostUrlIndex+9) + ':3000/' + uri.substring(localhostUrlIndex+10, uri.length);
+
+    return(newUri);
+
+  }
+  
   // The row data from the parent.
   const rows = rowInfo;
   console.log('row-child:', rows)
@@ -310,7 +325,7 @@ export default function Results({ rowInfo }) {
                         <BcoPreviewPopup bcoLink={row.objectId} />
                       </TableCell> */}
                       <TableCell component="th" id={labelId} scope="row" padding="none">
-                        <Linker color= { 'blueLink' } uri={ row.objectId } />
+                        <Linker color= { 'blueLink' } uri={ window.location.href.indexOf(':3000') !== -1 ? addPortNumber(row.objectId) : row.objectId } />
                       </TableCell>
                       <TableCell>{row.name}</TableCell>
                       <TableCell>{row.state}</TableCell>
