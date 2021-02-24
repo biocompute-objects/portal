@@ -38,7 +38,7 @@ export default function BuilderView() {
   // https://.../builder/PREFIX_DRAFT_... -> load the draft information.
 
   // Set the URL requested.
-  const parsePath = useLocation().pathname;
+  var parsePath = useLocation().pathname;
 
   // Are we working with a new draft object or an existing one?
   if(parsePath.indexOf('DRAFT') === -1) {
@@ -77,6 +77,13 @@ export default function BuilderView() {
     // Now drop this part of the string.
     var objectId = window.location.href.substr(0, builderIndex) + window.location.href.substr(builderIndex+8, window.location.href.length);
 
+    console.log("===================================", objectId)
+    // Mods for local dev
+    if(objectId.indexOf(':3000') !== -1) {
+        objectId = objectId.substring(0, objectId.indexOf(':3000')) +
+        objectId.substring(objectId.indexOf(':3000') + 5, objectId.length)
+    console.log("===================================", objectId)
+    }
   }
   
   return (
