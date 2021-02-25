@@ -25,7 +25,7 @@ export default function ObjectView() {
     const localhostUrlIndex = uri.indexOf('127.0.0.1');
 
     // Construct the new URI.
-    const newUri = uri.substring(0,localhostUrlIndex+9) + uri.substring(localhostUrlIndex+10, uri.length);
+    const newUri = uri.substring(0,localhostUrlIndex+9) + '/' + uri.substring(localhostUrlIndex+15, uri.length);
     console.log('newUri', newUri);
 
     return(newUri);
