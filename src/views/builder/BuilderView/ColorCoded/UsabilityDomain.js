@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   makeStyles, withStyles, Typography
 } from '@material-ui/core';
@@ -11,13 +11,20 @@ import TableRow from '@material-ui/core/TableRow';
 // Multiline Input
 import TextField from '@material-ui/core/TextField';
 
+// Section cell and other styling
 const useStyles = makeStyles((theme) => ({
-  root: {
-    '& .MuiTextField-root': {
-      margin: theme.spacing(1),
-      width: '25ch',
+    root: {
+      '& .MuiTextField-root': {
+        margin: theme.spacing(1),
+        width: '25ch',
+      },
     },
-  },
+    header: {
+      color: 'white'
+    },
+    missingHeader: {
+      color: 'red'
+    }
 }));
 
 // Cell styling
@@ -33,7 +40,21 @@ const StyledCell = withStyles({
 // Pass an object and whether or not its keys are properties.
 export default function UsabilityDomain({ items, cF }) {
   
-  const classes = withStyles(), inputClasses = useStyles();
+  const classes = useStyles();
+
+  // State for showing missing sections.
+  const [missingUsability, setMissingUsability] = useState(false);
+
+  // TODO: For some reason didn't work with [items.ud]
+
+  useEffect(() => {
+    console.log('itemsud:', items)
+    if(items.ud[0] === "") {
+      setMissingUsability(true);
+    } else {
+      setMissingUsability(false);
+    }
+  }, [items]);
 
   // Arguments
   // ---------
@@ -50,13 +71,13 @@ export default function UsabilityDomain({ items, cF }) {
 
   return(
     <Table size="small">
-      <TableHead className={classes.tabled}>
+      <TableHead>
         <TableRow>
-          <StyledCell colSpan="5">
-            <Typography variant="h3">
+          <TableCell>
+            <Typography className={missingUsability ? classes.missingHeader : classes.header} variant="h1">
               Usability Domain
             </Typography>
-          </StyledCell>
+          </TableCell>
         </TableRow>
       </TableHead>
       <TableBody>
@@ -64,14 +85,14 @@ export default function UsabilityDomain({ items, cF }) {
           <StyledCell>
             <TextField
               color="primary"
-              error={cF(items.ud) === "" ? true : false} 
+              error={cF(items.ud[0]) === "" ? true : false} 
               defaultValue={cF(items.ud)}
               fullWidth
               id="outlined-multiline-static"
               multiline
               rows={4}
               variant="outlined"
-              onChange={(e) => items.setUd(e.target.value)}
+              onChange={(e) => items.setUd([e.target.value])}
             />
           </StyledCell>
         </TableRow>

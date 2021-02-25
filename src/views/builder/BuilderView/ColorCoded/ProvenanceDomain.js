@@ -56,12 +56,180 @@ export default function ProvenanceDomain({ items, cF }) {
   // TODO: For some reason didn't work with [items.pdContributors]
 
   useEffect(() => {
-    if(items.pdContributors.length == 0) {
+    if(items.pdContributors.length === 0) {
       setMissingContributors(true);
     } else {
       setMissingContributors(false);
     }
   }, [items])
+
+  // State for showing missing sections.
+  const [missingProvenanceDomain, setMissingProvenanceDomain] = useState(true);
+  const [missingName, setMissingName] = useState(false);
+  const [missingVersion, setMissingVersion] = useState(false);
+  const [missingLicense, setMissingLicense] = useState(false);
+  const [missingReview, setMissingReview] = useState(false);
+
+  useEffect(() => {
+    
+    // Create an OR flag.
+    var orFlag = false;
+    
+    // Name
+    if(items.pdName === "") {
+      
+      // No name.
+      setMissingName(true);
+      
+      // Set the OR flag.
+      orFlag = true;
+
+    } else {
+      setMissingName(false);
+      setMissingProvenanceDomain(false);
+    }
+    
+    // Version (note the regex check)
+    const versionRegex = new RegExp('^[1-9]+\\.[1-9]+[0-9]*$');
+
+    if(items.pdVersion === "" || !(versionRegex.test(items.pdVersion))) {
+      
+      // No version.
+      setMissingVersion(true);
+      
+      // Set the OR flag.
+      orFlag = true;
+
+    } else {
+      setMissingVersion(false);
+      setMissingProvenanceDomain(false);
+    }
+
+    // License
+    if(items.pdLicense == "") {
+
+      // No license.
+      setMissingLicense(true);
+
+      // Set the OR flag.
+      orFlag = true;
+
+    } else {
+      setMissingLicense(false);
+      setMissingProvenanceDomain(false);
+    }
+
+    // Review (note that review is not a necessary field
+    // in IEEE-2791).
+    if(items.pdReview.length == 0) {
+
+      setMissingReview(false);
+      setMissingProvenanceDomain(false);
+
+    } else {
+
+      // If there is a review field, we have to consider
+      // the necessary subfields.
+      setMissingReview(true);
+
+    }
+    
+    // Each step of the review.
+    /*for(var i = 0; i < items.pdReview.length; i++) {
+
+      if(items.ddPipelineSteps[i].input_list.length === 0) {
+        
+        // No reviewers.
+
+        // DON'T set the OR flag because reviewers aren't required
+        // in IEEE-2791.
+
+        break;
+
+      } else {
+        
+        // Name
+        if(items.ddPipelineSteps[i].name === "") {
+
+          // No name.
+
+          // Set the OR flag.
+          orFlag = true;
+
+          break;
+
+        } else if(items.ddPipelineSteps[i].description === "") {
+
+          // No description.
+
+          // Set the OR flag.
+          orFlag = true;
+
+          break;
+
+        } else {
+
+          // We have an input list, but do we have URIs?
+          for(var j = 0; j < items.ddPipelineSteps[i].input_list.length; j++) {
+            if(items.ddPipelineSteps[i].input_list[j]['uri']['uri'] === "") {
+              
+              // No URI.
+
+              // Set the OR flag.
+              orFlag = true;
+
+              break;
+
+            } else {
+
+              //setMissingDescriptionDomain(false);
+
+            }
+
+          }
+
+        }
+        
+      }
+      
+    }*/
+
+    // Was one OR the other missing in the pipeline input/output?
+    if(orFlag) {
+      //setMissingDescriptionDomain(true);
+    }
+
+  }, [items]);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
   // Check for semantic versioning
   // Source: https://semver.org/spec/v2.0.0.html
@@ -80,10 +248,8 @@ export default function ProvenanceDomain({ items, cF }) {
     // REGEX patterns that are allowed.
     const patternZero = new RegExp('^$');
     const patternOne = new RegExp('^[1-9]+$');
-    const patternTwo = new RegExp('^[1-9]+\.$');
-    const patternThree = new RegExp('^[1-9]+\.[1-9]+[0-9]*$');
-    const patternFour = new RegExp('^[1-9]+\.[1-9]+[0-9]*\.$');
-    const patternFive = new RegExp('^[1-9]+\.[1-9]+[0-9]*\.[1-9]+[0-9]*$');
+    const patternTwo = new RegExp('^[1-9]+\\.$');
+    const patternThree = new RegExp('^[1-9]+\\.[1-9]+[0-9]*$');
 
     if(patternZero.test(onlyNumsPeriods)) {
 
@@ -99,15 +265,6 @@ export default function ProvenanceDomain({ items, cF }) {
       
     } else if(patternThree.test(onlyNumsPeriods)) {
 
-      items.setPdVersion(onlyNumsPeriods);
-      
-    } else if(patternFour.test(onlyNumsPeriods)) {
-
-      items.setPdVersion(onlyNumsPeriods);
-      
-    } else if(patternFive.test(onlyNumsPeriods)) {
-
-      
       items.setPdVersion(onlyNumsPeriods);
 
       // Remove the error flag only on this pattern,
@@ -261,19 +418,19 @@ export default function ProvenanceDomain({ items, cF }) {
             Name
           </StyledCell>
           <StyledCell colSpan="3" noGutter>
-            <TextField error={cF(items.pdName) === "" ? true : false} fullWidth id="outlined-basic" value={cF(items.pdName)} onChange={(e) => items.setPdName(e.target.value)} variant="outlined" />
+            <TextField error={missingName ? true : false} fullWidth id="outlined-basic" value={cF(items.pdName)} onChange={(e) => items.setPdName(e.target.value)} variant="outlined" />
           </StyledCell>
           <StyledCell>
             Version
           </StyledCell>
           <StyledCell noGutter>
-            <TextField error={cF(items.pdVersion) === "" ? true : false} fullWidth id="outlined-basic" value={cF(items.pdVersion)} onChange={(e) => checkSemanticVersioning(e.target.value)} variant="outlined" />
+            <TextField error={missingVersion ? true : false} fullWidth id="outlined-basic" value={cF(items.pdVersion)} onChange={(e) => checkSemanticVersioning(e.target.value)} variant="outlined" />
           </StyledCell>
           <StyledCell>
             License
           </StyledCell>
           <StyledCell colSpan="3" noGutter>
-            <TextField error={cF(items.pdLicense) === "" ? true : false} fullWidth id="outlined-basic" value={cF(items.pdLicense)} onChange={(e) => items.setPdLicense(e.target.value)} variant="outlined" />
+            <TextField error={missingLicense ? true : false} fullWidth id="outlined-basic" value={cF(items.pdLicense)} onChange={(e) => items.setPdLicense(e.target.value)} variant="outlined" />
           </StyledCell>
         </TableRow>
         <TableRow>
@@ -320,7 +477,7 @@ export default function ProvenanceDomain({ items, cF }) {
         </TableRow>
         <TableRow>
           <StyledCell colSpan="10">
-            <Typography variant="h3">
+            <Typography className={missingReview ? classes.missingHeader : classes.header} variant="h3">
               Review
             </Typography>
           </StyledCell>
