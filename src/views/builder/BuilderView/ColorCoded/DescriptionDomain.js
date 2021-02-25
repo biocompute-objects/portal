@@ -181,7 +181,7 @@ export default function DescriptionDomain({ compCheck, checkBlank, items, cF }) 
       setMissingDescriptionDomain(true);
     }
 
-  }, [items])
+  }, [items]);
 
   // Set an input value
 
