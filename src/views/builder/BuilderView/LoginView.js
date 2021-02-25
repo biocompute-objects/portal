@@ -67,14 +67,14 @@ const LoginView = () => {
                     color="textPrimary"
                     variant="h2"
                   >
-                    BioCompute Portal Sign in
+                    Sign in
                   </Typography>
                   <Typography
                     color="textSecondary"
                     gutterBottom
                     variant="body2"
                   >
-                    Sign in to the BioCompute Portal
+                    Sign in on the internal platform
                   </Typography>
                 </Box>
                 <Grid
