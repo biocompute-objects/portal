@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import {
-  withStyles, Typography
+  makeStyles, withStyles, Typography
 } from '@material-ui/core';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -22,8 +22,15 @@ import TextField from '@material-ui/core/TextField';
 // Add step
 import Button from '@material-ui/core/Button'
 
-// For links.
-import LinkerInList from './components/LinkerInList'
+// Section cell styling
+const useStyles = makeStyles((theme) => ({
+  header: {
+    color: 'white'
+  },
+  missingHeader: {
+    color: 'red'
+  }
+}));
 
 // Cell styling
 const StyledCell = withStyles({
@@ -36,9 +43,145 @@ const StyledCell = withStyles({
 /*export default function DescriptionDomain({ addRows, removeRows, descriptionKeywords, items, cF }) {*/
 export default function DescriptionDomain({ compCheck, checkBlank, items, cF }) {
   
-  //console.log('@@@@@@@@@@@@', items);
+  console.log('@@@@@@@@@@@@', items);
   
-  const classes = withStyles();
+  const classes = useStyles();
+
+  // State for showing missing sections.
+  const [missingDescriptionDomain, setMissingDescriptionDomain] = useState(true);
+  const [missingKeywords, setMissingKeywords] = useState(false);
+  const [missingSteps, setMissingSteps] = useState(false);
+
+  useEffect(() => {
+    
+    // Create an OR flag.
+    var orFlag = false;
+    
+    // Keywords
+    if(items.ddKeywords[0] === "") {
+      setMissingKeywords(true);
+      
+      // Set the OR flag.
+      orFlag = true;
+
+    } else {
+      setMissingKeywords(false);
+      setMissingDescriptionDomain(false);
+    }
+    
+    // Pipeline steps
+    if(items.ddPipelineSteps.length === 0) {
+      setMissingSteps(true);
+      
+      // Set the OR flag.
+      orFlag = true;
+
+    } else {
+      setMissingSteps(false);
+      setMissingDescriptionDomain(false);
+    }
+
+    // Each input list of each step.
+    for(var i = 0; i < items.ddPipelineSteps.length; i++) {
+
+      if(items.ddPipelineSteps[i].input_list.length === 0) {
+        
+        // No input list.
+        
+        // Set the OR flag.
+        orFlag = true;
+
+        break;
+
+      } else {
+        
+        // Name
+        if(items.ddPipelineSteps[i].name === "") {
+
+          // No name.
+
+          // Set the OR flag.
+          orFlag = true;
+
+          break;
+
+        } else if(items.ddPipelineSteps[i].description === "") {
+
+          // No description.
+
+          // Set the OR flag.
+          orFlag = true;
+
+          break;
+
+        } else {
+
+          // We have an input list, but do we have URIs?
+          for(var j = 0; j < items.ddPipelineSteps[i].input_list.length; j++) {
+            if(items.ddPipelineSteps[i].input_list[j]['uri']['uri'] === "") {
+              
+              // No URI.
+
+              // Set the OR flag.
+              orFlag = true;
+
+              break;
+
+            } else {
+
+              setMissingDescriptionDomain(false);
+
+            }
+
+          }
+
+        }
+        
+      }
+      
+    }
+
+    // Each output list of each step.
+    for(var i = 0; i < items.ddPipelineSteps.length; i++) {
+      if(items.ddPipelineSteps[i].output_list.length === 0) {
+        
+        // No output list.
+        
+        // Set the OR flag.
+        orFlag = true;
+
+        break;
+
+      } else {
+
+        // We have an output list, but do we have URIs?
+        for(var j = 0; j < items.ddPipelineSteps[i].output_list.length; j++) {
+          if(items.ddPipelineSteps[i].output_list[j]['uri']['uri'] === "") {
+            
+            // No URI.
+
+            // Set the OR flag.
+            orFlag = true;
+
+            break;
+
+          } else {
+
+            setMissingDescriptionDomain(false);
+
+          }
+
+        }
+
+      }
+    }
+
+    // Was one OR the other missing in the pipeline input/output?
+    if(orFlag) {
+      setMissingDescriptionDomain(true);
+    }
+
+  }, [items])
 
   // Set an input value
 
@@ -69,7 +212,14 @@ export default function DescriptionDomain({ compCheck, checkBlank, items, cF }) 
     var dummy = items.ddPipelineSteps;
 
     // Change the value at the given index AND sub-index.
-    dummy[i][listtype][j][inputName] = event.target.value;
+
+    // Special rule for URI.
+    if(inputName == 'uri') {
+      dummy[i][listtype][j][inputName]['uri'] = event.target.value;
+    } else {
+      dummy[i][listtype][j][inputName] = event.target.value;
+    }
+    
 
     // Update the state.
     items.setDdPipelineSteps(dummy);
@@ -133,7 +283,7 @@ export default function DescriptionDomain({ compCheck, checkBlank, items, cF }) 
 
     // Push the new row.
     dummy[which][listtype].push({
-      "uri": "",
+      "uri": {"uri": ""},
       "filename": "",
       "access_time": "",
       "sha1_checksum": ""
@@ -192,7 +342,7 @@ export default function DescriptionDomain({ compCheck, checkBlank, items, cF }) 
     <TableHead className={classes.tabled}>
       <TableRow>
         <StyledCell colSpan="5">
-          <Typography variant="h3">
+          <Typography className={missingDescriptionDomain ? classes.missingHeader : classes.header} variant="h1">
             Description Domain
           </Typography>
         </StyledCell>
@@ -200,23 +350,29 @@ export default function DescriptionDomain({ compCheck, checkBlank, items, cF }) 
     </TableHead>
     <TableBody>
       <TableRow>
-        <StyledCell>
-          Keywords
-        </StyledCell>
+        <TableCell>
+          <Typography className={missingKeywords ? classes.missingHeader : classes.header} variant="h3">
+            Keywords
+          </Typography>
+        </TableCell>
         <StyledCell colspan="4">
-          <TextField fullWidth variant="outlined" value={items.ddKeywords} />
+          <TextField error={cF(items.ddKeywords[0]) === "" ? true : false} fullWidth variant="outlined" value={cF(items.ddKeywords)} onChange={(e) => items.setDdKeywords([e.target.value])} />
         </StyledCell>
       </TableRow>
       <TableRow>
-        <StyledCell colSpan="5">
-          Steps
-        </StyledCell>
+        <TableCell colSpan="5">
+          <Typography className={missingSteps ? classes.missingHeader : classes.header} variant="h3">
+            Steps
+          </Typography>
+        </TableCell>
       </TableRow>
       <TableRow>
         {
           ['Step Number', 'Name', 'Description', 'Input List', 'Output List'].map(item => (
               <StyledCell>
-                {item}
+                <Typography className={missingSteps ? classes.missingHeader : classes.header}>
+                  {item}
+                </Typography>
               </StyledCell>
             )
           )
@@ -226,8 +382,12 @@ export default function DescriptionDomain({ compCheck, checkBlank, items, cF }) 
         items.ddPipelineSteps.map((item, index) => (
             <TableRow key={index}>
               <StyledCell className={classes.stepNumber}><TextField variant="outlined" value={index+1} />{compCheck}</StyledCell>
-              <StyledCell><TextField error={cF(item.name) === "" ? true : false} fullWidth variant="outlined" value={cF(item.name)} onChange={(e) => setInput(e, index, 'name')} /></StyledCell>
-              <StyledCell><TextField error={cF(item.description) === "" ? true : false} variant="outlined" multiline rows={4} value={cF(item.description)} onChange={(e) => setInput(e, index, 'description')} /></StyledCell>
+              <StyledCell>
+                <TextField error={cF(item.name) === "" ? true : false} fullWidth variant="outlined" value={cF(item.name)} onChange={(e) => setInput(e, index, 'name')} />
+              </StyledCell>
+              <StyledCell>
+                <TextField error={cF(item.description) === "" ? true : false} variant="outlined" multiline rows={4} value={cF(item.description)} onChange={(e) => setInput(e, index, 'description')} />
+              </StyledCell>
               <StyledCell>
                 <Accordion>
                   <AccordionSummary
@@ -235,7 +395,9 @@ export default function DescriptionDomain({ compCheck, checkBlank, items, cF }) 
                     aria-controls="panel1a-content"
                     id="panel1a-header"
                   >
-                  <Typography>Show Inputs</Typography>
+                  <Typography className={item.input_list.length === 0 ? classes.missingHeader : classes.header} variant="h3">
+                    Show Inputs
+                  </Typography>
                   </AccordionSummary>
                   <AccordionDetails>
                     <List>
@@ -289,7 +451,9 @@ export default function DescriptionDomain({ compCheck, checkBlank, items, cF }) 
                     aria-controls="panel1a-content"
                     id="panel1a-header"
                   >
-                  <Typography>Show Outputs</Typography>
+                  <Typography className={item.output_list.length === 0 ? classes.missingHeader : classes.header} variant="h3">
+                    Show Outputs
+                  </Typography>
                   </AccordionSummary>
                   <AccordionDetails>
                     <List>

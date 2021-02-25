@@ -82,8 +82,6 @@ export default function ProvenanceDomain({ items, cF }) {
     const patternOne = new RegExp('^[1-9]+$');
     const patternTwo = new RegExp('^[1-9]+\.$');
     const patternThree = new RegExp('^[1-9]+\.[1-9]+[0-9]*$');
-    const patternFour = new RegExp('^[1-9]+\.[1-9]+[0-9]*\.$');
-    const patternFive = new RegExp('^[1-9]+\.[1-9]+[0-9]*\.[1-9]+[0-9]*$');
 
     if(patternZero.test(onlyNumsPeriods)) {
 
@@ -99,15 +97,6 @@ export default function ProvenanceDomain({ items, cF }) {
       
     } else if(patternThree.test(onlyNumsPeriods)) {
 
-      items.setPdVersion(onlyNumsPeriods);
-      
-    } else if(patternFour.test(onlyNumsPeriods)) {
-
-      items.setPdVersion(onlyNumsPeriods);
-      
-    } else if(patternFive.test(onlyNumsPeriods)) {
-
-      
       items.setPdVersion(onlyNumsPeriods);
 
       // Remove the error flag only on this pattern,

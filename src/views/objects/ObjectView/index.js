@@ -16,6 +16,22 @@ import Views from './Views'
 
 export default function ObjectView() {
 
+  // For development only.
+  const removePortNumber = (uri) => {
+
+    // Add port number 3000.
+
+    // Look for the index of the localhost url.
+    const localhostUrlIndex = uri.indexOf('127.0.0.1');
+
+    // Construct the new URI.
+    const newUri = uri.substring(0,localhostUrlIndex+9) + uri.substring(localhostUrlIndex+10, uri.length);
+    console.log('newUri', newUri);
+
+    return(newUri);
+
+  }
+  
   // The table to use is based on the URL.
 
   // Set the object requested.
@@ -44,7 +60,7 @@ export default function ObjectView() {
   return (
     <div>
       <Tools />
-      <Views table={tableName} objectId={window.location.href} />
+      <Views table={tableName} objectId={ window.location.href.indexOf(':3000') !== -1 ? removePortNumber(window.location.href) : window.location.href } />
     </div>
   );
 }
