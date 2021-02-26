@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import {
-  withStyles, Typography
+  makeStyles, withStyles, Typography
 } from '@material-ui/core';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -13,6 +13,16 @@ import TextField from '@material-ui/core/TextField';
 
 // Add contributor
 import Button from '@material-ui/core/Button'
+
+// Section cell styling
+const useStyles = makeStyles((theme) => ({
+  header: {
+    color: 'white'
+  },
+  missingHeader: {
+    color: 'red'
+  }
+}));
 
 // Cell styling
 const StyledCell = withStyles({
@@ -27,7 +37,137 @@ const StyledCell = withStyles({
 // Pass an object and whether or not its keys are properties.
 export default function ParametricDomain({ items, cF }) {
   
-  const classes = withStyles();
+  const classes = useStyles();
+
+  // State for showing missing sections.
+  // TODO: For some reason didn't work with [items.pad]
+
+  // State for showing missing sections.
+  const [missingParametricDomain, setMissingParametricDomain] = useState(true);
+  const [missingStep, setMissingStep] = useState(false);
+  const [missingParameter, setMissingParameter] = useState(false);
+  const [missingValue, setMissingValue] = useState(false);
+
+  useEffect(() => {
+    
+    // Create an OR flag.
+    var orFlag = false;
+
+    // Description (note that Parametric Domain is not a necessary domain
+    // in IEEE-2791).
+    if(items.pad.length == 0) {
+
+      // No Parametric Domain.
+      setMissingParametricDomain(false);
+
+      // No sub-fields.
+      setMissingStep(false);
+      setMissingParameter(false);
+      setMissingValue(false);
+
+    } else {
+
+      // If there is a Parametric Domain, we have to consider
+      // the necessary subfields.
+
+      // Each field must be treated independently so that
+      // our state is compared only to the relevant field.
+
+      // Assume the header is not red.
+      setMissingParametricDomain(false);
+
+      // Each one of the steps.
+      for(var i = 0; i < items.pad.length; i++) {
+
+        // Step
+        if(items.pad[i].step === "") {
+          
+          // No step.
+          setMissingStep(true);
+
+          // Header
+          setMissingParametricDomain(true);
+
+          // Set the OR flag.
+          orFlag = true;
+
+          break;
+
+        } else {
+          setMissingParametricDomain(false);
+        }
+
+        // Can't rely on orFlag here.
+        
+      }
+      
+      // Each one of the parameters.
+      for(var i = 0; i < items.pad.length; i++) {
+
+        // Step
+        if(items.pad[i].param === "") {
+          
+          // No parameter.
+          setMissingParameter(true);
+
+          // Header
+          setMissingParametricDomain(true);
+
+          // Set the OR flag.
+          orFlag = true;
+
+          break;
+
+        } else {
+          setMissingParametricDomain(false);
+        }
+
+        // Can't rely on orFlag here.
+        
+      }
+      
+      // Each one of the values.
+      for(var i = 0; i < items.pad.length; i++) {
+
+        // Step
+        if(items.pad[i].value === "") {
+          
+          // No step.
+          setMissingValue(true);
+
+          // Header
+          setMissingParametricDomain(true);
+
+          // Set the OR flag.
+          orFlag = true;
+
+          break;
+
+        } else {
+          setMissingParametricDomain(false);
+        }
+
+        // Can't rely on orFlag here.
+        
+      }
+      
+    }
+
+    // Was one OR the other missing in the Parametric Domain?
+    if(orFlag) {
+      setMissingParametricDomain(true);
+    } else {
+
+      // All required fields are ok.
+      setMissingStep(false);
+      setMissingParameter(false);
+      setMissingValue(false);
+      
+      setMissingParametricDomain(false);
+
+    }
+
+  }, [items]);
 
   // Set an input value
 
@@ -64,7 +204,7 @@ export default function ParametricDomain({ items, cF }) {
     // Push the new row.
     dummy.push({
       "step": "",
-      "parameter": "",
+      "param": "",
       "value": ""
     });
 
@@ -109,7 +249,7 @@ export default function ParametricDomain({ items, cF }) {
     <TableHead className={classes.tabled}>
       <TableRow>
         <StyledCell colSpan="6">
-          <Typography variant="h3">
+          <Typography className={missingParametricDomain ? classes.missingHeader : classes.header} variant="h1">
             Parametric Domain
           </Typography>
         </StyledCell>
@@ -117,44 +257,39 @@ export default function ParametricDomain({ items, cF }) {
     </TableHead>
     <TableBody>
       <TableRow>
-        {
-          ['Step', 'Parameter', 'Value'].map(item => (
-              item === 'Value'
-              ?
-                <StyledCell colSpan="2">
-                  <Typography>
-                    {item}
-                  </Typography>
-                </StyledCell>
-              :
-                <StyledCell>
-                  <Typography>
-                    {item}
-                  </Typography>
-                </StyledCell>
-            )
-          )
-        }
+      <StyledCell>
+        <Typography className={missingStep ? classes.missingHeader : classes.header} variant="h3">
+          Step
+        </Typography>
+      </StyledCell>
+      <StyledCell>
+        <Typography className={missingParameter ? classes.missingHeader : classes.header} variant="h3">
+          Parameter
+        </Typography>
+      </StyledCell>
+      <StyledCell colSpan="2">
+        <Typography className={missingValue ? classes.missingHeader : classes.header} variant="h3">
+          Value
+        </Typography>
+      </StyledCell>
       </TableRow>
       {
         items.pad.map((item, index) => (
             <TableRow>
-              {
-                ['step', 'param', 'value', 'remove'].map(subitem=> (
-                    subitem !== 'remove'
-                      ?
-                        <StyledCell>
-                          <TextField  value={cF(item[subitem])} onChange={(e) => setInput(e, index, subitem)} variant="outlined" />
-                        </StyledCell>
-                      :
-                        <StyledCell>
-                            <Button variant="contained" color="primary" disableElevation fullWidth onClick={() => removeRows(index)}>
-                              Remove
-                            </Button>
-                        </StyledCell>
-                  )
-                )
-              }
+              <StyledCell>
+                <TextField error={cF(item.step) === "" ? true : false} value={cF(item.step)} onChange={(e) => setInput(e, index, 'step')} variant="outlined" />
+              </StyledCell>
+              <StyledCell>
+                <TextField error={cF(item.param) === "" ? true : false} value={cF(item.param)} onChange={(e) => setInput(e, index, 'param')} variant="outlined" />
+              </StyledCell>
+              <StyledCell>
+                <TextField error={cF(item.value) === "" ? true : false} value={cF(item.value)} onChange={(e) => setInput(e, index, 'value')} variant="outlined" />
+              </StyledCell>
+              <StyledCell>
+                <Button variant="contained" color="primary" disableElevation fullWidth onClick={() => removeRows(index)}>
+                  Remove
+                </Button>
+              </StyledCell>
             </TableRow>
           )
         )

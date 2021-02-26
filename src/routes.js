@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Navigate } from 'react-router-dom';
 import AccountView from 'src/views/account/AccountView';
 import BuilderView from 'src/views/builder/BuilderView';
@@ -13,12 +13,15 @@ import RegisterView from 'src/views/auth/RegisterView';
 import ValidatorView from 'src/views/validator/ValidatorView'
 
 
+export const DisplayContext = React.createContext();
+const [isLoggedIn, setIsLoggedIn] = useState(false);
+
 const routes = [
   {
     path: '/',
     element: <MainLayout />,
     children: [
-      { path: 'login', element: <LoginView /> },
+      { path: 'login', element: <DisplayContext value={{ isLoggedIn, setIsLoggedIn }}><LoginView /></DisplayContext> },
       { path: 'register', element: <RegisterView /> }
     ]
   },

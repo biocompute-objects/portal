@@ -14,6 +14,10 @@ import {
 } from '@material-ui/core';
 import Page from 'src/components/Page';
 
+// Context
+// Source: https://www.digitalocean.com/community/tutorials/react-usecontext
+import { RoutesContext } from '../../routes';
+
 const useStyles = makeStyles((theme) => ({
   root: {
     backgroundColor: theme.palette.background.dark,
@@ -24,6 +28,10 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const LoginView = () => {
+  
+  // Get the super-parent context.
+  
+  
   const classes = useStyles();
   const navigate = useNavigate();
 
