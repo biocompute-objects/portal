@@ -43,16 +43,16 @@ export default function UsabilityDomain({ items, cF }) {
   const classes = useStyles();
 
   // State for showing missing sections.
-  const [missingUsability, setMissingUsability] = useState(false);
+  const [missingUsabilityDomain, setMissingUsabilityDomain] = useState(false);
 
   // TODO: For some reason didn't work with [items.ud]
 
   useEffect(() => {
     console.log('itemsud:', items)
     if(items.ud[0] === "") {
-      setMissingUsability(true);
+      setMissingUsabilityDomain(true);
     } else {
-      setMissingUsability(false);
+      setMissingUsabilityDomain(false);
     }
   }, [items]);
 
@@ -74,7 +74,7 @@ export default function UsabilityDomain({ items, cF }) {
       <TableHead>
         <TableRow>
           <TableCell>
-            <Typography className={missingUsability ? classes.missingHeader : classes.header} variant="h1">
+            <Typography className={missingUsabilityDomain ? classes.missingHeader : classes.header} variant="h1">
               Usability Domain
             </Typography>
           </TableCell>

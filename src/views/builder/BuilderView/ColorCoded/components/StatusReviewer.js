@@ -1,6 +1,5 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
-import Input from '@material-ui/core/Input';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
@@ -17,7 +16,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function ContributionReviewer() {
+export default function StatusReviewer({ items, index }) {
 
   const classes = useStyles();
   const [contribution, setContribution] = React.useState('');
@@ -25,6 +24,10 @@ export default function ContributionReviewer() {
   const handleChange = (event) => {
     setContribution(event.target.value);
   };
+
+  useEffect(() => (
+    console.log(contribution)
+  ), [contribution])
 
   return (
     <div>

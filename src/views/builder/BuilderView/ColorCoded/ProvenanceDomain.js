@@ -24,7 +24,7 @@ import Button from '@material-ui/core/Button'
 import Contribution from './components/Contribution'
 
 // Reviewer contribution select
-import ContributionReviewer from './components/ContributionReviewer';
+import StatusReviewer from './components/StatusReviewer';
 
 // Section cell styling
 const useStyles = makeStyles((theme) => ({
@@ -69,6 +69,7 @@ export default function ProvenanceDomain({ items, cF }) {
   const [missingVersion, setMissingVersion] = useState(false);
   const [missingLicense, setMissingLicense] = useState(false);
   const [missingReview, setMissingReview] = useState(false);
+  const [missingReviewStatus, setMissingReviewStatus] = useState(false);
 
   useEffect(() => {
     
@@ -123,6 +124,7 @@ export default function ProvenanceDomain({ items, cF }) {
     // in IEEE-2791).
     if(items.pdReview.length == 0) {
 
+      // No review.
       setMissingReview(false);
       setMissingProvenanceDomain(false);
 
@@ -130,26 +132,21 @@ export default function ProvenanceDomain({ items, cF }) {
 
       // If there is a review field, we have to consider
       // the necessary subfields.
-      setMissingReview(true);
 
-    }
-    
-    // Each step of the review.
-    /*for(var i = 0; i < items.pdReview.length; i++) {
+      // Each one of the reviews.
+      for(var i = 0; i < items.pdReview.length; i++) {
 
-      if(items.ddPipelineSteps[i].input_list.length === 0) {
-        
-        // No reviewers.
+        // Status
+        if(items.pdReview.status === "") {
 
-        // DON'T set the OR flag because reviewers aren't required
-        // in IEEE-2791.
+          // No status.
 
-        break;
+          // Set the OR flag.
+          orFlag = true;
 
-      } else {
-        
-        // Name
-        if(items.ddPipelineSteps[i].name === "") {
+          break;
+
+        } else if(items.pdReview[i].reviewer.name === "") {
 
           // No name.
 
@@ -158,45 +155,27 @@ export default function ProvenanceDomain({ items, cF }) {
 
           break;
 
-        } else if(items.ddPipelineSteps[i].description === "") {
-
-          // No description.
+        } else if(items.pdReview[i].reviewer.contribution === "") {
+          
+          // No contribution.
 
           // Set the OR flag.
           orFlag = true;
 
-          break;
-
         } else {
 
-          // We have an input list, but do we have URIs?
-          for(var j = 0; j < items.ddPipelineSteps[i].input_list.length; j++) {
-            if(items.ddPipelineSteps[i].input_list[j]['uri']['uri'] === "") {
-              
-              // No URI.
-
-              // Set the OR flag.
-              orFlag = true;
-
-              break;
-
-            } else {
-
-              //setMissingDescriptionDomain(false);
-
-            }
-
-          }
+          setMissingReview(false);
+          setMissingProvenanceDomain(false);
 
         }
         
       }
       
-    }*/
+    }
 
     // Was one OR the other missing in the pipeline input/output?
     if(orFlag) {
-      //setMissingDescriptionDomain(true);
+      setMissingProvenanceDomain(true);
     }
 
   }, [items]);
@@ -406,7 +385,7 @@ export default function ProvenanceDomain({ items, cF }) {
       <TableHead>
         <TableRow>
           <StyledCell colSpan="8">
-            <Typography variant="h1">
+            <Typography className={missingProvenanceDomain ? classes.missingHeader : classes.header} variant="h1">
               Provenance Domain
             </Typography>
           </StyledCell>
@@ -494,17 +473,27 @@ export default function ProvenanceDomain({ items, cF }) {
         {
           items.pdReview.map((item, index) => (
               <TableRow key={index}>
-                <StyledCell><TextField fullWidth variant="outlined" value={cF(item.date)} onChange={(e) => setInput(e, index, 'date')} /></StyledCell>
                 <StyledCell>
-                  <ContributionReviewer />
+                  <TextField fullWidth variant="outlined" value={cF(item.date)} onChange={(e) => setInput(e, index, 'date')} />
+                </StyledCell>
+                <StyledCell>
+                  <StatusReviewer items={ items } index={ index } />
                 </StyledCell>
                 <StyledCell>
                   <TextField error={cF(item.reviewer.name) === "" ? true : false} fullWidth variant="outlined" value={cF(item.reviewer.name)} onChange={(e) => setInput(e, 'pdReview', index)} />
                 </StyledCell>
-                <StyledCell><TextField fullWidth variant="outlined" value={cF(item.reviewer.affiliation)} onChange={(e) => setInput(e, index, 'reviewer')} /></StyledCell>
-                <StyledCell><TextField fullWidth variant="outlined" value={cF(item.reviewer.email)} onChange={(e) => setInput(e, index, 'reviewer')} /></StyledCell>
-                <StyledCell><Contribution /></StyledCell>
-                <StyledCell colSpan="3"><TextField fullWidth variant="outlined" multiline rows={4} value={cF(item.reviewer_comment)} onChange={(e) => setInput(e, index, 'reviewer_comment')} /></StyledCell>
+                <StyledCell>
+                  <TextField fullWidth variant="outlined" value={cF(item.reviewer.affiliation)} onChange={(e) => setInput(e, index, 'reviewer')} />
+                </StyledCell>
+                <StyledCell>
+                  <TextField fullWidth variant="outlined" value={cF(item.reviewer.email)} onChange={(e) => setInput(e, index, 'reviewer')} />
+                </StyledCell>
+                <StyledCell>
+                  <Contribution />
+                </StyledCell>
+                <StyledCell colSpan="3">
+                  <TextField fullWidth variant="outlined" multiline rows={4} value={cF(item.reviewer_comment)} onChange={(e) => setInput(e, index, 'reviewer_comment')} />
+                </StyledCell>
                 <StyledCell>
                   <Button variant="contained" color="primary" disableElevation fullWidth onClick={() => removeRows('pdReview', index)}>
                     Remove
