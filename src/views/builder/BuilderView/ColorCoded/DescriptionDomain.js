@@ -51,6 +51,10 @@ export default function DescriptionDomain({ compCheck, checkBlank, items, cF }) 
   const [missingDescriptionDomain, setMissingDescriptionDomain] = useState(true);
   const [missingKeywords, setMissingKeywords] = useState(false);
   const [missingSteps, setMissingSteps] = useState(false);
+  const [missingStepsName, setMissingStepsName] = useState(false);
+  const [missingStepsDescription, setMissingStepsDescription] = useState(false);
+  const [missingStepsInputUri, setMissingStepsInputUri] = useState(false);
+  const [missingStepsOutputUri, setMissingStespOutputUri] = useState(false);
 
   useEffect(() => {
     
@@ -59,6 +63,8 @@ export default function DescriptionDomain({ compCheck, checkBlank, items, cF }) 
     
     // Keywords
     if(items.ddKeywords[0] === "") {
+      
+      // No keywords
       setMissingKeywords(true);
       
       // Set the OR flag.
@@ -66,19 +72,86 @@ export default function DescriptionDomain({ compCheck, checkBlank, items, cF }) 
 
     } else {
       setMissingKeywords(false);
-      setMissingDescriptionDomain(false);
     }
     
     // Pipeline steps
-    if(items.ddPipelineSteps.length === 0) {
-      setMissingSteps(true);
+    
+    // Each field must be treated independently so that
+    // our state is compared only to the relevant field.
+
+    // Pipeline steps are required
+    if(items.ddPipelineSteps.length == 0) {
       
+      // No pipeline steps.
+      setMissingSteps(true);
+
+      // No sub-fields.
+      setMissingStepsName(true);
+      setMissingStepsDescription(true);
+
       // Set the OR flag.
       orFlag = true;
 
     } else {
+
+      // If there are pipeline steps, we have to consider
+      // the necessary subfields.
+
+      // Assume the header is not red.
       setMissingSteps(false);
-      setMissingDescriptionDomain(false);
+
+      // Each one of the pipeline steps.
+      for(var i = 0; i < items.ddPipelineSteps.length; i++) {
+
+        // Name
+        if(items.ddPipelineSteps[i].name === "") {
+          
+          // No Name.
+          setMissingStepsName(true);
+
+          // Header
+          setMissingSteps(true);
+
+          // Set the OR flag.
+          orFlag = true;
+
+          break;
+
+        } else {
+          setMissingStepsName(false);
+        }
+
+        // Can't rely on orFlag here because fields like
+        // Name, Version, and License also depend on it.
+        
+      }
+
+      // Each one of the pipeline steps.
+      for(var i = 0; i < items.ddPipelineSteps.length; i++) {
+        
+        // Description        
+        if(items.ddPipelineSteps[i].description === "") {
+          
+          // No description.
+          setMissingStepsDescription(true);
+
+          // Header
+          setMissingSteps(true);
+
+          // Set the OR flag.
+          orFlag = true;
+
+          break;
+
+        } else {
+          setMissingStepsDescription(false);
+        }
+
+        // Can't rely on orFlag here because fields like
+        // Name, Version, and License also depend on it.
+        
+      }
+      
     }
 
     // Each input list of each step.
@@ -94,27 +167,6 @@ export default function DescriptionDomain({ compCheck, checkBlank, items, cF }) 
         break;
 
       } else {
-        
-        // Name
-        if(items.ddPipelineSteps[i].name === "") {
-
-          // No name.
-
-          // Set the OR flag.
-          orFlag = true;
-
-          break;
-
-        } else if(items.ddPipelineSteps[i].description === "") {
-
-          // No description.
-
-          // Set the OR flag.
-          orFlag = true;
-
-          break;
-
-        } else {
 
           // We have an input list, but do we have URIs?
           for(var j = 0; j < items.ddPipelineSteps[i].input_list.length; j++) {
@@ -134,8 +186,6 @@ export default function DescriptionDomain({ compCheck, checkBlank, items, cF }) 
             }
 
           }
-
-        }
         
       }
       
@@ -179,6 +229,15 @@ export default function DescriptionDomain({ compCheck, checkBlank, items, cF }) 
     // Was one OR the other missing in the pipeline input/output?
     if(orFlag) {
       setMissingDescriptionDomain(true);
+    } else {
+
+      // All required fields are ok.
+      setMissingStepsName(false);
+      setMissingStepsDescription(false);
+      
+      setMissingSteps(false);
+      setMissingDescriptionDomain(false);
+
     }
 
   }, [items]);
@@ -356,7 +415,7 @@ export default function DescriptionDomain({ compCheck, checkBlank, items, cF }) 
           </Typography>
         </TableCell>
         <StyledCell colspan="4">
-          <TextField error={cF(items.ddKeywords[0]) === "" ? true : false} fullWidth variant="outlined" value={cF(items.ddKeywords)} onChange={(e) => items.setDdKeywords([e.target.value])} />
+          <TextField error={missingKeywords ? true : false} fullWidth variant="outlined" value={cF(items.ddKeywords)} onChange={(e) => items.setDdKeywords([e.target.value])} />
         </StyledCell>
       </TableRow>
       <TableRow>
@@ -367,16 +426,31 @@ export default function DescriptionDomain({ compCheck, checkBlank, items, cF }) 
         </TableCell>
       </TableRow>
       <TableRow>
-        {
-          ['Step Number', 'Name', 'Description', 'Input List', 'Output List'].map(item => (
-              <StyledCell>
-                <Typography className={missingSteps ? classes.missingHeader : classes.header}>
-                  {item}
-                </Typography>
-              </StyledCell>
-            )
-          )
-        }
+        <TableCell>
+          <Typography>
+            Step Number
+          </Typography>
+        </TableCell>
+        <TableCell>
+          <Typography className={missingStepsName ? classes.missingHeader : classes.header}>
+            Name
+          </Typography>
+        </TableCell>
+        <TableCell>
+          <Typography className={missingStepsDescription ? classes.missingHeader : classes.header}>
+            Description
+          </Typography>
+        </TableCell>
+        <TableCell>
+          <Typography>
+            Input List
+          </Typography>
+        </TableCell>
+        <TableCell>
+          <Typography>
+            Output List
+          </Typography>
+        </TableCell>
       </TableRow>
       {
         items.ddPipelineSteps.map((item, index) => (
