@@ -541,7 +541,7 @@ export default function ProvenanceDomain({ items, cF }) {
           <TableCell className={missingLicense ? classes.missingHeader: classes.header}>
             License
           </TableCell>
-          <StyledCell colSpan="3" noGutter>
+          <StyledCell colSpan="4" noGutter>
             <TextField error={missingLicense ? true : false} fullWidth id="outlined-basic" value={cF(items.pdLicense)} onChange={(e) => items.setPdLicense(e.target.value)} variant="outlined" />
           </StyledCell>
         </TableRow>
@@ -549,7 +549,7 @@ export default function ProvenanceDomain({ items, cF }) {
           <StyledCell>
             Derived From
           </StyledCell>
-          <StyledCell colSpan="9" noGutter>
+          <StyledCell colSpan="10" noGutter>
             <TextField fullWidth id="outlined-basic" value={cF(items.pdDerivedFrom)} onChange={(e) => items.setPdDerivedFrom(e.target.value)} variant="outlined" />
           </StyledCell>
         </TableRow>
@@ -584,7 +584,9 @@ export default function ProvenanceDomain({ items, cF }) {
             Embargo End Time
           </StyledCell>
           <StyledCell noGutter>
-          <Datetime />
+            <Datetime />
+          </StyledCell>
+          <StyledCell>
           </StyledCell>
         </TableRow>
         <TableRow>
@@ -641,7 +643,7 @@ export default function ProvenanceDomain({ items, cF }) {
           )
         }
         <TableRow>
-          <StyledCell colSpan="9">
+          <StyledCell colSpan="10">
             <Button variant="contained" color="primary" disableElevation fullWidth onClick={() => addRows('pdReview')}>
               Add Reviewer
             </Button>
@@ -649,7 +651,7 @@ export default function ProvenanceDomain({ items, cF }) {
           <StyledCell></StyledCell>
         </TableRow>
         <TableRow>
-          <TableCell colSpan="10">
+          <TableCell colSpan="11">
             <Typography className={missingContributors ? classes.missingHeader : classes.header} variant="h3">
               Contributors
             </Typography>
@@ -660,7 +662,7 @@ export default function ProvenanceDomain({ items, cF }) {
           <TableCell className={missingContributorsContribution ? classes.missingHeader : classes.header}>Contribution</TableCell>
           <TableCell colSpan="2">Affiliation</TableCell>
           <TableCell colSpan="2">eMail</TableCell>
-          <TableCell colSpan="3">ORCID</TableCell>
+          <TableCell colSpan="4">ORCID</TableCell>
         </TableRow>
           {
             items.pdContributors.map((item, index) => 
@@ -677,7 +679,7 @@ export default function ProvenanceDomain({ items, cF }) {
                 <StyledCell colSpan="2">
                   <TextField fullWidth variant="outlined" value={cF(item.email)} onChange={(e) => setInput(e, index, 'email', 'pdContributors')} />
                 </StyledCell>
-                <StyledCell colSpan="2">
+                <StyledCell colSpan="3">
                   <TextField fullWidth variant="outlined" value={cF(item.orcid)} onChange={(e) => setInput(e, index, 'orcid', 'pdContributors')} />
                 </StyledCell>
                 <StyledCell>
@@ -689,7 +691,7 @@ export default function ProvenanceDomain({ items, cF }) {
             )
           }
         <TableRow>
-          <StyledCell colSpan="9">
+          <StyledCell colSpan="10">
             <Button variant="contained" color="primary" disableElevation fullWidth onClick={() => addRows('pdContributors')}>
               Add Contributor
             </Button>
