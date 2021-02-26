@@ -44,7 +44,7 @@ const useStyles = makeStyles((theme) => ({
     background: 'green'
   },
   executionDomain: {
-    background: 'red'
+    background: 'purple'
   },
   extensionDomain: {
     background: 'magenta'
@@ -303,25 +303,11 @@ const ColorCoded = ({ saving, setSaving, publishing, setPublishing, compCheck, c
   const [edScript, setEdScript] = useState(contents.execution_domain.script);
   const [edScriptDriver, setEdScriptDriver] = useState(contents.execution_domain.script_driver);
   const [edSoftwarePrerequisites, setEdSoftwarePrerequisites] = useState(contents.execution_domain.software_prerequisites);
-  const [edSoftwarePrerequisitesRowTemplate, setEdSoftwarePrerequisiteRowTemplate] = useState({
-    "name": "",
-    "version": "",
-    "filename": "",
-    "uri": "",
-    "access_time": "",
-    "sha1_checksum": ""
-  });
+  
   const [edExternalDataEndpoints, setEdExternalDataEndpoints] = useState(contents.execution_domain.external_data_endpoints);
-  const [edExternalDataEndpointsRowTemplate, setEdExternalDataEndpointsRowTemplate] = useState({
-    "name": "",
-    "uri": ""
-  });
+  
   const [edEnvironmentVariables, setEdEnvironmentVariables] = useState(contents.execution_domain.environment_variables);
-  const [edEnvironmentVariablesRowTemplate, setEdEnvironmentVariablesRowTemplate] = useState({
-    "name": "",
-    "uri": ""
-  });
-
+  
   // IO Domain
   const [iodInputSubdomain, setIodInputSubdomain] = useState(contents.io_domain.input_subdomain);
   const [iodOutputSubdomain, setIodOutputSubdomain] = useState(contents.io_domain.output_subdomain);  
@@ -374,7 +360,7 @@ const ColorCoded = ({ saving, setSaving, publishing, setPublishing, compCheck, c
     { compCheck, checkBlank, pdName, pdVersion, pdLicense, pdDerivedFrom, pdCreated, pdModifed, pdObsoleteAfter, pdEmbargo, pdReview, pdContributors, rerender, setRerender, setPdName, setPdVersion, setPdLicense, setPdDerivedFrom, setPdCreated, setPdModified, setPdObsoleteAfter, setPdEmbargo, setPdReview, setPdContributors }, 
     { compCheck, checkBlank, ud, setUd },
     { compCheck, checkBlank, ddKeywords, ddPipelineSteps, rerender, setDdKeywords, setDdPipelineSteps, setRerender },
-    { compCheck, checkBlank, edScript, edScriptDriver, edSoftwarePrerequisites, edSoftwarePrerequisitesRowTemplate, edExternalDataEndpoints, edExternalDataEndpointsRowTemplate, edEnvironmentVariables, edEnvironmentVariablesRowTemplate },
+    { compCheck, checkBlank, edScript, edScriptDriver, edSoftwarePrerequisites, edExternalDataEndpoints, edEnvironmentVariables, setEdScript, setEdScriptDriver, setEdSoftwarePrerequisites, setEdExternalDataEndpoints, setEdEnvironmentVariables },
     { compCheck, checkBlank, iodInputSubdomain, iodOutputSubdomain, setIodInputSubdomain, setIodOutputSubdomain, rerender, setRerender },
     { compCheck, checkBlank, pad, rerender, setPad, setRerender },
     { compCheck, checkBlank, errd }, 

@@ -64,7 +64,7 @@ export default function Tools({ setSaving, setPublishing, compCheck, setCompChec
           container
           spacing={3}
           >
-          <Grid
+          {/* <Grid
             item
             lg={3}
             md={12}
@@ -153,7 +153,7 @@ export default function Tools({ setSaving, setPublishing, compCheck, setCompChec
               </Grid>
             </CardContent>
           </Card>
-          </Grid>
+          </Grid> */}
           <Grid
             item
             lg={3}

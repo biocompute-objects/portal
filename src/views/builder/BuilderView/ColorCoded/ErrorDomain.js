@@ -35,9 +35,12 @@ export default function ErrorDomain({ items, cF }) {
   
   const classes = withStyles(), inputClasses = useStyles();
 
+  // No state required to check for missing section because
+  // error domain is optional in IEEE 2791.
+
   // Arguments
   // ---------
-  // items: JSON object (Usability Domain)
+  // items: JSON object (Error Domain)
 
 
   // ----- Meta Information ----- //
@@ -48,7 +51,7 @@ export default function ErrorDomain({ items, cF }) {
   console.log(cF(items))
 
 
-  // ----- Usability ----- //
+  // ----- Error ----- //
 
   return(
     <Table size="small">

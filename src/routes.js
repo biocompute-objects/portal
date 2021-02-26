@@ -13,12 +13,15 @@ import RegisterView from 'src/views/auth/RegisterView';
 import ValidatorView from 'src/views/validator/ValidatorView'
 
 
-const routes = (fakeAuth) => [
+
+const routes = (fakeAuth) => 
+
+const routes = [
   {
     path: '/',
     element: <MainLayout />,
     children: [
-      { path: 'login', element: <LoginView /> },
+      { path: 'login', element: <DisplayContext value={{ isLoggedIn, setIsLoggedIn }}><LoginView /></DisplayContext> },
       { path: 'register', element: <RegisterView /> }
     ]
   },

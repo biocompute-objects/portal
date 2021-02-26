@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import {
-  withStyles, Typography
+  makeStyles, withStyles, Typography
 } from '@material-ui/core';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -13,6 +13,16 @@ import TextField from '@material-ui/core/TextField';
 
 // Add buttons
 import Button from '@material-ui/core/Button';
+
+// Section cell styling
+const useStyles = makeStyles((theme) => ({
+  header: {
+    color: 'white'
+  },
+  missingHeader: {
+    color: 'red'
+  }
+}));
 
 // Cell styling
 const StyledCell = withStyles({
@@ -27,7 +37,166 @@ const StyledCell = withStyles({
 // Pass an object and whether or not its keys are properties.
 export default function IoDomain({ items, cF }) {
   
-  const classes = withStyles();
+  console.log('IoData:', items)
+  
+  const classes = useStyles();
+
+  // State for showing missing sections.
+  const [missingIoDomain, setMissingIoDomain] = useState(true);
+  const [missingInputSubdomain, setMissingInputSubdomain] = useState(false);
+  const [missingInputSubdomainUri, setMissingInputSubdomainUri] = useState(false);
+  const [missingOutputSubdomain, setMissingOutputSubdomain] = useState(false);
+  const [missingOutputSubdomainMediatype, setMissingOutputSubdomainMediatype] = useState(false);
+  const [missingOutputSubdomainUri, setMissingOutputSubdomainUri] = useState(false);
+
+  useEffect(() => {
+    
+    // Create an OR flag.
+    var orFlag = false;
+
+    // Input subdomain
+    if(items.iodInputSubdomain.length === 0) {
+
+      // No input subdomain.
+      setMissingInputSubdomain(true);
+
+      // No sub-fields.
+      setMissingInputSubdomainUri(true);
+
+      // Set the OR flag.
+      orFlag = true;
+
+    } else {
+
+      // If there is an input subdomain, we have to consider
+      // the necessary subfields.
+
+      // Each field must be treated independently so that
+      // our state is compared only to the relevant field.
+
+      // Assume the header is not red.
+      setMissingInputSubdomain(false);
+
+      // Each one of the input files.
+      for(var i = 0; i < items.iodInputSubdomain.length; i++) {
+
+        // URI
+        if(items.iodInputSubdomain[i].uri.uri === "") {
+          
+          // No URI.
+          setMissingInputSubdomainUri(true);
+
+          // Header
+          setMissingInputSubdomain(true);
+
+          // Set the OR flag.
+          orFlag = true;
+
+          break;
+
+        } else {
+          setMissingInputSubdomainUri(false);
+        }
+
+        // Can't rely on orFlag here for same reason as other domains.
+        
+      }
+      
+    }
+
+    // Output subdomain
+    if(items.iodOutputSubdomain.length === 0) {
+
+      // No output subdomain.
+      setMissingOutputSubdomain(true);
+
+      // No sub-fields.
+      setMissingOutputSubdomainMediatype(true);
+      setMissingOutputSubdomainUri(true);
+
+      // Set the OR flag.
+      orFlag = true;
+
+    } else {
+
+      // If there is an output subdomain, we have to consider
+      // the necessary subfields.
+
+      // Each field must be treated independently so that
+      // our state is compared only to the relevant field.
+
+      // Assume the header is not red.
+      setMissingOutputSubdomain(false);
+
+      // Each one of the output files.
+      for(var i = 0; i < items.iodOutputSubdomain.length; i++) {
+
+        // Mediatype
+        if(items.iodOutputSubdomain[i].mediatype === "") {
+          
+          // No mediatype.
+          setMissingOutputSubdomainMediatype(true);
+
+          // Header
+          setMissingOutputSubdomain(true);
+
+          // Set the OR flag.
+          orFlag = true;
+
+          break;
+
+        } else {
+          setMissingOutputSubdomainMediatype(false);
+        }
+
+        // Can't rely on orFlag here for same reason as other domains.
+        
+      }
+
+      // Each one of the output files.
+      for(var i = 0; i < items.iodOutputSubdomain.length; i++) {
+
+        // URI
+        if(items.iodOutputSubdomain[i].uri.uri === "") {
+          
+          // No URI.
+          setMissingOutputSubdomainUri(true);
+
+          // Header
+          setMissingOutputSubdomain(true);
+
+          // Set the OR flag.
+          orFlag = true;
+
+          break;
+
+        } else {
+          setMissingOutputSubdomainUri(false);
+        }
+
+        // Can't rely on orFlag here for same reason as other domains.
+        
+      }
+      
+    }
+
+    // Was one OR the other missing in the pipeline input/output?
+    if(orFlag) {
+      setMissingIoDomain(true);
+    } else {
+
+      // All required fields are ok.
+      setMissingInputSubdomainUri(false);
+      setMissingOutputSubdomainMediatype(false);
+      setMissingOutputSubdomainUri(false);
+
+      setMissingInputSubdomain(false);
+      setMissingOutputSubdomain(false);
+      setMissingIoDomain(false);
+
+    }
+
+  }, [items]);
 
   // Set an input value
 
@@ -178,7 +347,7 @@ export default function IoDomain({ items, cF }) {
     <TableHead className={classes.tabled}>
       <TableRow>
         <StyledCell colSpan="6">
-          <Typography variant="h3">
+          <Typography className={missingIoDomain ? classes.missingHeader : classes.header} variant="h1">
             IO Domain
           </Typography>
         </StyledCell>
@@ -187,7 +356,7 @@ export default function IoDomain({ items, cF }) {
     <TableBody>
       <TableRow>
         <StyledCell colSpan="5">
-          <Typography>
+          <Typography className={missingInputSubdomain ? classes.missingHeader : classes.header} variant="h3">
             Input Subdomain
           </Typography>
         </StyledCell>
@@ -199,7 +368,7 @@ export default function IoDomain({ items, cF }) {
           </Typography>
         </StyledCell>
         <StyledCell>
-          <Typography>
+          <Typography className={missingInputSubdomainUri ? classes.missingHeader : classes.header} variant="h3">
             URI
           </Typography>
         </StyledCell>
@@ -247,14 +416,14 @@ export default function IoDomain({ items, cF }) {
         </TableRow>
       <TableRow>
         <StyledCell colSpan="6">
-          <Typography>
+          <Typography className={missingOutputSubdomain ? classes.missingHeader : classes.header} variant="h3">
             Output Subdomain
           </Typography>
         </StyledCell>
       </TableRow>
       <TableRow>
         <StyledCell>
-          <Typography>
+          <Typography className={missingOutputSubdomainMediatype ? classes.missingHeader : classes.header} variant="h3">
             Media Type
           </Typography>
         </StyledCell>
@@ -264,7 +433,7 @@ export default function IoDomain({ items, cF }) {
           </Typography>
         </StyledCell>
         <StyledCell>
-          <Typography>
+          <Typography className={missingOutputSubdomainUri ? classes.missingHeader : classes.header} variant="h3">
             URI
           </Typography>
         </StyledCell>

@@ -63,14 +63,6 @@ export default function ProvenanceDomain({ items, cF }) {
   // State for showing missing sections.
   // TODO: For some reason didn't work with [items.pdContributors]
 
-  useEffect(() => {
-    if(items.pdContributors.length === 0) {
-      setMissingContributors(true);
-    } else {
-      setMissingContributors(false);
-    }
-  }, [items])
-
   // State for showing missing sections.
   const [missingProvenanceDomain, setMissingProvenanceDomain] = useState(true);
   const [missingName, setMissingName] = useState(false);
@@ -147,6 +139,9 @@ export default function ProvenanceDomain({ items, cF }) {
       // If there is a review field, we have to consider
       // the necessary subfields.
 
+      // Each field must be treated independently so that
+      // our state is compared only to the relevant field.
+
       // Assume the header is not red.
       setMissingReview(false);
 
@@ -165,10 +160,20 @@ export default function ProvenanceDomain({ items, cF }) {
           // Set the OR flag.
           orFlag = true;
 
+          break;
+
         } else {
           setMissingReviewStatus(false);
         }
+
+        // Can't rely on orFlag here because fields like
+        // Name, Version, and License also depend on it.
         
+      }
+      
+      for(var i = 0; i < items.pdReview.length; i++) {
+        
+        // Name
         if(items.pdReview[i].reviewer.name === "") {
           
           // No name.
@@ -180,10 +185,20 @@ export default function ProvenanceDomain({ items, cF }) {
           // Set the OR flag.
           orFlag = true;
 
+          break;
+
         } else {
           setMissingReviewName(false);
         }
+
+        // Can't rely on orFlag here because fields like
+        // Name, Version, and License also depend on it.
         
+      }
+      
+      for(var i = 0; i < items.pdReview.length; i++) {
+        
+        // Contribution
         if(items.pdReview[i].reviewer.contribution.length === 0) {
           
           // No contribution.
@@ -194,6 +209,8 @@ export default function ProvenanceDomain({ items, cF }) {
 
           // Set the OR flag.
           orFlag = true;
+
+          break;
 
         } else {
           setMissingReviewContribution(false);
@@ -206,102 +223,101 @@ export default function ProvenanceDomain({ items, cF }) {
       
     }
 
+    // Each field must be treated independently so that
+    // our state is compared only to the relevant field.
+
     // Contributors are required
-    // if(items.pdReview.length == 0) {
-
-    //   // No review.
-    //   setMissingReview(false);
-
-    //   // No sub-fields.
-    //   setMissingReviewStatus(false);
-    //   setMissingReviewName(false);
-    //   setMissingReviewContribution(false);
-
-    // } else {
-
-    //   // If there is a review field, we have to consider
-    //   // the necessary subfields.
-
-    //   // Assume the header is not red.
-    //   setMissingReview(false);
-
-    //   // Each one of the reviews.
-    //   for(var i = 0; i < items.pdReview.length; i++) {
-
-    //     // Status
-    //     if(items.pdReview[i].status.length === 0) {
-          
-    //       // No status.
-    //       setMissingReviewStatus(true);
-
-    //       // Header
-    //       setMissingReview(true);
-
-    //       // Set the OR flag.
-    //       orFlag = true;
-
-    //     } else {
-    //       setMissingReviewStatus(false);
-    //     }
-        
-    //     if(items.pdReview[i].reviewer.name === "") {
-          
-    //       // No name.
-    //       setMissingReviewName(true);
-
-    //       // Header
-    //       setMissingReview(true);
-
-    //       // Set the OR flag.
-    //       orFlag = true;
-
-    //     } else {
-    //       setMissingReviewName(false);
-    //     }
-        
-    //     if(items.pdReview[i].reviewer.contribution.length === 0) {
-          
-    //       // No contribution.
-    //       setMissingReviewContribution(true);
-
-    //       // Header
-    //       setMissingReview(true);
-
-    //       // Set the OR flag.
-    //       orFlag = true;
-
-    //     } else {
-    //       setMissingReviewContribution(false);
-    //     }
-
-    //     // If the flag is true, simply break.
-    //     if(orFlag === true) {
-    //       break;
-    //     } else {
-
-    //       // Review section is fine.
-    //       setMissingReview(false);
-
-    //     }
-        
-    //   }
+    if(items.pdContributors.length == 0) {
       
-    // }
+      // No contributors.
+      setMissingContributors(true);
 
-    // // Was one OR the other missing in the pipeline input/output?
-    // if(orFlag) {
-    //   setMissingProvenanceDomain(true);
-    // } else {
+      // No sub-fields.
+      setMissingContributorsName(true);
+      setMissingContributorsContribution(true);
 
-    //   // All required fields are ok.
-    //   setMissingReviewStatus(false);
-    //   setMissingReviewName(false);
-    //   setMissingReviewContribution(false);
+      // Set the OR flag.
+      orFlag = true;
 
-    //   setMissingReview(false);
-    //   setMissingProvenanceDomain(false);
+    } else {
 
-    // }
+      // If there are contributors, we have to consider
+      // the necessary subfields.
+
+      // Assume the header is not red.
+      setMissingContributors(false);
+
+      // Each one of the contributors.
+      for(var i = 0; i < items.pdContributors.length; i++) {
+
+        // Name
+        if(items.pdContributors[i].name === "") {
+          
+          // No Name.
+          setMissingContributorsName(true);
+
+          // Header
+          setMissingContributors(true);
+
+          // Set the OR flag.
+          orFlag = true;
+
+          break;
+
+        } else {
+          setMissingContributorsName(false);
+        }
+
+        // Can't rely on orFlag here because fields like
+        // Name, Version, and License also depend on it.
+        
+      }
+
+      // Each one of the contributors.
+      for(var i = 0; i < items.pdContributors.length; i++) {
+        
+        // Contribution        
+        if(items.pdContributors[i].contribution.length === 0) {
+          
+          // No contribution.
+          setMissingContributorsContribution(true);
+
+          // Header
+          setMissingContributors(true);
+
+          // Set the OR flag.
+          orFlag = true;
+
+          break;
+
+        } else {
+          setMissingContributorsContribution(false);
+        }
+
+        // Can't rely on orFlag here because fields like
+        // Name, Version, and License also depend on it.
+        
+      }
+      
+    }
+
+    // Was one OR the other missing in the pipeline input/output?
+    if(orFlag) {
+      setMissingProvenanceDomain(true);
+    } else {
+
+      // All required fields are ok.
+      setMissingReviewStatus(false);
+      setMissingReviewName(false);
+      setMissingReviewContribution(false);
+      setMissingContributorsName(false);
+      setMissingContributorsContribution(false);
+
+      setMissingReview(false);
+      setMissingContributors(false);
+      setMissingProvenanceDomain(false);
+
+    }
 
   }, [items]);
   
@@ -525,7 +541,7 @@ export default function ProvenanceDomain({ items, cF }) {
           <TableCell className={missingLicense ? classes.missingHeader: classes.header}>
             License
           </TableCell>
-          <StyledCell colSpan="3" noGutter>
+          <StyledCell colSpan="4" noGutter>
             <TextField error={missingLicense ? true : false} fullWidth id="outlined-basic" value={cF(items.pdLicense)} onChange={(e) => items.setPdLicense(e.target.value)} variant="outlined" />
           </StyledCell>
         </TableRow>
@@ -533,7 +549,7 @@ export default function ProvenanceDomain({ items, cF }) {
           <StyledCell>
             Derived From
           </StyledCell>
-          <StyledCell colSpan="9" noGutter>
+          <StyledCell colSpan="10" noGutter>
             <TextField fullWidth id="outlined-basic" value={cF(items.pdDerivedFrom)} onChange={(e) => items.setPdDerivedFrom(e.target.value)} variant="outlined" />
           </StyledCell>
         </TableRow>
@@ -568,7 +584,9 @@ export default function ProvenanceDomain({ items, cF }) {
             Embargo End Time
           </StyledCell>
           <StyledCell noGutter>
-          <Datetime />
+            <Datetime />
+          </StyledCell>
+          <StyledCell>
           </StyledCell>
         </TableRow>
         <TableRow>
@@ -625,7 +643,7 @@ export default function ProvenanceDomain({ items, cF }) {
           )
         }
         <TableRow>
-          <StyledCell colSpan="9">
+          <StyledCell colSpan="10">
             <Button variant="contained" color="primary" disableElevation fullWidth onClick={() => addRows('pdReview')}>
               Add Reviewer
             </Button>
@@ -633,18 +651,18 @@ export default function ProvenanceDomain({ items, cF }) {
           <StyledCell></StyledCell>
         </TableRow>
         <TableRow>
-          <TableCell colSpan="10">
+          <TableCell colSpan="11">
             <Typography className={missingContributors ? classes.missingHeader : classes.header} variant="h3">
               Contributors
             </Typography>
           </TableCell>
         </TableRow>
         <TableRow>
-          <TableCell className={missingContributors ? classes.missingHeader : classes.header} colSpan="2">Name</TableCell>
-          <TableCell className={missingContributors ? classes.missingHeader : classes.header}>Contribution</TableCell>
+          <TableCell className={missingContributorsName ? classes.missingHeader : classes.header} colSpan="2">Name</TableCell>
+          <TableCell className={missingContributorsContribution ? classes.missingHeader : classes.header}>Contribution</TableCell>
           <TableCell colSpan="2">Affiliation</TableCell>
           <TableCell colSpan="2">eMail</TableCell>
-          <TableCell colSpan="3">ORCID</TableCell>
+          <TableCell colSpan="4">ORCID</TableCell>
         </TableRow>
           {
             items.pdContributors.map((item, index) => 
@@ -661,7 +679,7 @@ export default function ProvenanceDomain({ items, cF }) {
                 <StyledCell colSpan="2">
                   <TextField fullWidth variant="outlined" value={cF(item.email)} onChange={(e) => setInput(e, index, 'email', 'pdContributors')} />
                 </StyledCell>
-                <StyledCell colSpan="2">
+                <StyledCell colSpan="3">
                   <TextField fullWidth variant="outlined" value={cF(item.orcid)} onChange={(e) => setInput(e, index, 'orcid', 'pdContributors')} />
                 </StyledCell>
                 <StyledCell>
@@ -673,7 +691,7 @@ export default function ProvenanceDomain({ items, cF }) {
             )
           }
         <TableRow>
-          <StyledCell colSpan="9">
+          <StyledCell colSpan="10">
             <Button variant="contained" color="primary" disableElevation fullWidth onClick={() => addRows('pdContributors')}>
               Add Contributor
             </Button>
