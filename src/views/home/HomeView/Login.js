@@ -34,20 +34,16 @@ export default function Login() {
   return (
 
     <Card className={classes.root, classes.linkCard}>
-    <form>
-      <Typography className={classes.title}>Portal Login</Typography>
-      <label>
-        <p>Username</p>
-        <input type="text" />
-      </label>
-      <label>
-        <p>Password</p>
-        <input type="password" />
-      </label>
-      <div>
-        <button type="submit">Submit</button>
-      </div>
-    </form>
-	</Card>
+      <CardActionArea className={classes.linkCard}>
+        <CardContent component={RouterLink} to={"/login"}>
+            <Typography className={classes.title}>
+            BCO Portal Login
+            </Typography>
+            <Typography>
+            Not loged in. Click to Login or register
+            </Typography>
+        </CardContent>
+      </CardActionArea>
+    </Card>
   )
 }
