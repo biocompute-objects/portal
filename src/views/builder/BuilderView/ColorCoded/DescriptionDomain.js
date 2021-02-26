@@ -51,10 +51,11 @@ export default function DescriptionDomain({ compCheck, checkBlank, items, cF }) 
   const [missingDescriptionDomain, setMissingDescriptionDomain] = useState(true);
   const [missingKeywords, setMissingKeywords] = useState(false);
   const [missingSteps, setMissingSteps] = useState(false);
+  const [missingStepsNumber, setMissingStepsNumber] = useState(false);
   const [missingStepsName, setMissingStepsName] = useState(false);
   const [missingStepsDescription, setMissingStepsDescription] = useState(false);
   const [missingStepsInputUri, setMissingStepsInputUri] = useState(false);
-  const [missingStepsOutputUri, setMissingStespOutputUri] = useState(false);
+  const [missingStepsOutputUri, setMissingStepsOutputUri] = useState(false);
 
   useEffect(() => {
     
@@ -86,6 +87,7 @@ export default function DescriptionDomain({ compCheck, checkBlank, items, cF }) 
       setMissingSteps(true);
 
       // No sub-fields.
+      setMissingStepsNumber(true);
       setMissingStepsName(true);
       setMissingStepsDescription(true);
 
@@ -99,6 +101,9 @@ export default function DescriptionDomain({ compCheck, checkBlank, items, cF }) 
 
       // Assume the header is not red.
       setMissingSteps(false);
+
+      // We have at least one step by default.
+      setMissingStepsNumber(false);
 
       // Each one of the pipeline steps.
       for(var i = 0; i < items.ddPipelineSteps.length; i++) {
@@ -160,6 +165,10 @@ export default function DescriptionDomain({ compCheck, checkBlank, items, cF }) 
       if(items.ddPipelineSteps[i].input_list.length === 0) {
         
         // No input list.
+        setMissingStepsInputUri(true);
+
+        // Header
+        setMissingSteps(true);
         
         // Set the OR flag.
         orFlag = true;
@@ -168,24 +177,28 @@ export default function DescriptionDomain({ compCheck, checkBlank, items, cF }) 
 
       } else {
 
-          // We have an input list, but do we have URIs?
-          for(var j = 0; j < items.ddPipelineSteps[i].input_list.length; j++) {
-            if(items.ddPipelineSteps[i].input_list[j]['uri']['uri'] === "") {
-              
-              // No URI.
+        // We have an input list, but do we have URIs?
+        for(var j = 0; j < items.ddPipelineSteps[i].input_list.length; j++) {
+          if(items.ddPipelineSteps[i].input_list[j]['uri']['uri'] === "") {
+            
+            // No URI.
+            setMissingStepsInputUri(true);
 
-              // Set the OR flag.
-              orFlag = true;
+            // Header
+            setMissingSteps(true);
 
-              break;
+            // Set the OR flag.
+            orFlag = true;
 
-            } else {
+            break;
 
-              setMissingDescriptionDomain(false);
+          } else {
 
-            }
+            setMissingStepsInputUri(false);
 
           }
+
+        }
         
       }
       
@@ -195,7 +208,11 @@ export default function DescriptionDomain({ compCheck, checkBlank, items, cF }) 
     for(var i = 0; i < items.ddPipelineSteps.length; i++) {
       if(items.ddPipelineSteps[i].output_list.length === 0) {
         
-        // No output list.
+        // No URI.
+        setMissingStepsOutputUri(true);
+
+        // Header
+        setMissingSteps(true);
         
         // Set the OR flag.
         orFlag = true;
@@ -209,6 +226,10 @@ export default function DescriptionDomain({ compCheck, checkBlank, items, cF }) 
           if(items.ddPipelineSteps[i].output_list[j]['uri']['uri'] === "") {
             
             // No URI.
+            setMissingStepsOutputUri(true);
+
+            // Header
+            setMissingSteps(true);
 
             // Set the OR flag.
             orFlag = true;
@@ -217,7 +238,7 @@ export default function DescriptionDomain({ compCheck, checkBlank, items, cF }) 
 
           } else {
 
-            setMissingDescriptionDomain(false);
+            setMissingStepsOutputUri(false);
 
           }
 
@@ -427,7 +448,7 @@ export default function DescriptionDomain({ compCheck, checkBlank, items, cF }) 
       </TableRow>
       <TableRow>
         <TableCell>
-          <Typography>
+          <Typography className={missingStepsNumber ? classes.missingHeader : classes.header}>
             Step Number
           </Typography>
         </TableCell>
@@ -442,12 +463,12 @@ export default function DescriptionDomain({ compCheck, checkBlank, items, cF }) 
           </Typography>
         </TableCell>
         <TableCell>
-          <Typography>
+          <Typography className={missingStepsInputUri ? classes.missingHeader : classes.header}>
             Input List
           </Typography>
         </TableCell>
         <TableCell>
-          <Typography>
+          <Typography className={missingStepsOutputUri ? classes.missingHeader : classes.header}>
             Output List
           </Typography>
         </TableCell>
@@ -469,7 +490,7 @@ export default function DescriptionDomain({ compCheck, checkBlank, items, cF }) 
                     aria-controls="panel1a-content"
                     id="panel1a-header"
                   >
-                  <Typography className={item.input_list.length === 0 ? classes.missingHeader : classes.header} variant="h3">
+                  <Typography className={missingStepsInputUri ? classes.missingHeader : classes.header} variant="h3">
                     Show Inputs
                   </Typography>
                   </AccordionSummary>
@@ -525,7 +546,7 @@ export default function DescriptionDomain({ compCheck, checkBlank, items, cF }) 
                     aria-controls="panel1a-content"
                     id="panel1a-header"
                   >
-                  <Typography className={item.output_list.length === 0 ? classes.missingHeader : classes.header} variant="h3">
+                  <Typography className={missingStepsOutputUri ? classes.missingHeader : classes.header} variant="h3">
                     Show Outputs
                   </Typography>
                   </AccordionSummary>
