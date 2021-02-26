@@ -1,5 +1,5 @@
 import React from 'react';
-import { Navigate, Outlet } from 'react-router-dom';
+import { Navigate } from 'react-router-dom';
 import AccountView from 'src/views/account/AccountView';
 import BuilderView from 'src/views/builder/BuilderView';
 import DashboardLayout from 'src/layouts/DashboardLayout';
@@ -13,7 +13,7 @@ import RegisterView from 'src/views/auth/RegisterView';
 import ValidatorView from 'src/views/validator/ValidatorView'
 
 
-const routes = (fakeAuth) => [
+const tokenRouts = [
   {
     path: '/',
     element: <MainLayout />,
@@ -32,25 +32,17 @@ const routes = (fakeAuth) => [
   },
   {
     path: '/',
-    element:  <MainLayout />,
+    element: <MainLayout />,
     children: [
-      { path: 'account', element:
-	  					fakeAuth.isAuthenticated === true 
-									? <AccountView /> 
-									:  <Navigate to="/login" />},
-      { path: 'objects', element:
-									 fakeAuth.isAuthenticated === true 
-		  							? <ObjectsListView /> 
-	  								:  <Navigate to="/login" />},
+      { path: 'account', element: <AccountView /> },
+      { path: 'objects', element: <ObjectsListView /> },
       { path: 'builder', element: <BuilderView /> },
       { path: 'validator', element: <ValidatorView /> }
     ]
   },
   {
     path: '/builder',
-    element: fakeAuth.isAuthenticated === true 
-	  ? <MainLayout /> 
-	  :  <Navigate to="/login" />,
+    element: <MainLayout />,
     children: [
       { path: ':prefix_:state_:uuid', element: <BuilderView /> }
     ]
@@ -79,4 +71,4 @@ const routes = (fakeAuth) => [
   }
 ];
 
-export default routes;
+export default tokenRouts;

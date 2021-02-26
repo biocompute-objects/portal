@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
 import * as Yup from 'yup';
-import { Formik } from 'formik';
+import { Formik, withFormik } from 'formik';
 import {
   Box,
   Button,
@@ -23,15 +23,12 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-const LoginView = () => {
+const LoginView = (props) => {
   const classes = useStyles();
   const navigate = useNavigate();
 
   return (
-    <Page
-      className={classes.root}
-      title="Login"
-    >
+	  <Page className={classes.root} title="Login" >
       <Box
         display="flex"
         flexDirection="column"
@@ -41,15 +38,15 @@ const LoginView = () => {
         <Container maxWidth="sm">
           <Formik
             initialValues={{
-              email: 'demo@devias.io',
-              password: 'Password123'
+              username: '',
+              password: ''
             }}
             validationSchema={Yup.object().shape({
-              email: Yup.string().email('Must be a valid email').max(255).required('Email is required'),
+              username: Yup.string().max(255).required('Username is required'),
               password: Yup.string().max(255).required('Password is required')
             })}
             onSubmit={() => {
-              navigate('/app/dashboard', { replace: true });
+              navigate('/dashboard', { replace: true });
             }}
           >
             {({
@@ -103,20 +100,19 @@ const LoginView = () => {
                     color="textSecondary"
                     variant="body1"
                   >
-                    or login with email address
                   </Typography>
                 </Box>
                 <TextField
-                  error={Boolean(touched.email && errors.email)}
+                  error={Boolean(touched.username && errors.username)}
                   fullWidth
-                  helperText={touched.email && errors.email}
-                  label="Email Address"
+                  helperText={touched.username && errors.username}
+                  label="User Name"
                   margin="normal"
-                  name="email"
+                  name="username"
                   onBlur={handleBlur}
                   onChange={handleChange}
-                  type="email"
-                  value={values.email}
+                  type="username"
+                  value={values.username}
                   variant="outlined"
                 />
                 <TextField
@@ -135,7 +131,7 @@ const LoginView = () => {
                 <Box my={2}>
                   <Button
                     color="primary"
-                    disabled={isSubmitting}
+                    // disabled={isSubmitting}
                     fullWidth
                     size="large"
                     type="submit"
@@ -167,4 +163,16 @@ const LoginView = () => {
   );
 };
 
-export default LoginView;
+const LoginFormik = withFormik({
+  mapPropsToValues: (values) => {
+    return {
+      username: values.username || '',
+      password: values.password || ''
+    }
+  },
+  handleSubmit: (values) => {
+    console.log(values)
+  }
+})(LoginView)
+
+export default LoginFormik;

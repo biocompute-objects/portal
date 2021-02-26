@@ -8,7 +8,7 @@ import routes from 'src/routes';
 
 function App() {
 	const fakeAuth = {
-		isAuthenticated: true,
+		isAuthenticated: false,
 		authenticate(cb) {
 			this.isAuthenticated = true
 			setTimeout(cb, 100)
