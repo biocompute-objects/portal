@@ -30,12 +30,12 @@ const useStyles = makeStyles({
   },
 });
 
-export default function MyProfile() {
+export default function MyProfile(fakeAuth) {
   const classes = useStyles();
-  const [token, setToken] = useState();
 
-  if(!token) {
-    return <Login setToken={setToken} />
+	//TOO DO Fix this
+  if (fakeAuth.isAuthenticated === false) {
+    return <Login />
   }
   
   return (

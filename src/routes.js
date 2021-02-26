@@ -1,5 +1,5 @@
 import React from 'react';
-import { Navigate } from 'react-router-dom';
+import { Navigate, Outlet } from 'react-router-dom';
 import AccountView from 'src/views/account/AccountView';
 import BuilderView from 'src/views/builder/BuilderView';
 import DashboardLayout from 'src/layouts/DashboardLayout';
@@ -13,7 +13,7 @@ import RegisterView from 'src/views/auth/RegisterView';
 import ValidatorView from 'src/views/validator/ValidatorView'
 
 
-const routes = [
+const routes = (fakeAuth) => [
   {
     path: '/',
     element: <MainLayout />,
@@ -32,17 +32,25 @@ const routes = [
   },
   {
     path: '/',
-    element: <MainLayout />,
+    element:  <MainLayout />,
     children: [
-      { path: 'account', element: <AccountView /> },
-      { path: 'objects', element: <ObjectsListView /> },
+      { path: 'account', element:
+	  					fakeAuth.isAuthenticated === true 
+									? <AccountView /> 
+									:  <Navigate to="/login" />},
+      { path: 'objects', element:
+									fakeAuth.isAuthenticated === true 
+		  							? <ObjectsListView /> 
+	  								:  <Navigate to="/login" />},
       { path: 'builder', element: <BuilderView /> },
       { path: 'validator', element: <ValidatorView /> }
     ]
   },
   {
     path: '/builder',
-    element: <MainLayout />,
+    element: fakeAuth.isAuthenticated === true 
+	  ? <MainLayout /> 
+	  :  <Navigate to="/login" />,
     children: [
       { path: ':prefix_:state_:uuid', element: <BuilderView /> }
     ]

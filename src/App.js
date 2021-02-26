@@ -7,8 +7,18 @@ import theme from 'src/theme';
 import routes from 'src/routes';
 
 function App() {
-  const [token, setToken] = useState();
-  const routing = useRoutes(routes);
+	const fakeAuth = {
+		isAuthenticated: true,
+		authenticate(cb) {
+			this.isAuthenticated = true
+			setTimeout(cb, 100)
+		},
+		signout(cb) {
+			this.isAuthenticated = false
+			setTimeout(cb, 100  )
+		}
+	}
+  const routing = useRoutes(routes(fakeAuth));
 
   return (
     <ThemeProvider theme={theme}>
