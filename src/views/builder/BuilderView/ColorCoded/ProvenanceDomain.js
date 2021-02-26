@@ -18,13 +18,16 @@ import DatePicker from "react-datepicker";
 import TextField from '@material-ui/core/TextField';
 
 // Add contributor
-import Button from '@material-ui/core/Button'
+import Button from '@material-ui/core/Button';
 
-// Contribution select
-import Contribution from './components/Contribution'
+// Contribution select (Reviewer)
+import ContributionReviewer from './components/ContributionReviewer';
 
-// Reviewer contribution select
+// Status select (Reviewer)
 import StatusReviewer from './components/StatusReviewer';
+
+// Contribution select (Contributor)
+import Contribution from './components/Contribution';
 
 // Section cell styling
 const useStyles = makeStyles((theme) => ({
@@ -43,6 +46,13 @@ const StyledCell = withStyles({
   }
 })(TableCell);
 
+// Notes
+
+// Error states can directl derived from missingName, missingVersion, etc...
+// when they are top-level.  The nest fields of Review and Contributors
+// derived error state from their individual values, but still update
+// the top-level variables pdReview and pdContributors.
+
 // Pass an object and whether or not its keys are properties.
 export default function ProvenanceDomain({ items, cF }) {
   
@@ -51,8 +61,6 @@ export default function ProvenanceDomain({ items, cF }) {
   console.log('ProvenanceDomain:', items);
 
   // State for showing missing sections.
-  const [missingContributors, setMissingContributors] = useState(false);
-
   // TODO: For some reason didn't work with [items.pdContributors]
 
   useEffect(() => {
@@ -70,6 +78,11 @@ export default function ProvenanceDomain({ items, cF }) {
   const [missingLicense, setMissingLicense] = useState(false);
   const [missingReview, setMissingReview] = useState(false);
   const [missingReviewStatus, setMissingReviewStatus] = useState(false);
+  const [missingReviewName, setMissingReviewName] = useState(false);
+  const [missingReviewContribution, setMissingReviewContribution] = useState(false);
+  const [missingContributors, setMissingContributors] = useState(false);
+  const [missingContributorsName, setMissingContributorsName] = useState(false);
+  const [missingContributorsContribution, setMissingContributorsContribution] = useState(false);
 
   useEffect(() => {
     
@@ -87,7 +100,6 @@ export default function ProvenanceDomain({ items, cF }) {
 
     } else {
       setMissingName(false);
-      setMissingProvenanceDomain(false);
     }
     
     // Version (note the regex check)
@@ -103,7 +115,6 @@ export default function ProvenanceDomain({ items, cF }) {
 
     } else {
       setMissingVersion(false);
-      setMissingProvenanceDomain(false);
     }
 
     // License
@@ -117,7 +128,6 @@ export default function ProvenanceDomain({ items, cF }) {
 
     } else {
       setMissingLicense(false);
-      setMissingProvenanceDomain(false);
     }
 
     // Review (note that review is not a necessary field
@@ -126,89 +136,175 @@ export default function ProvenanceDomain({ items, cF }) {
 
       // No review.
       setMissingReview(false);
-      setMissingProvenanceDomain(false);
+
+      // No sub-fields.
+      setMissingReviewStatus(false);
+      setMissingReviewName(false);
+      setMissingReviewContribution(false);
 
     } else {
 
       // If there is a review field, we have to consider
       // the necessary subfields.
 
+      // Assume the header is not red.
+      setMissingReview(false);
+
       // Each one of the reviews.
       for(var i = 0; i < items.pdReview.length; i++) {
 
         // Status
-        if(items.pdReview.status === "") {
-
-          // No status.
-
-          // Set the OR flag.
-          orFlag = true;
-
-          break;
-
-        } else if(items.pdReview[i].reviewer.name === "") {
-
-          // No name.
-
-          // Set the OR flag.
-          orFlag = true;
-
-          break;
-
-        } else if(items.pdReview[i].reviewer.contribution === "") {
+        if(items.pdReview[i].status.length === 0) {
           
-          // No contribution.
+          // No status.
+          setMissingReviewStatus(true);
+
+          // Header
+          setMissingReview(true);
 
           // Set the OR flag.
           orFlag = true;
 
         } else {
-
-          setMissingReview(false);
-          setMissingProvenanceDomain(false);
-
+          setMissingReviewStatus(false);
         }
+        
+        if(items.pdReview[i].reviewer.name === "") {
+          
+          // No name.
+          setMissingReviewName(true);
+
+          // Header
+          setMissingReview(true);
+
+          // Set the OR flag.
+          orFlag = true;
+
+        } else {
+          setMissingReviewName(false);
+        }
+        
+        if(items.pdReview[i].reviewer.contribution.length === 0) {
+          
+          // No contribution.
+          setMissingReviewContribution(true);
+
+          // Header
+          setMissingReview(true);
+
+          // Set the OR flag.
+          orFlag = true;
+
+        } else {
+          setMissingReviewContribution(false);
+        }
+
+        // Can't rely on orFlag here because fields like
+        // Name, Version, and License also depend on it.
         
       }
       
     }
 
-    // Was one OR the other missing in the pipeline input/output?
-    if(orFlag) {
-      setMissingProvenanceDomain(true);
-    }
+    // Contributors are required
+    // if(items.pdReview.length == 0) {
+
+    //   // No review.
+    //   setMissingReview(false);
+
+    //   // No sub-fields.
+    //   setMissingReviewStatus(false);
+    //   setMissingReviewName(false);
+    //   setMissingReviewContribution(false);
+
+    // } else {
+
+    //   // If there is a review field, we have to consider
+    //   // the necessary subfields.
+
+    //   // Assume the header is not red.
+    //   setMissingReview(false);
+
+    //   // Each one of the reviews.
+    //   for(var i = 0; i < items.pdReview.length; i++) {
+
+    //     // Status
+    //     if(items.pdReview[i].status.length === 0) {
+          
+    //       // No status.
+    //       setMissingReviewStatus(true);
+
+    //       // Header
+    //       setMissingReview(true);
+
+    //       // Set the OR flag.
+    //       orFlag = true;
+
+    //     } else {
+    //       setMissingReviewStatus(false);
+    //     }
+        
+    //     if(items.pdReview[i].reviewer.name === "") {
+          
+    //       // No name.
+    //       setMissingReviewName(true);
+
+    //       // Header
+    //       setMissingReview(true);
+
+    //       // Set the OR flag.
+    //       orFlag = true;
+
+    //     } else {
+    //       setMissingReviewName(false);
+    //     }
+        
+    //     if(items.pdReview[i].reviewer.contribution.length === 0) {
+          
+    //       // No contribution.
+    //       setMissingReviewContribution(true);
+
+    //       // Header
+    //       setMissingReview(true);
+
+    //       // Set the OR flag.
+    //       orFlag = true;
+
+    //     } else {
+    //       setMissingReviewContribution(false);
+    //     }
+
+    //     // If the flag is true, simply break.
+    //     if(orFlag === true) {
+    //       break;
+    //     } else {
+
+    //       // Review section is fine.
+    //       setMissingReview(false);
+
+    //     }
+        
+    //   }
+      
+    // }
+
+    // // Was one OR the other missing in the pipeline input/output?
+    // if(orFlag) {
+    //   setMissingProvenanceDomain(true);
+    // } else {
+
+    //   // All required fields are ok.
+    //   setMissingReviewStatus(false);
+    //   setMissingReviewName(false);
+    //   setMissingReviewContribution(false);
+
+    //   setMissingReview(false);
+    //   setMissingProvenanceDomain(false);
+
+    // }
 
   }, [items]);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+  
 
   // Check for semantic versioning
   // Source: https://semver.org/spec/v2.0.0.html
@@ -275,16 +371,37 @@ export default function ProvenanceDomain({ items, cF }) {
     // Get the state variable.
     var dummy = items[which];
 
-    // Change the value at the given index.
-    dummy[i][inputName] = event.target.value;
-
     // Cases
-    if(which == 'pdReview') {
+    if(which === 'pdReview') {
 
+      // Cases
+      if(inputName === 'reviewer_comment' || inputName === 'date') {
+
+        // Change the value at the given index.
+        dummy[i][inputName] = event.target.value;
+
+      } else if(inputName === 'status') {
+
+        // Change the value at the given index.
+        dummy[i][inputName] = [event.target.value];
+
+      } else {
+
+        // Need to split up the sub-key.
+        const splitUp = inputName.split('.');
+
+        // Change the value at the given index.
+        dummy[i][splitUp[0]][splitUp[1]] = event.target.value;
+        
+      }
+      
       // Update the state.
       items.setPdReview(dummy);
 
     } else if(which == 'pdContributors') {
+      
+      // Change the value at the given index.
+      dummy[i][inputName] = event.target.value;
       
       // Update the state.
       items.setPdContributors(dummy);
@@ -308,12 +425,12 @@ export default function ProvenanceDomain({ items, cF }) {
       // Push the new row.
       dummy.push({
         "date": "",
-        "status": "",
+        "status": [],
         "reviewer": {
           "name": "",
           "affiliation": "",
           "email": "",
-          "contribution": ""
+          "contribution": []
         },
         "reviewer_comment": ""
       });
@@ -326,7 +443,7 @@ export default function ProvenanceDomain({ items, cF }) {
       // Push the new row.
       dummy.push({
         "name": "",
-        "contribution": "",
+        "contribution": [],
         "affiliation": "",
         "email": "",
         "orcid": ""
@@ -393,21 +510,21 @@ export default function ProvenanceDomain({ items, cF }) {
       </TableHead>
       <TableBody>
         <TableRow>
-          <StyledCell>
+          <TableCell className={missingName ? classes.missingHeader: classes.header}>
             Name
-          </StyledCell>
+          </TableCell>
           <StyledCell colSpan="3" noGutter>
             <TextField error={missingName ? true : false} fullWidth id="outlined-basic" value={cF(items.pdName)} onChange={(e) => items.setPdName(e.target.value)} variant="outlined" />
           </StyledCell>
-          <StyledCell>
+          <TableCell className={missingVersion ? classes.missingHeader: classes.header}>
             Version
-          </StyledCell>
+          </TableCell>
           <StyledCell noGutter>
             <TextField error={missingVersion ? true : false} fullWidth id="outlined-basic" value={cF(items.pdVersion)} onChange={(e) => checkSemanticVersioning(e.target.value)} variant="outlined" />
           </StyledCell>
-          <StyledCell>
+          <TableCell className={missingLicense ? classes.missingHeader: classes.header}>
             License
-          </StyledCell>
+          </TableCell>
           <StyledCell colSpan="3" noGutter>
             <TextField error={missingLicense ? true : false} fullWidth id="outlined-basic" value={cF(items.pdLicense)} onChange={(e) => items.setPdLicense(e.target.value)} variant="outlined" />
           </StyledCell>
@@ -463,36 +580,40 @@ export default function ProvenanceDomain({ items, cF }) {
         </TableRow>
         <TableRow>
           <StyledCell>Date</StyledCell>
-          <StyledCell>Status</StyledCell>
-          <StyledCell>Reviewer Name</StyledCell>
+          <TableCell className={missingReviewStatus ? classes.missingHeader : classes.header}>Status</TableCell>
+          <TableCell className={missingReviewName ? classes.missingHeader : classes.header}>Reviewer Name</TableCell>
+          <TableCell className={missingReviewContribution ? classes.missingHeader : classes.header}>Reviewer Contribution</TableCell>
           <StyledCell>Reviewer Affiliation</StyledCell>
           <StyledCell>Reviewer e-Mail</StyledCell>
-          <StyledCell>Reviewer Contribution</StyledCell>
+          <StyledCell>Reviewer ORCID</StyledCell>
           <StyledCell colSpan="4">Reviewer Comment</StyledCell>
         </TableRow>
         {
           items.pdReview.map((item, index) => (
               <TableRow key={index}>
                 <StyledCell>
-                  <TextField fullWidth variant="outlined" value={cF(item.date)} onChange={(e) => setInput(e, index, 'date')} />
+                  <TextField fullWidth variant="outlined" value={cF(item.date)} onChange={(e) => setInput(e, index, 'date', 'pdReview')} />
                 </StyledCell>
                 <StyledCell>
-                  <StatusReviewer items={ items } index={ index } />
+                  <StatusReviewer error={item.status.length === 0 ? true : false} item={ item } index={ index } setInput={ setInput } />
                 </StyledCell>
                 <StyledCell>
-                  <TextField error={cF(item.reviewer.name) === "" ? true : false} fullWidth variant="outlined" value={cF(item.reviewer.name)} onChange={(e) => setInput(e, 'pdReview', index)} />
+                  <TextField error={item.reviewer.name === "" ? true : false} fullWidth variant="outlined" value={cF(item.reviewer.name)} onChange={(e) => setInput(e, index, 'reviewer.name', 'pdReview')} />
                 </StyledCell>
                 <StyledCell>
-                  <TextField fullWidth variant="outlined" value={cF(item.reviewer.affiliation)} onChange={(e) => setInput(e, index, 'reviewer')} />
+                  <ContributionReviewer error={item.reviewer.contribution.length === 0 ? true : false} item={ item.reviewer } index={ index } setInput={ setInput } />
                 </StyledCell>
                 <StyledCell>
-                  <TextField fullWidth variant="outlined" value={cF(item.reviewer.email)} onChange={(e) => setInput(e, index, 'reviewer')} />
+                  <TextField fullWidth variant="outlined" value={cF(item.reviewer.affiliation)} onChange={(e) => setInput(e, index, 'reviewer.affiliation', 'pdReview')} />
                 </StyledCell>
                 <StyledCell>
-                  <Contribution />
+                  <TextField fullWidth variant="outlined" value={cF(item.reviewer.email)} onChange={(e) => setInput(e, index, 'reviewer.email', 'pdReview')} />
+                </StyledCell>
+                <StyledCell>
+                  <TextField fullWidth variant="outlined" value={cF(item.reviewer.orcid)} onChange={(e) => setInput(e, index, 'reviewer.orcid', 'pdReview')} />
                 </StyledCell>
                 <StyledCell colSpan="3">
-                  <TextField fullWidth variant="outlined" multiline rows={4} value={cF(item.reviewer_comment)} onChange={(e) => setInput(e, index, 'reviewer_comment')} />
+                  <TextField fullWidth multiline variant="outlined" value={cF(item.reviewer.comment)} onChange={(e) => setInput(e, index, 'reviewer.comment', 'pdReview')} rows={4} />
                 </StyledCell>
                 <StyledCell>
                   <Button variant="contained" color="primary" disableElevation fullWidth onClick={() => removeRows('pdReview', index)}>
@@ -521,18 +642,28 @@ export default function ProvenanceDomain({ items, cF }) {
         <TableRow>
           <TableCell className={missingContributors ? classes.missingHeader : classes.header} colSpan="2">Name</TableCell>
           <TableCell className={missingContributors ? classes.missingHeader : classes.header}>Contribution</TableCell>
-          <TableCell className={missingContributors ? classes.missingHeader : classes.header} colSpan="2">Affiliation</TableCell>
-          <TableCell className={missingContributors ? classes.missingHeader : classes.header} colSpan="2">eMail</TableCell>
-          <TableCell className={missingContributors ? classes.missingHeader : classes.header} colSpan="3">ORCID</TableCell>
+          <TableCell colSpan="2">Affiliation</TableCell>
+          <TableCell colSpan="2">eMail</TableCell>
+          <TableCell colSpan="3">ORCID</TableCell>
         </TableRow>
           {
             items.pdContributors.map((item, index) => 
               <TableRow key={index}>
-                <StyledCell colSpan="2"><TextField error={cF(item.name) === "" ? true : false} fullWidth variant="outlined" value={cF(item.name)} onChange={(e) => setInput(e, index, 'name', 'pdContributors')} /></StyledCell>
-                <StyledCell><Contribution /></StyledCell>
-                <StyledCell colSpan="2"><TextField fullWidth variant="outlined" value={cF(item.affiliation)} onChange={(e) => setInput(e, index, 'affiliation', 'pdContributors')} /></StyledCell>
-                <StyledCell colSpan="2"><TextField fullWidth variant="outlined" value={cF(item.email)} onChange={(e) => setInput(e, index, 'email', 'pdContributors')} /></StyledCell>
-                <StyledCell colSpan="2"><TextField fullWidth variant="outlined" value={cF(item.orcid)} onChange={(e) => setInput(e, index, 'orcid', 'pdContributors')} /></StyledCell>
+                <StyledCell colSpan="2">
+                  <TextField error={cF(item.name) === "" ? true : false} fullWidth variant="outlined" value={cF(item.name)} onChange={(e) => setInput(e, index, 'name', 'pdContributors')} />
+                </StyledCell>
+                <StyledCell>
+                  <Contribution error={item.contribution.length === 0 ? true : false} item={ item } index={ index } setInput={ setInput } />
+                </StyledCell>
+                <StyledCell colSpan="2">
+                  <TextField fullWidth variant="outlined" value={cF(item.affiliation)} onChange={(e) => setInput(e, index, 'affiliation', 'pdContributors')} />
+                </StyledCell>
+                <StyledCell colSpan="2">
+                  <TextField fullWidth variant="outlined" value={cF(item.email)} onChange={(e) => setInput(e, index, 'email', 'pdContributors')} />
+                </StyledCell>
+                <StyledCell colSpan="2">
+                  <TextField fullWidth variant="outlined" value={cF(item.orcid)} onChange={(e) => setInput(e, index, 'orcid', 'pdContributors')} />
+                </StyledCell>
                 <StyledCell>
                   <Button variant="contained" color="primary" disableElevation fullWidth onClick={() => removeRows('pdContributors', index)}>
                     Remove

@@ -65,7 +65,7 @@ function getStyles(name, contribution, theme) {
 // TODO: Bug?  Couldn't pass item straight up, had to pass
 // item.reviewer
 
-export default function Contribution({ error, item, index, setInput }) {
+export default function ContributionReviewer({ error, item, index, setInput }) {
 
   const classes = useStyles();
   const theme = useTheme();
@@ -81,7 +81,7 @@ export default function Contribution({ error, item, index, setInput }) {
           id="demo-mutiple-chip"
           multiple
           value={item.contribution}
-          onChange={(e) => setInput(e, index, 'contribution', 'pdContributors')}
+          onChange={(e) => setInput(e, index, 'reviewer.contribution', 'pdReview')}
           input={<Input id="select-multiple-chip" />}
           renderValue={(selected) => (
             <div className={classes.chips}>
