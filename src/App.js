@@ -6,6 +6,8 @@ import GlobalStyles from 'src/components/GlobalStyles';
 import theme from 'src/theme';
 import routes from 'src/routes';
 
+// context handler -> 
+
 function App() {
 	const fakeAuth = {
 		isAuthenticated: false,
