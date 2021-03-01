@@ -16,7 +16,7 @@ import Page from 'src/components/Page';
 
 // Context
 // Source: https://www.digitalocean.com/community/tutorials/react-usecontext
-import { RoutesContext } from '../../routes';
+import { LoginContext } from '../../App';
 
 const useStyles = makeStyles((theme) => ({
   root: {
