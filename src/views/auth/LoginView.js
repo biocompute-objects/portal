@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
 import * as Yup from 'yup';
 import { Formik } from 'formik';
@@ -14,6 +14,9 @@ import {
 } from '@material-ui/core';
 import Page from 'src/components/Page';
 
+// Get the context from App.js
+import { LoginContext } from '../../App';
+
 const useStyles = makeStyles((theme) => ({
   root: {
     backgroundColor: theme.palette.background.dark,
@@ -24,9 +27,14 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const LoginView = () => {
+
   const classes = useStyles();
   const navigate = useNavigate();
 
+  // Set the context.
+  const context = useContext(LoginContext);
+
+  // Return based on whether or not the local token is set.
   return (
     <Page
       className={classes.root}
@@ -41,16 +49,51 @@ const LoginView = () => {
         <Container maxWidth="sm">
           <Formik
             initialValues={{
-              email: 'demo@devias.io',
-              password: 'Password123'
+              email: '',
+              password: ''
             }}
             validationSchema={Yup.object().shape({
               email: Yup.string().email('Must be a valid email').max(255).required('Email is required'),
               password: Yup.string().max(255).required('Password is required')
             })}
-            onSubmit={() => {
-              navigate('/app/dashboard', { replace: true });
-            }}
+            onSubmit={(values) => {
+              
+              // Determine whether or not our login was legitimate.
+              fetch('http://localhost:8000/token-auth/', {
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                  "username": values.email, 
+                  "password": values.password
+                })
+              })
+                .then(res => res.json()).then(json => {
+
+                  // TODO: This will be a huge object in the future...
+                  // Set all information about the user.
+                  // TODO: This should be done with response codes,
+                  // but I couldn't get it to work initially...
+                  if(typeof(json.user) !== 'undefined') {
+                    
+                    // Set the token and the logged in state.
+                    localStorage.setItem('token', json.token);
+                    
+                    context.setIsLoggedIn(true);
+
+                    // Re-direct to the home page.
+                    navigate('/dashboard', { replace: true });
+
+                  } else {
+
+                    // Bad login...
+
+                  }
+
+                })
+              }
+            }
           >
             {({
               errors,
@@ -74,7 +117,7 @@ const LoginView = () => {
                     gutterBottom
                     variant="body2"
                   >
-                    Sign in on the internal platform
+                    Sign in using your Portal credentials.
                   </Typography>
                 </Box>
                 <Grid
@@ -94,18 +137,6 @@ const LoginView = () => {
                   >
                   </Grid>
                 </Grid>
-                <Box
-                  mt={3}
-                  mb={1}
-                >
-                  <Typography
-                    align="center"
-                    color="textSecondary"
-                    variant="body1"
-                  >
-                    or login with email address
-                  </Typography>
-                </Box>
                 <TextField
                   error={Boolean(touched.email && errors.email)}
                   fullWidth

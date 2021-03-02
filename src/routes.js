@@ -40,8 +40,7 @@ const routes = (isLoggedIn) => [
     path: '/',
     element: isLoggedIn ? <ObjectViewLayout /> : <Navigate to="/login" />,
     children: [
-      { path: ':prefix_:id/:id2.:id3', element: <ObjectView /> },
-      { path: ':prefix_:state_:uuid', element: <ObjectView /> }
+      { path: ':prefix_:id/:id2.:id3', element: <ObjectView /> }
     ]
   },
   {
