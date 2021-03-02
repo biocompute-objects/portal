@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
 import * as Yup from 'yup';
-import { Formik, withFormik } from 'formik';
+import { Formik } from 'formik';
 import {
   Box,
   Button,
@@ -14,10 +14,6 @@ import {
 } from '@material-ui/core';
 import Page from 'src/components/Page';
 
-// Context
-// Source: https://www.digitalocean.com/community/tutorials/react-usecontext
-import { LoginContext } from '../../App';
-
 const useStyles = makeStyles((theme) => ({
   root: {
     backgroundColor: theme.palette.background.dark,
@@ -27,14 +23,15 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-
-const LoginView = (props) => {
-  
+const LoginView = () => {
   const classes = useStyles();
   const navigate = useNavigate();
 
   return (
-	  <Page className={classes.root} title="Login" >
+    <Page
+      className={classes.root}
+      title="Login"
+    >
       <Box
         display="flex"
         flexDirection="column"
@@ -44,15 +41,15 @@ const LoginView = (props) => {
         <Container maxWidth="sm">
           <Formik
             initialValues={{
-              username: '',
-              password: ''
+              email: 'demo@devias.io',
+              password: 'Password123'
             }}
             validationSchema={Yup.object().shape({
-              username: Yup.string().max(255).required('Username is required'),
+              email: Yup.string().email('Must be a valid email').max(255).required('Email is required'),
               password: Yup.string().max(255).required('Password is required')
             })}
             onSubmit={() => {
-              navigate('/dashboard', { replace: true });
+              navigate('/app/dashboard', { replace: true });
             }}
           >
             {({
@@ -70,14 +67,14 @@ const LoginView = (props) => {
                     color="textPrimary"
                     variant="h2"
                   >
-                    BioCompute Portal Sign in
+                    Sign in
                   </Typography>
                   <Typography
                     color="textSecondary"
                     gutterBottom
                     variant="body2"
                   >
-                    Sign in to the BioCompute Portal
+                    Sign in on the internal platform
                   </Typography>
                 </Box>
                 <Grid
@@ -106,19 +103,20 @@ const LoginView = (props) => {
                     color="textSecondary"
                     variant="body1"
                   >
+                    or login with email address
                   </Typography>
                 </Box>
                 <TextField
-                  error={Boolean(touched.username && errors.username)}
+                  error={Boolean(touched.email && errors.email)}
                   fullWidth
-                  helperText={touched.username && errors.username}
-                  label="User Name"
+                  helperText={touched.email && errors.email}
+                  label="Email Address"
                   margin="normal"
-                  name="username"
+                  name="email"
                   onBlur={handleBlur}
                   onChange={handleChange}
-                  type="username"
-                  value={values.username}
+                  type="email"
+                  value={values.email}
                   variant="outlined"
                 />
                 <TextField
@@ -137,7 +135,7 @@ const LoginView = (props) => {
                 <Box my={2}>
                   <Button
                     color="primary"
-                    // disabled={isSubmitting}
+                    disabled={isSubmitting}
                     fullWidth
                     size="large"
                     type="submit"
@@ -169,16 +167,4 @@ const LoginView = (props) => {
   );
 };
 
-const LoginFormik = withFormik({
-  mapPropsToValues: (values) => {
-    return {
-      username: values.username || '',
-      password: values.password || ''
-    }
-  },
-  handleSubmit: (values) => {
-    console.log(values)
-  }
-})(LoginView)
-
-export default LoginFormik;
+export default LoginView;

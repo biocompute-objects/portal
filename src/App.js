@@ -26,7 +26,7 @@ function App() {
 	// }
 
 	// Login state
-	const { isLoggedIn } = true;
+	const isLoggedIn = true;
 	const routing = useRoutes(routes(isLoggedIn));
 
   return (
