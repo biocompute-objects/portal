@@ -62,7 +62,7 @@ const LoginView = () => {
 
               //fetch('http://localhost:8000/token-auth/', {
               // EC2 Version
-              fetch('https://100.25.1.222/token-auth/', {
+              fetch('https://beta.portal.aws.biochemistry.gwu.edu/token-auth/', {
               
                 method: 'POST',
                 headers: {
