@@ -113,8 +113,9 @@ export default function Views({ saving, setSaving, publishing, setPublishing, co
     
     // Object ID and eTag are generated on server.
     
-    // Call the API.    
-    fetch('http://127.0.0.1:8000/bco/objects/create', {
+    // Call the API.
+    //fetch('http://127.0.0.1:8000/bco/objects/create', {    
+    fetch('http://beta.portal.aws.biochemistry.gwu.edu/bco/objects/create/', {
       method: 'POST',
       body: JSON.stringify({
         POST_create_new_object: [
@@ -147,8 +148,9 @@ export default function Views({ saving, setSaving, publishing, setPublishing, co
   
   const getObjectInfo = () => {
     
-    // Call the API.    
-    fetch('http://127.0.0.1:8000/bco/objects/read', {
+    // Call the API.
+    //fetch('http://127.0.0.1:8000/bco/objects/read', {    
+    fetch('http://beta.portal.aws.biochemistry.gwu.edu/bco/objects/read/', {
       method: 'POST',
       body: JSON.stringify({
         POST_read_object: [

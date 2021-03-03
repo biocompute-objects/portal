@@ -40,7 +40,7 @@ const ObjectsListView = () => {
   const getObjectsListing = () => {
     
     // Call the API.    
-    fetch('http://127.0.0.1:8000/bco/objects/read', {
+    fetch('http://beta.portal.aws.biochemistry.gwu.edu/bco/objects/read/', {
       method: 'POST',
       body: JSON.stringify({
         POST_read_object: [
