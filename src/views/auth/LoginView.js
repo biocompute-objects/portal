@@ -59,10 +59,10 @@ const LoginView = () => {
             onSubmit={(values) => {
               
               // Determine whether or not our login was legitimate.
-              
+
               //fetch('http://localhost:8000/token-auth/', {
               // EC2 Version
-              fetch('https://100.25.1.222/token-auth/'), {
+              fetch('https://100.25.1.222/token-auth/', {
               
                 method: 'POST',
                 headers: {
