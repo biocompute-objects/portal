@@ -115,7 +115,7 @@ const ColorCoded = ({ saving, setSaving, publishing, setPublishing, compCheck, c
       const destructured = splitUp[0] + '//' + splitUp[2] + '/' + splitUp[4];
       
       // Call the API.    
-      fetch('http://beta.portal.aws.biochemistry.gwu.edu/bco/objects/create/', {
+      fetch('https://beta.portal.aws.biochemistry.gwu.edu/bco/objects/create/', {
         method: 'POST',
         body: JSON.stringify({
           POST_create_new_object: [
@@ -205,7 +205,7 @@ const ColorCoded = ({ saving, setSaving, publishing, setPublishing, compCheck, c
       const destructured = splitUp[0] + '//' + splitUp[2] + '/' + splitUp[4];
       
       // Call the API.    
-      fetch('http://beta.portal.aws.biochemistry.gwu.edu/bco/objects/create/', {
+      fetch('https://beta.portal.aws.biochemistry.gwu.edu/bco/objects/create/', {
         method: 'POST',
         body: JSON.stringify({
           POST_create_new_object: [
