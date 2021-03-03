@@ -25,7 +25,7 @@ SECRET_KEY = 'g6$hm-04*#=aedyrt@1nvig1a0bdzm_gmxfnl0k*+0q0ostl2c'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['beta.portal.aws.biochemistry.gwu.edu']
 
 
 # Application definition
