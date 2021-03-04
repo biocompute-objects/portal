@@ -15,7 +15,7 @@ import Views from './Views'
 // The state model is based on https://reactjs.org/docs/lifting-state-up.html
 
 export default function BuilderView() {
-
+  
   // Set the state.
   //const [loading, setLoading] = useState(true);
   //const [objectFound, setObjectFound] = useState();
@@ -39,7 +39,7 @@ export default function BuilderView() {
 
   // Set the URL requested.
   var parsePath = useLocation().pathname;
-
+  
   // Are we working with a new draft object or an existing one?
   if(parsePath.indexOf('DRAFT') === -1) {
 

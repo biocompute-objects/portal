@@ -59,11 +59,11 @@ const LoginView = () => {
             onSubmit={(values) => {
               
               // Determine whether or not our login was legitimate.
-
-              //fetch('http://localhost:8000/token-auth/', {
+              //fetch('http://localhost:3000/token-auth/', {
               // EC2 Version
               // TODO: Fetch from localhost instead?
               fetch('https://beta.portal.aws.biochemistry.gwu.edu/token-auth/', {
+              
               
                 method: 'POST',
                 headers: {
