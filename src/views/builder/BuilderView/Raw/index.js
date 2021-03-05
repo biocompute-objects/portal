@@ -130,8 +130,8 @@ export default function Raw({ saving, setSaving, publishing, setPublishing, comp
           console.log('draftSave:', JSON.parse(draftSave))
           
           // Call the API.
-          //fetch('https://beta.portal.aws.biochemistry.gwu.edu/bco/objects/create/', {    
-          fetch('http://127.0.0.1:8000/bco/objects/create/', {
+          //fetch('http://127.0.0.1:8000/bco/objects/create/', {
+          fetch('https://beta.portal.aws.biochemistry.gwu.edu/bco/objects/create/', {
             method: 'POST',
             body: JSON.stringify({
               POST_create_new_object: [
@@ -210,9 +210,9 @@ export default function Raw({ saving, setSaving, publishing, setPublishing, comp
         const draftSave = JSON.parse(document.getElementById('outlined-multiline-static').value);
 
         // Do a simple call to find out.
-        // Call the API.    
-        //fetch('https://beta.portal.aws.biochemistry.gwu.edu/bco/objects/create/', {    
-          fetch('http://127.0.0.1:8000/bco/objects/create/', {
+        // Call the API.
+        //fetch('http://127.0.0.1:8000/bco/objects/create/', {    
+        fetch('https://beta.portal.aws.biochemistry.gwu.edu/bco/objects/create/', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -242,9 +242,9 @@ export default function Raw({ saving, setSaving, publishing, setPublishing, comp
                   const splitUp = window.location.href.split('/');
                   const destructured = splitUp[0] + '//' + splitUp[2] + '/' + splitUp[4];
                   
-                  // Call the API.    
-                  //fetch('https://beta.portal.aws.biochemistry.gwu.edu/bco/objects/create/', {    
-                  fetch('http://127.0.0.1:8000/bco/objects/create/', {
+                  // Call the API.
+                  //fetch('http://127.0.0.1:8000/bco/objects/create/', {    
+                  fetch('https://beta.portal.aws.biochemistry.gwu.edu/bco/objects/create/', {
                     method: 'POST',
                     body: JSON.stringify({
                       POST_create_new_object: [
