@@ -46,6 +46,7 @@
     "react-dom": "^16.13.1",
     "react-feather": "^2.0.8",
     "react-helmet": "^6.1.0",
+    "react-html-parser": "^2.0.2",
     "react-json-component": "^1.0.0",
     "react-native": "^0.63.4",
     "react-perfect-scrollbar": "^1.5.8",

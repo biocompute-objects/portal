@@ -112,19 +112,24 @@ export default function Views({ saving, setSaving, publishing, setPublishing, co
   const newDraftObject = () => {
     
     // Object ID and eTag are generated on server.
+
+    // DRAFT template.  Only required fields from the top-level with
+    // no break in the requirement chain for descendents are generated
+    // here.
+
+    // Some fields (e.g. "contributors") must be provided a default value.
+    // Sensible values will be given where possible.
     
     // Call the API.
-    //fetch('http://127.0.0.1:8000/bco/objects/create/', { 
-    fetch('https://beta.portal.aws.biochemistry.gwu.edu/bco/objects/create/', {
-       
-    
+    //fetch('https://beta.portal.aws.biochemistry.gwu.edu/bco/objects/create/', {
+    fetch('http://127.0.0.1:8000/bco/objects/create/', {
       method: 'POST',
       body: JSON.stringify({
         POST_create_new_object: [
             {
               table: 'bco_draft',
               schema: 'IEEE',
-              contents: JSON.parse('{"spec_version":"IEEE","provenance_domain":{"name":"","version":"","created":"","modified":"","derived_from":"","embargo":{"start_time":"","end_time":""},"obsolete_after":"","review":[{"date":"","reviewer_comment":"","status":[],"reviewer":{"name":"","affiliation":"","email":"","contribution":[],"orcid":""}}],"contributors":[{"contribution":[],"name":"","affiliation":"","email":"","orcid":""}],"license":""},"usability_domain":[""],"description_domain":{"keywords":[""],"pipeline_steps":[{"step_number":0,"name":"","description":"","input_list":[{"uri":{"uri":""}}],"output_list":[{"uri":{"uri":""}}]}]},"execution_domain":{"script":[{"uri":{"uri":""}}],"script_driver":"","software_prerequisites":[{"name":"","version":"","uri":{"uri":""}}],"external_data_endpoints":[{"name":"","url":""}],"environment_variables":{"key":"value"}},"io_domain":{"input_subdomain":[{"uri":{"filename":"","uri":"","access_time":"","sha1_checksum":""}}],"output_subdomain":[{"mediatype":"","uri":{"filename":"","uri":"","access_time":"","sha1_checksum":""}}]},"parametric_domain":[{"param":"","value":"","step":""}]}'),
+              contents: JSON.parse('{"spec_version":"IEEE","etag":"0","provenance_domain":{"name":"","version":"","created":"","modified":"","contributors":[{"contribution":["createdBy"],"name":""}],"license":""},"usability_domain":[""],"description_domain":{"keywords":[""],"pipeline_steps":[{"step_number":0,"name":"","description":"","input_list":[{"uri":""}],"output_list":[{"uri":""}]}]},"execution_domain":{"script":[{"uri":{"uri":""}}],"script_driver":"","software_prerequisites":[{"name":"","version":"","uri":{"uri":""}}],"external_data_endpoints":[{"name":"","url":""}],"environment_variables":{}},"io_domain":{"input_subdomain":[{"uri":{"uri":""}}],"output_subdomain":[{"mediatype":"","uri":{"uri":""}}]},"parametric_domain":[{"param":"","value":"","step":""}]}'),
               state: 'DRAFT'
             }
         ]
@@ -145,16 +150,19 @@ export default function Views({ saving, setSaving, publishing, setPublishing, co
       // Now re-direct.
       redirect('/builder/' + splitUp[3]);
 
+      // Crappy but works.
+      // Source: https://reactgo.com/react-refresh-page/
+      window.location.reload();
+
     })
   }
   
   const getObjectInfo = () => {
     
     // Call the API.
-    //fetch('http://127.0.0.1:8000/bco/objects/read/', {
-    fetch('https://beta.portal.aws.biochemistry.gwu.edu/bco/objects/read/', {
-        
-    
+    //fetch('https://beta.portal.aws.biochemistry.gwu.edu/bco/objects/read/', {
+    fetch('http://127.0.0.1:8000/bco/objects/read/', {
+      
       method: 'POST',
       body: JSON.stringify({
         POST_read_object: [
@@ -252,18 +260,18 @@ export default function Views({ saving, setSaving, publishing, setPublishing, co
             <div className={classes.root}>
               <AppBar position="static">
                 <Tabs value={componentView} onChange={handleChange} aria-label="simple tabs example">
-                  <Tab icon={<OpacityIcon />} label="Color-Coded" {...a11yProps(0)} />
-                  <Tab icon={<InsertDriveFileIcon />} label="Raw" {...a11yProps(1)} />
+                  {/* <Tab icon={<OpacityIcon />} label="Color-Coded" {...a11yProps(0)} /> */}
+                  <Tab icon={<InsertDriveFileIcon />} label="Raw" {...a11yProps(0)} />
                 </Tabs>
               </AppBar>
               {/* <Typography>
                 Object ID: {objectId}
               </Typography> */}
-              <TabPanel value={componentView} index={0}>
+              {/* <TabPanel value={componentView} index={0}>
                 <ColorCoded saving={saving} setSaving={setSaving} publishing={publishing} setPublishing={setPublishing} compCheck={compCheck} contents={objectInfo} />
-              </TabPanel>
-              <TabPanel value={componentView} index={1}>
-                <Raw contents={objectInfo} />
+              </TabPanel> */}
+              <TabPanel value={componentView} index={0}>
+                <Raw saving={saving} setSaving={setSaving} publishing={publishing} setPublishing={setPublishing} compCheck={compCheck} contents={objectInfo} />
               </TabPanel>
             </div>
           :
