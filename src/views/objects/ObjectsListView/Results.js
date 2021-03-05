@@ -51,12 +51,18 @@ function stableSort(array, comparator) {
   return stabilizedThis.map((el) => el[0]);
 }
 
+// const headCells = [
+//   { id: 'objectId', numeric: false, disablePadding: true, label: 'Object ID' },
+//   { id: 'name', numeric: true, disablePadding: false, label: 'Name' },
+//   { id: 'state', numeric: false, disablePadding: false, label: 'State' },
+//   { id: 'source', numeric: true, disablePadding: false, label: 'Source' },
+//   { id: 'lastUpdated', numeric: true, disablePadding: false, label: 'Last Updated' }
+// ];
+
 const headCells = [
   { id: 'objectId', numeric: false, disablePadding: true, label: 'Object ID' },
   { id: 'name', numeric: true, disablePadding: false, label: 'Name' },
-  { id: 'state', numeric: false, disablePadding: false, label: 'State' },
-  { id: 'source', numeric: true, disablePadding: false, label: 'Source' },
-  { id: 'lastUpdated', numeric: true, disablePadding: false, label: 'Last Updated' }
+  { id: 'state', numeric: false, disablePadding: false, label: 'State' }
 ];
 
 function EnhancedTableHead(props) {
@@ -329,8 +335,8 @@ export default function Results({ rowInfo }) {
                       </TableCell>
                       <TableCell>{row.name}</TableCell>
                       <TableCell>{row.state}</TableCell>
-                      <TableCell>{row.source}</TableCell>
-                      <TableCell>{row.lastUpdated}</TableCell>
+                      {/* <TableCell>{row.source}</TableCell>
+                      <TableCell>{row.lastUpdated}</TableCell> */}
                     </TableRow>
                   );
                 })}

@@ -39,8 +39,9 @@ const ObjectsListView = () => {
 
   const getObjectsListing = () => {
     
-    // Call the API.    
-    fetch('https://beta.portal.aws.biochemistry.gwu.edu/bco/objects/read/', {
+    // Call the API.
+    //fetch('https://beta.portal.aws.biochemistry.gwu.edu/bco/objects/read/', {    
+    fetch('http://127.0.0.1:8000/bco/objects/read/', {
       method: 'POST',
       body: JSON.stringify({
         POST_read_object: [
@@ -68,7 +69,21 @@ const ObjectsListView = () => {
         if(responseInfo.request_code === '200') {
           
           responseInfo.content.map(item => {
-              rowData.push(createData(item.fields.object_id, cF(cF(item.fields.contents.provenance_domain).name), item.fields.state, 'GWU-HIVE - 24.35.124.3 (Hadley King)', '01/29/21'));
+            
+              // Tweak the draft IDs so that we are taken to the builder upon clicking.
+              if(item.fields.object_id.indexOf('DRAFT') !== -1) {
+
+                // Reconstruct the URL.
+                var splitUp = item.fields.object_id.split('/');
+                splitUp = 'http://' + splitUp[2] + '/builder/' + splitUp[3];
+                
+                // Push data.
+                rowData.push(createData(splitUp, cF(cF(item.fields.contents.provenance_domain).name), item.fields.state, 'GWU-HIVE - 24.35.124.3 (Hadley King)', '01/29/21'));
+
+              } else {
+                rowData.push(createData(item.fields.object_id, cF(cF(item.fields.contents.provenance_domain).name), item.fields.state, 'GWU-HIVE - 24.35.124.3 (Hadley King)', '01/29/21'));
+              }
+
             }
           )
 

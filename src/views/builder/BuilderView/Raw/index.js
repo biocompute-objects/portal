@@ -23,6 +23,10 @@ import CardContent from '@material-ui/core/CardContent';
 // Source: https://stackoverflow.com/a/55884366/5029459
 import ReactHtmlParser from 'react-html-parser';
 
+// Dummy redirecting after draft object creation.
+// See https://www.codegrepper.com/code-examples/javascript/useHistory+is+not+exported+form+react-router-dom
+import { useNavigate } from 'react-router-dom';
+
 const useStyles = makeStyles((theme) => ({
   root: {
     '& .MuiTextField-root': {
@@ -106,8 +110,7 @@ export default function Raw({ saving, setSaving, publishing, setPublishing, comp
       // new lines, etc...
       try {
 
-        // First, see if we have any errors.
-        
+        // First, see if we have any errors.        
         window.jsonlint.parse(rawContents);
 
         // UNSET JSON errors
@@ -186,56 +189,109 @@ export default function Raw({ saving, setSaving, publishing, setPublishing, comp
     // Update the draft.    
     if(publishing === 1) {
 
-      // TODO: Find cleaner way to send this?
-      // De-structure the URL.
+      // In order to publish, we MUST have a compliant
+      // object.
 
-      // Split the URI and re-construct the route.
-      const splitUp = window.location.href.split('/');
-      const destructured = splitUp[0] + '//' + splitUp[2] + '/' + splitUp[4];
-      
-      // Call the API.    
-      //fetch('https://beta.portal.aws.biochemistry.gwu.edu/bco/objects/create/', {    
-      fetch('https://127.0.0.1:8000/bco/objects/create/', {
-        method: 'POST',
-        body: JSON.stringify({
-          POST_create_new_object: [
-              {
-                table: 'bco_publish',
-                schema: 'IEEE',
-                contents: {
-                  rawContents
-                },
-                state: 'PUBLISHED'
-              }
-          ]
-      }),
-      headers: {
-        "Content-type": "application/json; charset=UTF-8"
-      }
-      }).then(response=>response.json()).then(data=>{
-        
-        console.log('+++++++++++++++++', data);
+      // See if we have valid JSON (required).
+      // This is better than having to parse line breaks,
+      // new lines, etc...
+      try {
 
-        // Get the bulk response.
-        const bulkResponse = data.POST_create_new_object[0];
+        // First, see if we have any errors.        
+        window.jsonlint.parse(rawContents);
 
-        // Was the object found?
-        if(bulkResponse.request_code === '200') {
+        // UNSET JSON errors
+        setJsonErrors('');
+
+        // The object is JSON, but is it valid?
+        // Note that we save the object WITHOUT pretty printing.
+        // Thus, we have to use a manual call here.
+        // TODO: Fix?  Probably have too many stringify/parses here?
+        const draftSave = JSON.parse(document.getElementById('outlined-multiline-static').value);
+
+        // Do a simple call to find out.
+        // Call the API.    
+        //fetch('https://beta.portal.aws.biochemistry.gwu.edu/bco/objects/create/', {    
+          fetch('http://127.0.0.1:8000/bco/objects/create/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                POST_validate_payload_against_schema: [
+                    {
+                        payload: draftSave, 
+                        schema_server: 'IEEE/IEEE2791-2020.schema'
+                    }
+                ]
+            }),
+            }).then(res => res.json()).then(json => {
+
+                // If the contents aren't null, then update the errors.
+                if(json.POST_validate_payload_against_schema.contents !== null) {
+
+                  setJsonErrors(json.POST_validate_payload_against_schema.contents);
+
+                } else {
+
+                  // Schema passed, so publish the object.
+                  // TODO: Find cleaner way to send this?
+                  // De-structure the URL.
+
+                  // Split the URI and re-construct the route.
+                  const splitUp = window.location.href.split('/');
+                  const destructured = splitUp[0] + '//' + splitUp[2] + '/' + splitUp[4];
+                  
+                  // Call the API.    
+                  //fetch('https://beta.portal.aws.biochemistry.gwu.edu/bco/objects/create/', {    
+                  fetch('http://127.0.0.1:8000/bco/objects/create/', {
+                    method: 'POST',
+                    body: JSON.stringify({
+                      POST_create_new_object: [
+                          {
+                            table: 'bco_publish',
+                            schema: 'IEEE',
+                            contents: draftSave,
+                            state: 'PUBLISHED'
+                          }
+                      ]
+                  }),
+                  headers: {
+                    "Content-type": "application/json; charset=UTF-8"
+                  }
+                  }).then(response=>response.json()).then(data=>{
+                    
+                    console.log('+++++++++++++++++', data);
+
+                    // Get the bulk response.
+                    const bulkResponse = data.POST_create_new_object[0];
+
+                    // Was the object found?
+                    if(bulkResponse.request_code === '200') {
+                      
+                      // We found the object, so set the data.
+                      alert('The DRAFT object with ID \n\n' + destructured + '\n\n was saved successfully with PUBLISHED ID \n\n' + bulkResponse['object_id']);
+
+                    } else {
+
+                      // There was a problem, so show what it was.
+                      alert('There was a problem saving the object with ID \n\n' + destructured + '\n\nSee errors below...\n\n' + bulkResponse.message);
+                
+                    }
+                    
+                  })
+                }
+            })
+
+      } catch(e) {
+
+        // JSON Error
+        setJsonErrors(e);
           
-          // We found the object, so set the data.
-          alert('The object with ID \n\n' + destructured + '\n\n was saved successfully with ID \n\n' + bulkResponse['object_id'] + '\n\nClosing this alert will re-direct you to the object view page for this object.')
+      }
 
-        } else {
-
-          // There was a problem, so show what it was.
-          alert('There was a problem saving the object with ID \n\n' + destructured + '\n\nSee errors below...\n\n' + bulkResponse.message);
-    
-        }
-
-        // We're no longer publishing.
-        setPublishing(0);
-
-      })
+      // We're no longer publishing.
+      setPublishing(0);
 
     }
     

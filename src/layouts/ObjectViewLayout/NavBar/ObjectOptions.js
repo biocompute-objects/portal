@@ -97,7 +97,7 @@ export default function ObjectOptions() {
               label="Describe fields on hover"
             /> */}
             {
-              ['meta', 'provenanceDomain', 'descriptionDomain', 'executionDomain', 'ioDomain', 'usabilityDomain', 'parametricDomain'].map(domain => (
+              ['meta', 'provenanceDomain', 'descriptionDomain', 'executionDomain', 'ioDomain', 'usabilityDomain', 'parametricDomain', 'errorDomain', 'extensionDomain'].map(domain => (
                   <FormControlLabel
                     control={<Checkbox checked={state[domain]} onChange={handleChange} name={domain} />}
                     label={

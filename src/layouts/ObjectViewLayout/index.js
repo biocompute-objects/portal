@@ -67,6 +67,7 @@ const ObjectViewLayout = () => {
     descriptionDomain: true,
     errorDomain: true,
     executionDomain: true,
+    extensionDomain: true,
     ioDomain: true,
     meta: true,
     parametricDomain: true,

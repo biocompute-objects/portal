@@ -11,7 +11,7 @@ import Meta from './Meta'
 import DescriptionDomain from './DescriptionDomain'
 import ErrorDomain from './ErrorDomain'
 import ExecutionDomain from './ExecutionDomain'
-//import ExtensionDomain from './ExtensionDomain'
+import ExtensionDomain from './ExtensionDomain'
 import IoDomain from './IoDomain'
 import ParametricDomain from './ParametricDomain'
 import ProvenanceDomain from './ProvenanceDomain'
@@ -53,6 +53,9 @@ const useStyles = makeStyles((theme) => ({
   executionDomain: {
     background: 'red'
   },
+  extensionDomain: {
+    background: 'red'
+  },
   ioDomain: {
     background: 'blue'
   },
@@ -71,6 +74,7 @@ const ColorCoded = ({ contents }) => {
   
   // contents is the actual object information.
   // Set the right sub-key.
+  console.log('CONTENTS:', contents)
   
   // Use the parent context.
   // Source: https://www.digitalocean.com/community/tutorials/react-usecontext
@@ -94,9 +98,28 @@ const ColorCoded = ({ contents }) => {
     "spec_version": contents.spec_version,
     "etag": contents.etag
   }
-  const renderList = [ meta, contents.provenance_domain, contents.usability_domain, contents.description_domain, contents.execution_domain, contents.io_domain, contents.parametric_domain, contents.error_domain ];
-  const compList = [ Meta, ProvenanceDomain, UsabilityDomain, DescriptionDomain, ExecutionDomain, IoDomain, ParametricDomain, ErrorDomain ];
-  const classNames = [ 'meta', 'provenanceDomain', 'usabilityDomain', 'descriptionDomain', 'executionDomain', 'ioDomain', 'parametricDomain', 'errorDomain' ];
+  // const renderList = [ meta, contents.provenance_domain, contents.usability_domain, contents.description_domain, contents.execution_domain, contents.io_domain, contents.parametric_domain, contents.error_domain ];
+  // const compList = [ Meta, ProvenanceDomain, UsabilityDomain, DescriptionDomain, ExecutionDomain, IoDomain, ParametricDomain, ErrorDomain ];
+  // const classNames = [ 'meta', 'provenanceDomain', 'usabilityDomain', 'descriptionDomain', 'executionDomain', 'ioDomain', 'parametricDomain', 'errorDomain' ];
+
+  // Set fake data for missing (optional) domains.
+  // ['provenance_domain', 'usability_domain', 'description_domain', 'execution_domain', 'io_domain', 'parametric_domain', 'error_domain', 'extension_domain'].map(item => {
+  //     if(!(item in contents)) {
+  //       contents[item] = '';
+  //     }
+  //   }
+  // )
+  // Couldn't get the map above to work?
+  if(!('error_domain' in contents)) {
+    contents['error_domain'] = '';
+  }
+  if(!('extension_domain' in contents)) {
+    contents['extension_domain'] = '';
+  }
+
+  const renderList = [ meta, contents.provenance_domain, contents.usability_domain, contents.description_domain, contents.execution_domain, contents.io_domain, contents.parametric_domain, contents.error_domain, contents.extension_domain ];
+  const compList = [ Meta, ProvenanceDomain, UsabilityDomain, DescriptionDomain, ExecutionDomain, IoDomain, ParametricDomain, ErrorDomain, ExtensionDomain ];
+  const classNames = [ 'meta', 'provenanceDomain', 'usabilityDomain', 'descriptionDomain', 'executionDomain', 'ioDomain', 'parametricDomain', 'errorDomain', 'extensionDomain' ];
   
   return (
     <Container maxWidth={false}>
