@@ -124,100 +124,104 @@ export default function ProvenanceDomain({ items, cF }) {
 
     // Review (note that review is not a necessary field
     // in IEEE-2791).
-    if(items.pdReview.length == 0) {
-
-      // No review.
-      setMissingReview(false);
-
-      // No sub-fields.
-      setMissingReviewStatus(false);
-      setMissingReviewName(false);
-      setMissingReviewContribution(false);
-
-    } else {
-
-      // If there is a review field, we have to consider
-      // the necessary subfields.
-
-      // Each field must be treated independently so that
-      // our state is compared only to the relevant field.
-
-      // Assume the header is not red.
-      setMissingReview(false);
-
-      // Each one of the reviews.
-      for(var i = 0; i < items.pdReview.length; i++) {
-
-        // Status
-        if(items.pdReview[i].status.length === 0) {
-          
-          // No status.
-          setMissingReviewStatus(true);
-
-          // Header
-          setMissingReview(true);
-
-          // Set the OR flag.
-          orFlag = true;
-
-          break;
-
-        } else {
-          setMissingReviewStatus(false);
-        }
-
-        // Can't rely on orFlag here because fields like
-        // Name, Version, and License also depend on it.
-        
-      }
+    if(cF(items.pdReview) !== '') {
       
-      for(var i = 0; i < items.pdReview.length; i++) {
-        
-        // Name
-        if(items.pdReview[i].reviewer.name === "") {
+      if(items.pdReview.length == 0) {
+
+        // No review.
+        setMissingReview(false);
+
+        // No sub-fields.
+        setMissingReviewStatus(false);
+        setMissingReviewName(false);
+        setMissingReviewContribution(false);
+
+      } else {
+
+        // If there is a review field, we have to consider
+        // the necessary subfields.
+
+        // Each field must be treated independently so that
+        // our state is compared only to the relevant field.
+
+        // Assume the header is not red.
+        setMissingReview(false);
+
+        // Each one of the reviews.
+        for(var i = 0; i < items.pdReview.length; i++) {
+
+          // Status
+          if(items.pdReview[i].status.length === 0) {
+            
+            // No status.
+            setMissingReviewStatus(true);
+
+            // Header
+            setMissingReview(true);
+
+            // Set the OR flag.
+            orFlag = true;
+
+            break;
+
+          } else {
+            setMissingReviewStatus(false);
+          }
+
+          // Can't rely on orFlag here because fields like
+          // Name, Version, and License also depend on it.
           
-          // No name.
-          setMissingReviewName(true);
-
-          // Header
-          setMissingReview(true);
-
-          // Set the OR flag.
-          orFlag = true;
-
-          break;
-
-        } else {
-          setMissingReviewName(false);
         }
-
-        // Can't rely on orFlag here because fields like
-        // Name, Version, and License also depend on it.
         
-      }
-      
-      for(var i = 0; i < items.pdReview.length; i++) {
-        
-        // Contribution
-        if(items.pdReview[i].reviewer.contribution.length === 0) {
+        for(var i = 0; i < items.pdReview.length; i++) {
           
-          // No contribution.
-          setMissingReviewContribution(true);
+          // Name
+          if(items.pdReview[i].reviewer.name === "") {
+            
+            // No name.
+            setMissingReviewName(true);
 
-          // Header
-          setMissingReview(true);
+            // Header
+            setMissingReview(true);
 
-          // Set the OR flag.
-          orFlag = true;
+            // Set the OR flag.
+            orFlag = true;
 
-          break;
+            break;
 
-        } else {
-          setMissingReviewContribution(false);
+          } else {
+            setMissingReviewName(false);
+          }
+
+          // Can't rely on orFlag here because fields like
+          // Name, Version, and License also depend on it.
+          
         }
+        
+        for(var i = 0; i < items.pdReview.length; i++) {
+          
+          // Contribution
+          if(items.pdReview[i].reviewer.contribution.length === 0) {
+            
+            // No contribution.
+            setMissingReviewContribution(true);
 
-        // Can't rely on orFlag here because fields like
-        // Name, Version, and License also depend on it.
+            // Header
+            setMissingReview(true);
+
+            // Set the OR flag.
+            orFlag = true;
+
+            break;
+
+          } else {
+            setMissingReviewContribution(false);
+          }
+
+          // Can't rely on orFlag here because fields like
+          // Name, Version, and License also depend on it.
+          
+        }
         
       }
       
@@ -438,6 +442,12 @@ export default function ProvenanceDomain({ items, cF }) {
     // Cases
     if(which == 'pdReview') {
 
+      // Review is not required as of IEEE 2791-2020,
+      // so add it if it's missing.
+      if(cF(items.pdReview) === '') {
+        dummy = [];
+      }
+      
       // Push the new row.
       dummy.push({
         "date": "",
@@ -446,7 +456,7 @@ export default function ProvenanceDomain({ items, cF }) {
           "name": "",
           "affiliation": "",
           "email": "",
-          "contribution": []
+          "contribution": ["createdBy"]
         },
         "reviewer_comment": ""
       });
@@ -459,7 +469,7 @@ export default function ProvenanceDomain({ items, cF }) {
       // Push the new row.
       dummy.push({
         "name": "",
-        "contribution": [],
+        "contribution": ["createdBy"],
         "affiliation": "",
         "email": "",
         "orcid": ""
@@ -488,9 +498,20 @@ export default function ProvenanceDomain({ items, cF }) {
 
     if(which == 'pdReview') {
 
-      // Update the state.
-      items.setPdReview(dummy);
+      // Set the state, but only to valid objects
+      // since Review isn't required as of IEEE 2791-2020.
+      if(dummy.length === 0) {
+        
+        // Remove the review key completely.
+        delete items[which];
 
+      } else {
+
+        // Update the state.
+        items.setPdReview(dummy);
+
+      }
+      
     } else if(which == 'pdContributors') {
 
       // Update the state.
@@ -607,40 +628,44 @@ export default function ProvenanceDomain({ items, cF }) {
           <StyledCell colSpan="4">Reviewer Comment</StyledCell>
         </TableRow>
         {
-          items.pdReview.map((item, index) => (
-              <TableRow key={index}>
-                <StyledCell>
-                  <TextField fullWidth variant="outlined" value={cF(item.date)} onChange={(e) => setInput(e, index, 'date', 'pdReview')} />
-                </StyledCell>
-                <StyledCell>
-                  <StatusReviewer error={item.status.length === 0 ? true : false} item={ item } index={ index } setInput={ setInput } />
-                </StyledCell>
-                <StyledCell>
-                  <TextField error={item.reviewer.name === "" ? true : false} fullWidth variant="outlined" value={cF(item.reviewer.name)} onChange={(e) => setInput(e, index, 'reviewer.name', 'pdReview')} />
-                </StyledCell>
-                <StyledCell>
-                  <ContributionReviewer error={item.reviewer.contribution.length === 0 ? true : false} item={ item.reviewer } index={ index } setInput={ setInput } />
-                </StyledCell>
-                <StyledCell>
-                  <TextField fullWidth variant="outlined" value={cF(item.reviewer.affiliation)} onChange={(e) => setInput(e, index, 'reviewer.affiliation', 'pdReview')} />
-                </StyledCell>
-                <StyledCell>
-                  <TextField fullWidth variant="outlined" value={cF(item.reviewer.email)} onChange={(e) => setInput(e, index, 'reviewer.email', 'pdReview')} />
-                </StyledCell>
-                <StyledCell>
-                  <TextField fullWidth variant="outlined" value={cF(item.reviewer.orcid)} onChange={(e) => setInput(e, index, 'reviewer.orcid', 'pdReview')} />
-                </StyledCell>
-                <StyledCell colSpan="3">
-                  <TextField fullWidth multiline variant="outlined" value={cF(item.reviewer.comment)} onChange={(e) => setInput(e, index, 'reviewer.comment', 'pdReview')} rows={4} />
-                </StyledCell>
-                <StyledCell>
-                  <Button variant="contained" color="primary" disableElevation fullWidth onClick={() => removeRows('pdReview', index)}>
-                    Remove
-                  </Button>
-                </StyledCell>
-              </TableRow>
-            )
-          )
+          cF(items.pdReview) !== ''
+            ?
+              items.pdReview.map((item, index) => (
+                  <TableRow key={index}>
+                    <StyledCell>
+                      <TextField fullWidth variant="outlined" value={cF(item.date)} onChange={(e) => setInput(e, index, 'date', 'pdReview')} />
+                    </StyledCell>
+                    <StyledCell>
+                      <StatusReviewer error={item.status.length === 0 ? true : false} item={ item } index={ index } setInput={ setInput } />
+                    </StyledCell>
+                    <StyledCell>
+                      <TextField error={item.reviewer.name === "" ? true : false} fullWidth variant="outlined" value={cF(item.reviewer.name)} onChange={(e) => setInput(e, index, 'reviewer.name', 'pdReview')} />
+                    </StyledCell>
+                    <StyledCell>
+                      <ContributionReviewer error={item.reviewer.contribution.length === 0 ? true : false} item={ item.reviewer } index={ index } setInput={ setInput } />
+                    </StyledCell>
+                    <StyledCell>
+                      <TextField fullWidth variant="outlined" value={cF(item.reviewer.affiliation)} onChange={(e) => setInput(e, index, 'reviewer.affiliation', 'pdReview')} />
+                    </StyledCell>
+                    <StyledCell>
+                      <TextField fullWidth variant="outlined" value={cF(item.reviewer.email)} onChange={(e) => setInput(e, index, 'reviewer.email', 'pdReview')} />
+                    </StyledCell>
+                    <StyledCell>
+                      <TextField fullWidth variant="outlined" value={cF(item.reviewer.orcid)} onChange={(e) => setInput(e, index, 'reviewer.orcid', 'pdReview')} />
+                    </StyledCell>
+                    <StyledCell colSpan="3">
+                      <TextField fullWidth multiline variant="outlined" value={cF(item.reviewer.comment)} onChange={(e) => setInput(e, index, 'reviewer.comment', 'pdReview')} rows={4} />
+                    </StyledCell>
+                    <StyledCell>
+                      <Button variant="contained" color="primary" disableElevation fullWidth onClick={() => removeRows('pdReview', index)}>
+                        Remove
+                      </Button>
+                    </StyledCell>
+                  </TableRow>
+                )
+              )
+            :
+              null
         }
         <TableRow>
           <StyledCell colSpan="10">

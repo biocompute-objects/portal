@@ -366,8 +366,13 @@ const ColorCoded = ({ saving, setSaving, publishing, setPublishing, compCheck, c
     { compCheck, checkBlank, errd }, 
     { compCheck, checkBlank, exd }
   ];
-  const compList = [ Meta, ProvenanceDomain, UsabilityDomain, DescriptionDomain, ExecutionDomain, IoDomain, ParametricDomain, ErrorDomain, ExtensionDomain ];
-  const classNames = [ 'meta', 'provenanceDomain', 'usabilityDomain', 'descriptionDomain', 'executionDomain', 'ioDomain', 'parametricDomain', 'errorDomain', 'extensionDomain' ];
+  
+  // TODO: CORRECT ORDER
+  // const compList = [ Meta, ProvenanceDomain, UsabilityDomain, IoDomain, ExecutionDomain, DescriptionDomain, ParametricDomain, ErrorDomain, ExtensionDomain ];
+  // const classNames = [ 'meta', 'provenanceDomain', 'usabilityDomain', 'ioDomain', 'executionDomain', 'descriptionDomain', 'parametricDomain', 'errorDomain', 'extensionDomain' ];
+
+  const compList = [ Meta, ProvenanceDomain, UsabilityDomain, DescriptionDomain ];
+  const classNames = [ 'meta', 'provenanceDomain', 'usabilityDomain', 'descriptionDomain' ];
  
   return (
     <Container maxWidth={false}>

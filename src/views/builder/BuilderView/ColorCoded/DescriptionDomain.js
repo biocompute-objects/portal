@@ -24,6 +24,9 @@ import Button from '@material-ui/core/Button'
 
 // Section cell styling
 const useStyles = makeStyles((theme) => ({
+  fullWidthList: {
+    width: '100%'
+  },
   header: {
     color: 'white'
   },
@@ -435,53 +438,55 @@ export default function DescriptionDomain({ compCheck, checkBlank, items, cF }) 
             Keywords
           </Typography>
         </TableCell>
-        <StyledCell colspan="4">
+        <StyledCell colspan="2">
+          <TextField error={missingKeywords ? true : false} fullWidth variant="outlined" value={cF(items.ddKeywords)} onChange={(e) => items.setDdKeywords([e.target.value])} />
+        </StyledCell>
+        <TableCell>
+          <Typography className={missingKeywords ? classes.missingHeader : classes.header} variant="h3">
+            Platform
+          </Typography>
+        </TableCell>
+        <StyledCell colspan="2">
           <TextField error={missingKeywords ? true : false} fullWidth variant="outlined" value={cF(items.ddKeywords)} onChange={(e) => items.setDdKeywords([e.target.value])} />
         </StyledCell>
       </TableRow>
       <TableRow>
-        <TableCell colSpan="5">
+        <TableCell colSpan="6">
           <Typography className={missingSteps ? classes.missingHeader : classes.header} variant="h3">
-            Steps
+            Xref
           </Typography>
         </TableCell>
       </TableRow>
       <TableRow>
         <TableCell>
           <Typography className={missingStepsNumber ? classes.missingHeader : classes.header}>
-            Step Number
+            Namespace
           </Typography>
         </TableCell>
-        <TableCell>
+        <TableCell colSpan="2">
           <Typography className={missingStepsName ? classes.missingHeader : classes.header}>
             Name
           </Typography>
         </TableCell>
         <TableCell>
           <Typography className={missingStepsDescription ? classes.missingHeader : classes.header}>
-            Description
+            IDs
           </Typography>
         </TableCell>
         <TableCell>
           <Typography className={missingStepsInputUri ? classes.missingHeader : classes.header}>
-            Input List
+            Access Time
           </Typography>
         </TableCell>
         <TableCell>
-          <Typography className={missingStepsOutputUri ? classes.missingHeader : classes.header}>
-            Output List
-          </Typography>
         </TableCell>
       </TableRow>
       {
         items.ddPipelineSteps.map((item, index) => (
             <TableRow key={index}>
-              <StyledCell className={classes.stepNumber}><TextField variant="outlined" value={index+1} />{compCheck}</StyledCell>
-              <StyledCell>
+              <StyledCell className={classes.stepNumber}><TextField variant="outlined" fullWidth />{compCheck}</StyledCell>
+              <StyledCell colSpan="2">
                 <TextField error={cF(item.name) === "" ? true : false} fullWidth variant="outlined" value={cF(item.name)} onChange={(e) => setInput(e, index, 'name')} />
-              </StyledCell>
-              <StyledCell>
-                <TextField error={cF(item.description) === "" ? true : false} variant="outlined" multiline rows={4} value={cF(item.description)} onChange={(e) => setInput(e, index, 'description')} />
               </StyledCell>
               <StyledCell>
                 <Accordion>
@@ -540,6 +545,135 @@ export default function DescriptionDomain({ compCheck, checkBlank, items, cF }) 
                 </Accordion>
               </StyledCell>
               <StyledCell>
+                <TextField error={cF(item.description) === "" ? true : false} variant="outlined" multiline rows={4} value={cF(item.description)} onChange={(e) => setInput(e, index, 'description')} />
+              </StyledCell>
+              <StyledCell>
+                <Button variant="contained" color="primary" disableElevation fullWidth onClick={() => removeRows(index)}>
+                  Remove
+                </Button>
+              </StyledCell>
+            </TableRow>
+          )
+        )
+      }
+      <TableRow>
+        <StyledCell colSpan="5">
+          <Button variant="contained" color="primary" disableElevation fullWidth onClick={() => addRows()}>
+            Add Step
+          </Button>
+        </StyledCell>
+      </TableRow>
+      <TableRow>
+        <TableCell colSpan="5">
+          <Typography className={missingSteps ? classes.missingHeader : classes.header} variant="h3">
+            Steps
+          </Typography>
+        </TableCell>
+      </TableRow>
+      <TableRow>
+        <TableCell>
+          <Typography className={missingStepsNumber ? classes.missingHeader : classes.header}>
+            Step Number
+          </Typography>
+        </TableCell>
+        <TableCell>
+          <Typography className={missingStepsName ? classes.missingHeader : classes.header}>
+            Name
+          </Typography>
+        </TableCell>
+        <TableCell>
+          <Typography className={missingStepsDescription ? classes.missingHeader : classes.header}>
+            Description
+          </Typography>
+        </TableCell>
+        <TableCell>
+          <Typography className={missingStepsDescription ? classes.missingHeader : classes.header}>
+            Version
+          </Typography>
+        </TableCell>
+      </TableRow>
+      {
+        items.ddPipelineSteps.map((item, index) => (
+            <TableRow key={index}>
+              <StyledCell className={classes.stepNumber} rowSpan="2"><TextField variant="outlined" value={index+1} />{compCheck}</StyledCell>
+              <StyledCell>
+                <TextField error={cF(item.name) === "" ? true : false} fullWidth variant="outlined" value={cF(item.name)} onChange={(e) => setInput(e, index, 'name')} />
+              </StyledCell>
+              <StyledCell>
+                <TextField error={cF(item.description) === "" ? true : false} variant="outlined" multiline rows={4} value={cF(item.description)} onChange={(e) => setInput(e, index, 'description')} />
+              </StyledCell>
+              <StyledCell>
+                <TextField />
+              </StyledCell>
+              <StyledCell>
+                <Button variant="contained" color="primary" disableElevation fullWidth onClick={() => removeRows(index)}>
+                  Remove
+                </Button>
+              </StyledCell>
+            </TableRow>
+          )
+        )
+      }
+      {
+        items.ddPipelineSteps.map((item, index) => (
+            <TableRow key={index}>
+              <StyledCell colSpan="2">
+                <Accordion>
+                  <AccordionSummary
+                    expandIcon={<ExpandMoreIcon />}
+                    aria-controls="panel1a-content"
+                    id="panel1a-header"
+                  >
+                  <Typography className={missingStepsInputUri ? classes.missingHeader : classes.header} variant="h3">
+                    Show Inputs
+                  </Typography>
+                  </AccordionSummary>
+                  <AccordionDetails>
+                    <List className={classes.fullWidthList}>
+                      {
+                        item.input_list.map((subitem, subindex) => (
+                          <>
+                            <ListItem>
+                              <TextField label={'Filename'} fullWidth variant="outlined" value={cF(subitem.filename)} onChange={(e) => setListInput(e, index, 'input_list', subindex, 'filename')} />
+                            </ListItem>
+                            <ListItem>
+                              <TextField error={cF(subitem.uri.uri) === "" ? true : false} label={'URI'} fullWidth variant="outlined" value={cF(subitem.uri.uri)} onChange={(e) => setListInput(e, index, 'input_list', subindex, 'uri')} />
+                            </ListItem>
+                            <ListItem>
+                              <TextField label={'Access Time'} fullWidth variant="outlined" value={cF(subitem.access_time)} onChange={(e) => setListInput(e, index, 'input_list', subindex, 'access_time')} />
+                            </ListItem>
+                            <ListItem>
+                              <TextField label={'SHA1 Checksum'} fullWidth variant="outlined" value={cF(subitem.sha1_checksum)} onChange={(e) => setListInput(e, index, 'input_list', subindex, 'sha1_checksum')} />
+                            </ListItem>
+                            {
+                              subindex !== item.input_list.length-1
+                                ?
+                                  <ListItem>
+                                    <Button variant="contained" color="primary" disableElevation fullWidth onClick={() => removeListRows(index, subindex, 'input_list')}>
+                                      Remove
+                                    </Button>
+                                  </ListItem>
+                                :
+                                  <ListItem divider>
+                                    <Button variant="contained" color="primary" disableElevation fullWidth onClick={() => removeListRows(index, subindex, 'input_list')}>
+                                      Remove
+                                    </Button>
+                                  </ListItem>
+                            }
+                          </>
+                          )
+                        )
+                      }
+                      <ListItem>
+                        <Button variant="contained" color="primary" disableElevation fullWidth onClick={() => addListRows(index, 'input_list')}>
+                          Add Input
+                        </Button>
+                      </ListItem>
+                    </List>
+                  </AccordionDetails>
+                </Accordion>
+              </StyledCell>
+              <StyledCell colSpan="2">
                 <Accordion>
                   <AccordionSummary
                     expandIcon={<ExpandMoreIcon />}
@@ -551,7 +685,7 @@ export default function DescriptionDomain({ compCheck, checkBlank, items, cF }) 
                   </Typography>
                   </AccordionSummary>
                   <AccordionDetails>
-                    <List>
+                    <List className={classes.fullWidthList}>
                       {
                         item.output_list.map((subitem, subindex) => (
                           <>
@@ -594,11 +728,6 @@ export default function DescriptionDomain({ compCheck, checkBlank, items, cF }) 
                     </List>
                   </AccordionDetails>
                 </Accordion>
-              </StyledCell>
-              <StyledCell>
-                <Button variant="contained" color="primary" disableElevation fullWidth onClick={() => removeRows(index)}>
-                  Remove
-                </Button>
               </StyledCell>
             </TableRow>
           )

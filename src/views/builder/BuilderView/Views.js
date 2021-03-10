@@ -121,8 +121,8 @@ export default function Views({ saving, setSaving, publishing, setPublishing, co
     // Sensible values will be given where possible.
     
     // Call the API.
-    //fetch('http://127.0.0.1:8000/bco/objects/create/', {
-    fetch('https://beta.portal.aws.biochemistry.gwu.edu/bco/objects/create/', {
+    //fetch('https://beta.portal.aws.biochemistry.gwu.edu/bco/objects/create/', {
+    fetch('http://127.0.0.1:8000/bco/objects/create/', {
       method: 'POST',
       body: JSON.stringify({
         POST_create_new_object: [
@@ -160,8 +160,8 @@ export default function Views({ saving, setSaving, publishing, setPublishing, co
   const getObjectInfo = () => {
     
     // Call the API.
-    //fetch('http://127.0.0.1:8000/bco/objects/read/', {
-    fetch('https://beta.portal.aws.biochemistry.gwu.edu/bco/objects/read/', {
+    //fetch('https://beta.portal.aws.biochemistry.gwu.edu/bco/objects/read/', {
+    fetch('http://127.0.0.1:8000/bco/objects/read/', {
       
       method: 'POST',
       body: JSON.stringify({
@@ -260,17 +260,17 @@ export default function Views({ saving, setSaving, publishing, setPublishing, co
             <div className={classes.root}>
               <AppBar position="static">
                 <Tabs value={componentView} onChange={handleChange} aria-label="simple tabs example">
-                  {/* <Tab icon={<OpacityIcon />} label="Color-Coded" {...a11yProps(0)} /> */}
-                  <Tab icon={<InsertDriveFileIcon />} label="Raw" {...a11yProps(0)} />
+                  <Tab icon={<OpacityIcon />} label="Color-Coded" {...a11yProps(0)} />
+                  <Tab icon={<InsertDriveFileIcon />} label="Raw" {...a11yProps(1)} />
                 </Tabs>
               </AppBar>
               {/* <Typography>
                 Object ID: {objectId}
               </Typography> */}
-              {/* <TabPanel value={componentView} index={0}>
-                <ColorCoded saving={saving} setSaving={setSaving} publishing={publishing} setPublishing={setPublishing} compCheck={compCheck} contents={objectInfo} />
-              </TabPanel> */}
               <TabPanel value={componentView} index={0}>
+                <ColorCoded saving={saving} setSaving={setSaving} publishing={publishing} setPublishing={setPublishing} compCheck={compCheck} contents={objectInfo} />
+              </TabPanel>
+              <TabPanel value={componentView} index={1}>
                 <Raw saving={saving} setSaving={setSaving} publishing={publishing} setPublishing={setPublishing} compCheck={compCheck} contents={objectInfo} />
               </TabPanel>
             </div>
