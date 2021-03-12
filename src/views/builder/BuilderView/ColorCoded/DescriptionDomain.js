@@ -33,6 +33,9 @@ const useStyles = makeStyles((theme) => ({
   missingHeader: {
     color: 'red'
   },
+	missingHeaderOptional: {
+		color: 'yellow'
+	},
   stepNumber: {
     width: '8%'
   }
@@ -69,6 +72,7 @@ export default function DescriptionDomain({ compCheck, checkBlank, items, cF }) 
   const [missingStepsNumber, setMissingStepsNumber] = useState(false);
   const [missingStepsName, setMissingStepsName] = useState(false);
   const [missingStepsDescription, setMissingStepsDescription] = useState(false);
+	const [missingStepsVersion, setMissingStepsVersion] = useState(false);
   const [missingStepsInputUri, setMissingStepsInputUri] = useState(false);
   const [missingStepsOutputUri, setMissingStepsOutputUri] = useState(false);
 
@@ -465,14 +469,12 @@ export default function DescriptionDomain({ compCheck, checkBlank, items, cF }) 
       items.setDdXref(dummy);
 
     } else if(which == 'ddPipelineSteps') {
-      
-      // TODO: FIX
 			
-			// // Change the value at the given index.
-      // dummy[i][inputName] = event.target.value;
+			// Change the value at the given index.
+      dummy[i][inputName] = event.target.value;
       
-      // // Update the state.
-      // items.setPdContributors(dummy);
+      // Update the state.
+      items.setDdPipelineSteps(dummy);
 
     }
 
@@ -538,18 +540,30 @@ export default function DescriptionDomain({ compCheck, checkBlank, items, cF }) 
       items.setDdXref(dummy);
 
     } else if(which == 'ddPipelineSteps') {
-
-      // TODO: FIX
+			
+			// The step number is determined by how many
+			// rows we already have.
+			const stepNumber = items.ddPipelineSteps.length - 1;
 			
 			// Push the new row.
       dummy.push({
-        "step_number": "",
-        "name": ["createdBy"],
+        "step_number": stepNumber,
+        "name": "",
         "description": "",
-        "version": "",
-        "prerequisites": "",
-				"inputs": "",
-				"outputs": ""
+				"input_list": [
+          {
+            "uri": {
+							"uri": ""
+						}
+          }
+        ],
+				"output_list": [
+          {
+            "uri": {
+							"uri": ""
+						}
+          }
+        ]
       });
 
       // Update the state.
@@ -662,13 +676,8 @@ export default function DescriptionDomain({ compCheck, checkBlank, items, cF }) 
 
 			dummy = items.ddPipelineSteps;
 
-			// Push the new row.
-			dummy[which][listtype].push({
-				"uri": {"uri": ""},
-				"filename": "",
-				"access_time": "",
-				"sha1_checksum": ""
-			});
+			// Remove the index.
+			dummy[which][listtype].splice(subwhich, 1);
 	
 			// Update the state.
 			items.setDdPipelineSteps(dummy);
@@ -737,29 +746,29 @@ export default function DescriptionDomain({ compCheck, checkBlank, items, cF }) 
       </TableRow>
       <TableRow>
         <TableCell colSpan="5">
-          <Typography className={missingXref ? classes.missingHeader : classes.header} variant="h3">
+          <Typography className={missingXref ? classes.missingHeaderOptional : classes.header} variant="h3">
             Xref
           </Typography>
         </TableCell>
       </TableRow>
       <TableRow>
         <TableCell>
-          <Typography className={missingXrefNamespace ? classes.missingHeader : classes.header}>
+          <Typography className={missingXrefNamespace ? classes.missingHeaderOptional : classes.header}>
             Namespace
           </Typography>
         </TableCell>
         <TableCell>
-          <Typography className={missingXrefName ? classes.missingHeader : classes.header}>
+          <Typography className={missingXrefName ? classes.missingHeaderOptional : classes.header}>
             Name
           </Typography>
         </TableCell>
         <TableCell>
-          <Typography className={missingXrefId ? classes.missingHeader : classes.header}>
+          <Typography className={missingXrefId ? classes.missingHeaderOptional : classes.header}>
             IDs
           </Typography>
         </TableCell>
         <TableCell>
-          <Typography className={missingXrefAccessTime ? classes.missingHeader : classes.header}>
+          <Typography className={missingXrefAccessTime ? classes.missingHeaderOptional : classes.header}>
             Access Time
           </Typography>
         </TableCell>
@@ -802,7 +811,7 @@ export default function DescriptionDomain({ compCheck, checkBlank, items, cF }) 
 											</Typography>
 											</AccordionSummary>
 											<AccordionDetails>
-												<List>
+												<List className={classes.fullWidthList}>
 													{
 														item.ids.map((subitem, subindex) => (
 																<>
@@ -838,7 +847,7 @@ export default function DescriptionDomain({ compCheck, checkBlank, items, cF }) 
 										</Accordion>
 									</StyledCell>
 									<StyledCell>
-										<TextField error={cF(item.access_time) === "" ? true : false} variant="outlined" multiline rows={4} value={cF(item.access_time)} onChange={(e) => setInput(e, index, 'access_time', 'ddXref')} />
+										<TextField error={cF(item.access_time) === "" ? true : false} label={"YYYY-MM-DDTHH:MM:SS+HH:MM"} fullWidth id="outlined-basic" value={cF(item.access_time)} onChange={(e) => setInput(e, index, 'access_time', 'ddXref')} variant="outlined" />
 									</StyledCell>
 									<StyledCell>
 										<Button variant="contained" color="primary" disableElevation fullWidth onClick={() => removeRows('ddXref', index)}>
@@ -858,6 +867,16 @@ export default function DescriptionDomain({ compCheck, checkBlank, items, cF }) 
           </Button>
         </StyledCell>
       </TableRow>
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -893,7 +912,7 @@ export default function DescriptionDomain({ compCheck, checkBlank, items, cF }) 
           </Typography>
         </TableCell>
         <TableCell>
-          <Typography className={missingStepsDescription ? classes.missingHeader : classes.header}>
+          <Typography className={missingStepsVersion ? classes.missingHeader : classes.header}>
             Version
           </Typography>
         </TableCell>
@@ -902,18 +921,19 @@ export default function DescriptionDomain({ compCheck, checkBlank, items, cF }) 
       </TableRow>
       {
         items.ddPipelineSteps.map((item, index) => (
-            <TableRow key={index}>
+            <>
+						<TableRow key={index}>
               <TableCell className={classes.stepNumber} rowSpan="2">
                 <TextField variant="outlined" value={index+1} />{compCheck}
               </TableCell>
               <StyledCell>
-                <TextField error={cF(item.name) === "" ? true : false} fullWidth variant="outlined" value={cF(item.name)} onChange={(e) => setInput(e, index, 'name')} />
+                <TextField error={cF(item.name) === "" ? true : false} fullWidth variant="outlined" value={cF(item.name)} onChange={(e) => setInput(e, index, 'name', 'ddPipelineSteps')} />
               </StyledCell>
               <StyledCell>
-                <TextField error={cF(item.description) === "" ? true : false} variant="outlined" multiline rows={4} value={cF(item.description)} onChange={(e) => setInput(e, index, 'description')} />
+                <TextField error={cF(item.description) === "" ? true : false} fullWidth variant="outlined" multiline rows={4} value={cF(item.description)} onChange={(e) => setInput(e, index, 'description', 'ddPipelineSteps')} />
               </StyledCell>
               <StyledCell>
-                <TextField />
+								<TextField fullWidth variant="outlined" value={cF(item.version)} onChange={(e) => setInput(e, index, 'version', 'ddPipelineSteps')} />
               </StyledCell>
               <StyledCell>
                 <Button variant="contained" color="primary" disableElevation fullWidth onClick={() => removeRows('ddPipelineSteps', index)}>
@@ -921,12 +941,7 @@ export default function DescriptionDomain({ compCheck, checkBlank, items, cF }) 
                 </Button>
               </StyledCell>
             </TableRow>
-          )
-        )
-      }
-      {
-        items.ddPipelineSteps.map((item, index) => (
-            <TableRow key={index}>
+						<TableRow key={index}>
               <StyledCell>
                 <Accordion>
                   <AccordionSummary
@@ -1101,6 +1116,7 @@ export default function DescriptionDomain({ compCheck, checkBlank, items, cF }) 
               <TableCell>
               </TableCell>
             </TableRow>
+						</>
           )
         )
       }

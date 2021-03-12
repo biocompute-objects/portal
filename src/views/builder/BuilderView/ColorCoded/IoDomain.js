@@ -368,7 +368,7 @@ export default function IoDomain({ items, cF }) {
           </Typography>
         </StyledCell>
         <StyledCell>
-          <Typography className={missingInputSubdomainUri ? classes.missingHeader : classes.header} variant="h3">
+          <Typography className={missingInputSubdomainUri ? classes.missingHeader : classes.header}>
             URI
           </Typography>
         </StyledCell>
@@ -393,7 +393,7 @@ export default function IoDomain({ items, cF }) {
                 <TextField error={cF(item.uri.uri) === "" ? true : false} value={cF(item.uri.uri)} variant="outlined" onChange={(e) => setInputInput(e, index, 'uri')} />
               </StyledCell>
               <StyledCell>
-                <TextField value={cF(item.uri.access_time)} variant="outlined" onChange={(e) => setInputInput(e, index, 'access_time')} />
+                <TextField label={"YYYY-MM-DDTHH:MM:SS+HH:MM"} fullWidth id="outlined-basic" value={cF(item.uri.access_time)} onChange={(e) => setInputInput(e, index, 'access_time')} variant="outlined" />
               </StyledCell>
               <StyledCell colSpan="2">
                 <TextField value={cF(item.uri.sha1_checksum)} variant="outlined" onChange={(e) => setInputInput(e, index, 'sha1_checksum')} fullWidth />
@@ -408,7 +408,7 @@ export default function IoDomain({ items, cF }) {
         )
       }
       <TableRow>
-          <StyledCell colSpan="6">
+          <StyledCell colSpan="5">
             <Button variant="contained" color="primary" disableElevation fullWidth onClick={() => addRowsInput()}>
               Add Input Subdomain
             </Button>
@@ -433,7 +433,7 @@ export default function IoDomain({ items, cF }) {
           </Typography>
         </StyledCell>
         <StyledCell>
-          <Typography className={missingOutputSubdomainUri ? classes.missingHeader : classes.header} variant="h3">
+          <Typography className={missingOutputSubdomainUri ? classes.missingHeader : classes.header}>
             URI
           </Typography>
         </StyledCell>
@@ -461,7 +461,7 @@ export default function IoDomain({ items, cF }) {
                 <TextField error={cF(item.uri.uri) === "" ? true : false} value={cF(item.uri.uri)} variant="outlined" onChange={(e) => setInputOutput(e, index, 'uri')} />
               </StyledCell>
               <StyledCell>
-                <TextField value={cF(item.uri.access_time)} variant="outlined" onChange={(e) => setInputOutput(e, index, 'access_time')} />
+                <TextField label={"YYYY-MM-DDTHH:MM:SS+HH:MM"} fullWidth id="outlined-basic" value={cF(item.uri.access_time)} onChange={(e) => setInputOutput(e, index, 'access_time')} variant="outlined" />
               </StyledCell>
               <StyledCell>
                 <TextField value={cF(item.uri.sha1_checksum)} variant="outlined" onChange={(e) => setInputOutput(e, index, 'sha1_checksum')} />
@@ -476,7 +476,7 @@ export default function IoDomain({ items, cF }) {
         )
       }
       <TableRow>
-          <StyledCell colSpan="6">
+          <StyledCell colSpan="5">
             <Button variant="contained" color="primary" disableElevation fullWidth onClick={() => addRowsOutput()}>
               Add Output Subdomain
             </Button>

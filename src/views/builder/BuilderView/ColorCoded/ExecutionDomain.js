@@ -11,10 +11,8 @@ import TableRow from '@material-ui/core/TableRow';
 // Inputs
 import TextField from '@material-ui/core/TextField';
 
-// Add environment variable
-import Button from '@material-ui/core/Button'
-
-//import { TextInput } from 'react-native';
+// Add buttons
+import Button from '@material-ui/core/Button';
 
 // Section cell styling
 const useStyles = makeStyles((theme) => ({
@@ -39,53 +37,34 @@ const StyledCell = withStyles({
 // Pass an object and whether or not its keys are properties.
 export default function ExecutionDomain({ items, cF }) {
   
+  console.log('IoData:', items)
+  
   const classes = useStyles();
 
   // State for showing missing sections.
-  // TODO: For some reason didn't work with [items.executionDomain]
-
-  // State for showing missing sections.
   const [missingExecutionDomain, setMissingExecutionDomain] = useState(true);
-  const [missingScript, setMissingScript] = useState(false);
   const [missingScriptDriver, setMissingScriptDriver] = useState(false);
-
   const [missingSoftwarePrerequisites, setMissingSoftwarePrerequisites] = useState(false);
   const [missingSoftwarePrerequisitesName, setMissingSoftwarePrerequisitesName] = useState(false);
   const [missingSoftwarePrerequisitesVersion, setMissingSoftwarePrerequisitesVersion] = useState(false);
   const [missingSoftwarePrerequisitesUri, setMissingSoftwarePrerequisitesUri] = useState(false);
-
   const [missingExternalDataEndpoints, setMissingExternalDataEndpoints] = useState(false);
   const [missingExternalDataEndpointsName, setMissingExternalDataEndpointsName] = useState(false);
   const [missingExternalDataEndpointsUrl, setMissingExternalDataEndpointsUrl] = useState(false);
-
-  const [missingEnvironmentVariables, setMissingEnvironmentVariables] = useState(false);
-  const [missingEnvironmentVariablesKey, setMissingEnvironmentVariablesKey] = useState(false);
-  const [missingEnvironmentVariablesValue, setMissingEnvironmentVariablesValue] = useState(false);
+  const [missingScript, setMissingScript] = useState(false);
+  const [missingScriptUri, setMissingScriptUri] = useState(false);
 
   useEffect(() => {
     
     // Create an OR flag.
     var orFlag = false;
-    
-    // Script
-    if(items.edScript === "") {
-      
-      // No script.
-      setMissingScript(true);
-      
-      // Set the OR flag.
-      orFlag = true;
 
-    } else {
-      setMissingScript(false);
-    }
-    
     // Script driver
-    if(items.edScriptDriver == "") {
-
+    if(items.edScriptDriver === "") {
+      
       // No script driver.
       setMissingScriptDriver(true);
-
+      
       // Set the OR flag.
       orFlag = true;
 
@@ -93,12 +72,9 @@ export default function ExecutionDomain({ items, cF }) {
       setMissingScriptDriver(false);
     }
 
-    // Each field must be treated independently so that
-    // our state is compared only to the relevant field.
+    // Software prerequisites
+    if(items.edSoftwarePrerequisites.length === 0) {
 
-    // Software prerequisites are required
-    if(items.edSoftwarePrerequisites.length == 0) {
-      
       // No software prerequisites.
       setMissingSoftwarePrerequisites(true);
 
@@ -115,16 +91,19 @@ export default function ExecutionDomain({ items, cF }) {
       // If there are software prerequisites, we have to consider
       // the necessary subfields.
 
+      // Each field must be treated independently so that
+      // our state is compared only to the relevant field.
+
       // Assume the header is not red.
       setMissingSoftwarePrerequisites(false);
 
-      // Each one of the software prerequisites.
+      // Each one of the prerequisites.
       for(var i = 0; i < items.edSoftwarePrerequisites.length; i++) {
 
         // Name
         if(items.edSoftwarePrerequisites[i].name === "") {
           
-          // No Name.
+          // No name.
           setMissingSoftwarePrerequisitesName(true);
 
           // Header
@@ -136,21 +115,18 @@ export default function ExecutionDomain({ items, cF }) {
           break;
 
         } else {
-          setMissingSoftwarePrerequisitesName(false);
+          setMissingSoftwarePrerequisites(false);
         }
-
-        // Can't rely on orFlag here because fields like
-        // Name, Version, and License also depend on it.
         
       }
 
-      // Each one of the software prerequisites.
+      // Each one of the prerequisites.
       for(var i = 0; i < items.edSoftwarePrerequisites.length; i++) {
 
-        // Name
+        // Version
         if(items.edSoftwarePrerequisites[i].version === "") {
           
-          // No Version.
+          // No version.
           setMissingSoftwarePrerequisitesVersion(true);
 
           // Header
@@ -162,21 +138,18 @@ export default function ExecutionDomain({ items, cF }) {
           break;
 
         } else {
-          setMissingSoftwarePrerequisitesVersion(false);
+          setMissingSoftwarePrerequisites(false);
         }
-
-        // Can't rely on orFlag here because fields like
-        // Name, Version, and License also depend on it.
         
       }
 
-      // Each one of the software prerequisites.
+      // Each one of the prerequisites.
       for(var i = 0; i < items.edSoftwarePrerequisites.length; i++) {
 
-        // Name
+        // URI
         if(items.edSoftwarePrerequisites[i].uri.uri === "") {
           
-          // No Name.
+          // No URI.
           setMissingSoftwarePrerequisitesUri(true);
 
           // Header
@@ -188,19 +161,16 @@ export default function ExecutionDomain({ items, cF }) {
           break;
 
         } else {
-          setMissingSoftwarePrerequisitesName(false);
+          setMissingSoftwarePrerequisites(false);
         }
-
-        // Can't rely on orFlag here because fields like
-        // Name, Version, and License also depend on it.
         
       }
       
     }
 
-    // External data endpoints are required
-    if(items.edExternalDataEndpoints.length == 0) {
-      
+    // External data endpoints
+    if(items.edExternalDataEndpoints.length === 0) {
+
       // No external data endpoints.
       setMissingExternalDataEndpoints(true);
 
@@ -216,16 +186,19 @@ export default function ExecutionDomain({ items, cF }) {
       // If there are external data endpoints, we have to consider
       // the necessary subfields.
 
+      // Each field must be treated independently so that
+      // our state is compared only to the relevant field.
+
       // Assume the header is not red.
       setMissingExternalDataEndpoints(false);
 
-      // Each one of the software prerequisites.
+      // Each one of the endpoints.
       for(var i = 0; i < items.edExternalDataEndpoints.length; i++) {
 
         // Name
         if(items.edExternalDataEndpoints[i].name === "") {
           
-          // No Name.
+          // No name.
           setMissingExternalDataEndpointsName(true);
 
           // Header
@@ -237,18 +210,15 @@ export default function ExecutionDomain({ items, cF }) {
           break;
 
         } else {
-          setMissingExternalDataEndpointsName(false);
+          setMissingExternalDataEndpoints(false);
         }
-
-        // Can't rely on orFlag here because fields like
-        // Name, Version, and License also depend on it.
         
       }
 
-      // Each one of the software prerequisites.
+      // Each one of the endpoints.
       for(var i = 0; i < items.edExternalDataEndpoints.length; i++) {
 
-        // URL
+        // Name
         if(items.edExternalDataEndpoints[i].url === "") {
           
           // No URL.
@@ -263,48 +233,48 @@ export default function ExecutionDomain({ items, cF }) {
           break;
 
         } else {
-          setMissingExternalDataEndpointsUrl(false);
+          setMissingExternalDataEndpoints(false);
         }
-
-        // Can't rely on orFlag here because fields like
-        // Name, Version, and License also depend on it.
         
       }
       
     }
 
-    // Environment variables are required
-    if(items.edEnvironmentVariables.length == 0) {
-      
-      // No environment variables.
-      setMissingEnvironmentVariables(true);
+    // Script
+    if(items.edScript.length === 0) {
+
+      // No script.
+      setMissingScript(true);
 
       // No sub-fields.
-      setMissingEnvironmentVariablesKey(true);
-      setMissingEnvironmentVariablesValue(true);
+      setMissingScriptDriver(true);
+      setMissingScriptUri(true);
 
       // Set the OR flag.
       orFlag = true;
 
     } else {
 
-      // If there are environment variables, we have to consider
+      // If there is a script, we have to consider
       // the necessary subfields.
 
+      // Each field must be treated independently so that
+      // our state is compared only to the relevant field.
+
       // Assume the header is not red.
-      setMissingEnvironmentVariables(false);
+      setMissingScript(false);
 
-      // Each one of the keys.
-      for(var i = 0; i < items.edEnvironmentVariables.length; i++) {
+      // Each one of the scripts.
+      for(var i = 0; i < items.edScript.length; i++) {
 
-        // Key
-        if(items.edEnvironmentVariables[i].key === "") {
+        // Name
+        if(items.edScript[i].uri.uri === "") {
           
-          // No Key.
-          setMissingEnvironmentVariablesKey(true);
+          // No URI.
+          setMissingScriptUri(true);
 
           // Header
-          setMissingEnvironmentVariables(true);
+          setMissingScript(true);
 
           // Set the OR flag.
           orFlag = true;
@@ -312,64 +282,167 @@ export default function ExecutionDomain({ items, cF }) {
           break;
 
         } else {
-          setMissingEnvironmentVariablesKey(false);
+          setMissingScript(false);
         }
-
-        // Can't rely on orFlag here.
-        
-      }
-
-      // Each one of the values.
-      for(var i = 0; i < items.edEnvironmentVariables.length; i++) {
-
-        // Key
-        if(items.edEnvironmentVariables[i].value === "") {
-          
-          // No Key.
-          setMissingEnvironmentVariablesValue(true);
-
-          // Header
-          setMissingEnvironmentVariables(true);
-
-          // Set the OR flag.
-          orFlag = true;
-
-          break;
-
-        } else {
-          setMissingEnvironmentVariablesValue(false);
-        }
-
-        // Can't rely on orFlag here.
         
       }
       
     }
 
-    // Was one OR the other missing?
+    // Was one OR the other missing in the pipeline input/output?
     if(orFlag) {
       setMissingExecutionDomain(true);
     } else {
 
       // All required fields are ok.
-      setMissingScript(false);
-      setMissingScriptDriver(false);
       setMissingSoftwarePrerequisitesName(false);
       setMissingSoftwarePrerequisitesVersion(false);
       setMissingSoftwarePrerequisitesUri(false);
       setMissingExternalDataEndpointsName(false);
       setMissingExternalDataEndpointsUrl(false);
-      setMissingEnvironmentVariablesKey(false);
-      setMissingEnvironmentVariablesValue(false);
 
       setMissingSoftwarePrerequisites(false);
       setMissingExternalDataEndpoints(false);
-      setMissingEnvironmentVariables(false);
+      setMissingScript(false);
+      
       setMissingExecutionDomain(false);
 
     }
 
   }, [items]);
+
+  // Set an input value
+
+  // There were problems with value/defaultValue,
+  // so I opted to put in a custom handler based 
+  // on the response at https://github.com/facebook/react/issues/8053#issuecomment-255555133
+
+  // See also https://stackoverflow.com/questions/42807901/react-input-element-value-vs-default-value
+  const setInput = (event, i, inputName, which) => {
+    
+    // Get the state variable.
+    var dummy = items[which];
+
+    // TODO: Put in date-time logic...
+		
+		// Cases
+    if(which === 'edSoftwarePrerequisites') {
+
+      // Special rule for URI.
+      if(inputName === 'uri' || inputName === 'filename' || inputName === 'access_time' || inputName === 'sha1_checksum') {
+        dummy[i]['uri'][inputName] = event.target.value;
+      } else {
+        dummy[i][inputName] = event.target.value;
+      }
+      
+      // Update the state.
+      items.setEdSoftwarePrerequisites(dummy);
+
+    } else if(which === 'edExternalDataEndpoints') {
+      
+      // Change the value at the given index.
+      dummy[i][inputName] = event.target.value;
+      
+      // Update the state.
+      items.setEdExternalDataEndpoints(dummy);
+
+    } else if(which === 'edScript') {
+
+      // Only possible to set on the URI key.
+      dummy[i]['uri'][inputName] = event.target.value;
+
+      // Update the state.
+      items.setEdScript(dummy);
+
+    }
+
+    // Needed to re-render the page.
+    items.setRerender(items.rerender+1);
+
+  }
+  
+  // Add a row
+  const addRows = (which) => {
+
+    // Get the state variable.
+    var dummy = items[which];
+
+    // Cases
+    if(which === 'edSoftwarePrerequisites') {
+      
+      // Push the new row.
+      dummy.push({
+        "name": "",
+        "version": "",
+        "uri": {
+          "uri": ""
+        }
+      });
+
+      // Update the state.
+      items.setEdSoftwarePrerequisites(dummy);
+
+    } else if(which === 'edExternalDataEndpoints') {
+			
+			// Push the new row.
+      dummy.push({
+        "name": "",
+        "url": ""
+      });
+
+      // Update the state.
+      items.setEdExternalDataEndpoints(dummy);
+
+    } else if(which === 'edScript') {
+
+      // Push the new row.
+      dummy.push({
+        "uri": {
+          "uri": ""
+        }
+      });
+
+      // Update the state.
+      items.setEdScript(dummy);
+
+    }
+
+    // Needed to re-render the page.
+    items.setRerender(items.rerender+1)
+
+  }
+
+  // Remove a row
+  const removeRows = (which, i) => {
+
+    // Get the state variable.
+    var dummy = items[which];
+
+    // Remove the index.
+    dummy.splice(i, 1);
+
+    // Cases
+    if(which === 'edSoftwarePrerequisites') {
+      
+      // Update the state.
+      items.setEdSoftwarePrerequisites(dummy);
+      
+    } else if(which === 'edExternalDataEndpoints') {
+
+      // Update the state.
+      items.setEdExternalDataEndpoints(dummy);
+
+    } else if(which === 'edScript') {
+
+      // Update the state.
+      items.setEdScript(dummy);
+
+    }
+    
+    // Needed to re-render the page.
+    items.setRerender(items.rerender+1)
+
+  }
 
   // Arguments
   // ---------
@@ -382,11 +455,10 @@ export default function ExecutionDomain({ items, cF }) {
   // ----- None ----- //
 
   return(
-    <div>
     <Table size="small">
     <TableHead className={classes.tabled}>
       <TableRow>
-        <StyledCell colSpan="6">
+        <StyledCell>
           <Typography className={missingExecutionDomain ? classes.missingHeader : classes.header} variant="h1">
             Execution Domain
           </Typography>
@@ -396,120 +468,195 @@ export default function ExecutionDomain({ items, cF }) {
     <TableBody>
       <TableRow>
         <StyledCell>
-          <Typography className={missingScript ? classes.missingHeader: classes.header} variant="h3">
-            Script
-          </Typography>
-        </StyledCell>
-        <StyledCell colSpan="5">
-          <TextField defaultValue={items.script} variant="outlined" />
-        </StyledCell>
-      </TableRow>
-      <TableRow>
-        <StyledCell>
-          <Typography className={missingScriptDriver ? classes.missingHeader: classes.header} variant="h3">
+          <Typography className={missingScriptDriver ? classes.missingHeader : classes.header} variant="h3">
             Script Driver
           </Typography>
         </StyledCell>
-        <StyledCell colSpan="5">
-          <TextField variant="outlined"></TextField>
+        <StyledCell colSpan="6">
+          <TextField error={missingScriptDriver ? true : false} fullWidth id="outlined-basic" value={cF(items.edScriptDriver)} onChange={(e) => items.setEdScriptDriver(e.target.value)} variant="outlined" />
         </StyledCell>
       </TableRow>
       <TableRow>
-        <StyledCell colSpan="6">
-          <Typography variant="h3">
+        <StyledCell colSpan="7">
+          <Typography className={missingSoftwarePrerequisites ? classes.missingHeader : classes.header} variant="h3">
             Software Prerequisites
           </Typography>
         </StyledCell>
       </TableRow>
       <TableRow>
-        {
-          ['Name', 'Version', 'Filename', 'URI', 'Access Time', 'SHA1 Checksum'].map(item => (
+        <StyledCell>
+          <Typography className={missingSoftwarePrerequisitesName ? classes.missingHeader : classes.header}>
+            Name
+          </Typography>
+        </StyledCell>
+        <StyledCell>
+          <Typography className={missingSoftwarePrerequisitesVersion ? classes.missingHeader : classes.header}>
+            Version
+          </Typography>
+        </StyledCell>
+        <StyledCell>
+          <Typography>
+            Filename
+          </Typography>
+        </StyledCell>
+        <StyledCell>
+          <Typography className={missingSoftwarePrerequisitesUri ? classes.missingHeader : classes.header}>
+            URI
+          </Typography>
+        </StyledCell>
+        <StyledCell>
+          <Typography>
+            Access Time
+          </Typography>
+        </StyledCell>
+        <StyledCell colSpan="2">
+          <Typography>
+            SHA1 Checksum
+          </Typography>
+        </StyledCell>
+      </TableRow>
+      {
+        items.edSoftwarePrerequisites.map((item, index) => (
+            <TableRow>
               <StyledCell>
-                <Typography>
-                  {item}
-                </Typography>
+                <TextField value={cF(item.name)} variant="outlined" onChange={(e) => setInput(e, index, 'name', 'edSoftwarePrerequisites')} />
               </StyledCell>
-            )
+              <StyledCell>
+                <TextField value={cF(item.version)} variant="outlined" onChange={(e) => setInput(e, index, 'version', 'edSoftwarePrerequisites')} />
+              </StyledCell>
+              <StyledCell>
+                <TextField value={cF(item.uri.filename)} variant="outlined" onChange={(e) => setInput(e, index, 'filename', 'edSoftwarePrerequisites')} />
+              </StyledCell>
+              <StyledCell>
+                <TextField error={cF(item.uri.uri) === "" ? true : false} value={cF(item.uri.uri)} variant="outlined" onChange={(e) => setInput(e, index, 'uri', 'edSoftwarePrerequisites')} />
+              </StyledCell>
+              <StyledCell>
+                <TextField label={"YYYY-MM-DDTHH:MM:SS+HH:MM"} fullWidth id="outlined-basic" value={cF(item.uri.access_time)} onChange={(e) => setInput(e, index, 'access_time', 'edSoftwarePrerequisites')} variant="outlined" />
+              </StyledCell>
+              <StyledCell>
+                <TextField value={cF(item.uri.sha1_checksum)} variant="outlined" onChange={(e) => setInput(e, index, 'sha1_checksum', 'edSoftwarePrerequisites')} fullWidth />
+              </StyledCell>
+              <StyledCell>
+                <Button variant="contained" color="primary" disableElevation fullWidth onClick={() => removeRows('edSoftwarePrerequisites', index)}>
+                  Remove
+                </Button>
+              </StyledCell>
+            </TableRow>
           )
-        }
-      </TableRow>
-      <TableRow>
-        <StyledCell><TextField variant="outlined"></TextField></StyledCell>
-        <StyledCell><TextField variant="outlined"></TextField></StyledCell>
-        <StyledCell><TextField variant="outlined"></TextField></StyledCell>
-        <StyledCell><TextField variant="outlined"></TextField></StyledCell>
-        <StyledCell><TextField variant="outlined"></TextField></StyledCell>
-        <StyledCell><TextField variant="outlined"></TextField></StyledCell>
-      </TableRow>
+        )
+      }
       <TableRow>
         <StyledCell colSpan="6">
-          <Button variant="contained" color="primary" disableElevation fullWidth>
+          <Button variant="contained" color="primary" disableElevation fullWidth onClick={() => addRows('edSoftwarePrerequisites')}>
             Add Software Prerequisite
           </Button>
         </StyledCell>
       </TableRow>
       <TableRow>
-        <StyledCell colSpan="6">
-          <Typography variant="h3">
+        <StyledCell colSpan="7">
+          <Typography className={missingExternalDataEndpoints ? classes.missingHeader : classes.header} variant="h3">
             External Data Endpoints
           </Typography>
         </StyledCell>
       </TableRow>
       <TableRow>
-      <StyledCell>
-        <Typography>
-          Name
-        </Typography>
-      </StyledCell>
-      <StyledCell colSpan="5">
-        <Typography>
-          URL
-        </Typography>
-      </StyledCell>
+        <StyledCell colSpan="3">
+          <Typography className={missingExternalDataEndpointsName ? classes.missingHeader : classes.header}>
+            Name
+          </Typography>
+        </StyledCell>
+        <StyledCell colSpan="4">
+          <Typography className={missingExternalDataEndpointsUrl ? classes.missingHeader : classes.header}>
+            URL
+          </Typography>
+        </StyledCell>
       </TableRow>
-      <TableRow>
-      <StyledCell>
-        <TextField variant="outlined"></TextField>
-      </StyledCell>
-      <StyledCell colSpan="5">
-        <TextField variant="outlined"></TextField>
-      </StyledCell>
-      </TableRow>
+      {
+        items.edExternalDataEndpoints.map((item, index) => (
+            <TableRow>
+              <StyledCell colSpan="3">
+                <TextField error={cF(item.name) === "" ? true : false} fullWidth value={cF(item.name)} variant="outlined" onChange={(e) => setInput(e, index, 'name', 'edExternalDataEndpoints')} />
+              </StyledCell>
+              <StyledCell colSpan="3">
+                <TextField error={cF(item.url) === "" ? true : false} fullWidth value={cF(item.url)} variant="outlined" onChange={(e) => setInput(e, index, 'url', 'edExternalDataEndpoints')} />
+              </StyledCell>
+              <StyledCell>
+                <Button variant="contained" color="primary" disableElevation fullWidth onClick={() => removeRows('edExternalDataEndpoints', index)}>
+                  Remove
+                </Button>
+              </StyledCell>
+            </TableRow>
+          )
+        )
+      }
       <TableRow>
         <StyledCell colSpan="6">
-          <Button variant="contained" color="primary" disableElevation fullWidth>
+          <Button variant="contained" color="primary" disableElevation fullWidth onClick={() => addRows('edExternalDataEndpoints')}>
             Add External Data Endpoint
           </Button>
         </StyledCell>
       </TableRow>
       <TableRow>
-        <StyledCell colSpan="6">
-          <Typography variant="h3">
-            Environment Variables
+        <StyledCell colSpan="7">
+          <Typography className={missingScript ? classes.missingHeader : classes.header} variant="h3">
+            Script
           </Typography>
         </StyledCell>
       </TableRow>
       <TableRow>
-        <StyledCell>
+        <StyledCell colSpan="2">
           <Typography>
-            Key
+            Filename
+          </Typography>
+        </StyledCell>
+        <StyledCell colSpan="2">
+          <Typography className={missingScriptUri ? classes.missingHeader : classes.header}>
+            URI
           </Typography>
         </StyledCell>
         <StyledCell>
           <Typography>
-            Value
+            Access Time
+          </Typography>
+        </StyledCell>
+        <StyledCell colSpan="2">
+          <Typography>
+            SHA1 Checksum
           </Typography>
         </StyledCell>
       </TableRow>
+      {
+        items.edScript.map((item, index) => (
+            <TableRow>
+              <StyledCell colSpan="2">
+                <TextField fullWidth value={cF(item.uri.filename)} variant="outlined" onChange={(e) => setInput(e, index, 'filename', 'edScript')} />
+              </StyledCell>
+              <StyledCell colSpan="2">
+                <TextField error={cF(item.uri.uri) === "" ? true : false} fullWidth value={cF(item.uri.uri)} variant="outlined" onChange={(e) => setInput(e, index, 'uri', 'edScript')} />
+              </StyledCell>
+              <StyledCell>
+                <TextField label={"YYYY-MM-DDTHH:MM:SS+HH:MM"} fullWidth id="outlined-basic" value={cF(item.uri.access_time)} onChange={(e) => setInput(e, index, 'access_time', 'edScript')} variant="outlined" />
+              </StyledCell>
+              <StyledCell>
+                <TextField value={cF(item.uri.sha1_checksum)} variant="outlined" onChange={(e) => setInput(e, index, 'sha1_checksum', 'edScript')} fullWidth />
+              </StyledCell>
+              <StyledCell>
+                <Button variant="contained" color="primary" disableElevation fullWidth onClick={() => removeRows('edScript', index)}>
+                  Remove
+                </Button>
+              </StyledCell>
+            </TableRow>
+          )
+        )
+      }
       <TableRow>
         <StyledCell colSpan="6">
-          <Button variant="contained" color="primary" disableElevation fullWidth>
-            Add Environment Variable
+          <Button variant="contained" color="primary" disableElevation fullWidth onClick={() => addRows('edScript')}>
+            Add Script
           </Button>
         </StyledCell>
       </TableRow>
     </TableBody>
   </Table>
-  </div>
   );
 }

@@ -19,6 +19,7 @@ import UsabilityDomain from './UsabilityDomain'
 
 // Checking for field value existence
 import cF from '../../../../utils/cF'
+import { DescriptionOutlined } from '@material-ui/icons';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -288,7 +289,8 @@ const ColorCoded = ({ saving, setSaving, publishing, setPublishing, compCheck, c
   const [pdCreated, setPdCreated] = useState(contents.provenance_domain.created);
   const [pdModifed, setPdModified] = useState(contents.provenance_domain.modified);
   const [pdObsoleteAfter, setPdObsoleteAfter] = useState(contents.provenance_domain.obsolete_after);
-  const [pdEmbargo, setPdEmbargo] = useState(contents.provenance_domain.embargo);
+  const [pdEmbargoStartTime, setPdEmbargoStartTime] = useState(cF(cF(contents.provenance_domain.embargo)['start_time']));
+  const [pdEmbargoEndTime, setPdEmbargoEndTime] = useState(cF(cF(contents.provenance_domain.embargo)['end_time']));
   const [pdReview, setPdReview] = useState(contents.provenance_domain.review);
   const [pdContributors, setPdContributors] = useState(contents.provenance_domain.contributors);
 
@@ -359,11 +361,11 @@ const ColorCoded = ({ saving, setSaving, publishing, setPublishing, compCheck, c
 
   const renderList = [ 
     meta, 
-    { compCheck, checkBlank, pdName, pdVersion, pdLicense, pdDerivedFrom, pdCreated, pdModifed, pdObsoleteAfter, pdEmbargo, pdReview, pdContributors, rerender, setRerender, setPdName, setPdVersion, setPdLicense, setPdDerivedFrom, setPdCreated, setPdModified, setPdObsoleteAfter, setPdEmbargo, setPdReview, setPdContributors }, 
+    { compCheck, checkBlank, pdName, pdVersion, pdLicense, pdDerivedFrom, pdCreated, pdModifed, pdObsoleteAfter, pdEmbargoStartTime, pdEmbargoEndTime, pdReview, pdContributors, rerender, setRerender, setPdName, setPdVersion, setPdLicense, setPdDerivedFrom, setPdCreated, setPdModified, setPdObsoleteAfter, setPdEmbargoStartTime, setPdEmbargoEndTime, setPdReview, setPdContributors }, 
     { compCheck, checkBlank, ud, setUd },
-    { compCheck, checkBlank, ddKeywords, ddPlatform, ddXref, ddPipelineSteps, rerender, setDdKeywords, setDdPlatform, setDdXref, setDdPipelineSteps, setRerender },
-    { compCheck, checkBlank, edScript, edScriptDriver, edSoftwarePrerequisites, edExternalDataEndpoints, edEnvironmentVariables, setEdScript, setEdScriptDriver, setEdSoftwarePrerequisites, setEdExternalDataEndpoints, setEdEnvironmentVariables },
     { compCheck, checkBlank, iodInputSubdomain, iodOutputSubdomain, setIodInputSubdomain, setIodOutputSubdomain, rerender, setRerender },
+    { compCheck, checkBlank, edScript, edScriptDriver, edSoftwarePrerequisites, edExternalDataEndpoints, edEnvironmentVariables, rerender, setEdScript, setEdScriptDriver, setEdSoftwarePrerequisites, setEdExternalDataEndpoints, setEdEnvironmentVariables, setRerender },
+    { compCheck, checkBlank, ddKeywords, ddPlatform, ddXref, ddPipelineSteps, rerender, setDdKeywords, setDdPlatform, setDdXref, setDdPipelineSteps, setRerender },
     { compCheck, checkBlank, pad, rerender, setPad, setRerender },
     { compCheck, checkBlank, errd }, 
     { compCheck, checkBlank, exd }
@@ -373,8 +375,8 @@ const ColorCoded = ({ saving, setSaving, publishing, setPublishing, compCheck, c
   // const compList = [ Meta, ProvenanceDomain, UsabilityDomain, IoDomain, ExecutionDomain, DescriptionDomain, ParametricDomain, ErrorDomain, ExtensionDomain ];
   // const classNames = [ 'meta', 'provenanceDomain', 'usabilityDomain', 'ioDomain', 'executionDomain', 'descriptionDomain', 'parametricDomain', 'errorDomain', 'extensionDomain' ];
 
-  const compList = [ Meta, ProvenanceDomain, UsabilityDomain, DescriptionDomain ];
-  const classNames = [ 'meta', 'provenanceDomain', 'usabilityDomain', 'descriptionDomain' ];
+  const compList = [ Meta, ProvenanceDomain, UsabilityDomain, IoDomain, ExecutionDomain, DescriptionDomain, ParametricDomain, ErrorDomain, ExtensionDomain ];
+  const classNames = [ 'meta', 'provenanceDomain', 'usabilityDomain', 'ioDomain', 'executionDomain', 'descriptionDomain', 'parametricDomain', 'errorDomain', 'extensionDomain' ];
  
   return (
     <Container maxWidth={false}>

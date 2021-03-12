@@ -36,7 +36,10 @@ const useStyles = makeStyles((theme) => ({
   },
   missingHeader: {
     color: 'red'
-  }
+  },
+	missingHeaderOptional: {
+		color: 'yellow'
+	}
 }));
 
 // Cell styling
@@ -580,47 +583,47 @@ export default function ProvenanceDomain({ items, cF }) {
             Created
           </StyledCell>
           <StyledCell noGutter>
-            <TextField label={"YYYY-MM-DDTHH:MM:SS+HH:MM"} fullWidth id="outlined-basic" value={cF(items.pdDerivedFrom)} onChange={(e) => items.setPdCreated(e.target.value)} variant="outlined" />
+            <TextField label={"YYYY-MM-DDTHH:MM:SS+HH:MM"} fullWidth id="outlined-basic" value={cF(items.pdCreated)} onChange={(e) => items.setPdCreated(e.target.value)} variant="outlined" />
           </StyledCell>
           <StyledCell>
             Modified
           </StyledCell>
           <StyledCell noGutter>
-            <DatePicker />
+            <TextField label={"YYYY-MM-DDTHH:MM:SS+HH:MM"} fullWidth id="outlined-basic" value={cF(items.pdModified)} onChange={(e) => items.setPdModified(e.target.value)} variant="outlined" />
           </StyledCell>
           <StyledCell>
             Obsolete After
           </StyledCell>
           <StyledCell noGutter>
-          <Datetime />
+            <TextField label={"YYYY-MM-DDTHH:MM:SS+HH:MM"} fullWidth id="outlined-basic" value={cF(items.pdObsoleteAfter)} onChange={(e) => items.setPdObsoleteAfter(e.target.value)} variant="outlined" />
           </StyledCell>
           <StyledCell>
             Embargo Start Time
           </StyledCell>
           <StyledCell noGutter>
-          <Datetime />
+            <TextField label={"YYYY-MM-DDTHH:MM:SS+HH:MM"} fullWidth id="outlined-basic" value={cF(items.pdEmbargoStartTime)} onChange={(e) => items.setPdEmbargoStartTime(e.target.value)} variant="outlined" />
           </StyledCell>
           <StyledCell>
             Embargo End Time
           </StyledCell>
           <StyledCell noGutter>
-            <Datetime />
+            <TextField label={"YYYY-MM-DDTHH:MM:SS+HH:MM"} fullWidth id="outlined-basic" value={cF(items.pdEmbargoEndTime)} onChange={(e) => items.setPdEmbargoEndTime(e.target.value)} variant="outlined" />
           </StyledCell>
           <StyledCell>
           </StyledCell>
         </TableRow>
         <TableRow>
           <StyledCell colSpan="10">
-            <Typography className={missingReview ? classes.missingHeader : classes.header} variant="h3">
+            <Typography className={missingReview ? classes.missingHeaderOptional : classes.header} variant="h3">
               Review
             </Typography>
           </StyledCell>
         </TableRow>
         <TableRow>
           <StyledCell>Date</StyledCell>
-          <TableCell className={missingReviewStatus ? classes.missingHeader : classes.header}>Status</TableCell>
-          <TableCell className={missingReviewName ? classes.missingHeader : classes.header}>Reviewer Name</TableCell>
-          <TableCell className={missingReviewContribution ? classes.missingHeader : classes.header}>Reviewer Contribution</TableCell>
+          <TableCell className={missingReviewStatus ? classes.missingHeaderOptional : classes.header}>Status</TableCell>
+          <TableCell className={missingReviewName ? classes.missingHeaderOptional : classes.header}>Reviewer Name</TableCell>
+          <TableCell className={missingReviewContribution ? classes.missingHeaderOptional : classes.header}>Reviewer Contribution</TableCell>
           <StyledCell>Reviewer Affiliation</StyledCell>
           <StyledCell>Reviewer e-Mail</StyledCell>
           <StyledCell>Reviewer ORCID</StyledCell>
