@@ -115,7 +115,8 @@ const ColorCoded = ({ saving, setSaving, publishing, setPublishing, compCheck, c
       const splitUp = window.location.href.split('/');
       const destructured = splitUp[0] + '//' + splitUp[2] + '/' + splitUp[4];
       
-      // Call the API.    
+      // Call the API.
+      //fetch('http://127.0.0.1:8000/bco/objects/create/', {    
       fetch('https://beta.portal.aws.biochemistry.gwu.edu/bco/objects/create/', {
         method: 'POST',
         body: JSON.stringify({
@@ -205,7 +206,8 @@ const ColorCoded = ({ saving, setSaving, publishing, setPublishing, compCheck, c
       const splitUp = window.location.href.split('/');
       const destructured = splitUp[0] + '//' + splitUp[2] + '/' + splitUp[4];
       
-      // Call the API.    
+      // Call the API.
+      //fetch('http://127.0.0.1:8000/bco/objects/create/', {    
       fetch('https://beta.portal.aws.biochemistry.gwu.edu/bco/objects/create/', {
         method: 'POST',
         body: JSON.stringify({
@@ -367,13 +369,9 @@ const ColorCoded = ({ saving, setSaving, publishing, setPublishing, compCheck, c
     { compCheck, checkBlank, edScript, edScriptDriver, edSoftwarePrerequisites, edExternalDataEndpoints, edEnvironmentVariables, rerender, setEdScript, setEdScriptDriver, setEdSoftwarePrerequisites, setEdExternalDataEndpoints, setEdEnvironmentVariables, setRerender },
     { compCheck, checkBlank, ddKeywords, ddPlatform, ddXref, ddPipelineSteps, rerender, setDdKeywords, setDdPlatform, setDdXref, setDdPipelineSteps, setRerender },
     { compCheck, checkBlank, pad, rerender, setPad, setRerender },
-    { compCheck, checkBlank, errd }, 
-    { compCheck, checkBlank, exd }
+    { compCheck, checkBlank, errd, setErrd }, 
+    { compCheck, checkBlank, exd, setExd }
   ];
-  
-  // TODO: CORRECT ORDER
-  // const compList = [ Meta, ProvenanceDomain, UsabilityDomain, IoDomain, ExecutionDomain, DescriptionDomain, ParametricDomain, ErrorDomain, ExtensionDomain ];
-  // const classNames = [ 'meta', 'provenanceDomain', 'usabilityDomain', 'ioDomain', 'executionDomain', 'descriptionDomain', 'parametricDomain', 'errorDomain', 'extensionDomain' ];
 
   const compList = [ Meta, ProvenanceDomain, UsabilityDomain, IoDomain, ExecutionDomain, DescriptionDomain, ParametricDomain, ErrorDomain, ExtensionDomain ];
   const classNames = [ 'meta', 'provenanceDomain', 'usabilityDomain', 'ioDomain', 'executionDomain', 'descriptionDomain', 'parametricDomain', 'errorDomain', 'extensionDomain' ];

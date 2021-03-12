@@ -67,6 +67,7 @@ export default function ExtensionDomain({ items }) {
               fullWidth
               id="outlined-multiline-static"
               multiline
+              onChange={(e) => items.setExd([e.target.value])}
               rows={4}
               variant="outlined"
             />

@@ -73,6 +73,7 @@ export default function ErrorDomain({ items, cF }) {
               fullWidth
               id="outlined-multiline-static"
               multiline
+              onChange={(e) => items.setErrd([e.target.value])}
               rows={8}
               variant="outlined"
             />
