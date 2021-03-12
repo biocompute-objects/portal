@@ -121,8 +121,8 @@ export default function Views({ saving, setSaving, publishing, setPublishing, co
     // Sensible values will be given where possible.
     
     // Call the API.
-    //fetch('https://beta.portal.aws.biochemistry.gwu.edu/bco/objects/create/', {
-    fetch('http://127.0.0.1:8000/bco/objects/create/', {
+    // fetch('http://127.0.0.1:8000/bco/objects/create/', {
+    fetch('https://beta.portal.aws.biochemistry.gwu.edu/bco/objects/create/', {
       method: 'POST',
       body: JSON.stringify({
         POST_create_new_object: [
@@ -160,8 +160,8 @@ export default function Views({ saving, setSaving, publishing, setPublishing, co
   const getObjectInfo = () => {
     
     // Call the API.
-    //fetch('https://beta.portal.aws.biochemistry.gwu.edu/bco/objects/read/', {
-    fetch('http://127.0.0.1:8000/bco/objects/read/', {
+    // fetch('http://127.0.0.1:8000/bco/objects/read/', {
+    fetch('https://beta.portal.aws.biochemistry.gwu.edu/bco/objects/read/', {
       
       method: 'POST',
       body: JSON.stringify({
@@ -171,7 +171,7 @@ export default function Views({ saving, setSaving, publishing, setPublishing, co
                 object_id: objectId
             }
         ]
-        
+
     }),
     headers: {
       "Content-type": "application/json; charset=UTF-8"
