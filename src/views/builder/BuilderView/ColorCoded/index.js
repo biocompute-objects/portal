@@ -297,6 +297,8 @@ const ColorCoded = ({ saving, setSaving, publishing, setPublishing, compCheck, c
 
   // Description domain
   const [ddKeywords, setDdKeywords] = useState(contents.description_domain.keywords);
+  const [ddPlatform, setDdPlatform] = useState(contents.description_domain.platform);
+  const [ddXref, setDdXref] = useState(contents.description_domain.xref);
   const [ddPipelineSteps, setDdPipelineSteps] = useState(contents.description_domain.pipeline_steps);
 
   // Execution domain
@@ -359,7 +361,7 @@ const ColorCoded = ({ saving, setSaving, publishing, setPublishing, compCheck, c
     meta, 
     { compCheck, checkBlank, pdName, pdVersion, pdLicense, pdDerivedFrom, pdCreated, pdModifed, pdObsoleteAfter, pdEmbargo, pdReview, pdContributors, rerender, setRerender, setPdName, setPdVersion, setPdLicense, setPdDerivedFrom, setPdCreated, setPdModified, setPdObsoleteAfter, setPdEmbargo, setPdReview, setPdContributors }, 
     { compCheck, checkBlank, ud, setUd },
-    { compCheck, checkBlank, ddKeywords, ddPipelineSteps, rerender, setDdKeywords, setDdPipelineSteps, setRerender },
+    { compCheck, checkBlank, ddKeywords, ddPlatform, ddXref, ddPipelineSteps, rerender, setDdKeywords, setDdPlatform, setDdXref, setDdPipelineSteps, setRerender },
     { compCheck, checkBlank, edScript, edScriptDriver, edSoftwarePrerequisites, edExternalDataEndpoints, edEnvironmentVariables, setEdScript, setEdScriptDriver, setEdSoftwarePrerequisites, setEdExternalDataEndpoints, setEdEnvironmentVariables },
     { compCheck, checkBlank, iodInputSubdomain, iodOutputSubdomain, setIodInputSubdomain, setIodOutputSubdomain, rerender, setRerender },
     { compCheck, checkBlank, pad, rerender, setPad, setRerender },

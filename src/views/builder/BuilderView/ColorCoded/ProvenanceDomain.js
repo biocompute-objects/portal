@@ -495,8 +495,7 @@ export default function ProvenanceDomain({ items, cF }) {
     dummy.splice(i, 1);
 
     // Cases
-
-    if(which == 'pdReview') {
+    if(which === 'pdReview') {
 
       // Set the state, but only to valid objects
       // since Review isn't required as of IEEE 2791-2020.
