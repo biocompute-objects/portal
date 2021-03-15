@@ -34,18 +34,30 @@ const HomeView = () => {
 	  <Grid item lg={12} sm={8} xl={8} xs={12}>
         <Container maxWidth={false}>
           <Grid container justify='center' spacing={3}>
-            <Grid item lg={4} sm={6} xl={4} xs={12}><BcoDbViewer /></Grid>
-            <Grid item lg={4} sm={6} xl={4} xs={12}><BcoBuilder /></Grid>
+            <Grid item lg={4} sm={6} xl={4} xs={12}>
+              <BcoDbViewer />
+            </Grid>
+            <Grid item lg={4} sm={6} xl={4} xs={12}>
+              <BcoBuilder />
+            </Grid>
 	  <Grid item lg={4} sm={6} xl={4} xs={12}><MyProfile /></Grid>
           </Grid>
         </Container>
         <Container className={classes.marginTopped} maxWidth={false}>
           <Box className={classes.whiteBackground}>
             <Grid classes={classes.colored} container justify='center' spacing={3}>
-              <Grid item lg={12} sm={12} xl={12} xs={12}><SupportingMaterials /></Grid>
-			  <Grid item lg={3} sm={6} xl={3} xs={12}><Technical /></Grid>
-			  <Grid item lg={3} sm={6} xl={3} xs={12}><Media /></Grid>
-              <Grid item lg={3} sm={6} xl={3} xs={12}><Other /></Grid>
+              <Grid item lg={12} sm={12} xl={12} xs={12}>
+                <SupportingMaterials />
+              </Grid>
+              <Grid item lg={3} sm={6} xl={3} xs={12}>
+                <Technical />
+              </Grid>
+              <Grid item lg={3} sm={6} xl={3} xs={12}>
+                <Media />
+              </Grid>
+              <Grid item lg={3} sm={6} xl={3} xs={12}>
+                <Other />
+              </Grid>
             </Grid>
           </Box>
         </Container>

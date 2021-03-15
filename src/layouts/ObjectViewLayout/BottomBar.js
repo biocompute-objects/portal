@@ -9,6 +9,9 @@ import {
   Typography
 } from '@material-ui/core';
 
+// Links
+import Link from '@material-ui/core/Link';
+
 const useStyles = makeStyles(() => ({
   root: {},
   appBar: {
@@ -20,6 +23,9 @@ const useStyles = makeStyles(() => ({
     marginLeft: 'auto',
     marginRight: 'auto',
     minHeight: '32px'
+  },
+  bottomLink: {
+    color: 'orange'
   }
 }));
 
@@ -40,7 +46,9 @@ const BottomBar = ({
     >
       <Toolbar className={classes.bottom}>
         {/* <NavBar /> */}
-        <Typography>BioCompute Portal Version 1.0.0&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;Host: 124.423.31.313</Typography>
+        <Typography>
+          BioCompute Portal Version 1.0.0&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;Host: 124.423.31.313&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;<Link className={classes.bottomLink} href={'https://biocomputeobject.org/contact'} target="_blank">Contact Us</Link>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;<Link className={classes.bottomLink} href={'https://github.com/carmstrong1gw/portal/issues'} target="_blank">Report issue on GitHub</Link>
+        </Typography>
         <Box flexGrow={1} />
       </Toolbar>
     </AppBar>

@@ -19,7 +19,7 @@ const useStyles = makeStyles({
     transform: 'scale(0.8)',
   },
   linkCard: {
-      minHeight: '242px',
+      minHeight: '300px',
       textAlign: 'center'
   },
   title: {

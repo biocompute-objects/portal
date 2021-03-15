@@ -66,6 +66,10 @@ import ValidatorView from 'src/views/validator/ValidatorView';
 const routes = (isLoggedIn) => [
   {
     path: '/',
+    element: <Navigate to="/dashboard" />
+  },
+  {
+    path: '/',
     element: <MainLayout />,
     children: [
       { path: 'account', element: <AccountView /> },
