@@ -60,7 +60,7 @@ function stableSort(array, comparator) {
 // ];
 
 const headCells = [
-  { id: 'objectId', numeric: false, disablePadding: true, label: 'Object ID' },
+  { id: 'objectId', numeric: false, disablePadding: true, label: 'Accession Number' },
   { id: 'name', numeric: true, disablePadding: false, label: 'Name' },
   { id: 'state', numeric: false, disablePadding: false, label: 'State' }
 ];
@@ -331,7 +331,7 @@ export default function Results({ rowInfo }) {
                         <BcoPreviewPopup bcoLink={row.objectId} />
                       </TableCell> */}
                       <TableCell component="th" id={labelId} scope="row" padding="none">
-                        <Linker color= { 'blueLink' } uri={ window.location.href.indexOf(':3000') !== -1 ? addPortNumber(row.objectId) : row.objectId } />
+                        <Linker color = { 'blueLink' } uri={ window.location.href.indexOf(':3000') !== -1 ? addPortNumber(row.objectId) : row.objectId } accessionOnly = { true } />
                       </TableCell>
                       <TableCell>{row.name}</TableCell>
                       <TableCell>{row.state}</TableCell>

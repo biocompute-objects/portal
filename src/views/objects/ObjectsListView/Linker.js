@@ -20,9 +20,22 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 // Pass an object and whether or not its keys are properties.
-export default function Linker({ uri, color }) {  
+export default function Linker({ uri, color, accessionOnly }) {  
 
   const svgClasses = useStyles();
+
+  // The URI to use.
+  var uriProcessed = uri;
+  
+  // Accession only or full URI?
+  if(accessionOnly === true) {
+
+    // Keep only the last two parts of the URI.
+    uriProcessed = uriProcessed.split('/');
+    console.log(uriProcessed);
+    uriProcessed = uriProcessed.slice(-2)[0] + '/' + uriProcessed.slice(-1)[0];
+    
+  }
 
   // Arguments
   // ---------
@@ -41,7 +54,7 @@ export default function Linker({ uri, color }) {
 
   return(
     <Link className={svgClasses[color]} href={uri} target="_blank">
-      {uri}
+      {uriProcessed}
     </Link>
   );
 }
