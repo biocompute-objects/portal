@@ -37,36 +37,37 @@ const useStyles = makeStyles((theme) => ({
   showing: {
     display: 'block'
   },
+
   meta: {
-    backgroundColor: 'green',
+    background: '#74b3ce',
     color: 'white'
   },
   productCard: {
     height: '100%'
   },
   descriptionDomain: {
-    background: 'green'
+    background: '#09bc8a'
   },
   errorDomain: {
-    background: 'green'
+    background: '#3d5a80'
   },
   executionDomain: {
-    background: 'red'
+    background: '#3d5a80'
   },
   extensionDomain: {
-    background: 'red'
+    background: '#293241'
   },
   ioDomain: {
-    background: 'blue'
+    background: '#98c1d9'
   },
   parametricDomain: {
-    background: 'teal'
+    background: '#ee6c4d'
   },
   provenanceDomain: {
-    background: 'purple'
+    background: '#172a3a'
   },
   usabilityDomain: {
-    background: 'orange'
+    background: '#004346'
   }
 }));
 
