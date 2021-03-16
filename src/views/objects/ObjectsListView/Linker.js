@@ -20,7 +20,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 // Pass an object and whether or not its keys are properties.
-export default function Linker({ uri, color, accessionOnly }) {  
+export default function Linker({ uri, color, accessionOnly, state }) {  
 
   const svgClasses = useStyles();
 
@@ -30,10 +30,21 @@ export default function Linker({ uri, color, accessionOnly }) {
   // Accession only or full URI?
   if(accessionOnly === true) {
 
-    // Keep only the last two parts of the URI.
-    uriProcessed = uriProcessed.split('/');
-    console.log(uriProcessed);
-    uriProcessed = uriProcessed.slice(-2)[0] + '/' + uriProcessed.slice(-1)[0];
+    // Parse based on state of the object.
+    if(state === 'DRAFT') {
+
+      // Keep only the last part of the URI.
+      uriProcessed = uriProcessed.split('/');
+      uriProcessed = uriProcessed.slice(-1)[0];
+      console.log('uriProcessed:', uriProcessed)
+
+    } else if(state === 'PUBLISHED') {
+
+      // Keep only the last two parts of the URI.
+      uriProcessed = uriProcessed.split('/');
+      uriProcessed = uriProcessed.slice(-2)[0] + '/' + uriProcessed.slice(-1)[0];
+
+    }
     
   }
 

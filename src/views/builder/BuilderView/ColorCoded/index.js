@@ -207,8 +207,8 @@ const ColorCoded = ({ saving, setSaving, publishing, setPublishing, compCheck, c
       const destructured = splitUp[0] + '//' + splitUp[2] + '/' + splitUp[4];
       
       // Call the API.
-      //fetch('http://127.0.0.1:8000/bco/objects/create/', {    
-      fetch('https://beta.portal.aws.biochemistry.gwu.edu/bco/objects/create/', {
+      // fetch('http://127.0.0.1:8000/bco/objects/create/', {    
+      fetch('https://beta.portal.aws.biochemistry.gwu.edu/bco/objects/create/', { 
         method: 'POST',
         body: JSON.stringify({
           POST_create_new_object: [

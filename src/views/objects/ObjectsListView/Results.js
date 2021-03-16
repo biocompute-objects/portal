@@ -25,6 +25,13 @@ import BcoPreviewPopup from '../../../utils/bcoPreviewPopup'
 // Links
 import Linker from './Linker'
 
+// Derive from
+import Button from '@material-ui/core/Button';
+
+// Dummy redirecting after draft object creation.
+// See https://www.codegrepper.com/code-examples/javascript/useHistory+is+not+exported+form+react-router-dom
+import { useNavigate } from 'react-router-dom';
+
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
     return -1;
@@ -60,9 +67,10 @@ function stableSort(array, comparator) {
 // ];
 
 const headCells = [
-  { id: 'objectId', numeric: false, disablePadding: true, label: 'Accession Number' },
+  { id: 'objectId', numeric: false, disablePadding: true, label: 'BCO Accession' },
   { id: 'name', numeric: true, disablePadding: false, label: 'Name' },
-  { id: 'state', numeric: false, disablePadding: false, label: 'State' }
+  { id: 'state', numeric: false, disablePadding: false, label: 'State' },
+  { id: 'derivation', numeric: false, disablePadding: false, label: 'Derive Draft'}
 ];
 
 function EnhancedTableHead(props) {
@@ -219,12 +227,151 @@ export default function Results({ rowInfo }) {
     return(newUri);
 
   }
+
+  // Redirects
+  let history = useNavigate();
+
+  function redirect(where) {
+    return history(where);
+  }
+
+  // Derive a new object from an existing one.
+  const deriveFrom = (uri) => {
+
+    // Call the API to get the existing information,
+    // then call the API to create the draft.
+
+    // TODO: Make API function later...
+
+    // Parse the table name (taken from /views/objects/ObjectView/index.js)
+
+    // TODO: Abstract to general function later?
+
+    // The table to use is based on the URI.
+
+    // Check against the REGEX to determine the table.
+
+    // Simply check for two underscores for a draft table,
+    // otherwise we have a publish table.
+
+    var table = '';
+
+    if(uri.indexOf('DRAFT') !== -1) {
+
+      // Draft table.
+      
+      // Get the prefix.
+      table = uri.split('/');
+      table = table.splice(-1)[0];
+      table = table.split('_')[0];
+      table = table + '_draft';
+      table = table.toLowerCase();
+
+      // ALSO need to remove the 'builder' prefix.
+      uri = uri.replace('/builder/', '/');
+
+    } else {
+
+      // Publish table.
+
+      // Get the prefix.
+      table = uri.split('/');
+      table = table.splice(-2)[0];
+      table = table.split('_')[0];
+      table = table + '_publish';
+      table = table.toLowerCase();
+
+    }
+    console.log('table:', table)
+    // Call the API.
+    // fetch('http://127.0.0.1/bco/objects/read/', {
+    fetch('https://beta.portal.aws.biochemistry.gwu.edu/bco/objects/read/', {
+        method: 'POST',
+        body: JSON.stringify({
+          POST_read_object: [
+              {
+                table: table, 
+                object_id: uri
+              }
+          ]
+  
+      }),
+      headers: {
+        "Content-type": "application/json; charset=UTF-8"
+      }
+      }).then(response=>response.json()).then(data=>{
+        
+        console.log('+++++++++++++++++', data);
+  
+        // Get the bulk response.
+        const bulkResponse = data.POST_read_object[0];
+  
+        // Was the object found?
+        if(bulkResponse.request_code === '200') {
+          
+          // Create the draft and re-direct.
+
+          // Swap out the publish table for the draft table
+          // if a publish table was initially provided.
+          
+          if(table.indexOf('publish') !== -1) {
+
+            table = table.replace('publish', 'draft');
+
+          }
+
+          // fetch('http://127.0.0.1/bco/objects/create/', {
+          fetch('https://beta.portal.aws.biochemistry.gwu.edu/bco/objects/create/', {
+            method: 'POST',
+            body: JSON.stringify({
+              POST_create_new_object: [
+                  {
+                    table: table,
+                    schema: 'IEEE',
+                    contents: bulkResponse.content,
+                    state: 'DRAFT'
+                  }
+              ]
+          }),
+          headers: {
+            "Content-type": "application/json; charset=UTF-8"
+          }
+          }).then(response=>response.json()).then(data=>{
+      
+            console.log('NEW DRAFT OBJECT: ', data);
+      
+            // Parse the response data for the URL to re-direct to,
+            // making sure we're going to the BUILDER page.
+      
+            // Split the URI and re-construct the route.
+            const splitUp = data.POST_create_new_object[0]['object_id'].split('/').splice(-1);
+      
+            // Now re-direct.
+            redirect('/builder/' + splitUp);
+      
+            // Crappy but works.
+            // Source: https://reactgo.com/react-refresh-page/
+            //window.location.reload();
+      
+          })
+  
+        } else {
+  
+          // There was a problem, so show what it was...
+
+          // TODO: necessary to do this?
+    
+        }
+  
+      })
+
+  }
   
   // The row data from the parent.
   const rows = rowInfo;
-  console.log('row-child:', rows)
   
   const classes = useStyles();
+
   const [order, setOrder] = React.useState('desc');
   const [orderBy, setOrderBy] = React.useState('state');
   const [selected, setSelected] = React.useState([]);
@@ -331,10 +478,15 @@ export default function Results({ rowInfo }) {
                         <BcoPreviewPopup bcoLink={row.objectId} />
                       </TableCell> */}
                       <TableCell component="th" id={labelId} scope="row" padding="none">
-                        <Linker color = { 'blueLink' } uri={ window.location.href.indexOf(':3000') !== -1 ? addPortNumber(row.objectId) : row.objectId } accessionOnly = { true } />
+                        <Linker color = { 'blueLink' } uri={ window.location.href.indexOf(':3000') !== -1 ? addPortNumber(row.objectId) : row.objectId } accessionOnly = { true } state = { row.state } />
                       </TableCell>
                       <TableCell>{row.name}</TableCell>
                       <TableCell>{row.state}</TableCell>
+                      <TableCell>
+                        <Button variant="contained" color="primary" disableElevation onClick = {() => deriveFrom(row.objectId)}>
+                          Derive
+                        </Button>
+                      </TableCell>
                       {/* <TableCell>{row.source}</TableCell>
                       <TableCell>{row.lastUpdated}</TableCell> */}
                     </TableRow>
