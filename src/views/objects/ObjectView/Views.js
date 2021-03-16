@@ -98,7 +98,7 @@ export default function Views({ table, objectId }) {
   const getObjectInfo = () => {
     
     // Call the API.
-    //fetch('http://127.0.0.1:8000/bco/objects/read/', {
+    // fetch('http://127.0.0.1:8000/bco/objects/read', {
     fetch('https://beta.portal.aws.biochemistry.gwu.edu/bco/objects/read/', {
       method: 'POST',
       body: JSON.stringify({
