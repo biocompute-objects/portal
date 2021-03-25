@@ -1,3 +1,5 @@
+// src/views/account/AccountView/index.js
+
 import React from 'react';
 import {
   Container,
@@ -61,7 +63,7 @@ const AccountView = () => {
             md={12}
             xs={12}
           >
-            <ServerInfo />
+          <ServerInfo />
           </Grid>
         </Grid>
       </Container>

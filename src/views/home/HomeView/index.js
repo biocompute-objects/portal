@@ -1,3 +1,5 @@
+// src/views/home/HomeView/index.js
+
 import React, { useState} from 'react';
 import { Box, Container, Grid, makeStyles } from '@material-ui/core';
 import Page from 'src/components/Page';

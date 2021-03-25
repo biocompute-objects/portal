@@ -15,7 +15,8 @@ export const LoginContext = React.createContext();
 function App() {
 
 	// Login state and routing
-	const [isLoggedIn, setIsLoggedIn] = React.useState(false);
+	const [isLoggedIn, setIsLoggedIn] = React.useState();
+	const user = '';
 	const routing = useRoutes(routes(isLoggedIn));
 
 	useEffect(() => {
@@ -26,12 +27,11 @@ function App() {
   // Pass the context with the login variable (deep pass).	
 	return (
 		<ThemeProvider theme={theme}>
-			<LoginContext.Provider value={{ isLoggedIn, setIsLoggedIn }}>
+			<LoginContext.Provider value={{ isLoggedIn, setIsLoggedIn, user }}>
 				<GlobalStyles />
 				{routing}
 			</LoginContext.Provider>
 		</ThemeProvider>
   );
 };
-
 export default App;

@@ -1,4 +1,6 @@
-import React, { useState} from 'react';
+// src/views/home/HomeView/MyProfile.js
+
+import React, { useState, useContext} from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import Login from './Login';
@@ -8,6 +10,9 @@ import Typography from '@material-ui/core/Typography';
 
 // Routing to pages
 import { Link as RouterLink } from 'react-router-dom';
+
+// Get the context from App.js
+import { LoginContext } from '../../../App';
 
 const useStyles = makeStyles({
   root: {
@@ -32,9 +37,14 @@ const useStyles = makeStyles({
 
 export default function MyProfile(fakeAuth) {
   const classes = useStyles();
+  // Set the context.
+  const context = useContext(LoginContext);
 
-	//TOO DO Fix this
-  if (fakeAuth.isAuthenticated === false) {
+  var retrieveUser = localStorage.getItem('user');
+  var userInfo = JSON.parse(retrieveUser)
+  console.log('retrievedObject: ', JSON.parse(retrieveUser));
+
+  if (context.isLoggedIn !== true) {
     return <Login />
   }
   
@@ -45,14 +55,10 @@ export default function MyProfile(fakeAuth) {
             <Typography className={classes.title}>
               My Profile
             </Typography>
-            <Typography align="center">Profile</Typography>
-              <Typography align="center"><img src="/static/Hadley.png" /></Typography>
-              <Typography>Hadley King</Typography>
-              <Typography>Research Associate</Typography>
-              <Typography>funny@guy.com</Typography>
-            <Typography>
-              Sign in to access services
-            </Typography>
+              <Typography align="center"> { userInfo.email } </Typography>
+              <Typography> { userInfo.username }</Typography>
+              <Typography>{ userInfo.first_name } { userInfo.last_name }</Typography>
+              <Typography>{ userInfo.email }</Typography>
         </CardContent>
       </CardActionArea>
     </Card>

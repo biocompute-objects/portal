@@ -1,10 +1,11 @@
+// src/layouts/DashboardLayout/index.js
+
 import React, { useState } from 'react';
 import { Outlet } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core';
 import TopBar from '../shared/TopBar';
-import BottomBar from './BottomBar'
-//import NavBar from './NavBar'
-import NewsBar from './NewsBar'
+import BottomBar from '../shared/BottomBar'
+import NewsBar from '../shared/NewsBar'
 
 const useStyles = makeStyles((theme) => ({
   root: {

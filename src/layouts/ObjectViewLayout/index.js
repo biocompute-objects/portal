@@ -1,3 +1,5 @@
+// src/layouts/ObjectViewLayout/index.js
+
 import React, { useState } from 'react';
 import { Outlet } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core';

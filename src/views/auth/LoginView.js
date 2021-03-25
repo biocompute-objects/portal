@@ -1,4 +1,7 @@
+// src/views/auth/LoginView.js
+
 import React, { useContext } from 'react';
+import PropTypes from 'prop-types';
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
 import * as Yup from 'yup';
 import { Formik } from 'formik';
@@ -33,7 +36,6 @@ const LoginView = () => {
 
   // Set the context.
   const context = useContext(LoginContext);
-
   // Return based on whether or not the local token is set.
   return (
     <Page
@@ -49,53 +51,39 @@ const LoginView = () => {
         <Container maxWidth="sm">
           <Formik
             initialValues={{
-              email: '',
+              username: '',
               password: ''
             }}
             validationSchema={Yup.object().shape({
-              email: Yup.string().email('Must be a valid email').max(255).required('Email is required'),
+              username: Yup.string().max(255).required('User Name is required'),
               password: Yup.string().max(255).required('Password is required')
             })}
             onSubmit={(values) => {
               
               // Determine whether or not our login was legitimate.
-              //fetch('http://localhost:3000/token-auth/', {
-              // EC2 Version
-              // TODO: Fetch from localhost instead?
-              fetch('https://beta.portal.aws.biochemistry.gwu.edu/token-auth/', {
-              
-              
+              fetch('http://localhost:8080/token-auth/', {
+              // fetch('https://beta.portal.aws.biochemistry.gwu.edu/token-auth/', {
                 method: 'POST',
                 headers: {
                   'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({
-                  "username": values.email, 
+                  "username": values.username, 
                   "password": values.password
                 })
               })
-                .then(res => res.json()).then(json => {
-
-                  // TODO: This will be a huge object in the future...
-                  // Set all information about the user.
-                  // TODO: This should be done with response codes,
-                  // but I couldn't get it to work initially...
-                  if(typeof(json.user) !== 'undefined') {
-                    
-                    // Set the token and the logged in state.
-                    localStorage.setItem('token', json.token);
-                    
-                    context.setIsLoggedIn(true);
-
-                    // Re-direct to the home page.
+              .then(res => res.json()).then(json => {
+                if(typeof(json.user) !== 'undefined') {
+                  localStorage.setItem('token', json.token);
+                  context.user=json.user;
+                  localStorage.setItem('user', JSON.stringify(json.user));
+                  console.log(context.user);
+                  context.setIsLoggedIn(true);
                     navigate('/dashboard', { replace: true });
-
-                  } else {
-
-                    // Bad login...
-
+                } else {
+                      console.log('Bad login')
+                    navigate('/register', { replace: true });
                   }
-
                 })
               }
             }
@@ -143,16 +131,16 @@ const LoginView = () => {
                   </Grid>
                 </Grid>
                 <TextField
-                  error={Boolean(touched.email && errors.email)}
+                  error={Boolean(touched.username && errors.username)}
                   fullWidth
-                  helperText={touched.email && errors.email}
-                  label="Email Address"
+                  helperText={touched.username && errors.username}
+                  label="User Name"
                   margin="normal"
-                  name="email"
+                  name="username"
                   onBlur={handleBlur}
                   onChange={handleChange}
-                  type="email"
-                  value={values.email}
+                  type="text"
+                  value={values.username}
                   variant="outlined"
                 />
                 <TextField
@@ -177,7 +165,7 @@ const LoginView = () => {
                     type="submit"
                     variant="contained"
                   >
-                    Sign in now
+                    Sign in
                   </Button>
                 </Box>
                 <Typography

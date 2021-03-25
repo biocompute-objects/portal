@@ -1,8 +1,11 @@
+// src/layouts/MainLayout/index.js
+
 import React, { useState } from 'react';
 import { Outlet } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core';
 import TopBar from '../shared/TopBar';
-import BottomBar from './BottomBar'
+import BottomBar from '../shared/BottomBar'
+import NewsBar from '../shared/NewsBar'
 
 const useStyles = makeStyles((theme) => ({
   root: {

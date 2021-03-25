@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
 import * as Yup from 'yup';
 import { Formik } from 'formik';
@@ -14,6 +14,7 @@ import {
   makeStyles
 } from '@material-ui/core';
 import Page from 'src/components/Page';
+import { LoginContext } from '../../App';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -27,6 +28,7 @@ const useStyles = makeStyles((theme) => ({
 const RegisterView = () => {
   const classes = useStyles();
   const navigate = useNavigate();
+  const context = useContext(LoginContext);
 
   return (
     <Page
@@ -41,24 +43,62 @@ const RegisterView = () => {
       >
         <Container maxWidth="sm">
           <Formik
-            initialValues={{
-              email: '',
-              firstName: '',
-              lastName: '',
-              password: '',
-              policy: false
-            }}
-            validationSchema={
-              Yup.object().shape({
-                email: Yup.string().email('Must be a valid email').max(255).required('Email is required'),
-                firstName: Yup.string().max(255).required('First name is required'),
-                lastName: Yup.string().max(255).required('Last name is required'),
-                password: Yup.string().max(255).required('password is required'),
-                policy: Yup.boolean().oneOf([true], 'This field must be checked')
-              })
-            }
-            onSubmit={() => {
-              navigate('/app/dashboard', { replace: true });
+      initialValues={{
+        username: '',
+        password: '',
+        firstName: '',
+        lastName: '',
+        email: ''
+      }}
+      validationSchema={Yup.object().shape({
+        username: Yup.string()
+          .min(6, 'User name is too short - must contain 6 chars minimum')
+          .max(255)
+          .required('User Name is required'),
+        password: Yup.string()
+          .min(8, "Password is too short - should be 8 chars minimum.")
+          .matches(/(?=.*[0-9])/, "Password must contain a number.")
+          .max(255).required('Password is required')
+      })}
+      onSubmit={(values) => {
+
+      fetch('http://localhost:8080/core/users/', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+          body: JSON.stringify({
+            "username": values.username, 
+            "password": values.password,
+            "first_name": values.firstName, 
+            "last_name": values.lastName,
+            "email": values.email
+          })
+        })
+          .then(res => res.json()).then(json => {
+            if(json.user == 'undefined') {
+              localStorage.setItem('token', json.token);
+              context.user=json.user;
+              console.log(context.user);
+              context.setIsLoggedIn(true);
+
+              // Re-direct to the home page.
+              navigate('/account', { replace: true });
+
+                  // TODO: This will be a huge object in the future...
+                  // Set all information about the user.
+                  // TODO: This should be done with response codes,
+                  // but I couldn't get it to work initially...
+                  // if(typeof(json.user) !== 'undefined') {
+                    
+                  // Set the token and the logged in state.
+                  } else {
+
+                    // Bad login...
+
+                  }
+
+                })
             }}
           >
             {({
@@ -114,13 +154,25 @@ const RegisterView = () => {
                   error={Boolean(touched.email && errors.email)}
                   fullWidth
                   helperText={touched.email && errors.email}
-                  label="Email Address"
+                  label="Email"
                   margin="normal"
                   name="email"
                   onBlur={handleBlur}
                   onChange={handleChange}
-                  type="email"
                   value={values.email}
+                  variant="outlined"
+                />
+                <TextField
+                  error={Boolean(touched.username && errors.username)}
+                  fullWidth
+                  helperText={touched.username && errors.username}
+                  label="user name"
+                  margin="normal"
+                  name="username"
+                  onBlur={handleBlur}
+                  onChange={handleChange}
+                  type="username"
+                  value={values.username}
                   variant="outlined"
                 />
                 <TextField

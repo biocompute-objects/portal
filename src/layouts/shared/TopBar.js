@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import {
   AppBar,
   Badge,
+  Button,
   Box,
   Hidden,
   IconButton,
@@ -21,13 +22,21 @@ import {
   Users as UsersIcon
 } from 'react-feather';
 import NavItem from './NavItem';
+// Get the context from App.js
+import { LoginContext } from '../../App';
+
 
 // Navigation.
-const items = [
+const items_auth = [
   {
     href: '/dashboard',
     icon: BarChartIcon,
     title: 'Home'
+  },
+  {
+    href: '/account',
+    icon: UserIcon,
+    title: 'Account'
   },
   {
     href: '/builder',
@@ -41,21 +50,28 @@ const items = [
   }
 ];
 
-/*
-
+const items_no_auth = [
   {
-    href: '/account',
-    icon: UserIcon,
-    title: 'Account'
+    href: '/dashboard',
+    icon: BarChartIcon,
+    title: 'Home'
   },
-  ,
   {
-    href: '/validator',
+    href: '/login',
+    icon: UserIcon,
+    title: 'Log In'
+  },
+  {
+    href: '/register',
     icon: UsersIcon,
-    title: 'Validator'
+    title: 'Register'
+  },
+  {
+    href: '/objects',
+    icon: UsersIcon,
+    title: 'BioCompute Objects'
   }
-
-*/
+];
 
 const useStyles = makeStyles(() => ({
   root: {},
@@ -65,59 +81,103 @@ const useStyles = makeStyles(() => ({
   }
 }));
 
-const TopBar = ({
-  className,
-  onMobileNavOpen,
-  ...rest
-}) => {
+
+
+function TopBar(props, { className, onMobileNavOpen, ...rest }) {
+  function Logout() {
+    localStorage.clear();
+    context.setIsLoggedIn(false);
+	console.log(LoginContext)
+	// RouterLink.push("/login");
+  };
+	
   const classes = useStyles();
   const [notifications] = useState([]);
+  const context = useContext(LoginContext);
 
-  return (
-    <AppBar
-      className={clsx(classes.root, className)}
-      elevation={0}
-      {...rest}
-    >
-      <Toolbar>
-        <RouterLink to="/">
-          <Logo />
-        </RouterLink>
-        {/* <NavBar /> */}
-        {items.map((item) => (
-            <NavItem
-              href={item.href}
-              key={item.title}
-              title={item.title}
-              icon={item.icon}
-            />
-          ))}
-        <Box flexGrow={1} />
-        <Hidden mdDown>
-          <IconButton color="inherit">
-            <Badge
-              badgeContent={notifications.length}
-              color="primary"
-              variant="dot"
+  const logged_out_bar = (
+
+          <Toolbar>
+          <RouterLink to="/">
+            <Logo />
+          </RouterLink>
+          <Hidden smDown>
+            {items_no_auth.map((item) => (
+                <NavItem
+                  href={item.href}
+                  key={item.title}
+                  title={item.title}
+                  icon={item.icon}
+                />
+              ))}
+            <IconButton color="inherit">
+              <Badge
+                badgeContent={notifications.length}
+                color="primary"
+                variant="dot"
+              >
+              <InputIcon />
+              </Badge>
+            </IconButton>
+          </Hidden>
+          <Hidden mdUp>
+            <IconButton
+              color="inherit"
+              onClick={onMobileNavOpen}
             >
-            </Badge>
-          </IconButton>
-          <IconButton color="inherit">
-            <InputIcon />
-          </IconButton>
-        </Hidden>
-        <Hidden lgUp>
-          <IconButton
-            color="inherit"
-            onClick={onMobileNavOpen}
-          >
-            <MenuIcon />
-          </IconButton>
-        </Hidden>
-      </Toolbar>
-    </AppBar>
+              <MenuIcon />
+            </IconButton>
+          </Hidden>
+        </Toolbar>
   );
-};
+
+  const logged_in_bar = (
+
+        <Toolbar>
+          <RouterLink to="/">
+            <Logo />
+          </RouterLink>
+          <Hidden smDown>
+            {items_auth.map((item) => (
+                <NavItem
+                  href={item.href}
+                  key={item.title}
+                  title={item.title}
+                  icon={item.icon}
+                />
+            ))}
+            <Button 
+              onClick={Logout}>
+                <span>Log Out</span>
+            </Button>
+            <IconButton color="inherit">
+              <Badge
+                badgeContent={notifications.length}
+                color="primary"
+                variant="dot"
+              >
+                <InputIcon />
+              </Badge>
+            </IconButton>
+          </Hidden>
+          <Hidden mdUp>
+            <IconButton
+              color="inherit"
+              onClick={onMobileNavOpen}
+            >
+              <MenuIcon />
+            </IconButton>
+          </Hidden>
+        </Toolbar>
+  );
+  
+  return <AppBar
+        className={clsx(classes.root, className)}
+        elevation={0}
+        {...rest}>
+		{context.isLoggedIn ? logged_in_bar : logged_out_bar}
+		</AppBar>
+}
 
 TopBar.propTypes = {
   className: PropTypes.string,

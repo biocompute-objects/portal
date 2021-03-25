@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import {
@@ -11,14 +11,21 @@ import {
   makeStyles
 } from '@material-ui/core';
 
+// Get the context from App.js
+import { LoginContext } from '../../../App';
+
 const useStyles = makeStyles(() => ({
   root: {}
 }));
 
 const ProfileDetails = ({ className, ...rest }) => {
   const classes = useStyles();
+
+  // Set the context.
+  const context = useContext(LoginContext);
+  
   const [values, setValues] = useState({
-    firstName: 'Katarina',
+    firstName: 'Hadley',
     lastName: 'Smith',
     email: 'demo@devias.io',
     phone: '',
