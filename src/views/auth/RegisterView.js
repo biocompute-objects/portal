@@ -76,7 +76,7 @@ const RegisterView = () => {
           })
         })
           .then(res => res.json()).then(json => {
-            if(json.user == 'undefined') {
+            if(json.user !== 'undefined') {
               localStorage.setItem('token', json.token);
               context.user=json.user;
               console.log(context.user);
