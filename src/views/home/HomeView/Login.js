@@ -40,7 +40,7 @@ export default function Login() {
             BCO Portal Login
             </Typography>
             <Typography>
-            Not loged in. Click to Login or register
+            Not logged in. Click to Login or register
             </Typography>
         </CardContent>
       </CardActionArea>

@@ -77,7 +77,9 @@ const LoginView = () => {
                   localStorage.setItem('token', json.token);
                   context.user=json.user;
                   localStorage.setItem('user', JSON.stringify(json.user));
-                  console.log(context.user);
+                  console.log('--------------')
+                  console.log(json);
+                  console.log('--------------')
                   context.setIsLoggedIn(true);
                     navigate('/dashboard', { replace: true });
                 } else {
