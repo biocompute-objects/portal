@@ -2,12 +2,23 @@ from rest_framework import serializers
 from rest_framework_jwt.settings import api_settings
 from django.contrib.auth.models import User
 
+# Groups require special processing.
+# Source: https://stackoverflow.com/questions/33844003/how-to-serialize-groups-of-a-user-with-django-rest-framework/33844179
+from django.contrib.auth.models import Group
+
+
+class GroupSerializer(serializers.ModelSerializer):    
+    class Meta:
+        model = Group
+        fields = ('name',)
 
 class UserSerializer(serializers.ModelSerializer):
 
+    groups = GroupSerializer(many=True)
+    
     class Meta:
         model = User
-        fields = ('username', 'password', 'first_name', 'last_name', 'email', 'groups')
+        fields = ('username', 'password', 'first_name', 'last_name', 'email', 'groups',)
 
 
 class UserSerializerWithToken(serializers.ModelSerializer):
