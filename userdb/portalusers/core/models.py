@@ -12,13 +12,16 @@ from django.contrib.auth.models import User
 class ApiInfo(models.Model):
 
     # Set the user.
-    username = models.ForeignKey(User, on_delete=models.CASCADE, related_name='custom_user')
+    username = models.ForeignKey(User, on_delete = models.CASCADE, related_name = 'custom_user')
     
     # Servers for which the user has keys.
 
     # max_length = 15 because hostnames are xxx.xxx.xxx.xxx
-    hostname = models.CharField(blank=True, max_length=15)
+    hostname = models.CharField(blank = True, max_length = 15)
+
+    # Need to use a human-readable name
+    human_readable = models.CharField(blank = True, max_length = 1000)
 
     # "Arbitrarily" long API key
-    apikey = models.CharField(blank=True, max_length=1000)   
+    apikey = models.CharField(blank = True, max_length = 1000)
 

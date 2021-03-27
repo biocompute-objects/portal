@@ -20,9 +20,13 @@ function App() {
 	const routing = useRoutes(routes(isLoggedIn));
 
 	useEffect(() => {
-		console.log(isLoggedIn);
-		console.log(localStorage.getItem('token'))
-	}, [isLoggedIn])
+
+		// Is the token set?
+		if(localStorage.getItem('token')) {
+			setIsLoggedIn(true);
+		}
+		
+	}, [])
 
   // Pass the context with the login variable (deep pass).	
 	return (

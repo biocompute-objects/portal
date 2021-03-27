@@ -37,7 +37,6 @@ const useStyles = makeStyles((theme) => ({
   showing: {
     display: 'block'
   },
-
   meta: {
     background: '#74b3ce',
     color: 'white'

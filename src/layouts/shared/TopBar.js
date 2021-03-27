@@ -34,16 +34,6 @@ const items_auth = [
     title: 'Home'
   },
   {
-    href: '/account',
-    icon: UserIcon,
-    title: 'Account'
-  },
-  {
-    href: '/builder',
-    icon: UsersIcon,
-    title: 'Builder'
-  },
-  {
     href: '/objects',
     icon: UsersIcon,
     title: 'BioCompute Objects'

@@ -37,10 +37,10 @@ export default function Login() {
       <CardActionArea className={classes.linkCard}>
         <CardContent component={RouterLink} to={"/login"}>
             <Typography className={classes.title}>
-            BCO Portal Login
+              BCO Portal Login
             </Typography>
             <Typography>
-            Not logged in. Click to Login or register
+              Not logged in. Click to log in or register.
             </Typography>
         </CardContent>
       </CardActionArea>
