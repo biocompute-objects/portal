@@ -11,28 +11,23 @@ import {
   makeStyles
 } from '@material-ui/core';
 
-// Get the context from App.js
-import { LoginContext } from '../../../App';
-
 const useStyles = makeStyles(() => ({
   root: {}
 }));
 
+var retrieveUser = localStorage.getItem('user');
+var userInfo = JSON.parse(retrieveUser)
+
 const ProfileDetails = ({ className, ...rest }) => {
   const classes = useStyles();
-
-  // Set the context.
-  const context = useContext(LoginContext);
   
   const [values, setValues] = useState({
-    firstName: 'Hadley',
-    lastName: 'Smith',
-    email: 'demo@devias.io',
-    phone: '',
-    state: 'Alabama',
-    country: 'USA',
-    organization: 'NIH',
-    orcid: 'test-234-dxcv-3sd'
+    firstName: userInfo.first_name,
+    lastName: userInfo.last_name,
+    email: userInfo.email,
+    alt_email: userInfo.alt_email,
+    affiliation: userInfo.affiliation,
+    orcid: userInfo.orcid
   });
 
   const handleChange = (event) => {
@@ -107,11 +102,11 @@ const ProfileDetails = ({ className, ...rest }) => {
             >
               <TextField
                 fullWidth
-                label="Phone Number"
-                name="phone"
+                label="Alternate Email"
+                name="alt_email"
                 onChange={handleChange}
-                type="number"
-                value={values.phone}
+                type="email"
+                value={values.alt_email}
                 variant="outlined"
               />
             </Grid>
@@ -122,11 +117,11 @@ const ProfileDetails = ({ className, ...rest }) => {
             >
               <TextField
                 fullWidth
-                label="Organization"
-                name="organization"
+                label="Affiliation"
+                name="affiliation"
                 onChange={handleChange}
                 required
-                value={values.organization}
+                value={values.affiliation}
                 variant="outlined"
               />
             </Grid>

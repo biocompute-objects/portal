@@ -14,7 +14,6 @@ import {
   makeStyles
 } from '@material-ui/core';
 import Page from 'src/components/Page';
-import { LoginContext } from '../../App';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -28,7 +27,6 @@ const useStyles = makeStyles((theme) => ({
 const RegisterView = () => {
   const classes = useStyles();
   const navigate = useNavigate();
-  const context = useContext(LoginContext);
 
   return (
     <Page
@@ -63,6 +61,7 @@ const RegisterView = () => {
       onSubmit={(values) => {
 
       fetch('http://localhost:8080/core/users/', {
+        // fetch('https://beta.aws.biochemistry.gwu.edu/core/users/', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -78,10 +77,7 @@ const RegisterView = () => {
           .then(res => res.json()).then(json => {
             if(json.user !== 'undefined') {
               localStorage.setItem('token', json.token);
-              context.user=json.user;
-              console.log(context.user);
-              context.setIsLoggedIn(true);
-
+              localStorage.setItem('user', JSON.stringify(json.user));
               // Re-direct to the home page.
               navigate('/account', { replace: true });
 

@@ -11,8 +11,7 @@ import Typography from '@material-ui/core/Typography';
 // Routing to pages
 import { Link as RouterLink } from 'react-router-dom';
 
-// Get the context from App.js
-import { LoginContext } from '../../../App';
+
 
 const useStyles = makeStyles({
   root: {
@@ -37,30 +36,27 @@ const useStyles = makeStyles({
 
 export default function MyProfile(fakeAuth) {
   const classes = useStyles();
-  // Set the context.
-  const context = useContext(LoginContext);
 
   var retrieveUser = localStorage.getItem('user');
   var userInfo = JSON.parse(retrieveUser)
   console.log('retrievedObject: ', JSON.parse(retrieveUser));
 
-  if (context.isLoggedIn !== true) {
-    return <Login />
+  if(localStorage.getItem('token')) {
+    return (
+      <Card className={classes.root, classes.linkCard}>
+        <CardActionArea className={classes.linkCard}>
+          <CardContent component={RouterLink} to={"/account"}>
+              <Typography className={classes.title}>
+                My Profile
+              </Typography>
+                <Typography align="center"> { userInfo.avatar } </Typography>
+                <Typography> { userInfo.username }</Typography>
+                <Typography>{ userInfo.first_name } { userInfo.last_name }</Typography>
+                <Typography>{ userInfo.email }</Typography>
+          </CardContent>
+        </CardActionArea>
+      </Card>
+    )
   }
-  
-  return (
-    <Card className={classes.root, classes.linkCard}>
-      <CardActionArea className={classes.linkCard}>
-        <CardContent component={RouterLink} to={"/account"}>
-            <Typography className={classes.title}>
-              My Profile
-            </Typography>
-              <Typography align="center"> { userInfo.email } </Typography>
-              <Typography> { userInfo.username }</Typography>
-              <Typography>{ userInfo.first_name } { userInfo.last_name }</Typography>
-              <Typography>{ userInfo.email }</Typography>
-        </CardContent>
-      </CardActionArea>
-    </Card>
-  );
+    return <Login />
 }

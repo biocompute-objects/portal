@@ -26,13 +26,8 @@ import AccordionSummary from '@material-ui/core/AccordionSummary';
 import AccordionDetails from '@material-ui/core/AccordionDetails';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 
-const user = {
-  avatar: '/static/images/avatars/avatar_6.png',
-  id: '9452dcbf-4abd-43b6-be5f-ea86d3bf11c1',
-  jobTitle: 'Research Associate',
-  name: 'Katarina Smith',
-  organization: 'George Washington University'
-};
+var retrieveUser = localStorage.getItem('user');
+var userInfo = JSON.parse(retrieveUser)
 
 const useStyles = makeStyles(() => ({
   root: {},
@@ -58,23 +53,26 @@ const Profile = ({ className, ...rest }) => {
           <Grid item lg={1}>
           <Avatar
             className={classes.avatar}
-            src={user.avatar}
+            src={userInfo.avatar}
           />
           </Grid>
           <Grid item xs={12} lg={3} sm container>
             <Grid item xs container direction="column" spacing={2}>
               <Grid item xs>
-              <Typography gutterBottom variant="h2">
-                  {user.name}
+                <Typography gutterBottom variant="h2">
+                  { userInfo.username }
                 </Typography>
                 <Typography gutterBottom variant="subtitle1">
-                  {user.jobTitle}
+                  Name: { userInfo.first_name } { userInfo.last_name }
                 </Typography>
                 <Typography gutterBottom variant="subtitle1">
-                  {user.organization}
+                  Affiliation: {userInfo.affiliation}
                 </Typography>
                 <Typography gutterBottom variant="subtitle1">
-                  User ID: {user.id}
+                  Email: {userInfo.email}
+                </Typography>
+                <Typography gutterBottom variant="subtitle1">
+                  ORCID: {userInfo.orcid}
                 </Typography>
               </Grid>
             </Grid>

@@ -1,5 +1,5 @@
 import React, { useState, useContext } from 'react';
-import { Link as RouterLink } from 'react-router-dom';
+import { Link as RouterLink, useNavigate } from 'react-router-dom';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import {
@@ -22,8 +22,6 @@ import {
   Users as UsersIcon
 } from 'react-feather';
 import NavItem from './NavItem';
-// Get the context from App.js
-import { LoginContext } from '../../App';
 
 
 // Navigation.
@@ -32,6 +30,16 @@ const items_auth = [
     href: '/dashboard',
     icon: BarChartIcon,
     title: 'Home'
+  },
+  {
+    href: '/about',
+    icon: UserIcon,
+    title: 'About'
+  },
+  {
+    href: '/account',
+    icon: UserIcon,
+    title: 'Account'
   },
   {
     href: '/objects',
@@ -71,22 +79,23 @@ const useStyles = makeStyles(() => ({
   }
 }));
 
-
-
 function TopBar(props, { className, onMobileNavOpen, ...rest }) {
+  const navigate = useNavigate();
+
   function Logout() {
     localStorage.clear();
-    context.setIsLoggedIn(false);
-	console.log(LoginContext)
-	// RouterLink.push("/login");
+    navigate('/login', { replace: true });
+    alert("Logged out");
+};
+
+  var isLoggedIn = false
+  if(localStorage.getItem('token')) {
+	isLoggedIn = true 
   };
-	
   const classes = useStyles();
   const [notifications] = useState([]);
-  const context = useContext(LoginContext);
 
   const logged_out_bar = (
-
           <Toolbar>
           <RouterLink to="/">
             <Logo />
@@ -165,7 +174,7 @@ function TopBar(props, { className, onMobileNavOpen, ...rest }) {
         className={clsx(classes.root, className)}
         elevation={0}
         {...rest}>
-		{context.isLoggedIn ? logged_in_bar : logged_out_bar}
+		{isLoggedIn ? logged_in_bar : logged_out_bar}
 		</AppBar>
 }
 

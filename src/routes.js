@@ -1,3 +1,5 @@
+// src/routes.js
+
 import React, { useState } from 'react';
 import { Navigate } from 'react-router-dom';
 import AccountView from 'src/views/account/AccountView';
@@ -11,14 +13,23 @@ import ObjectView from 'src/views/objects/ObjectView';
 import ObjectViewLayout from 'src/layouts/ObjectViewLayout';
 import RegisterView from 'src/views/auth/RegisterView';
 import ValidatorView from 'src/views/validator/ValidatorView';
+import DocView from 'src/views/documentation/DocView'
 
 // Routing rules are given at https://github.com/snd/url-pattern
 
-const routes = (isLoggedIn) => [
+const routes = () => {
+	console.log('message',isLoggedIn);
+	var isLoggedIn = false
+	if(localStorage.getItem('token')) {
+		isLoggedIn = true 
+	}
+	return [
   {
     path: '/',
+
     element: isLoggedIn ? <MainLayout /> : <Navigate to="/login" />,
     children: [
+      { path: 'about', element: <DocView /> },
       { path: 'account', element: <AccountView /> },
       { path: 'objects', element: <ObjectsListView /> },
       { path: 'builder', element: <BuilderView />, children: [
@@ -32,6 +43,7 @@ const routes = (isLoggedIn) => [
     path: '/',
     element: isLoggedIn ? <DashboardLayout /> : <Navigate to="/login" />,
     children: [
+      { path: 'about', element: <DocView /> },
       { path: 'dashboard', element: <HomeView /> },
       { path: '', element: <Navigate to="/dashboard" /> }
     ]
@@ -59,7 +71,7 @@ const routes = (isLoggedIn) => [
       { path: '*', element: <Navigate to="/login" /> }
     ]
   }
-];
+]};
 
 
 // No login.

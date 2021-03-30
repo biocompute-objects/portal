@@ -17,9 +17,6 @@ import {
 } from '@material-ui/core';
 import Page from 'src/components/Page';
 
-// Get the context from App.js
-import { LoginContext } from '../../App';
-
 const useStyles = makeStyles((theme) => ({
   root: {
     backgroundColor: theme.palette.background.dark,
@@ -34,9 +31,6 @@ const LoginView = () => {
   const classes = useStyles();
   const navigate = useNavigate();
 
-  // Set the context.
-  const context = useContext(LoginContext);
-  // Return based on whether or not the local token is set.
   return (
     <Page
       className={classes.root}
@@ -75,13 +69,8 @@ const LoginView = () => {
               .then(res => res.json()).then(json => {
                 if(typeof(json.user) !== 'undefined') {
                   localStorage.setItem('token', json.token);
-                  context.user=json.user;
                   localStorage.setItem('user', JSON.stringify(json.user));
-                  console.log('--------------')
-                  console.log(json);
-                  console.log('--------------')
-                  context.setIsLoggedIn(true);
-                    navigate('/dashboard', { replace: true });
+                  navigate('/dashboard', { replace: true });
                 } else {
                       console.log('Bad login')
                     navigate('/register', { replace: true });
