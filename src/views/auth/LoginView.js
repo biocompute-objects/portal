@@ -61,8 +61,8 @@ const LoginView = () => {
             onSubmit={(values) => {
               
               // Determine whether or not our login was legitimate.
-              //fetch('http://localhost:8080/token-auth/', {
-              fetch('https://beta.portal.aws.biochemistry.gwu.edu/token-auth/', {
+              fetch('http://localhost:8080/token-auth/', {
+              // fetch('https://beta.portal.aws.biochemistry.gwu.edu/token-auth/', {
                 method: 'POST',
                 headers: {
                   'Content-Type': 'application/json'

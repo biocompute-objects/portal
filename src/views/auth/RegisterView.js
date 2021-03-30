@@ -62,8 +62,7 @@ const RegisterView = () => {
       })}
       onSubmit={(values) => {
 
-      //fetch('http://localhost:8080/core/users/', {
-        fetch('https://beta.aws.biochemistry.gwu.edu/core/users/', {
+      fetch('http://localhost:8080/core/users/', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
