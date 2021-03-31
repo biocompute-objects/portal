@@ -32,9 +32,9 @@ const items_auth = [
     title: 'Home'
   },
   {
-    href: '/about',
+    href: '/documentation',
     icon: UserIcon,
-    title: 'About'
+    title: 'Documentation'
   },
   {
     href: '/account',
@@ -50,9 +50,9 @@ const items_auth = [
 
 const items_no_auth = [
   {
-    href: '/dashboard',
-    icon: BarChartIcon,
-    title: 'Home'
+    href: '/documentation',
+    icon: UserIcon,
+    title: 'Documentation'
   },
   {
     href: '/login',

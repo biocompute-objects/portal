@@ -13,7 +13,7 @@ import ObjectView from 'src/views/objects/ObjectView';
 import ObjectViewLayout from 'src/layouts/ObjectViewLayout';
 import RegisterView from 'src/views/auth/RegisterView';
 import ValidatorView from 'src/views/validator/ValidatorView';
-import DocView from 'src/views/documentation/DocView'
+import DocView from 'src/views/documentation/DocView';
 
 // Routing rules are given at https://github.com/snd/url-pattern
 
@@ -23,15 +23,18 @@ const routes = () => {
 	if(localStorage.getItem('token')) {
 		isLoggedIn = true 
 	}
-	return [
+  return [
   {
     path: '/',
 
     element: isLoggedIn ? <MainLayout /> : <Navigate to="/login" />,
     children: [
-      { path: 'about', element: <DocView /> },
       { path: 'account', element: <AccountView /> },
       { path: 'objects', element: <ObjectsListView /> },
+      { path: 'documentation', element: <DocView />, children:[
+          { path: '', element: ''}
+        ]
+      },
       { path: 'builder', element: <BuilderView />, children: [
           { path: ':prefix_:state_:uuid', element: <BuilderView /> }
         ]
@@ -43,7 +46,6 @@ const routes = () => {
     path: '/',
     element: isLoggedIn ? <DashboardLayout /> : <Navigate to="/login" />,
     children: [
-      { path: 'about', element: <DocView /> },
       { path: 'dashboard', element: <HomeView /> },
       { path: '', element: <Navigate to="/dashboard" /> }
     ]
@@ -59,6 +61,10 @@ const routes = () => {
     path: '/',
     element: !isLoggedIn ? <MainLayout /> : <Navigate to="/dashboard" />,
     children: [
+      { path: 'documentation', element: <DocView />, children:[
+          { path: '', element: ''}
+        ]
+      },
       { path: 'login', element: <LoginView /> },
       { path: 'register', element: <RegisterView /> }
     ]
@@ -67,6 +73,10 @@ const routes = () => {
     path: '/',
     element: <MainLayout />,
     children: [
+      { path: 'documentation', element: <DocView />, children:[
+          { path: '', element: ''}
+        ]
+      },
       { path: '404', element: <Navigate to="/login" />},
       { path: '*', element: <Navigate to="/login" /> }
     ]

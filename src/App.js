@@ -16,8 +16,8 @@ function App() {
   // Pass the context with the login variable (deep pass).	
 	return (
 		<ThemeProvider theme={theme}>
-				<GlobalStyles />
-				{routing}
+			<GlobalStyles />
+			{routing}
 		</ThemeProvider>
   );
 };

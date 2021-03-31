@@ -1,8 +1,13 @@
 // src/views/documentation/DocView.js
 
-import React, { useState} from 'react';
+import React, { useState, useEffect } from 'react';
 import { Box, Container, Grid, makeStyles } from '@material-ui/core';
 import Page from 'src/components/Page';
+import ReactMarkdown from "react-markdown"; 
+import Typography from '@material-ui/core/Typography';
+
+import file from "src/views/documentation/DocView/_index.md"
+
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -19,49 +24,35 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-const DocView = () => {
+function DocView() {
   const classes = useStyles();
 
+  const [markdown, setMarkdown] = useState("");
+
+  useEffect(() => {
+    fetch(file)
+      .then((res) => res.text())
+      .then((text) => setMarkdown(text));
+  }, []);
+  
   return (
     <Page className={classes.root} title="Dashboard">
-    <Container maxWidth={false}>
-	  <Grid container justify='center' spacing={3}>
-	  <Grid item lg={12} sm={8} xl={8} xs={12}>
-        <Container maxWidth={false}>
-          <Grid container justify='center' spacing={3}>
-            <Grid item lg={4} sm={6} xl={4} xs={12}>
-hello world
-            </Grid>
-            <Grid item lg={4} sm={6} xl={4} xs={12}>
+      <Container maxWidth={false}>
+        <Grid container justify='center' spacing={12}>
+          <Grid item lg={8} sm={8} xl={8} xs={8}>
+            <Typography>
+              <ReactMarkdown 
+              source={markdown} 
+              allowDangerousHtml={true}
+              skipHtml={false}
+               /> 
+            </ Typography>
 
-            </Grid>
-	  <Grid item lg={4} sm={6} xl={4} xs={12}>
-
-	  </Grid>
+            <br/><br/><br/>
           </Grid>
-        </Container>
-        <Container className={classes.marginTopped} maxWidth={false}>
-          <Box className={classes.whiteBackground}>
-            <Grid classes={classes.colored} container justify='center' spacing={3}>
-              <Grid item lg={12} sm={12} xl={12} xs={12}>
-
-              </Grid>
-              <Grid item lg={3} sm={6} xl={3} xs={12}>
-
-              </Grid>
-              <Grid item lg={3} sm={6} xl={3} xs={12}>
-
-              </Grid>
-              <Grid item lg={3} sm={6} xl={3} xs={12}>
-
-              </Grid>
-            </Grid>
-          </Box>
-        </Container>
         </Grid>
-      </Grid>
-    </Container>
-  </Page>
+      </Container>
+    </Page>
   );
 };
 

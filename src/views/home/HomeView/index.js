@@ -11,8 +11,6 @@ import Technical from './Technical'
 import Media from './Media'
 import Other from './Other'
 
-import DocView from 'src/views/documentation/DocView'
-
 const useStyles = makeStyles((theme) => ({
   root: {
     backgroundColor: theme.palette.background.dark,
