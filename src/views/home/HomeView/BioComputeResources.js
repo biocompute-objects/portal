@@ -1,3 +1,5 @@
+// src/views/home/HomeView/BioComputeResorces.js
+
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
@@ -28,14 +30,17 @@ const useStyles = makeStyles({
   },
 });
 
-export default function SupportingMaterials() {
+export default function BioComputeResources() {
   const classes = useStyles();
 
   return (
-    <Card className={classes.root, classes.centered} elevation={0}>
+    <Card className={classes.root, classes.centered} elevation={2}>
         <CardContent>
             <Typography className={classes.title}>
-            Supporting Materials
+            Cloud-based tools for working with BioCompute
+            </Typography>
+            <Typography>
+              See our <a href="/resources"></a>resources page for additional tools and services. 
             </Typography>
         </CardContent>
     </Card>

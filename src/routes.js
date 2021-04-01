@@ -24,7 +24,7 @@ const routes = () => {
 		isLoggedIn = true 
 	}
   return [
-  {
+	  {
     path: '/',
 
     element: isLoggedIn ? <MainLayout /> : <Navigate to="/login" />,

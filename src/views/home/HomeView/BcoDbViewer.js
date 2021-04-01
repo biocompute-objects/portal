@@ -1,9 +1,13 @@
+// src/views/home/HomeView/BcoDbViewer.js
+
 import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import Card from '@material-ui/core/Card';
-import CardActionArea from '@material-ui/core/CardActionArea';
-import CardContent from '@material-ui/core/CardContent';
-import Typography from '@material-ui/core/Typography';
+import { Card,
+	CardActionArea,
+	CardActions,
+	CardContent,
+	makeStyles,
+	Typography
+}from '@material-ui/core';
 
 // Routing to pages
 import { Link as RouterLink } from 'react-router-dom';
@@ -31,16 +35,21 @@ const useStyles = makeStyles({
 
 export default function BcoDbViewer() {
   const classes = useStyles();
+  var logo = require('src/images/logo.png')
 
   return (
-    <Card className={classes.root, classes.linkCard}>
-      <CardActionArea className={classes.linkCard}>
-        <CardContent component={RouterLink} to={"/objects"}>
+    <Card className={classes.root, classes.linkCard} elevation={0}>
+      <CardActionArea className={classes.linkCard} component={RouterLink} to={"/objects"}>
+        <CardContent>
             <Typography className={classes.title}>
-              BCO Viewer
+              BioCompute Builder<br/>
+              <img src={logo} width={150} alt="BCO logo"/>
             </Typography>
             <Typography>
-              View BCOs on BCO Servers
+              Use the BioCompute Builder or view objects in the database.<br/>
+		The BioCompute Builder is a platform-free, form-based editor. The 
+		builder walks a user through building a BCO through text boxes,
+	   indicating which entries are required to adhere to the IEEE standard.
             </Typography>
         </CardContent>
       </CardActionArea>

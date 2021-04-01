@@ -1,3 +1,5 @@
+// src/layouts/shared/TopBar.js
+
 import React, { useState, useContext } from 'react';
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
 import clsx from 'clsx';

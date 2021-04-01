@@ -1,4 +1,4 @@
-// App.js
+// src/App.js
 
 import 'react-perfect-scrollbar/dist/css/styles.css';
 import React, { useEffect, useState } from 'react';

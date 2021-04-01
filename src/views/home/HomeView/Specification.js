@@ -1,9 +1,13 @@
+// src/views/home/HomeView/Specification.js
+
 import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import Card from '@material-ui/core/Card';
-import CardActionArea from '@material-ui/core/CardActionArea';
-import CardContent from '@material-ui/core/CardContent';
-import Typography from '@material-ui/core/Typography';
+import { Card,
+	CardActionArea,
+	CardActions,
+	CardContent,
+	makeStyles,
+	Typography
+}from '@material-ui/core';
 
 // Routing to pages
 import { Link as RouterLink } from 'react-router-dom';
@@ -29,18 +33,18 @@ const useStyles = makeStyles({
   },
 });
 
-export default function BcoBuilder() {
+export default function Specification() {
   const classes = useStyles();
 
   return (
     <Card className={classes.root, classes.linkCard}>
-      <CardActionArea className={classes.linkCard}>
+      <CardActionArea className={classes.linkCard} component={RouterLink} to={"/builder"}>
         <CardContent component={RouterLink} to={"/builder"}>
             <Typography className={classes.title}>
-            BCO Builder
+            BCO Specification
             </Typography>
             <Typography>
-            Create and edit BCOs
+             sadgfhdsgfdf
             </Typography>
         </CardContent>
       </CardActionArea>

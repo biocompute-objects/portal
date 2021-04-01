@@ -1,8 +1,13 @@
+// src/views/home/HomeView/Media.js
+
 import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import Card from '@material-ui/core/Card';
-import CardContent from '@material-ui/core/CardContent';
-import Typography from '@material-ui/core/Typography';
+import { Card,
+	CardActionArea,
+	CardActions,
+	CardContent,
+	makeStyles,
+	Typography
+}from '@material-ui/core';
 
 const useStyles = makeStyles({
   root: {
@@ -14,7 +19,7 @@ const useStyles = makeStyles({
     transform: 'scale(0.8)',
   },
   linkCard: {
-      minHeight: '250px',
+      minHeight: '300px',
       textAlign: 'center'
   },
   heightened: {
@@ -35,13 +40,16 @@ export default function Media() {
     <Card className={classes.root, classes.linkCard} elevation={0}>
       <CardContent>
           <Typography className={classes.title}>
-          Media
+          BioCompute Community
           </Typography>
           <Typography>
-          BCO DB Tutorial
+          Technical Steering Committee
           </Typography>
           <Typography>
-          BCO Builder Tutorial
+          BioCompute Organization
+          </Typography>
+          <Typography>
+          BioCompute Leadership
           </Typography>
       </CardContent>
     </Card>
