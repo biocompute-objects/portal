@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import {
   makeStyles, withStyles, Typography
 } from '@material-ui/core';
@@ -27,6 +27,9 @@ import ReactHtmlParser from 'react-html-parser';
 // See https://www.codegrepper.com/code-examples/javascript/useHistory+is+not+exported+form+react-router-dom
 import { useNavigate } from 'react-router-dom';
 
+// Fetch context.
+import { FetchContext } from '../../../../App';
+
 const useStyles = makeStyles((theme) => ({
   root: {
     '& .MuiTextField-root': {
@@ -54,6 +57,9 @@ export default function Raw({ saving, setSaving, publishing, setPublishing, comp
   
   console.log('typeof(contents): ', typeof(contents));
   const classes = useStyles();
+
+  // Fetch context.
+  const fc = useContext(FetchContext);
 
   // Arguments
   // ---------
@@ -130,8 +136,7 @@ export default function Raw({ saving, setSaving, publishing, setPublishing, comp
           console.log('draftSave:', JSON.parse(draftSave))
           
           // Call the API.
-          //fetch('http://127.0.0.1:8000/bco/objects/create/', {
-          fetch('https://beta.portal.aws.biochemistry.gwu.edu/bco/objects/create/', {
+          fetch(fc['sending']['bcoapi_objects_create'], {
             method: 'POST',
             body: JSON.stringify({
               POST_create_new_object: [
@@ -211,8 +216,7 @@ export default function Raw({ saving, setSaving, publishing, setPublishing, comp
 
         // Do a simple call to find out.
         // Call the API.
-        //fetch('http://127.0.0.1:8000/bco/objects/create/', {    
-        fetch('https://beta.portal.aws.biochemistry.gwu.edu/bco/objects/create/', {
+        fetch(fc['sending']['bcoapi_objects_create'], {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -242,9 +246,8 @@ export default function Raw({ saving, setSaving, publishing, setPublishing, comp
                   const splitUp = window.location.href.split('/');
                   const destructured = splitUp[0] + '//' + splitUp[2] + '/' + splitUp[4];
                   
-                  // Call the API.
-                  //fetch('http://127.0.0.1:8000/bco/objects/create/', {    
-                  fetch('https://beta.portal.aws.biochemistry.gwu.edu/bco/objects/create/', {
+                  // Call the API. 
+                  fetch(fc['sending']['bcoapi_objects_create'], {
                     method: 'POST',
                     body: JSON.stringify({
                       POST_create_new_object: [

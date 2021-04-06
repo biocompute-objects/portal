@@ -26,9 +26,6 @@ import AccordionSummary from '@material-ui/core/AccordionSummary';
 import AccordionDetails from '@material-ui/core/AccordionDetails';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 
-var retrieveUser = localStorage.getItem('user');
-var userInfo = JSON.parse(retrieveUser)
-
 const useStyles = makeStyles(() => ({
   root: {},
   avatar: {
@@ -41,7 +38,10 @@ const useStyles = makeStyles(() => ({
 }));
 
 const Profile = ({ className, ...rest }) => {
+  
   const classes = useStyles();
+  
+  var userInfo = JSON.parse(localStorage.getItem('user'));
 
   return (
     <Card
@@ -51,10 +51,10 @@ const Profile = ({ className, ...rest }) => {
       <CardContent>
       <Grid container spacing={2}>
           <Grid item lg={1}>
-          <Avatar
+          {/* <Avatar
             className={classes.avatar}
             src={userInfo.avatar}
-          />
+          /> */}
           </Grid>
           <Grid item xs={12} lg={3} sm container>
             <Grid item xs container direction="column" spacing={2}>

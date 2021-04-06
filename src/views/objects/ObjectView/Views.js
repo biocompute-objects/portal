@@ -30,6 +30,9 @@ import Raw from './Raw'
 // Source: https://www.digitalocean.com/community/tutorials/react-usecontext
 //import { DisplayContext } from '../../../layouts/ObjectViewLayout/index';
 
+// Fetch context.
+import { FetchContext } from '../../../App';
+
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
 
@@ -78,6 +81,9 @@ export default function Views({ table, objectId }) {
   
   const classes = useStyles();
 
+  // Fetch context.
+  const fc = useContext(FetchContext);
+
   // Get the ID requested, but first, set the state.
   const [loading, setLoading] = useState(true);
   const [objectFound, setObjectFound] = useState();
@@ -98,8 +104,7 @@ export default function Views({ table, objectId }) {
   const getObjectInfo = () => {
     
     // Call the API.
-    fetch('http://127.0.0.1:8000/bco/objects/read', {
-    // fetch('https://beta.portal.aws.biochemistry.gwu.edu/bco/objects/read/', {
+    fetch(fc['sending']['bcoapi_objects_read'], {
       method: 'POST',
       body: JSON.stringify({
         POST_read_object: [
