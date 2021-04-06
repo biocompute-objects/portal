@@ -1,4 +1,4 @@
-// src/views/home/HomeView/BcoDbViewer.js
+// src/views/home/HomeView/Builder.js
 
 import React from 'react';
 import { Card,
@@ -33,19 +33,19 @@ const useStyles = makeStyles({
   },
 });
 
-export default function BcoDbViewer() {
+export default function Builder() {
   const classes = useStyles();
   var logo = require('src/images/logo.png')
 
   return (
     <Card className={classes.root, classes.linkCard} elevation={0}>
-      <CardActionArea className={classes.linkCard} component={RouterLink} to={"/objects"}>
+      <CardActionArea className={classes.linkCard} component={RouterLink} to={"/builder"}>
         <CardContent>
             <Typography className={classes.title}>
-              BioCompute Builder<br/>
-              <img src={logo} width={150} alt="BCO logo"/>
+              BioCompute Builder<br/><br/>
+              <img src={logo} width={150} alt="BCO logo"/><br/>
             </Typography>
-            <Typography>
+            <Typography className={classes.bullet}>
               Use the BioCompute Builder or view objects in the database.<br/>
 		The BioCompute Builder is a platform-free, form-based editor. The 
 		builder walks a user through building a BCO through text boxes,

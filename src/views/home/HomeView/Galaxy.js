@@ -49,7 +49,7 @@ export default function Other() {
             <img src={hive} width={150} alt="Galaxy logo"/><br/>
             <img src={aws} height={35}  alt="AWS logo"/>
             </Typography>
-            <Typography>
+            <Typography className={classes.bullet}>
           Use Galaxy on AWS, the open source, web-based platform for data 
 	  intensive biomedical research. Assemble your [pipeline](/about) in the 
 	  workspace, designate the outputs in the module boxes, and record the 

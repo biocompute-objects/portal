@@ -39,6 +39,16 @@ const items_auth = [
     title: 'Documentation'
   },
   {
+    href: '/resources',
+    icon: UserIcon,
+    title: 'Resources'
+  },
+  {
+    href: '/community',
+    icon: UserIcon,
+    title: 'Community'
+  },
+  {
     href: '/account',
     icon: UserIcon,
     title: 'Account'
@@ -99,7 +109,7 @@ function TopBar(props, { className, onMobileNavOpen, ...rest }) {
 
   const logged_out_bar = (
           <Toolbar>
-          <RouterLink to="/">
+          <RouterLink to="/dashboard">
             <Logo />
           </RouterLink>
           <Hidden smDown>
@@ -147,18 +157,10 @@ function TopBar(props, { className, onMobileNavOpen, ...rest }) {
                   icon={item.icon}
                 />
             ))}
-            <Button 
+            <IconButton 
+              color="inherit" 
               onClick={Logout}>
                 <span>Log Out</span>
-            </Button>
-            <IconButton color="inherit">
-              <Badge
-                badgeContent={notifications.length}
-                color="primary"
-                variant="dot"
-              >
-                <InputIcon />
-              </Badge>
             </IconButton>
           </Hidden>
           <Hidden mdUp>

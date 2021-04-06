@@ -3,12 +3,12 @@
 import React, { useState} from 'react';
 import { Box, Container, Grid, makeStyles } from '@material-ui/core';
 import Page from 'src/components/Page';
-import BcoDbViewer from './BcoDbViewer'
+import Builder from './Builder'
 import Specification from './Specification'
-import MyProfile from './MyProfile'
+import About from './About'
 import BioComputeResources from './BioComputeResources'
 import Hive from './Hive'
-import Media from './Media'
+import Community from './Community'
 import NewsBar from './NewsBar'
 import Galaxy from './Galaxy'
 
@@ -37,14 +37,14 @@ const HomeView = () => {
           <Grid item xs={12} sm={8} lg={9} xl={10}>
             <Container maxWidth={false}>
               <Grid container justify='center' spacing={3}>
-                <Grid item lg={4} sm={6} xl={4} xs={12}>
-                  <Media />
+                <Grid item xs={12} sm={12} lg={4} xl={4}>
+                  <About />
                 </Grid>
-                <Grid item lg={4} sm={6} xl={4} xs={12}>
+                <Grid item xs={12} sm={6} lg={4} xl={4}>
                   <Specification />
                 </Grid>
-                <Grid item lg={4} sm={6} xl={4} xs={12}>
-                  <MyProfile />
+                <Grid item xs={12} sm={6} lg={4} xl={4}>
+                  <Community />
                 </Grid>
               </Grid>
             </Container>
@@ -58,7 +58,7 @@ const HomeView = () => {
                     <Hive />
                   </Grid>
                   <Grid item lg={4} sm={6} xl={4} xs={12}>
-                    <BcoDbViewer />
+                    <Builder />
                   </Grid>
                   <Grid item lg={4} sm={6} xl={4} xs={12}>
                     <Galaxy />

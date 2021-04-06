@@ -13,7 +13,9 @@ import ObjectView from 'src/views/objects/ObjectView';
 import ObjectViewLayout from 'src/layouts/ObjectViewLayout';
 import RegisterView from 'src/views/auth/RegisterView';
 import ValidatorView from 'src/views/validator/ValidatorView';
-import DocView from 'src/views/documentation/DocView';
+import Documentation from 'src/views/documentation/Documentation';
+import Community from 'src/views/community/Community';
+import Resources from 'src/views/resources/Resources';
 
 // Routing rules are given at https://github.com/snd/url-pattern
 
@@ -31,11 +33,19 @@ const routes = () => {
     children: [
       { path: 'account', element: <AccountView /> },
       { path: 'objects', element: <ObjectsListView /> },
-      { path: 'documentation', element: <DocView />, children:[
+      { path: 'documentation', element: <Documentation />, children:[
           { path: '', element: ''}
         ]
       },
-      { path: 'builder', element: <BuilderView />, children: [
+      { path: 'resources', element: <Resources />, children:[
+          { path: '', element: ''}
+        ]
+      },
+      { path: 'documentation', element: <Documentation />, children:[
+          { path: '', element: ''}
+        ]
+      },
+      { path: 'community', element: <Community />, children: [
           { path: ':prefix_:state_:uuid', element: <BuilderView /> }
         ]
       },
@@ -61,7 +71,7 @@ const routes = () => {
     path: '/',
     element: !isLoggedIn ? <MainLayout /> : <Navigate to="/dashboard" />,
     children: [
-      { path: 'documentation', element: <DocView />, children:[
+      { path: 'documentation', element: <Documentation />, children:[
           { path: '', element: ''}
         ]
       },
@@ -73,7 +83,7 @@ const routes = () => {
     path: '/',
     element: <MainLayout />,
     children: [
-      { path: 'documentation', element: <DocView />, children:[
+      { path: 'documentation', element: <Documentation />, children:[
           { path: '', element: ''}
         ]
       },

@@ -1,4 +1,4 @@
-// src/views/documentation/DocView.js
+// src/views/community/Community/index.js
 
 import React, { useState, useEffect } from 'react';
 import { Box, Container, Grid, makeStyles } from '@material-ui/core';
@@ -6,7 +6,7 @@ import Page from 'src/components/Page';
 import ReactMarkdown from "react-markdown"; 
 import Typography from '@material-ui/core/Typography';
 
-import file from "./about.md"
+import file from "./community.md"
 
 
 const useStyles = makeStyles((theme) => ({
@@ -24,7 +24,7 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-function DocView() {
+function Community() {
   const classes = useStyles();
 
   const [markdown, setMarkdown] = useState("");
@@ -49,4 +49,4 @@ function DocView() {
   );
 };
 
-export default DocView;
+export default Community;

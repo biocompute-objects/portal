@@ -1,4 +1,6 @@
-import React from 'react';
+// src/views/home/HomeView/MyProfile.js
+
+import React, { useState, useContext} from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardActionArea from '@material-ui/core/CardActionArea';
@@ -7,6 +9,8 @@ import Typography from '@material-ui/core/Typography';
 
 // Routing to pages
 import { Link as RouterLink } from 'react-router-dom';
+
+
 
 const useStyles = makeStyles({
   root: {
@@ -18,7 +22,7 @@ const useStyles = makeStyles({
     transform: 'scale(0.8)',
   },
   linkCard: {
-      minHeight: '242px',
+      minHeight: '300px',
       textAlign: 'center'
   },
   title: {
@@ -29,19 +33,20 @@ const useStyles = makeStyles({
   },
 });
 
-export default function Login() {
+export default function About(fakeAuth) {
   const classes = useStyles();
-  return (
 
+  return (
     <Card className={classes.root, classes.linkCard}>
-      <CardActionArea className={classes.linkCard}>
-        <CardContent component={RouterLink} to={"/login"}>
-            <Typography className={classes.title}>
-              BCO Portal Login
-            </Typography>
-            <Typography>
-              Not logged in. Click to log in or register.
-            </Typography>
+      <CardActionArea component={RouterLink} to={"/documentation"}>
+        <CardContent className={classes.linkCard}>
+          <Typography className={classes.title}>About BioCompute</Typography>
+          <Typography >
+            <br/>User Guide<br/>
+            Best Practices<br/>
+            SOP<br/>
+            Tutorials<br/>
+          </Typography>
         </CardContent>
       </CardActionArea>
     </Card>

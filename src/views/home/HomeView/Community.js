@@ -1,13 +1,15 @@
 // src/views/home/HomeView/Media.js
 
 import React from 'react';
-import { Card,
+import {
+	Card,
 	CardActionArea,
 	CardActions,
 	CardContent,
 	makeStyles,
 	Typography
 }from '@material-ui/core';
+import { Link as RouterLink } from 'react-router-dom';
 
 const useStyles = makeStyles({
   root: {
@@ -37,21 +39,19 @@ export default function Media() {
   const classes = useStyles();
 
   return (
-    <Card className={classes.root, classes.linkCard} elevation={0}>
-      <CardContent>
+    <Card className={classes.root, classes.linkCard}>
+      <CardActionArea component={RouterLink} to={"/community"}>
+        <CardContent className={classes.linkCard}>
           <Typography className={classes.title}>
-          BioCompute Community
+            BioCompute Community
           </Typography>
           <Typography>
-          Technical Steering Committee
+            <br/>Technical Steering Committee<br/>
+            BioCompute Organization<br/>
+            BioCompute Leadership
           </Typography>
-          <Typography>
-          BioCompute Organization
-          </Typography>
-          <Typography>
-          BioCompute Leadership
-          </Typography>
-      </CardContent>
+        </CardContent>
+      </CardActionArea>
     </Card>
   );
 }

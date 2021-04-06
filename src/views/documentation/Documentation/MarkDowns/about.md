@@ -1,10 +1,5 @@
----
-title: "About"
-menu: "main"
----
 
-<div class="col-lg-6 offset-lg-3 text-center">
-<img src="/images/logo.about.png" class="img-fluid mx-auto d-block" width="75%" alt="BioCompute Logo">
+<img src="/src/images/logo.about.png" class="img-fluid mx-auto d-block" width="75%" alt="BioCompute Logo">
 </div>
 
 <br>

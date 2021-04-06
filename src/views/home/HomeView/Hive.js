@@ -35,7 +35,7 @@ const useStyles = makeStyles({
 
 var hive = require('src/images/hive.png')
 var aws = require('src/images/powered-by-aws.png')
-const hiveLink = 'https://hive.biochemistry.gwu.edu/dna.cgi?cmd=main'
+const hiveLink = 'https://hive.aws.biochemistry.gwu.edu/dna.cgi?cmd=main'
 
 export default function Hive() {
   const classes = useStyles();
@@ -49,7 +49,7 @@ export default function Hive() {
             <img src={hive} width={150} alt="HIVE logo"/><br/>
             <img src={aws} height={35}  alt="AWS logo"/>
           </Typography>
-          <Typography>
+          <Typography className={classes.bullet}>
           Access AWS HIVE, the High-Performance Integrated Virtual Environment, on AWS. 
 	  HIVE is a cloud-based environment optimized for the storage and analysis 
 	  of extra-large data, such as biomedical data, clinical data, 

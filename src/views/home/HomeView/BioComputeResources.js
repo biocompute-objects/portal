@@ -1,11 +1,15 @@
 // src/views/home/HomeView/BioComputeResorces.js
 
 import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import Card from '@material-ui/core/Card';
-import CardActionArea from '@material-ui/core/CardActionArea';
-import CardContent from '@material-ui/core/CardContent';
-import Typography from '@material-ui/core/Typography';
+import {
+	Card,
+	CardActionArea,
+	CardActions,
+	CardContent,
+	makeStyles,
+	Typography
+}from '@material-ui/core';
+import { Link as RouterLink } from 'react-router-dom';
 
 const useStyles = makeStyles({
   root: {
@@ -34,15 +38,17 @@ export default function BioComputeResources() {
   const classes = useStyles();
 
   return (
-    <Card className={classes.root, classes.centered} elevation={2}>
-        <CardContent>
-            <Typography className={classes.title}>
+    <Card className={classes.root, classes.centered} elevation={2} >
+      <CardActionArea component={RouterLink} to={"/resources"}>
+        <CardContent className={classes.linkCard}>
+          <Typography className={classes.title}>
             Cloud-based tools for working with BioCompute
-            </Typography>
-            <Typography>
-              See our <a href="/resources"></a>resources page for additional tools and services. 
-            </Typography>
+          </Typography>
+          <Typography>
+            See our resources page for additional tools and services. 
+          </Typography>
         </CardContent>
+      </CardActionArea>
     </Card>
   );
 }
