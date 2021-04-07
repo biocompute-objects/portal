@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import {
   Container,
   Grid,
@@ -20,6 +20,9 @@ import UsabilityDomain from './UsabilityDomain'
 // Checking for field value existence
 import cF from '../../../../utils/cF'
 import { DescriptionOutlined } from '@material-ui/icons';
+
+// Fetch context.
+import { FetchContext } from '../../../../App';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -71,6 +74,9 @@ const ColorCoded = ({ saving, setSaving, publishing, setPublishing, compCheck, c
 
   const classes = useStyles();
 
+  // Fetch context.
+  const fc = useContext(FetchContext);
+
   // Set fake data for missing domains.
   ['provenance_domain', 'usability_domain', 'description_domain', 'execution_domain', 'io_domain', 'parametric_domain', 'error_domain', 'extension_domain'].map(item => {
       if(!(item in contents)) {
@@ -116,8 +122,7 @@ const ColorCoded = ({ saving, setSaving, publishing, setPublishing, compCheck, c
       const destructured = splitUp[0] + '//' + splitUp[2] + '/' + splitUp[4];
       
       // Call the API.
-      //fetch('http://127.0.0.1:8000/bco/objects/create/', {    
-      fetch('https://beta.portal.aws.biochemistry.gwu.edu/bco/objects/create/', {
+      fetch(fc['sending']['bco_api_objects_create'], {
         method: 'POST',
         body: JSON.stringify({
           POST_create_new_object: [
@@ -206,9 +211,8 @@ const ColorCoded = ({ saving, setSaving, publishing, setPublishing, compCheck, c
       const splitUp = window.location.href.split('/');
       const destructured = splitUp[0] + '//' + splitUp[2] + '/' + splitUp[4];
       
-      // Call the API.
-      // fetch('http://127.0.0.1:8000/bco/objects/create/', {    
-      fetch('https://beta.portal.aws.biochemistry.gwu.edu/bco/objects/create/', { 
+      // Call the API.  
+      fetch(fc['sending']['bcoapi_objects_create'], { 
         method: 'POST',
         body: JSON.stringify({
           POST_create_new_object: [

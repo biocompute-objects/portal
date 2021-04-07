@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import { lighten, makeStyles } from '@material-ui/core/styles';
@@ -31,6 +31,9 @@ import Button from '@material-ui/core/Button';
 // Dummy redirecting after draft object creation.
 // See https://www.codegrepper.com/code-examples/javascript/useHistory+is+not+exported+form+react-router-dom
 import { useNavigate } from 'react-router-dom';
+
+// Fetch context.
+import { FetchContext } from '../../../App';
 
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -213,6 +216,9 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Results({ rowInfo }) {
   
+  // Fetch context.
+  const fc = useContext(FetchContext);
+  
   // For development only.
   const addPortNumber = (uri) => {
 
@@ -284,8 +290,7 @@ export default function Results({ rowInfo }) {
     }
     console.log('table:', table)
     // Call the API.
-    // fetch('https://beta.portal.aws.biochemistry.gwu.edu/bco/objects/read/', {
-    fetch('http://127.0.0.1:8000/bco/objects/read/', {
+    fetch(fc['sending']['bcoapi_objects_read'], {
         method: 'POST',
         body: JSON.stringify({
           POST_read_object: [
@@ -320,8 +325,7 @@ export default function Results({ rowInfo }) {
 
           }
           
-          // fetch('https://beta.portal.aws.biochemistry.gwu.edu/bco/objects/create/', {
-          fetch('http://127.0.0.1:8000/bco/objects/create/', {
+          fetch(fc['sending']['bcoapi_objects_create'], {
             method: 'POST',
             body: JSON.stringify({
               POST_create_new_object: [

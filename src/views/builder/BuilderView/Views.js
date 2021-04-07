@@ -24,6 +24,9 @@ import ColorCoded from './ColorCoded'
 // Raw view
 import Raw from './Raw'
 
+// Fetch context.
+import { FetchContext } from '../../../App';
+
 // Context
 // Source: https://www.digitalocean.com/community/tutorials/react-usecontext
 //import { DisplayContext } from '../../../layouts/ObjectViewLayout/index';
@@ -80,6 +83,9 @@ export default function Views({ saving, setSaving, publishing, setPublishing, co
   
   const classes = useStyles();
 
+  // Fetch context.
+  const fc = useContext(FetchContext);
+
   // Get the ID requested, but first, set the state.
   const [loading, setLoading] = useState(true);
   const [objectFound, setObjectFound] = useState();
@@ -121,8 +127,7 @@ export default function Views({ saving, setSaving, publishing, setPublishing, co
     // Sensible values will be given where possible.
     
     // Call the API.
-    fetch('http://127.0.0.1:8000/bco/objects/create/', {
-    // fetch('https://beta.portal.aws.biochemistry.gwu.edu/bco/objects/create/', {
+    fetch(fc['sending']['bcoapi_objects_create'], {
       method: 'POST',
       body: JSON.stringify({
         POST_create_new_object: [
@@ -160,8 +165,7 @@ export default function Views({ saving, setSaving, publishing, setPublishing, co
   const getObjectInfo = () => {
     
     // Call the API.
-    fetch('http://127.0.0.1:8000/bco/objects/read/', {
-    // fetch('https://beta.portal.aws.biochemistry.gwu.edu/bco/objects/read/', {
+    fetch(fc['sending']['bcoapi_objects_read'], {
       
       method: 'POST',
       body: JSON.stringify({

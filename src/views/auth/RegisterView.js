@@ -15,6 +15,9 @@ import {
 } from '@material-ui/core';
 import Page from 'src/components/Page';
 
+// Fetch context.
+import { FetchContext } from '../../App';
+
 const useStyles = makeStyles((theme) => ({
   root: {
     backgroundColor: theme.palette.background.dark,
@@ -25,8 +28,13 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const RegisterView = () => {
+
   const classes = useStyles();
   const navigate = useNavigate();
+
+  // Fetch context.
+  const fc = useContext(FetchContext);
+  console.log('fc', fc)
 
   return (
     <Page
@@ -59,9 +67,8 @@ const RegisterView = () => {
           .max(255).required('Password is required')
       })}
       onSubmit={(values) => {
-
-      fetch('http://localhost:8080/core/users/', {
-        // fetch('https://beta.aws.biochemistry.gwu.edu/core/users/', {
+        
+        fetch(fc['sending']['userdb_core_users'], {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'

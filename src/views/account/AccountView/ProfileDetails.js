@@ -15,11 +15,11 @@ const useStyles = makeStyles(() => ({
   root: {}
 }));
 
-var retrieveUser = localStorage.getItem('user');
-var userInfo = JSON.parse(retrieveUser)
-
 const ProfileDetails = ({ className, ...rest }) => {
+  
   const classes = useStyles();
+  
+  var userInfo = JSON.parse(localStorage.getItem('user'));
   
   const [values, setValues] = useState({
     firstName: userInfo.first_name,

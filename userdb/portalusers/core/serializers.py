@@ -18,7 +18,7 @@ class ApiSerializer(serializers.ModelSerializer):
         fields = ('hostname', 'human_readable', 'apikey',)
 
 
-class GroupSerializer(serializers.ModelSerializer):    
+class GroupSerializer(serializers.ModelSerializer):
     
     class Meta:
         model = Group
