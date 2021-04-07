@@ -30,7 +30,7 @@ import NavItem from './NavItem';
 const items_auth = [
   {
     href: '/dashboard',
-    icon: BarChartIcon,
+    icon: MenuIcon,
     title: 'Home'
   },
   {
@@ -84,11 +84,7 @@ const items_no_auth = [
 ];
 
 const useStyles = makeStyles(() => ({
-  root: {},
-  avatar: {
-    width: 60,
-    height: 60
-  }
+  root: {}
 }));
 
 function TopBar(props, { className, onMobileNavOpen, ...rest }) {

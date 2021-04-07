@@ -42,14 +42,12 @@ export default function Builder() {
       <CardActionArea className={classes.linkCard} component={RouterLink} to={"/builder"}>
         <CardContent>
             <Typography className={classes.title}>
-              BioCompute Builder<br/>
               <img src={logo} height={100} alt="BCO logo"/><br/>
+              BioCompute Builder
             </Typography>
-            <Typography className={classes.bullet}>
+            <Typography >
               Use the BioCompute Builder or view objects in the database.<br/>
-		The BioCompute Builder is a platform-free, form-based editor. The 
-		builder walks a user through building a BCO through text boxes,
-	   indicating which entries are required to adhere to the IEEE standard.
+		The BioCompute Builder is a platform-free, form-based editor.
             </Typography>
         </CardContent>
       </CardActionArea>

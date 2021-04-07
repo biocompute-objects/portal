@@ -3,10 +3,15 @@
 import React, { useState, useEffect } from 'react';
 import { Box, Container, Grid, makeStyles } from '@material-ui/core';
 import Page from 'src/components/Page';
-import ReactMarkdown from "react-markdown"; 
 import Typography from '@material-ui/core/Typography';
 
-import file from "./resources.md"
+import Registry from "./Registry.js"
+import CGC from "./CGC.js"
+import Packages from "./Packages"
+import Builder from './Builder'
+import Galaxy from './Galaxy'
+import Hive from './Hive'
+import Citations from './Citations'
 
 
 const useStyles = makeStyles((theme) => ({
@@ -27,22 +32,37 @@ const useStyles = makeStyles((theme) => ({
 function DocView() {
   const classes = useStyles();
 
-  const [markdown, setMarkdown] = useState("");
-
-  useEffect(() => {
-    fetch(file)
-      .then((res) => res.text())
-      .then((text) => setMarkdown(text));
-  }, []);
-  
   return (
-    <Page className={classes.root} title="Dashboard">
+    <Page className={classes.root} title="Resources">
       <Container maxWidth={false}>
-        <Grid container justify='center' spacing={12}>
-          <Grid item lg={8} sm={8} xl={8} xs={8}>
-            <Typography><ReactMarkdown source={markdown} allowDangerousHtml={true} /> </ Typography>
-	  		<br/><br/><br/>
+        <Grid container justify='space-around' spacing={3}>
+
+          <Grid item xs={12} sm={6} lg={6} xl={6}>
+            <Registry />
           </Grid>
+          <Grid item xs={12} sm={6} lg={6} xl={6}>
+            <CGC />
+          </Grid>
+
+        <Grid classes={classes.colored} container justify='space-around' spacing={3}>
+          <Grid item lg={3} sm={6} xl={4} xs={12}>
+            <Hive />
+          </Grid>
+          <Grid item lg={3} sm={6} xl={4} xs={12}>
+            <Packages />
+          </Grid>
+          <Grid item lg={3} sm={6} xl={4} xs={12}>
+            <Builder />
+          </Grid>
+          <Grid item lg={3} sm={6} xl={4} xs={12}>
+            <Galaxy />
+          </Grid>
+          <Grid item xs={12} sm={12} lg={12} xl={12}>
+            <Citations />
+          </Grid>
+
+        </Grid>
+
         </Grid>
       </Container>
     </Page>

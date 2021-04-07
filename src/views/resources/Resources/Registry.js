@@ -1,4 +1,4 @@
-// src/views/home/HomeView/Builder.js
+// src/views/resources/Resources/Builder.js
 
 import React from 'react';
 import { Card,
@@ -19,11 +19,15 @@ const useStyles = makeStyles({
   bullet: {
     display: 'inline-block',
     margin: '0 2px',
-    transform: 'scale(0.8)',
+    transform: 'scale(0.8)'
   },
   linkCard: {
       minHeight: '300px',
       textAlign: 'center'
+  },
+  supportCard: { 
+    textAlign: 'center',
+	marginBottom:12
   },
   title: {
     fontSize: '33px',
@@ -33,23 +37,23 @@ const useStyles = makeStyles({
   },
 });
 
-export default function Builder() {
+export default function Registry() {
   const classes = useStyles();
   var logo = require('src/images/logo.png')
+  var registryLink = 'https://portal.aws.biochemistry.gwu.edu/registry'
 
   return (
-    <Card className={classes.root, classes.linkCard} elevation={0}>
-      <CardActionArea className={classes.linkCard} component={RouterLink} to={"/builder"}>
+    <Card className={classes.root, classes.supportCard} elevation={5}>
+      <CardActionArea onClick={() => window.open(registryLink)}>
         <CardContent>
             <Typography className={classes.title}>
-              BioCompute Builder<br/>
-              <img src={logo} height={100} alt="BCO logo"/><br/>
+              <img src={logo} height={36} alt="BCO logo"/>
+              BCO Registry<br/>
             </Typography>
-            <Typography className={classes.bullet}>
-              Use the BioCompute Builder or view objects in the database.<br/>
-		The BioCompute Builder is a platform-free, form-based editor. The 
-		builder walks a user through building a BCO through text boxes,
-	   indicating which entries are required to adhere to the IEEE standard.
+            <Typography >
+              The BioCompute consortium maintains a database of registered 
+authorities. Registered authorities are able to assign their own IDs in the 
+object_id field, such as gwu000001.
             </Typography>
         </CardContent>
       </CardActionArea>

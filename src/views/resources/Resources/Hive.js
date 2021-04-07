@@ -1,4 +1,4 @@
-// src/views/home/HomeView/Hive.js
+// src/views/resources/Resources/Hive.js
 
 import React from 'react';
 import { Card,
@@ -48,13 +48,10 @@ export default function Hive() {
             <img src={hive} height={65} alt="HIVE logo"/><br/>
             <img src={aws} height={35}  alt="AWS logo"/>
           </Typography>
-          <Typography className={classes.bullet}>
-          Access AWS HIVE, the High-Performance Integrated Virtual Environment, on AWS. 
-	  HIVE is a cloud-based environment optimized for the storage and analysis 
-	  of extra-large data, such as biomedical data, clinical data, 
-	  next-generation sequencing (NGS) data, mass spectrometry files, confocal 
-	  microscopy images, post-market surveillance data, medical recall data, 
-	  and many others.
+          <Typography >
+            The High-throughput Integrated Virtual Environment (HIVE) for 
+genome analysis has platform specific tools for generating BioCompute Objects 
+from workflows.
           </Typography>  
         </CardContent>
       </CardActionArea>

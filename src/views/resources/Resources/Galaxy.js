@@ -33,7 +33,7 @@ const useStyles = makeStyles({
   },
 });
 
-export default function Other() {
+export default function Galaxy() {
   const classes = useStyles();
 
   var hive = require('src/images/galaxy.png')
@@ -48,11 +48,10 @@ export default function Other() {
             <img src={hive} height={65} alt="Galaxy logo"/><br/>
             <img src={aws} height={35}  alt="AWS logo"/>
             </Typography>
-            <Typography className={classes.bullet}>
-          Use Galaxy on AWS, the open source, web-based platform for data 
-	  intensive biomedical research. Assemble your [pipeline](/about) in the 
-	  workspace, designate the outputs in the module boxes, and record the 
-	  entire pipeline as a BCO.
+            <Typography >
+              The Galaxy BCO API Extension enables Galaxy users to the export of 
+Galaxy “workflow invocations” (i.e. realizations of a computational pipeline) in 
+BCO format.
             </Typography>
         </CardContent>
       </CardActionArea>
