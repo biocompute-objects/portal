@@ -93,7 +93,6 @@ function TopBar(props, { className, onMobileNavOpen, ...rest }) {
   function Logout() {
     localStorage.clear();
     navigate('/login', { replace: true });
-    alert("Logged out");
 };
 
   var isLoggedIn = false

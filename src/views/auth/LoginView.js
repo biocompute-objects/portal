@@ -17,6 +17,9 @@ import {
 } from '@material-ui/core';
 import Page from 'src/components/Page';
 
+// Fetch context.
+import { FetchContext } from '../../App';
+
 const useStyles = makeStyles((theme) => ({
   root: {
     backgroundColor: theme.palette.background.dark,
@@ -30,6 +33,9 @@ const LoginView = () => {
 
   const classes = useStyles();
   const navigate = useNavigate();
+
+  // Fetch context.
+  const fc = useContext(FetchContext);
 
   return (
     <Page
@@ -55,8 +61,7 @@ const LoginView = () => {
             onSubmit={(values) => {
               
               // Determine whether or not our login was legitimate.
-              fetch('http://localhost:8080/token-auth/', {
-              // fetch('https://beta.portal.aws.biochemistry.gwu.edu/token-auth/', {
+              fetch(fc['sending']['userdb_tokenauth'], {
                 method: 'POST',
                 headers: {
                   'Content-Type': 'application/json'

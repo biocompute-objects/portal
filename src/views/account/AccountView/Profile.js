@@ -24,9 +24,6 @@ import GroupInfo from './GroupInfo'
 
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 
-var retrieveUser = localStorage.getItem('user');
-var userInfo = JSON.parse(retrieveUser)
-
 const useStyles = makeStyles(() => ({
   root: {},
   avatar: {
@@ -39,9 +36,13 @@ const useStyles = makeStyles(() => ({
 }));
 
 const Profile = ({ className, ...rest }) => {
+  
   const classes = useStyles();
+  
+  var userInfo = JSON.parse(localStorage.getItem('user'));
 
   return (
+
   <Card className={clsx(classes.root, className)} {...rest}>
     <CardContent>
       <Grid container >

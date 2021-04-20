@@ -5,7 +5,7 @@ user = User.objects.get(username = 'carmstrong1')
 
 from core.models import ApiInfo
 
-test = ApiInfo(username = user, hostname = '23.434.2.41', human_readable = 'BCO (Glygen)', apikey = '@#48&8fdsnj4012nDfh4jkl2')
+test = ApiInfo(username = user, hostname = '127.0.0.1:8000', human_readable = 'BCO API (Generic)', apikey = '@#48&8fdsnj4012nDfh4jkl2')
 test.save()
 
 #suppress account

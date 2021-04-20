@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import {
   Box,
   Container,
@@ -11,7 +11,10 @@ import { PictureAsPdfOutlined } from '@material-ui/icons';
 import Typography from '@material-ui/core/Typography';
 
 // Checking for field value existence
-import cF from '../../../utils/cF'
+import cF from '../../../utils/cF';
+
+// Fetch context.
+import { FetchContext } from '../../../App';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -25,6 +28,9 @@ const useStyles = makeStyles((theme) => ({
 const ObjectsListView = () => {
 
   const classes = useStyles();
+
+  // Fetch context.
+  const fc = useContext(FetchContext);
 
   // Function and state for loading object listing
   const [loading, setLoading] = useState(true);
@@ -40,8 +46,7 @@ const ObjectsListView = () => {
   const getObjectsListing = () => {
     
     // Call the API.
-    fetch('http://127.0.0.1:8000/bco/objects/read', {
-    // fetch('https://beta.portal.aws.biochemistry.gwu.edu/bco/objects/read/', {
+    fetch(fc['sending']['bcoapi_objects_read'], {
       method: 'POST',
       body: JSON.stringify({
         POST_read_object: [
