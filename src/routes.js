@@ -20,11 +20,11 @@ import Resources from 'src/views/resources/Resources';
 // Routing rules are given at https://github.com/snd/url-pattern
 
 const routes = () => {
-	console.log('message',isLoggedIn);
 	var isLoggedIn = false
 	if(localStorage.getItem('token')) {
 		isLoggedIn = true 
 	}
+	console.log('message',isLoggedIn);	
   return [
 	  {
     path: '/',

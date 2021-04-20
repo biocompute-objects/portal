@@ -1,4 +1,6 @@
-import React, { useState } from 'react';
+// src/views/account/AccountView/AccountDetails.js
+
+import React, { useState, useContext } from 'react';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import {
@@ -15,17 +17,19 @@ const useStyles = makeStyles(() => ({
   root: {}
 }));
 
-const Groups = ({ className, ...rest }) => {
+var retrieveUser = localStorage.getItem('user');
+var userInfo = JSON.parse(retrieveUser)
+
+const AccountDetails = ({ className, ...rest }) => {
   const classes = useStyles();
+  
   const [values, setValues] = useState({
-    firstName: 'Katarina',
-    lastName: 'Smith',
-    email: 'demo@devias.io',
-    phone: '',
-    state: 'Alabama',
-    country: 'USA',
-    organization: 'NIH',
-    orcid: 'test-234-dxcv-3sd'
+    firstName: userInfo.first_name,
+    lastName: userInfo.last_name,
+    email: userInfo.email,
+    alt_email: userInfo.alt_email,
+    affiliation: userInfo.affiliation,
+    orcid: userInfo.orcid
   });
 
   const handleChange = (event) => {
@@ -50,7 +54,7 @@ const Groups = ({ className, ...rest }) => {
           >
             <Grid
               item
-              md={6}
+              md={4}
               xs={6}
             >
               <TextField
@@ -65,7 +69,7 @@ const Groups = ({ className, ...rest }) => {
             </Grid>
             <Grid
               item
-              md={6}
+              md={4}
               xs={6}
             >
               <TextField
@@ -80,7 +84,7 @@ const Groups = ({ className, ...rest }) => {
             </Grid>
             <Grid
               item
-              md={6}
+              md={4}
               xs={6}
             >
               <TextField
@@ -95,37 +99,37 @@ const Groups = ({ className, ...rest }) => {
             </Grid>
             <Grid
               item
-              md={6}
+              md={4}
               xs={6}
             >
               <TextField
                 fullWidth
-                label="Phone Number"
-                name="phone"
+                label="Profile Picture TODO"
+                name="avatar"
                 onChange={handleChange}
-                type="number"
-                value={values.phone}
+                type="image"
+                value={values.avatar}
                 variant="outlined"
               />
             </Grid>
             <Grid
               item
-              md={6}
+              md={4}
               xs={6}
             >
               <TextField
                 fullWidth
-                label="Organization"
-                name="organization"
+                label="Affiliation"
+                name="affiliation"
                 onChange={handleChange}
                 required
-                value={values.organization}
+                value={values.affiliation}
                 variant="outlined"
               />
             </Grid>
             <Grid
               item
-              md={6}
+              md={4}
               xs={6}
             >
               <TextField
@@ -157,8 +161,8 @@ const Groups = ({ className, ...rest }) => {
   );
 };
 
-Groups.propTypes = {
+AccountDetails.propTypes = {
   className: PropTypes.string
 };
 
-export default Groups;
+export default AccountDetails;

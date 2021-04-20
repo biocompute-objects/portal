@@ -6,8 +6,10 @@ import Page from 'src/components/Page';
 import ReactMarkdown from "react-markdown"; 
 import Typography from '@material-ui/core/Typography';
 
-import file from "./community.md"
-
+import TechnicalSteeringCommittee from "./TechnicalSteeringCommittee"
+import Leadership from './Leadership'
+import Organization from "./Organization"
+import Services from "./Services"
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -26,23 +28,23 @@ const useStyles = makeStyles((theme) => ({
 
 function Community() {
   const classes = useStyles();
-
-  const [markdown, setMarkdown] = useState("");
-
-  useEffect(() => {
-    fetch(file)
-      .then((res) => res.text())
-      .then((text) => setMarkdown(text));
-  }, []);
   
   return (
     <Page className={classes.root} title="Dashboard">
       <Container maxWidth={false}>
-        <Grid container justify='center' spacing={12}>
-          <Grid item lg={8} sm={8} xl={8} xs={8}>
-            <Typography><ReactMarkdown source={markdown} allowDangerousHtml={true} /> </ Typography>
-	  		<br/><br/><br/>
-          </Grid>
+        <Grid container justify='center' spacing={3}>
+        <Grid item xs={12} sm={6} lg={3} xl={3}>
+          <Leadership />
+        </Grid>
+        <Grid item xs={12} sm={6} lg={3} xl={3}>
+          <TechnicalSteeringCommittee />
+        </Grid>
+        <Grid item xs={12} sm={6} lg={3} xl={3}>
+          <Services />
+        </Grid>
+        <Grid item xs={12} sm={6} lg={3} xl={3}>
+          <Organization />
+        </Grid>
         </Grid>
       </Container>
     </Page>

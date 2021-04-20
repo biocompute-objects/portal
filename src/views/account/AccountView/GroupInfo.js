@@ -1,3 +1,5 @@
+// src/views/account/AccountView/GroupInfo.js
+
 import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
