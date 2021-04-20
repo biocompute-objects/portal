@@ -1,4 +1,4 @@
-// App.js
+// src/App.js
 
 import 'react-perfect-scrollbar/dist/css/styles.css';
 import React, { useEffect, useState } from 'react';
@@ -57,10 +57,8 @@ function App() {
 	
 	return (
 		<ThemeProvider theme={theme}>
-			<FetchContext.Provider value={{ sending }}>
-				<GlobalStyles />
-				{routing}
-			</FetchContext.Provider>
+			<GlobalStyles />
+			{routing}
 		</ThemeProvider>
   );
 };
