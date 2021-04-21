@@ -57,8 +57,10 @@ function App() {
 	
 	return (
 		<ThemeProvider theme={theme}>
-			<GlobalStyles />
-			{routing}
+			<FetchContext.Provider value={{ sending }}>
+				<GlobalStyles />
+				{routing}
+			</FetchContext.Provider>
 		</ThemeProvider>
   );
 };
