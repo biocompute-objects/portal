@@ -56,12 +56,12 @@ function App() {
 	const sending = production === false ? hostnames.development : hostnames.production
 	
 	return (
-	<ThemeProvider theme={theme}>
-		<FetchContext.Provider value={{ sending }}>
-			<GlobalStyles />
-			{routing}
-		</FetchContext.Provider>
-	</ThemeProvider>
+		<ThemeProvider theme={theme}>
+			<FetchContext.Provider value={{ sending }}>
+				<GlobalStyles />
+				{routing}
+			</FetchContext.Provider>
+		</ThemeProvider>
   );
 };
 
