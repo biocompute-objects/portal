@@ -1,3 +1,5 @@
+// src/views/objects/ObjectView/index.js
+
 import React from 'react';
 
 // Rendering URL parameters.

@@ -1,3 +1,5 @@
+// src/layouts/shared/TopBar.js
+
 import React, { useState, useContext } from 'react';
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
 import clsx from 'clsx';
@@ -28,13 +30,23 @@ import NavItem from './NavItem';
 const items_auth = [
   {
     href: '/dashboard',
-    icon: BarChartIcon,
+    icon: MenuIcon,
     title: 'Home'
   },
   {
-    href: '/about',
+    href: '/documentation',
     icon: UserIcon,
-    title: 'About'
+    title: 'Documentation'
+  },
+  {
+    href: '/resources',
+    icon: UserIcon,
+    title: 'Resources'
+  },
+  {
+    href: '/community',
+    icon: UserIcon,
+    title: 'Community'
   },
   {
     href: '/account',
@@ -50,9 +62,9 @@ const items_auth = [
 
 const items_no_auth = [
   {
-    href: '/dashboard',
-    icon: BarChartIcon,
-    title: 'Home'
+    href: '/documentation',
+    icon: UserIcon,
+    title: 'Documentation'
   },
   {
     href: '/login',
@@ -72,11 +84,7 @@ const items_no_auth = [
 ];
 
 const useStyles = makeStyles(() => ({
-  root: {},
-  avatar: {
-    width: 60,
-    height: 60
-  }
+  root: {}
 }));
 
 function TopBar(props, { className, onMobileNavOpen, ...rest }) {
@@ -96,7 +104,7 @@ function TopBar(props, { className, onMobileNavOpen, ...rest }) {
 
   const logged_out_bar = (
           <Toolbar>
-          <RouterLink to="/">
+          <RouterLink to="/dashboard">
             <Logo />
           </RouterLink>
           <Hidden smDown>
@@ -144,18 +152,10 @@ function TopBar(props, { className, onMobileNavOpen, ...rest }) {
                   icon={item.icon}
                 />
             ))}
-            <Button 
+            <IconButton 
+              color="inherit" 
               onClick={Logout}>
                 <span>Log Out</span>
-            </Button>
-            <IconButton color="inherit">
-              <Badge
-                badgeContent={notifications.length}
-                color="primary"
-                variant="dot"
-              >
-                <InputIcon />
-              </Badge>
             </IconButton>
           </Hidden>
           <Hidden mdUp>

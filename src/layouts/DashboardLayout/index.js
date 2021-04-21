@@ -5,7 +5,6 @@ import { Outlet } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core';
 import TopBar from '../shared/TopBar';
 import BottomBar from '../shared/BottomBar'
-import NewsBar from '../shared/NewsBar'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -21,8 +20,8 @@ const useStyles = makeStyles((theme) => ({
     overflow: 'hidden',
     paddingTop: 64,
     [theme.breakpoints.up('lg')]: {
-      paddingLeft: 256,
-      paddingRight: 256
+      paddingLeft: 5,
+      paddingRight: 5
     }
   },
   contentContainer: {
@@ -44,14 +43,6 @@ const DashboardLayout = () => {
   return (
     <div className={classes.root}>
       <TopBar onMobileNavOpen={() => setMobileNavOpen(true)} />
-      {/*<NavBar  
-        onMobileClose={() => setMobileNavOpen(false)}
-        openMobile={isMobileNavOpen}
-      />*/}
-      <NewsBar 
-        onMobileClose={() => setMobileNavOpen(false)}
-        openMobile={isMobileNavOpen}
-      />
       <div className={classes.wrapper}>
         <div className={classes.contentContainer}>
           <div className={classes.content}>

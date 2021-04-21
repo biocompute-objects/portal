@@ -32,44 +32,27 @@ const AccountView = () => {
   const [groupShowing, setGroupShowing] = React.useState(false);
 
   return (
-    <Page
-      className={classes.root}
-      title="Account"
-    >
-      <ParentContext.Provider value={{ showing, setShowing, groupShowing, setGroupShowing }}>
+  <Page className={classes.root} title="Account">
+    <ParentContext.Provider value={{ showing, setShowing, groupShowing, setGroupShowing }}>
       <Container maxWidth={false}>
-        <Grid
-          container
-          spacing={5}
-        >
-          <Grid
-            item
-            lg={12}
-            md={12}
-            xs={12}
-          >
-            <Profile />           
+        <Grid container spacing={5}>
+          <Grid item xs={12} sm={12} lg={12} xl={12}>
+            <Profile />
           </Grid>
         </Grid>
       </Container>
       <Container maxWidth={false}>
-        <Grid
-          container
-          spacing={5}
-        >
-          <Grid
-            item
-            lg={12}
-            md={12}
-            xs={12}
-          >
-          <ServerInfo />
+        <Grid container spacing={5}>
+          <Grid xs={12} sm={12} lg={12} xl={12}>
+
           </Grid>
         </Grid>
       </Container>
-      <AddServer />
-      </ParentContext.Provider>
-    </Page>
+      <Container maxWidth={false}>
+        <ServerInfo />
+      </ Container>
+    </ParentContext.Provider>
+  </Page>
   );
 };
 
