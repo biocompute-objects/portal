@@ -1,6 +1,6 @@
 // src/views/account/AccountView/index.js
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
   Container,
   Grid,
@@ -44,7 +44,7 @@ const AccountView = () => {
       <Container maxWidth={false}>
         <Grid container spacing={5}>
           <Grid xs={12} sm={12} lg={12} xl={12}>
-
+            <AddServer />
           </Grid>
         </Grid>
       </Container>

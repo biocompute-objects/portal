@@ -44,6 +44,8 @@ INSTALLED_APPS = [
     'core.apps.CoreConfig'
 ]
 
+# Allow requests from the portal.
+# Source: https://dzone.com/articles/how-to-fix-django-cors-error
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -137,8 +139,12 @@ REST_FRAMEWORK = {
     ),
 }
 
+# Allow requests from the portal ONLY.
+# Source: https://dzone.com/articles/how-to-fix-django-cors-error
+CORS_ORIGIN_ALL_ALL = False
 CORS_ORIGIN_WHITELIST = (
     'http://localhost:3000',
+    'http://127.0.0.1:3000'
 )
 
 JWT_AUTH = {

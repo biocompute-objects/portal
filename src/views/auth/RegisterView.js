@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
 import * as Yup from 'yup';
 import { Formik } from 'formik';
@@ -18,7 +18,17 @@ import Page from 'src/components/Page';
 // Fetch context.
 import { FetchContext } from '../../App';
 
+// Registration error
+// Source: https://material-ui.com/components/alert/#simple-alerts
+import Alert from '@material-ui/lab/Alert';
+
 const useStyles = makeStyles((theme) => ({
+  alertSpec: {
+    width: '100%',
+    '& > * + *': {
+      marginTop: theme.spacing(2),
+    }
+  },
   root: {
     backgroundColor: theme.palette.background.dark,
     height: '100%',
@@ -28,13 +38,36 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const RegisterView = () => {
-
+  
   const classes = useStyles();
-  const navigate = useNavigate();
-
+  
   // Fetch context.
   const fc = useContext(FetchContext);
-  console.log('fc', fc)
+
+  // State
+  const [registrationError, setRegistrationError] = useState(false);
+  const [registrationSuccess, setRegistrationSuccess] = useState(false);
+
+  // Re-direct upon successful creation.
+  const navigate = useNavigate();
+  
+  useEffect(() => {
+    
+    // Re-direct to the home page.
+    if(registrationSuccess === true) {
+
+      // No more error message.
+      setRegistrationError(false);
+
+      // Wait a couple seconds.
+      // Source: https://reactgo.com/settimeout-in-react-hooks/
+      setTimeout(() => {
+        navigate('/login', { replace: true });
+      }, 3000);
+
+    }
+
+  }, [registrationSuccess])
 
   return (
     <Page
@@ -76,40 +109,33 @@ const RegisterView = () => {
           body: JSON.stringify({
             "username": values.username, 
             "password": values.password,
-            "first_name": values.firstName, 
-            "last_name": values.lastName,
+            "firstname": values.firstName, 
+            "lastname": values.lastName,
             "email": values.email
           })
-        })
-          .then(res => res.json()).then(json => {
-            if(json.user !== 'undefined') {
-              localStorage.setItem('token', json.token);
-              localStorage.setItem('user', JSON.stringify(json.user));
-              // Re-direct to the home page.
-              navigate('/account', { replace: true });
+        }).then(res => {
 
-                  // TODO: This will be a huge object in the future...
-                  // Set all information about the user.
-                  // TODO: This should be done with response codes,
-                  // but I couldn't get it to work initially...
-                  // if(typeof(json.user) !== 'undefined') {
-                    
-                  // Set the token and the logged in state.
-                  } else {
+              // Did we have a good response code or not?
+              if(res.status === 409) {
 
-                    // Bad login...
+                // Show the error message.
+                setRegistrationError(true);
+              
+              } else if(res.status === 201) {
 
-                  }
+                // Show the success message for a couple of seconds.
+                setRegistrationSuccess(true);
 
-                })
-            }}
+              }
+
+            })
+          }}
           >
             {({
               errors,
               handleBlur,
               handleChange,
               handleSubmit,
-              isSubmitting,
               touched,
               values
             }) => (
@@ -119,15 +145,15 @@ const RegisterView = () => {
                     color="textPrimary"
                     variant="h2"
                   >
-                    Create new account
+                    Create a new Portal account
                   </Typography>
-                  <Typography
+                  {/* <Typography
                     color="textSecondary"
                     gutterBottom
                     variant="body2"
                   >
                     Use your email to create new account
-                  </Typography>
+                  </Typography> */}
                 </Box>
                 <TextField
                   error={Boolean(touched.firstName && errors.firstName)}
@@ -169,7 +195,7 @@ const RegisterView = () => {
                   error={Boolean(touched.username && errors.username)}
                   fullWidth
                   helperText={touched.username && errors.username}
-                  label="user name"
+                  label="Username"
                   margin="normal"
                   name="username"
                   onBlur={handleBlur}
@@ -196,7 +222,7 @@ const RegisterView = () => {
                   display="flex"
                   ml={-1}
                 >
-                  <Checkbox
+                  {/* <Checkbox
                     checked={values.policy}
                     name="policy"
                     onChange={handleChange}
@@ -216,7 +242,7 @@ const RegisterView = () => {
                     >
                       Terms and Conditions
                     </Link>
-                  </Typography>
+                  </Typography> */}
                 </Box>
                 {Boolean(touched.policy && errors.policy) && (
                   <FormHelperText error>
@@ -224,18 +250,26 @@ const RegisterView = () => {
                   </FormHelperText>
                 )}
                 <Box my={2}>
+                  <div className={classes.alertSpec}>
+                    {registrationSuccess && <Alert severity = "success">Account created successfully!  Redirecting momentarily...</Alert>}
+                  </div>
+                  <div className={classes.alertSpec}>
+                    {registrationError && <Alert severity = "error">An account with this username already exists.</Alert>}
+                  </div>
+                </Box>
+                <Box my={2}>
                   <Button
                     color="primary"
-                    disabled={isSubmitting}
+                    disabled={registrationSuccess}
                     fullWidth
                     size="large"
                     type="submit"
                     variant="contained"
                   >
-                    Sign up now
+                    Sign up for Portal account
                   </Button>
                 </Box>
-                <Typography
+                {/* <Typography
                   color="textSecondary"
                   variant="body1"
                 >
@@ -248,7 +282,7 @@ const RegisterView = () => {
                   >
                     Sign in
                   </Link>
-                </Typography>
+                </Typography> */}
               </form>
             )}
           </Formik>

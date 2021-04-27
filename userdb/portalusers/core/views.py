@@ -71,9 +71,27 @@ class UserList(APIView):
     permission_classes = (permissions.AllowAny,)
 
     def post(self, request, format=None):
-        serializer = UserSerializerWithToken(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            print(serializer.data)
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        
+        print('request.data: ')
+        print(request.data)
+        print('===============')
+
+        # Does this user already exist?
+        if User.objects.filter(username = request.data['username']).exists():
+
+            # Bad request because the user already exists.
+            return Response(status=status.HTTP_409_CONFLICT)
+        
+        else:
+            
+            serializer = UserSerializerWithToken(data=request.data)
+            
+            if serializer.is_valid():
+                serializer.save()
+                
+                return Response(serializer.data, status=status.HTTP_201_CREATED)
+            
+            else:
+
+                # The request didn't provide what we needed.
+                return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

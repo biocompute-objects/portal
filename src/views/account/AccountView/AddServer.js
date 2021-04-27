@@ -16,14 +16,10 @@ import { ParentContext } from './index';
 import ServerStatus from './ServerStatus';
 
 export default function FormDialog(props) {
-  
-  // Set the parent context.
-  // Source: https://stackoverflow.com/questions/58936042/pass-context-between-siblings-using-context-in-react
-  const context = React.useContext(ParentContext);
 
   // Use the parent context.
   // Source: https://stackoverflow.com/questions/58936042/pass-context-between-siblings-using-context-in-react
-  const { setShowing } = useContext(ParentContext);
+  const { showing, setShowing } = useContext(ParentContext);
 
   // State variables to hold the server information.
   const [hostname, setHostname] = useState();
@@ -120,7 +116,7 @@ export default function FormDialog(props) {
 
   return (
     <div>
-      <Dialog open={context.showing} onClose={handleClose} aria-labelledby="form-dialog-title">
+      <Dialog open={showing} onClose={handleClose} aria-labelledby="form-dialog-title">
         <DialogTitle id="form-dialog-title">Add new BCO server</DialogTitle>
         <DialogContent>
           <DialogContentText>
@@ -133,6 +129,22 @@ export default function FormDialog(props) {
             label="Hostname"
             fullWidth
             onChange={(e) => setInput(e, 'hostname')}
+          />
+          <TextField
+            autoFocus
+            margin="dense"
+            id="username"
+            label="Username"
+            fullWidth
+            onChange={(e) => setInput(e, 'username')}
+          />
+          <TextField
+            autoFocus
+            margin="dense"
+            id="password"
+            label="Password"
+            fullWidth
+            onChange={(e) => setInput(e, 'password')}
           />
           <TextField
             autoFocus
