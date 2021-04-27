@@ -22,9 +22,25 @@ export default function FormDialog(props) {
   const { showing, setShowing } = useContext(ParentContext);
 
   // State variables to hold the server information.
-  const [hostname, setHostname] = useState();
-  const [apikey, setApikey] = useState();
+  const [hostname, setHostname] = useState('');
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [apikey, setApikey] = useState('');
+  const [fieldsFilled, setFieldsFilled] = useState(false);
   const [requestStatus, setRequestStatus] = useState('');
+
+  // TODO: improve error checking.
+
+  // If all fields are provided, allow the submission to go through.
+  useEffect(() => {
+
+    if(hostname !== '' && username !== '' && password !== '' && apikey !== '') {
+      setFieldsFilled(true);
+    } else {
+      setFieldsFilled(false);
+    }
+
+  }, [hostname, username, password, apikey])
   
   const handleClose = () => {
     setShowing(false);
@@ -105,6 +121,16 @@ export default function FormDialog(props) {
       // Change the hostname.
 			setHostname(event.target.value);
 
+    } else if(which == 'username') {
+			
+			// Change the API key.
+			setUsername(event.target.value);
+
+    } else if(which == 'password') {
+        
+      // Change the API key.
+      setPassword(event.target.value);
+    
     } else if(which == 'apikey') {
 			
 			// Change the API key.
@@ -120,7 +146,7 @@ export default function FormDialog(props) {
         <DialogTitle id="form-dialog-title">Add new BCO server</DialogTitle>
         <DialogContent>
           <DialogContentText>
-            To add a server, fill out the information below.
+            When adding a server, you must first create an account on the server.  See [LINK] for instructions.
           </DialogContentText>
           <TextField
             autoFocus
@@ -154,16 +180,13 @@ export default function FormDialog(props) {
             fullWidth
             onChange={(e) => setInput(e, 'apikey')}
           />
-          <DialogContentText>
-            Click 'Add Server' to verify the API key on the given hostname.
-          </DialogContentText>
           <ServerStatus serverStatus={requestStatus} />
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose} color="primary">
             Cancel
           </Button>
-          <Button onClick={checkApi} color="primary">
+          <Button disabled = {!fieldsFilled} onClick={checkApi} color="primary">
             Add Server
           </Button>
         </DialogActions>
