@@ -30,7 +30,8 @@ def add_api(request):
     """
     Update a user's information based on their token.
     """
-
+    
+    
     # Get the user.
     user = UserSerializer(request.user).data['username']
 
@@ -42,21 +43,20 @@ def add_api(request):
     bulk = json.loads(request.body)
 
     # Get the hostname.
-    hostname = bulk['api_hostname']
+    hostname = bulk['hostname']
 
     # Get the human-readable hostname.
-    human_readable = bulk['api_human_readable']
+    human_readable_hostname = bulk['human_readable_hostname']
 
-    # Get the new API key.
-    api_key = bulk['api_key']
+    # Get the new token.
+    token = bulk['token']
 
     # Add the key for the user.
-    updated = ApiInfo(username = user_object, hostname = hostname, human_readable = human_readable, apikey = api_key)
+    updated = ApiInfo(username = user_object, hostname = hostname, human_readable_hostname = human_readable_hostname, token = token)
     updated.save()
 
     print('========')
     print(user)
-    print(api_key)
     print(updated)
     print('=========')
     return(Response(UserSerializer(request.user).data))

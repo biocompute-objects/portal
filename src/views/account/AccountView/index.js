@@ -43,13 +43,17 @@ const AccountView = () => {
       </Container>
       <Container maxWidth={false}>
         <Grid container spacing={5}>
-          <Grid xs={12} sm={12} lg={12} xl={12}>
+          <Grid item xs={12} sm={12} lg={12} xl={12}>
             <AddServer />
           </Grid>
         </Grid>
       </Container>
       <Container maxWidth={false}>
-        <ServerInfo />
+        <Grid container spacing={5}>
+          <Grid item xs={12} sm={12} lg={12} xl={12}>
+            <ServerInfo />
+          </Grid>
+        </Grid>
       </ Container>
     </ParentContext.Provider>
   </Page>

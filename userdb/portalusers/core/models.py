@@ -20,8 +20,8 @@ class ApiInfo(models.Model):
     hostname = models.CharField(blank = True, max_length = 15)
 
     # Need to use a human-readable name
-    human_readable = models.CharField(blank = True, max_length = 1000)
+    human_readable_hostname = models.CharField(blank = True, max_length = 1000)
 
-    # "Arbitrarily" long API key
-    apikey = models.CharField(blank = True, max_length = 1000)
+    # "Arbitrarily" long token
+    token = models.CharField(blank = True, max_length = 1000)
 
