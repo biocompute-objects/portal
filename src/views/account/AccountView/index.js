@@ -31,9 +31,20 @@ const AccountView = () => {
   const [showing, setShowing] = React.useState(false);
   const [groupShowing, setGroupShowing] = React.useState(false);
 
+  // State for an added server.
+  const [serverAdded, setServerAdded] = React.useState(false);
+
+  // On page load, load the user's information.
+  useEffect(() => {
+
+    // "Fake" that a server has been added.
+    setServerAdded(true);
+
+  }, [])
+
   return (
   <Page className={classes.root} title="Account">
-    <ParentContext.Provider value={{ showing, setShowing, groupShowing, setGroupShowing }}>
+    <ParentContext.Provider value={{ showing, setShowing, groupShowing, setGroupShowing, serverAdded, setServerAdded }}>
       <Container maxWidth={false}>
         <Grid container spacing={5}>
           <Grid item xs={12} sm={12} lg={12} xl={12}>

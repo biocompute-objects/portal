@@ -235,23 +235,46 @@ export default function EnhancedTable({ onClickOpen }) {
   const [orderBy, setOrderBy] = React.useState('servername');
   const [selected, setSelected] = React.useState([]);
   const [permissions, setPermissions] = React.useState([]);
+  const [updatedUser, setUpdatedUser] = React.useState(false);
 
   // All user information.
-  const [rows, setRows] = React.useState([
-    createData('NIH', '23.423.13.45', 'carmstrong', 'Read, Write', 'Active'),
-    createData('FDA', '3.33.41.435', 'carmstrong', 'Read', 'Inactive')
-  ]);
+  // const [rows, setRows] = React.useState([
+  //   createData('NIH', '23.423.13.45', 'carmstrong', 'Read, Write', 'Active'),
+  //   createData('FDA', '3.33.41.435', 'carmstrong', 'Read', 'Inactive')
+  // ]);
+  const [rows, setRows] = React.useState([]);
+
+  // Set the parent context setters.
+  // Source: https://stackoverflow.com/questions/58936042/pass-context-between-siblings-using-context-in-react
+  const { setShowing, serverAdded, setServerAdded } = useContext(ParentContext);
 
   // Get the credentials from the user's most recently stored credentials.
   useEffect(() => {
+    
+    // Define an array to hold the permissions.
+    var perms = [];
 
-    // Set the permissions ONCE on page load.
+    // Get the permissions.
+    setPermissions(JSON.parse(localStorage.getItem('user'))['apiinfo']);
+    permissions.map(perm => {
+      perms.push(
+        createData(
+          perm['human_readable_hostname'],
+          perm['hostname'],
+          perm['username'],
+          perm['other_info']['group_permissions'],
+          'Active'
+        )
+      )
+    })
 
-    // Any subsequent permissions must be asked for manually
-    // on the page.
-    setPermissions(localStorage.getItem('user')['apiinfo']);
+    // Update the server info.
+    setRows(perms);
 
-  }, [])
+    // The server added flag is no longer necessary.
+    setServerAdded(false);
+
+  }, [serverAdded])
 
   // Create a function to add a new server row to the table.
   // Source: https://webomnizz.com/change-parent-component-state-from-child-using-hooks-in-react/
@@ -295,10 +318,6 @@ export default function EnhancedTable({ onClickOpen }) {
   };
 
   const isSelected = (name) => selected.indexOf(name) !== -1;
-
-  // Set the parent context setters.
-  // Source: https://stackoverflow.com/questions/58936042/pass-context-between-siblings-using-context-in-react
-  const { setShowing } = useContext(ParentContext);
 
   return (
     <div className={classes.root}>
@@ -363,7 +382,7 @@ export default function EnhancedTable({ onClickOpen }) {
                             >
                               Show permissions
                             </Button>
-                            {/* <Permissions permissionSet = /> */}
+                            <Permissions permissionSet = {row.permissions}/>
                           </TableCell>
                           <TableCell align="center"><Chip className={row.status === "Active" ? classes.serverActive : classes.serverInactive} color='primary' label={row.status}></Chip></TableCell>
                         </TableRow>

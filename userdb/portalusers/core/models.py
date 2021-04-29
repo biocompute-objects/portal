@@ -5,8 +5,10 @@
 from django.db import models
 from django.contrib.auth.models import User
 
+
 # API Information is kept separate so that we can use it
 # elsewhere easily.
+
 
 # API Information
 class ApiInfo(models.Model):
@@ -25,3 +27,5 @@ class ApiInfo(models.Model):
     # "Arbitrarily" long token
     token = models.CharField(blank = True, max_length = 1000)
 
+    # Permissions and other information.
+    other_info = models.JSONField()

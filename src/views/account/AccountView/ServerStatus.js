@@ -27,11 +27,14 @@ export default function ServerStatus({ serverStatus }) {
     serverStatus !== ''
       ?
         <div className={classes.root}>
-          <Alert className={serverStatus === 'success' ? classes.hidden : classes.showing} variant="filled" severity="error">
+          <Alert className={serverStatus === 'failure' ? classes.showing : classes.hidden} variant="filled" severity="error">
             The server was unable to verify your credentials.
           </Alert>
-          <Alert className={serverStatus !== 'success' ? classes.hidden : classes.showing} variant="filled" severity="success">
+          <Alert className={serverStatus === 'success' ? classes.showing : classes.hidden} variant="filled" severity="success">
             The server was able to verify your credentials!  Closing dialog...
+          </Alert>
+          <Alert className={serverStatus === 'already_added' ? classes.showing : classes.hidden} variant="filled" severity="error">
+            This server has already been added to your account.  Click 'Set Credentials' if you wish to update your credentials on the server.
           </Alert>
         </div>
       :

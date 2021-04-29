@@ -16,7 +16,7 @@ def current_user(request):
     """
     Determine the current user by their token, and return their data
     """
-    
+    print('HERE')
     serializer = UserSerializer(request.user)
 
     print('+++++++++++++++')
@@ -31,7 +31,6 @@ def add_api(request):
     Update a user's information based on their token.
     """
     
-    
     # Get the user.
     user = UserSerializer(request.user).data['username']
 
@@ -42,17 +41,14 @@ def add_api(request):
     # Get the bulk information.
     bulk = json.loads(request.body)
 
-    # Get the hostname.
-    hostname = bulk['hostname']
-
-    # Get the human-readable hostname.
-    human_readable_hostname = bulk['human_readable_hostname']
-
-    # Get the new token.
-    token = bulk['token']
-
     # Add the key for the user.
-    updated = ApiInfo(username = user_object, hostname = hostname, human_readable_hostname = human_readable_hostname, token = token)
+    updated = ApiInfo(
+    	username = user_object, 
+    	hostname = bulk['hostname'], 
+    	human_readable_hostname = bulk['human_readable_hostname'], 
+    	token = bulk['token'],
+        other_info = bulk['other_info']
+    )
     updated.save()
 
     print('========')
@@ -95,3 +91,13 @@ class UserList(APIView):
 
                 # The request didn't provide what we needed.
                 return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+# (OPTIONAL) Special "one-off" view for an API writing to user
+# because 1) we don't want a persisent user-writable account
+# outside of the system, and 2) the API has no way of writing
+# without the user's token.
+
+# So, write to the table, then change the token.
+# We could have gone with a temporary token here, but
+# that may be too much too worry about.
