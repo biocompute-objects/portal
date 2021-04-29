@@ -42,11 +42,11 @@ function App() {
 			'userdb_tokenauth': 'http://127.0.0.1:8080/token-auth/'
 		},
 		'production': {
-			'bcoapi_accounts_new': 'http://beta.aws.biochemistry.gwu.edu/api/accounts/new/',
-			'bcoapi_description_permissions': 'http://beta.aws.biochemistry.gwu.edu/api/description/permissions/',
-			'bcoapi_objects_create': 'http://beta.aws.biochemistry.gwu.edu/bco/objects/create/',
-			'bcoapi_objects_read': 'http://beta.aws.biochemistry.gwu.edu/bco/objects/read/',
-			'userdb_core_users': 'https://beta.aws.biochemistry.gwu.edu/core/users/',
+			'bcoapi_accounts_new': 'http://beta.portal.aws.biochemistry.gwu.edu/api/accounts/new/',
+			'bcoapi_description_permissions': 'http://beta.portal.aws.biochemistry.gwu.edu/api/description/permissions/',
+			'bcoapi_objects_create': 'http://beta.portal.aws.biochemistry.gwu.edu/bco/objects/create/',
+			'bcoapi_objects_read': 'http://beta.portal.aws.biochemistry.gwu.edu/bco/objects/read/',
+			'userdb_core_users': 'https://beta.portal.aws.biochemistry.gwu.edu/core/users/',
 			'userdb_tokenauth': 'https://beta.portal.aws.biochemistry.gwu.edu/token-auth/'
 		}
 	};
