@@ -25,7 +25,7 @@ function App() {
 	// ----- DEVELOPMENT / PRODUCTION SWITCH ----- //
 
 	// Set the switch.
-	const production = true;
+	const production = false;
 
 
 
@@ -34,18 +34,20 @@ function App() {
 	// Define hostnames here.
 	const hostnames = {
 		'development': {
-			'bcoapi_accounts_new': 'http://127.0.0.1:8000/accounts/new/',
+			'bcoapi_accounts_new': 'http://127.0.0.1:8000/api/accounts/new/',
 			'bcoapi_description_permissions': 'http://127.0.0.1:8000/api/description/permissions/',
-			'bcoapi_objects_create': 'http://127.0.0.1:8000/bco/objects/create/',
-			'bcoapi_objects_read': 'http://127.0.0.1:8000/bco/objects/read/',
-			'userdb_users': 'http://127.0.0.1:8080/users/',
-			'userdb_tokenauth': 'http://127.0.0.1:8080/token-auth/'
+			'bcoapi_objects_create': 'http://127.0.0.1:8000/api/objects/create/',
+			'bcoapi_objects_read': 'http://127.0.0.1:8000/api/objects/read/',
+			'userdb_addapi': 'http://127.0.0.1:8080/users/add_api/',
+			'userdb_users': 'http://127.0.0.1:8080/users/list/',
+			'userdb_tokenauth': 'http://127.0.0.1:8080/users/token-auth/'
 		},
 		'production': {
 			'bcoapi_accounts_new': 'http://beta.portal.aws.biochemistry.gwu.edu/api/accounts/new/',
 			'bcoapi_description_permissions': 'http://beta.portal.aws.biochemistry.gwu.edu/api/description/permissions/',
 			'bcoapi_objects_create': 'http://beta.portal.aws.biochemistry.gwu.edu/api/objects/create/',
 			'bcoapi_objects_read': 'http://beta.portal.aws.biochemistry.gwu.edu/api/objects/read/',
+			'userdb_addapi': 'https://beta.portal.aws.biochemistry.gwu.edu/users/add_api/',
 			'userdb_users': 'https://beta.portal.aws.biochemistry.gwu.edu/users/list/',
 			'userdb_tokenauth': 'https://beta.portal.aws.biochemistry.gwu.edu/users/token-auth/'
 		}

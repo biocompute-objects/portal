@@ -82,6 +82,7 @@ const RegisterView = () => {
         method: 'POST',
         body: JSON.stringify({
             email: formRef['current']['values']['email'],
+            hostname: fc['sending']['userdb_addapi'],
             token: responseToken
         }),
         headers: {
