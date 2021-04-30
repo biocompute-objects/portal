@@ -1,6 +1,6 @@
 [Unit]
 Description=portalusers gunicorn daemon
-Requires=portalusers_gunicorn.socket
+Requires=portal_users.socket
 After=network.target
 
 [Service]
