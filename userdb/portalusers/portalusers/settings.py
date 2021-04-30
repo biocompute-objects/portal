@@ -26,8 +26,7 @@ SECRET_KEY = 'g6$hm-04*#=aedyrt@1nvig1a0bdzm_gmxfnl0k*+0q0ostl2c'
 DEBUG = True
 
 # TODO: Is this necessary?
-ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
-#ALLOWED_HOSTS = ['beta.portal.aws.biochemistry.gwu.edu']
+ALLOWED_HOSTS = ['beta.portal.aws.biochemistry.gwu.edu', '127.0.0.1', 'localhost']
 
 
 # Application definition
