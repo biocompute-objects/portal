@@ -29,9 +29,9 @@ const routes = () => {
 	  {
     path: '/',
 
-    element: isLoggedIn ? <MainLayout /> : <Navigate to="/login" />,
+    element: <MainLayout /> ,
     children: [
-      { path: 'account', element: <AccountView /> },
+      { path: 'account', element: isLoggedIn ? <AccountView /> : <Navigate to="/login" /> },
       { path: 'objects', element: <ObjectsListView /> },
       { path: 'documentation', element: <Documentation />, children:[
           { path: '', element: ''}
@@ -45,16 +45,13 @@ const routes = () => {
           { path: '', element: ''}
         ]
       },
-      { path: 'community', element: <Community />, children: [
-          { path: ':prefix_:state_:uuid', element: <BuilderView /> }
-        ]
-      },
+      { path: 'community', element: <Community /> },
       { path: 'validator', element: <ValidatorView /> }
     ]
   },
   {
     path: '/',
-    element: isLoggedIn ? <DashboardLayout /> : <Navigate to="/login" />,
+    element: <DashboardLayout />,
     children: [
       { path: 'dashboard', element: <HomeView /> },
       { path: '', element: <Navigate to="/dashboard" /> }
@@ -62,14 +59,14 @@ const routes = () => {
   },
   {
     path: '/',
-    element: isLoggedIn ? <ObjectViewLayout /> : <Navigate to="/login" />,
+    element: <ObjectViewLayout /> ,
     children: [
       { path: ':prefix_:id/:id2.:id3', element: <ObjectView /> }
     ]
   },
   {
     path: '/',
-    element: !isLoggedIn ? <MainLayout /> : <Navigate to="/dashboard" />,
+    element: <MainLayout />,
     children: [
       { path: 'documentation', element: <Documentation />, children:[
           { path: '', element: ''}
