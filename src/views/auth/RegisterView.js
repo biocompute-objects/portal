@@ -133,7 +133,7 @@ const RegisterView = () => {
       })}
       onSubmit={(values) => {
         
-        fetch(fc['sending']['userdb_core_users'], {
+        fetch(fc['sending']['userdb_users'], {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
