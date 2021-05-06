@@ -27,68 +27,69 @@ const routes = () => {
 	console.log('message',isLoggedIn);	
   return [
 	  {
-    path: '/',
-
-    element: <MainLayout /> ,
-    children: [
-      { path: 'account', element: isLoggedIn ? <AccountView /> : <Navigate to="/login" /> },
-      { path: 'objects', element: <ObjectsListView /> },
-      { path: 'documentation', element: <Documentation />, children:[
-          { path: '', element: ''}
-        ]
-      },
-      { path: 'resources', element: <Resources />, children:[
-          { path: '', element: ''}
-        ]
-      },
-      { path: 'documentation', element: <Documentation />, children:[
-          { path: '', element: ''}
-        ]
-      },
-      { path: 'community', element: <Community /> },
-      { path: 'validator', element: <ValidatorView /> }
-    ]
-  },
-  {
-    path: '/',
-    element: <DashboardLayout />,
-    children: [
-      { path: 'dashboard', element: <HomeView /> },
-      { path: '', element: <Navigate to="/dashboard" /> }
-    ]
-  },
-  {
-    path: '/',
-    element: <ObjectViewLayout /> ,
-    children: [
-      { path: ':prefix_:id/:id2.:id3', element: <ObjectView /> }
-    ]
-  },
-  {
-    path: '/',
-    element: <MainLayout />,
-    children: [
-      { path: 'documentation', element: <Documentation />, children:[
-          { path: '', element: ''}
-        ]
-      },
-      { path: 'login', element: <LoginView /> },
-      { path: 'register', element: <RegisterView /> }
-    ]
-  },
-  {
-    path: '/',
-    element: <MainLayout />,
-    children: [
-      { path: 'documentation', element: <Documentation />, children:[
-          { path: '', element: ''}
-        ]
-      },
-      { path: '404', element: <Navigate to="/login" />},
-      { path: '*', element: <Navigate to="/login" /> }
-    ]
-  }
-]};
+      path: '/',
+      element: <MainLayout /> ,
+      children: [
+        { path: '', element: <Navigate to="/dashboard" /> },
+        { path: 'account', element: isLoggedIn ? <AccountView /> : <Navigate to="/login" /> },
+        { path: 'objects', element: <ObjectsListView /> },
+        { path: 'documentation', element: <Documentation />, children:[
+            { path: '', element: ''}
+          ]
+        },
+        { path: 'resources', element: <Resources />, children:[
+            { path: '', element: ''}
+          ]
+        },
+        { path: 'documentation', element: <Documentation />, children:[
+            { path: '', element: ''}
+          ]
+        },
+        { path: 'community', element: <Community /> },
+        { path: 'validator', element: <ValidatorView /> }
+      ]
+    },
+    {
+      path: '/',
+      element: <DashboardLayout />,
+      children: [
+        { path: 'dashboard', element: <HomeView /> },
+        { path: '', element: <Navigate to="/dashboard" /> }
+      ]
+    },
+    {
+      path: '/',
+      element: <ObjectViewLayout /> ,
+      children: [
+        { path: ':prefix_:id/:id2.:id3', element: <ObjectView /> }
+      ]
+    },
+    {
+      path: '/',
+      element: <MainLayout />,
+      children: [
+        { path: 'documentation', element: <Documentation />, children:[
+            { path: '', element: ''}
+          ]
+        },
+        { path: 'login', element: <LoginView /> },
+        { path: 'register', element: <RegisterView /> }
+      ]
+    },
+    {
+      path: '/',
+      element: <MainLayout />,
+      children: [
+        { path: 'documentation', element: <Documentation />, children:[
+            { path: '', element: ''}
+          ]
+        },
+        { path: '404', element: isLoggedIn ? <Navigate to="/dashboard" /> : <Navigate to="/login" /> },
+        { path: '*', element: isLoggedIn ? <Navigate to="/dashboard" /> : <Navigate to="/login" /> }
+      ]
+    }
+  ]
+};
 
 
 // No login.

@@ -46,7 +46,22 @@ const ObjectsListView = () => {
   const getObjectsListing = () => {
     
     // First get the API info.
-    const ApiInfo = JSON.parse(localStorage.getItem('user'))['apiinfo'];
+    var ApiInfo = JSON.parse(localStorage.getItem('user'));
+
+    // If there is no user info stored, assume we're the anonymous user.
+    if(typeof(ApiInfo) === null) {
+
+      // Use the anon token, which is publicly available.
+      ApiInfo = [{
+
+      }];
+
+    } else {
+
+      // There was a user.
+      ApiInfo = ApiInfo['apiinfo'];
+
+    }
 
     // For each host, get the information.
     ApiInfo.map(item => {
