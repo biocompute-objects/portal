@@ -1,5 +1,7 @@
 #!/usr/bin/bash
 
+deactivate
+
 clear
 
 find . -path "./migrations/*.py" -not -name "__init__.py" -delete
