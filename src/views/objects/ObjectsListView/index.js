@@ -53,8 +53,9 @@ const ObjectsListView = () => {
 
       // Call the API using the server information
       // associated with the user.
+      // fetch('http://127.0.0.1:8000/api/objects/token/', {
       // 'http://' + item['hostname'] + '/api/objects/token/'
-      fetch('http://127.0.0.1:8000/api/objects/token/', {
+      fetch('https://' + item['hostname'] + '/api/objects/token/', {
         method: 'POST',
         body: JSON.stringify({
           token: item['token']
