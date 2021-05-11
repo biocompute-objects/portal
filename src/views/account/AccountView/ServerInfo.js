@@ -66,7 +66,7 @@ function stableSort(array, comparator) {
 const headCells = [
   { id: 'servername', numeric: false, disablePadding: true, label: 'Server Name' },
   { id: 'hostname', numeric: true, disablePadding: false, label: 'Hostname' },
-  { id: 'credentials', numeric: false, disablePadding: false, label: 'Credentials' },
+  { id: 'token', numeric: false, disablePadding: false, label: 'Token' },
   { id: 'permissions', numeric: false, disablePadding: false, label: 'Permissions' },
   { id: 'status', numeric: false, disablePadding: false, label: 'Status' },
 ];
@@ -222,8 +222,8 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 // For creating user data.
-function createData(servername, hostname, credentials, permissions, status) {
-  return { servername, hostname, credentials, permissions, status };
+function createData(servername, hostname, token, permissions, status) {
+  return { servername, hostname, token, permissions, status };
 }
 
 export default function EnhancedTable({ onClickOpen }) {
@@ -256,12 +256,13 @@ export default function EnhancedTable({ onClickOpen }) {
 
     // Get the permissions.
     setPermissions(JSON.parse(localStorage.getItem('user'))['apiinfo']);
+
     permissions.map(perm => {
       perms.push(
         createData(
           perm['human_readable_hostname'],
           perm['hostname'],
-          perm['username'],
+          perm['token'],
           perm['other_info']['group_permissions'],
           'Active'
         )
@@ -270,6 +271,7 @@ export default function EnhancedTable({ onClickOpen }) {
 
     // Update the server info.
     setRows(perms);
+    console.log('rows:', rows)
 
     // The server added flag is no longer necessary.
     setServerAdded(false);
@@ -365,13 +367,14 @@ export default function EnhancedTable({ onClickOpen }) {
                           </TableCell>
                           <TableCell align="left">{row.hostname}</TableCell>
                           <TableCell align="left">
-                            <Button
+                            {/* <Button
                               color="primary"
                               onClick={() => setShowing(true)}
                               variant="contained"
                             >
                               Set credentials
-                            </Button>
+                            </Button> */}
+                            {row.token}
                           </TableCell>
                           <TableCell align="left">
                             <Button

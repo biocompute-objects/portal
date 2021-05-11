@@ -482,7 +482,7 @@ export default function Results({ rowInfo }) {
                         <BcoPreviewPopup bcoLink={row.objectId} />
                       </TableCell> */}
                       <TableCell component="th" id={labelId} scope="row" padding="none">
-                        <Linker color = { 'blueLink' } uri={ window.location.href.indexOf(':3000') !== -1 ? addPortNumber(row.objectId) : row.objectId } accessionOnly = { true } state = { row.state } />
+                        <Linker color = { 'blueLink' } uri = { row.objectId } accessionOnly = { true } state = { row.state } token = { row.objectIdToken } />
                       </TableCell>
                       <TableCell>{row.name}</TableCell>
                       <TableCell>{row.state}</TableCell>

@@ -20,12 +20,16 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 // Pass an object and whether or not its keys are properties.
-export default function Linker({ uri, color, accessionOnly, state }) {  
+export default function Linker({ uri, color, accessionOnly, state, token }) {  
 
   const svgClasses = useStyles();
 
+  // Strip out the URI protocol so that we
+  // can pass a request to the builder.
+  
   // The URI to use.
   var uriProcessed = uri;
+  var builderLink = '';
   
   // Accession only or full URI?
   if(accessionOnly === true) {
@@ -36,6 +40,8 @@ export default function Linker({ uri, color, accessionOnly, state }) {
       // Keep only the last part of the URI.
       uriProcessed = uriProcessed.split('/');
       uriProcessed = uriProcessed.slice(-1)[0];
+
+      builderLink = uri.split('://')[0] + '/' + uri.split('://')[1];
       console.log('uriProcessed:', uriProcessed)
 
     } else if(state === 'PUBLISHED') {
@@ -63,9 +69,14 @@ export default function Linker({ uri, color, accessionOnly, state }) {
   // ----- Linker ----- //
 
 
+
+
   return(
-    <Link className={svgClasses[color]} href={uri} target="_blank">
-      {uriProcessed}
+    <Link className = { svgClasses[color] } href = { 'http://127.0.0.1:3000/builder/' + builderLink } target="_blank">
+      { uriProcessed }
     </Link>
+    // <Link className = { svgClasses[color] } href = { uri + '/linked/' + token } target="_blank">
+    //   { uriProcessed }
+    // </Link>
   );
 }

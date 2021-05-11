@@ -39,57 +39,61 @@ export default function BuilderView() {
 
   // Set the URL requested.
   var parsePath = useLocation().pathname;
+
+  // Take everything after the builder section.
+  var nonBuilder = parsePath.split('/builder/')[1].replace('/', '://')
+
   
-  // Are we working with a new draft object or an existing one?
-  if(parsePath.indexOf('DRAFT') === -1) {
+  // // Are we working with a new draft object or an existing one?
+  // if(parsePath.indexOf('DRAFT') === -1) {
 
-    // New object.  We have to wait for the user to
-    // ask for a new object ID using a specified prefix.
+  //   // New object.  We have to wait for the user to
+  //   // ask for a new object ID using a specified prefix.
 
-  } else {
+  // } else {
     
-    // Check against the REGEX to determine the table
-    // and object ID.
+  //   // Check against the REGEX to determine the table
+  //   // and object ID.
 
-    // Simply check for two underscores for a draft table,
-    // otherwise we have a publish table.
+  //   // Simply check for two underscores for a draft table,
+  //   // otherwise we have a publish table.
 
-    var tableName = '';
+  //   var tableName = '';
 
-    if(parsePath.indexOf('_') != parsePath.lastIndexOf('_')) {
+  //   if(parsePath.indexOf('_') != parsePath.lastIndexOf('_')) {
 
-      // Draft table.
-      tableName = parsePath.split('/')[2].split('_');
-      tableName = [tableName[0], tableName[1]].join('_').toLowerCase();
+  //     // Draft table.
+  //     tableName = parsePath.split('/')[2].split('_');
+  //     tableName = [tableName[0], tableName[1]].join('_').toLowerCase();
 
-    } else {
+  //   } else {
 
-      // Publish table.
-      tableName = parsePath.split('/')[2].split('_')[0].toLowerCase() + '_publish';
+  //     // Publish table.
+  //     tableName = parsePath.split('/')[2].split('_')[0].toLowerCase() + '_publish';
 
-    }
+  //   }
 
-    // Remove the 'builder' part of the URI.
+  //   // Remove the 'builder' part of the URI.
 
-    // First, see where the 'builder' part is.
-    const builderIndex = window.location.href.indexOf('/builder');
+  //   // First, see where the 'builder' part is.
+  //   const builderIndex = window.location.href.indexOf('/builder');
 
-    // Now drop this part of the string.
-    var objectId = window.location.href.substr(0, builderIndex) + window.location.href.substr(builderIndex+8, window.location.href.length);
+  //   // Now drop this part of the string.
+  //   var objectId = window.location.href.substr(0, builderIndex) + window.location.href.substr(builderIndex+8, window.location.href.length);
 
-    console.log("===================================", objectId)
-    // Mods for local dev
-    if(objectId.indexOf(':3000') !== -1) {
-        objectId = objectId.substring(0, objectId.indexOf(':3000')) +
-        objectId.substring(objectId.indexOf(':3000') + 5, objectId.length)
-    console.log("===================================", objectId)
-    }
-  }
+  //   console.log("===================================", objectId)
+  //   // Mods for local dev
+  //   if(objectId.indexOf(':3000') !== -1) {
+  //       objectId = objectId.substring(0, objectId.indexOf(':3000')) +
+  //       objectId.substring(objectId.indexOf(':3000') + 5, objectId.length)
+  //   console.log("===================================", objectId)
+  //   }
+  // }
   
   return (
     <div>
       <Tools setSaving={setSaveDraft} setPublishing={setPublish} compCheck={complianceCheck} setCompCheck={setComplianceCheck}/>
-      <Views saving={saveDraft} setSaving={setSaveDraft} publishing={publish} setPublishing={setPublish} compCheck={complianceCheck} table={tableName} objectId={objectId} />
+      <Views saving={saveDraft} setSaving={setSaveDraft} publishing={publish} setPublishing={setPublish} compCheck={complianceCheck} table={tableName} objectId={nonBuilder} />
     </div>
   );
 }

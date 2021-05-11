@@ -36,8 +36,8 @@ const ObjectsListView = () => {
   const [loading, setLoading] = useState(true);
   const [rows, setRows] = useState();
 
-  function createData(objectId, name, state, source, lastUpdated) {
-      return { objectId, name, state, source, lastUpdated };
+  function createData(objectId, objectIdToken, name, state, source, lastUpdated) {
+      return { objectId, objectIdToken, name, state, source, lastUpdated };
   }
 
   // Row data
@@ -69,8 +69,8 @@ const ObjectsListView = () => {
       // Call the API using the server information
       // associated with the user.
       // fetch('http://127.0.0.1:8000/api/objects/token/', {
-      // 'http://' + item['hostname'] + '/api/objects/token/'
-      fetch('https://' + item['hostname'] + '/api/objects/token/', {
+      // 'https://' + item['hostname'] + '/api/objects/token/'
+      fetch('http://' + item['hostname'] + ':8000/api/objects/token/', {
         method: 'POST',
         body: JSON.stringify({
           token: item['token']
@@ -89,7 +89,7 @@ const ObjectsListView = () => {
           // Go over each object for each table.
           for(let objectInfo of data[tableName]) {
             console.log('objectInfo ', objectInfo)
-            rowData.push(createData(objectInfo['fields']['object_id'], cF(cF(objectInfo.fields.contents.provenance_domain).name), objectInfo['fields']['state'], item['human_readable_hostname'], '01/29/21'));
+            rowData.push(createData(objectInfo['fields']['object_id'], item['token'], cF(cF(objectInfo.fields.contents.provenance_domain).name), objectInfo['fields']['state'], item['human_readable_hostname'], '01/29/21'));
           }
           
           // Push data.
