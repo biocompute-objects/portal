@@ -25,6 +25,7 @@ const useStyles = makeStyles((theme) => ({
 export const ParentContext = React.createContext();
 
 const AccountView = () => {
+  
   const classes = useStyles();
 
   // State for the add server and group dialogs.

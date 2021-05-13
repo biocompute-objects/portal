@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 // Rendering URL parameters.
 // Source: https://stackoverflow.com/a/60312798
@@ -27,6 +27,9 @@ export default function BuilderView() {
   // Could use context handler, but for now just pass directly.
   const [complianceCheck, setComplianceCheck] = useState(0);
 
+  // For downloading drafts.
+  const [downloadDraft, setDownloadDraft] = useState(0);
+
   // For saving drafts.
   const [saveDraft, setSaveDraft] = useState(0);
 
@@ -40,9 +43,24 @@ export default function BuilderView() {
   // Set the URL requested.
   var parsePath = useLocation().pathname;
 
-  // Take everything after the builder section.
-  var nonBuilder = parsePath.split('/builder/')[1].replace('/', '://')
+  // See if we're dealing with a new or existing draft.
+  // TODO: fix '/' re-directs in routes.js.
+  const splitUp = parsePath.split('builder');
+  var nonBuilder = '';
 
+  if(splitUp[splitUp.length - 1] == "") {
+
+    // New draft.
+    nonBuilder = 'draft';
+
+  } else {
+
+    // Take everything after the builder section.
+    nonBuilder = parsePath.split('/builder/')[1].replace('/', '://');
+
+  }
+
+  
   
   // // Are we working with a new draft object or an existing one?
   // if(parsePath.indexOf('DRAFT') === -1) {
@@ -92,8 +110,8 @@ export default function BuilderView() {
   
   return (
     <div>
-      <Tools setSaving={setSaveDraft} setPublishing={setPublish} compCheck={complianceCheck} setCompCheck={setComplianceCheck}/>
-      <Views saving={saveDraft} setSaving={setSaveDraft} publishing={publish} setPublishing={setPublish} compCheck={complianceCheck} table={tableName} objectId={nonBuilder} />
+      <Tools setDownloading = { setDownloadDraft } setSaving = { setSaveDraft } setPublishing = { setPublish } compCheck = { complianceCheck } setCompCheck = { setComplianceCheck } objectId = { nonBuilder } />
+      <Views downloading = { downloadDraft } setDownloading = { setDownloadDraft } saving = { saveDraft } setSaving = { setSaveDraft } publishing = { publish } setPublishing = { setPublish } compCheck = { complianceCheck } objectId = { nonBuilder } />
     </div>
   );
 }

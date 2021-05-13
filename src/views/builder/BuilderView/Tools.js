@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Accordion from '@material-ui/core/Accordion';
 import AccordionSummary from '@material-ui/core/AccordionSummary';
@@ -15,11 +15,11 @@ import SearchField from './Tools/SearchField'
 // Logic field
 import LogicField from './Tools/LogicField'
 
-// Servers
-import Servers from './Tools/Servers'
+// Sharing object
+import Sharing from './Tools/Sharing'
 
-// Groups
-import Groups from './Tools/Groups'
+// Save to server
+import SaveServer from './Tools/SaveServer'
 
 // Publish button
 import Button from '@material-ui/core/Button'
@@ -39,15 +39,23 @@ const useStyles = makeStyles((theme) => ({
     width: '100%',
   },
   heading: {
-    fontSize: theme.typography.pxToRem(15),
     fontWeight: theme.typography.fontWeightRegular,
     marginLeft: 'auto',
     marginRight: 'auto'
   },
 }));
 
-export default function Tools({ setSaving, setPublishing, compCheck, setCompCheck }) {
+export default function Tools({ setDownloading, setSaving, setPublishing, compCheck, setCompCheck, objectId }) {
+  
+  // Saving information.
+  const [saveTo, setSaveTo] = React.useState([]);
+  const [writtenToServer, setWrittenToServer] = React.useState(false);
+  
   const classes = useStyles();
+
+  useEffect(() => {
+    console.log(saveTo)
+  }, [saveTo])
 
   return (
     <div className={classes.root}>
@@ -57,7 +65,7 @@ export default function Tools({ setSaving, setPublishing, compCheck, setCompChec
           aria-controls="panel1a-content"
           id="panel1a-header"
         >
-          <Typography className={classes.heading}>Object Tools</Typography>
+          <Typography className={classes.heading} variant = 'h2'>Draft Sharing and Publishing</Typography>
         </AccordionSummary>
         <AccordionDetails>
           <Grid
@@ -156,20 +164,54 @@ export default function Tools({ setSaving, setPublishing, compCheck, setCompChec
           </Grid> */}
           <Grid
             item
-            lg={3}
+            lg={8}
             md={12}
             xs={12}
           >
           <Card>
             <CardContent>
-              <Button variant="contained" color="secondary" disableElevation fullWidth onClick={() => setSaving(1)}>
+              <Typography gutterBottom variant = 'h1'>
+                Group Sharing
+              </Typography>
+              <Sharing objectId = { objectId } />
+            </CardContent>
+          </Card>
+          </Grid>
+          <Grid
+            item
+            lg={4}
+            md={12}
+            xs={12}
+          >
+          <Card>
+            <CardContent>
+              <Typography gutterBottom variant = 'h1'>
+                Saving and Publishing
+              </Typography>
+              <SaveServer savingFunction = { setSaveTo }/>
+              <Typography>
+                &nbsp;
+              </Typography>
+              <Button variant="contained" color="secondary" disableElevation disabled = {saveTo.length === 0 ? true : false} fullWidth onClick={() => setSaving(1)}>
                 SAVE DRAFT
               </Button>
               <Typography>
                 &nbsp;
               </Typography>
-              <Button variant="contained" color="primary"disableElevation fullWidth onClick={() => setPublishing(1)}>
-                PUBLISH
+              <Button variant="contained" color="primary" disableElevation disabled = {saveTo.length === 0 ? true : false} fullWidth onClick={() => setPublishing(1)}>
+                PUBLISH DRAFT
+              </Button>
+              <Typography>
+                &nbsp;
+              </Typography>
+              <Button variant="contained" color="primary" disableElevation fullWidth onClick={() => setDownloading(1)}>
+                DOWNLOAD DRAFT
+              </Button>
+              <Typography>
+                &nbsp;
+              </Typography>
+              <Button variant="contained" color="secondary" disableElevation disabled = { !writtenToServer } fullWidth>
+                DELETE DRAFT
               </Button>
             </CardContent>
           </Card>

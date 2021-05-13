@@ -1,3 +1,4 @@
+from django.db.models.query import QuerySet
 from rest_framework import serializers
 from rest_framework_jwt.settings import api_settings
 from django.contrib.auth.models import User
@@ -13,6 +14,9 @@ from django.contrib.auth.models import Group
 # API serializer
 class ApiSerializer(serializers.ModelSerializer):
 
+    # Only if the username on portal and the API are the same...
+    # username = serializers.SlugRelatedField(slug_field = 'username', queryset = User.objects.all())
+    
     class Meta:
         model = ApiInfo
         fields = ('username', 'hostname', 'human_readable_hostname', 'token', 'other_info',)

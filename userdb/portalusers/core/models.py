@@ -13,10 +13,13 @@ from django.contrib.auth.models import User
 # API Information
 class ApiInfo(models.Model):
 
-    # Set the user.
-    username = models.ForeignKey(User, on_delete = models.CASCADE, related_name = 'custom_user')
+    # Set the local user.
+    local_username = models.ForeignKey(User, on_delete = models.CASCADE, related_name = 'custom_user')
     
     # Servers for which the user has keys.
+
+    # The username on the server.
+    username = models.CharField(blank = True, max_length = 1000)
 
     # max_length = 15 because hostnames are xxx.xxx.xxx.xxx
     hostname = models.CharField(blank = True, max_length = 15)

@@ -65,6 +65,10 @@ function a11yProps(index) {
 }
 
 const useStyles = makeStyles((theme) => ({
+  loading: {
+    marginTop: '100px',
+    textAlign: 'center'
+  },
   root: {
     flexGrow: 1,
     backgroundColor: theme.palette.background.paper,
@@ -72,12 +76,10 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Views({ saving, setSaving, publishing, setPublishing, compCheck, table, objectId }) {
+export default function Views({ downloading, setDownloading, saving, setSaving, publishing, setPublishing, compCheck, objectId }) {
   
   console.log('%%%%%%%%')
   console.log(compCheck)
-  console.log(table)
-  console.log('typeof(table):', typeof(table))
   console.log(objectId)
   console.log('##########')
   
@@ -162,45 +164,44 @@ export default function Views({ saving, setSaving, publishing, setPublishing, co
     })
   }
   
+  
+  // TODO: Change to POST request later.
+  // TODO: Don't use wheel key!
   const getObjectInfo = () => {
     
     // Call the API.
-    fetch(fc['sending']['bcoapi_objects_read'], {
+    fetch(objectId, {
       
-      method: 'POST',
-      body: JSON.stringify({
-        POST_read_object: [
-            {
-                table: table, 
-                object_id: objectId
-            }
-        ]
-
-    }),
-    headers: {
-      "Content-type": "application/json; charset=UTF-8"
-    }
+      method: 'GET',
+      headers: {
+        "Authorization": "Token a8e6776bd146ad65b405f0b9cbaaa44c93baf780",
+        "Content-type": "application/json; charset=UTF-8"
+      }
     }).then(response=>response.json()).then(data=>{
       
       console.log('+++++++++++++++++', data);
 
       // Get the bulk response.
-      const bulkResponse = data.POST_read_object[0];
+      const bulkResponse = data;
 
-      // Was the object found?
-      if(bulkResponse.request_code === '200') {
+      // We found the object, so set the data.
+      setObjectInfo(JSON.parse(bulkResponse)[0]['fields']['contents']);
+      setObjectFound(true);
+
+      // // Was the object found?
+      // if(bulkResponse.request_code === '200') {
         
-        // We found the object, so set the data.
-        setObjectInfo(bulkResponse.content);
-        setObjectFound(true);
+      //   // We found the object, so set the data.
+      //   setObjectInfo(JSON.parse(bulkResponse));
+      //   setObjectFound(true);
 
-      } else {
+      // } else {
 
-        // There was a problem, so show what it was.
-        setObjectInfo(bulkResponse.message);
-        setObjectFound(false);
+      //   // There was a problem, so show what it was.
+      //   setObjectInfo(bulkResponse.message);
+      //   setObjectFound(false);
   
-      }
+      // }
 
       // We're no longer loading.
       setLoading(false);
@@ -210,17 +211,36 @@ export default function Views({ saving, setSaving, publishing, setPublishing, co
   
   useEffect(() => {
 
+    //TODO: This has been fixed with proper routing...
+    
     // Default to the loading state.
     setLoading(true);
 
-    // Were a table and object ID provided?
-    if(typeof(table) === 'undefined' || typeof(objectId) === 'undefined') {
+    // // Were a table and object ID provided?
+    // if(typeof(table) === 'undefined' || typeof(objectId) === 'undefined') {
 
-      // We need a new draft object.
-      newDraftObject();
+    //   // We need a new draft object.
+    //   newDraftObject();
 
-    } else {
+    // } else {
       
+    //   // Look for the object ID provided.
+    //   getObjectInfo();
+
+    // }
+
+    // Are we working with a new or existing draft?
+    if(objectId === 'draft') {
+
+      // Set generic object information.
+      setObjectInfo(JSON.parse('{"spec_version":"IEEE","etag":"0","provenance_domain":{"name":"","version":"","created":"","modified":"","contributors":[{"contribution":["createdBy"],"name":""}],"license":""},"usability_domain":[""],"description_domain":{"keywords":[""],"pipeline_steps":[{"step_number":0,"name":"","description":"","input_list":[{"uri":{"uri":""}}],"output_list":[{"uri":{"uri":""}}]}]},"execution_domain":{"script":[{"uri":{"uri":""}}],"script_driver":"","software_prerequisites":[{"name":"","version":"","uri":{"uri":""}}],"external_data_endpoints":[{"name":"","url":""}],"environment_variables":{}},"io_domain":{"input_subdomain":[{"uri":{"uri":""}}],"output_subdomain":[{"mediatype":"","uri":{"uri":""}}]},"parametric_domain":[{"param":"","value":"","step":""}]}'));
+
+      // We're no longer loading.
+      setObjectFound(true);
+      setLoading(false);
+    
+    } else {
+
       // Look for the object ID provided.
       getObjectInfo();
 
@@ -256,8 +276,10 @@ export default function Views({ saving, setSaving, publishing, setPublishing, co
   return (
     loading
       ?
-        <div>
-          <Typography>Loading...</Typography>
+        <div className = { classes.loading }>
+          <Typography variant = 'h1'>
+            Loading...
+          </Typography>
         </div>
       :
         objectFound
@@ -273,10 +295,10 @@ export default function Views({ saving, setSaving, publishing, setPublishing, co
                 Object ID: {objectId}
               </Typography> */}
               <TabPanel value={componentView} index={0}>
-                <ColorCoded saving={saving} setSaving={setSaving} publishing={publishing} setPublishing={setPublishing} compCheck={compCheck} contents={objectInfo} />
+                <ColorCoded downloading={componentView === 0 ? downloading : null} setDownloading={setDownloading} saving={saving} setSaving={setSaving} publishing={publishing} setPublishing={setPublishing} compCheck={compCheck} contents={objectInfo} />
               </TabPanel>
               <TabPanel value={componentView} index={1}>
-                <Raw saving={saving} setSaving={setSaving} publishing={publishing} setPublishing={setPublishing} compCheck={compCheck} contents={objectInfo} />
+                <Raw downloading={componentView === 1 ? downloading : null} setDownloading={setDownloading} saving={saving} setSaving={setSaving} publishing={publishing} setPublishing={setPublishing} compCheck={compCheck} contents={objectInfo} />
               </TabPanel>
             </div>
           :

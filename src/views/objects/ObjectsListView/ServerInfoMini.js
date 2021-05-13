@@ -12,6 +12,7 @@ import { Typography } from '@material-ui/core';
 
 // For new drafts
 import { Button } from '@material-ui/core';
+import { Link } from 'react-router-dom';
 
 const BootstrapInput = withStyles((theme) => ({
   root: {
@@ -121,7 +122,7 @@ export default function ServerDropdown() {
 
   return (
     <div>
-      <Typography>
+      {/* <Typography>
           Select a server and a prefix below to draft a new object.
       </Typography>
       <FormControl className={classes.margin}>
@@ -142,15 +143,17 @@ export default function ServerDropdown() {
               )
           }
         </Select>
-      </FormControl>
+      </FormControl> */}
       <FormControl className={classes.margin}>
-        <Button 
-            className={classes.exportButton}
-            color="primary"
-            variant="contained"
-            >
-            New Draft >
-        </Button>
+        <Link to = '/builder'>
+          <Button 
+              className={classes.exportButton}
+              color="primary"
+              variant="contained"
+              >
+              New Draft
+          </Button>
+        </Link>
       </FormControl>
     </div>
   );

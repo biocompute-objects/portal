@@ -7,6 +7,9 @@ import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
 
 const useStyles = makeStyles({
+  invisible: {
+    display: 'none'
+  },
   root: {
     minWidth: 275,
   },
@@ -23,12 +26,12 @@ export default function Permissions({ permissionSet }) {
   const classes = useStyles();
 
   return (
-    <Card className={classes.root}>
+    <Card className = {classes.root}>
       <CardContent>
         {
-          permissionSet.map(perm => (
+          Object.keys(permissionSet).map(perm => (
             <Typography variant="body2" component="p">
-              {perm}
+              {perm + ' - (' + (permissionSet[perm]).join(', ') + ')'}
             </Typography>
           ))
         }

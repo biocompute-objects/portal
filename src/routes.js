@@ -61,6 +61,7 @@ const routes = () => {
       path: '/builder',
       element: <MainLayout />,
       children: [
+        { path: '', element: <BuilderView />}, 
         { path: '*', element: <BuilderView /> }
       ]
     },

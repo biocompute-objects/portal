@@ -72,7 +72,7 @@ export default function Linker({ uri, color, accessionOnly, state, token }) {
 
 
   return(
-    <Link className = { svgClasses[color] } href = { 'http://127.0.0.1:3000/builder/' + builderLink } target="_blank">
+    <Link className = { svgClasses[color] } href = { 'http://127.0.0.1:3000/builder/' + builderLink + '/linked/' + token } target="_blank">
       { uriProcessed }
     </Link>
     // <Link className = { svgClasses[color] } href = { uri + '/linked/' + token } target="_blank">

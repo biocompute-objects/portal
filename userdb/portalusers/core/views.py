@@ -32,6 +32,8 @@ def add_api(request):
     """
     
     # Get the user.
+    print('U check')
+    print(UserSerializer(request.user).data)
     user = UserSerializer(request.user).data['username']
 
     # TODO: right way to do this?
@@ -43,7 +45,8 @@ def add_api(request):
 
     # Add the key for the user.
     updated = ApiInfo(
-    	username = user_object, 
+    	local_username = user_object,
+        username = bulk['username'], 
     	hostname = bulk['hostname'], 
     	human_readable_hostname = bulk['human_readable_hostname'], 
     	token = bulk['token'],

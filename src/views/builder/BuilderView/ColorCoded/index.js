@@ -67,7 +67,10 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-const ColorCoded = ({ saving, setSaving, publishing, setPublishing, compCheck, contents }) => {
+const ColorCoded = ({ downloading, setDownloading, saving, setSaving, publishing, setPublishing, compCheck, contents }) => {
+  
+  // As of 5/13/21, there is no relationship between the color-coded
+  // draft view and the raw draft view.
   
   // contents is the actual object information.  
   console.log('^^^^', contents)
@@ -104,6 +107,73 @@ const ColorCoded = ({ saving, setSaving, publishing, setPublishing, compCheck, c
   // State
 
   // TODO: Make sure this is written correctly?
+
+  // For downloading the object.
+  // Source: https://blog.logrocket.com/programmatic-file-downloads-in-the-browser-9a5186298d5c/
+  // Source: https://codepen.io/gladchinda/pen/GemGNG
+  // Source: https://stackoverflow.com/a/26158579/5029459
+
+  function downloadBlob(blob, filename) {
+
+    // Create an object URL for the blob object
+    const url = URL.createObjectURL(blob);
+    
+    // Create a new anchor element
+    const a = document.createElement('a');
+    
+    // Set the href and download attributes for the anchor element
+    // You can optionally set other attributes like `title`, etc
+    // Especially, if the anchor element will be attached to the DOM
+    a.href = url;
+    a.download = filename || 'download';
+    
+    // Click handler that releases the object URL after the element has been clicked
+    // This is required for one-off downloads of the blob content
+    const clickHandler = function() {
+      setTimeout(() => {
+        // Release the object URL
+        URL.revokeObjectURL(url);
+        
+        // Remove the event listener from the anchor element
+        this.removeEventListener('click', clickHandler);
+        
+        // Remove the anchor element from the DOM
+        (this.remove && (this.remove(), 1)) ||
+        (this.parentNode && this.parentNode.removeChild(this));
+      }, 150);
+    };
+    
+    // // Add the click event listener on the anchor element
+    // // Comment out this line if you don't want a one-off download of the blob content
+    a.addEventListener('click', clickHandler, false);
+    
+    // Programmatically trigger a click on the anchor element
+    // Useful if you want the download to happen automatically
+    // Without attaching the anchor element to the DOM
+    // Comment out this line if you don't want an automatic download of the blob content
+    a.click();
+    
+    // Return the anchor element
+    // Useful if you want a reference to the element
+    // in order to attach it to the DOM or use it in some other way
+    return a;
+
+  }
+
+  useEffect(() => {
+    
+    if(downloading === 1) {
+
+      const blob = new Blob([JSON.stringify({"spec_version":"IEEE","provenance_domain":{"name":pdName,"version":pdVersion,"created":pdCreated,"modified":pdModifed,"contributors":pdContributors,"license":pdLicense},"usability_domain":ud,"description_domain":{"keywords":ddKeywords,"pipeline_steps":ddPipelineSteps},"execution_domain":{"script":edScript,"script_driver":edScriptDriver,"software_prerequisites":edSoftwarePrerequisites,"external_data_endpoints":edExternalDataEndpoints,"environment_variables":edEnvironmentVariables},"io_domain":{"input_subdomain":iodInputSubdomain,"output_subdomain":iodOutputSubdomain},"parametric_domain":pad,"error_domain":errd,"extension_domain":exd}, null, 4)], { type: 'application/json' });
+
+      downloadBlob(blob, 'draft_bco.json');
+
+    }
+    
+    // No longer downloading.
+    setDownloading(0)
+  
+  }, [downloading])
 
   // For saving drafts
   useEffect(() => {

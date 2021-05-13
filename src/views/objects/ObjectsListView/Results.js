@@ -164,7 +164,7 @@ const EnhancedTableToolbar = (props) => {
           {numSelected} selected
         </Typography>
       ) : (
-        <Typography className={classes.title} variant="h6" id="tableTitle" component="div">
+        <Typography className={classes.title} variant="h1" id="tableTitle" component="div">
           BioCompute Objects
         </Typography>
       )}

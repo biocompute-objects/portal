@@ -44,6 +44,11 @@ const items_auth = [
     title: 'Community'
   },
   {
+    href: '/builder',
+    icon: UserIcon,
+    title: 'Builder'
+  },
+  {
     href: '/account',
     icon: UserIcon,
     title: 'Account'
@@ -70,6 +75,11 @@ const items_no_auth = [
     href: '/community',
     icon: UserIcon,
     title: 'Community'
+  },
+  {
+    href: '/builder',
+    icon: UserIcon,
+    title: 'Builder'
   },
   {
     href: '/login',
