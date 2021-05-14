@@ -45,7 +45,9 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Tools({ setDownloading, setSaving, setPublishing, compCheck, setCompCheck, objectId }) {
+export default function Tools({ savingLocation, setSavingLocation, setDownloadDraft, setSaveDraft, setPublish, complianceCheck, setComplianceCheck, objectId, serverLock }) {
+  
+  console.log('Here is the objectId:', objectId)
   
   // Saving information.
   const [saveTo, setSaveTo] = React.useState([]);
@@ -53,8 +55,38 @@ export default function Tools({ setDownloading, setSaving, setPublishing, compCh
   
   const classes = useStyles();
 
+  // Listen for an update to the saving location.
+  // useEffect(() => {
+  //   setLocation(saveTo);
+  // }, [saveTo])
+
+  // Define the actions for each click.
+  const clickActions = (which) => {
+
+    if(which === 'saveDraft') {
+
+      setSaveDraft(1)
+
+    } else if(which === 'publishDraft') {
+
+      setPublish(1)
+
+    } else if(which === 'downloadDraft') {
+      
+      setDownloadDraft(1)
+
+    } else {
+
+      console.log('delete')
+
+    }
+
+  }
+
+  // Listen for a change in save location.
+  // We don't use setSavingLocation directly.
   useEffect(() => {
-    console.log(saveTo)
+    setSavingLocation(saveTo);
   }, [saveTo])
 
   return (
@@ -72,96 +104,6 @@ export default function Tools({ setDownloading, setSaving, setPublishing, compCh
           container
           spacing={3}
           >
-          {/* <Grid
-            item
-            lg={3}
-            md={12}
-            xs={12}
-          >
-          <Card>
-            <CardContent>
-              <Typography variant="h3">
-                Generated object ID from prefix
-              </Typography>
-              <Grid
-                alignItems="center"
-                container
-                direction="row"
-                justify="flex-start"
-                spacing={3}
-              >
-                <Grid
-                  item
-                  lg={2}
-                  md={12}
-                  xs={12}
-                >
-                  <LogicField />
-                </Grid>
-              </Grid>
-            </CardContent>
-          </Card>
-          </Grid>
-          <Grid
-            item
-            lg={3}
-            md={12}
-            xs={12}
-          >
-          <Card>
-            <CardContent>
-              <Typography variant="h3">
-                Publish object to server
-              </Typography>
-              <Grid
-                alignItems="center"
-                container
-                direction="row"
-                justify="flex-start"
-                spacing={3}
-              >
-                <Grid
-                  item
-                  lg={2}
-                  md={12}
-                  xs={12}
-                >
-                  <Servers />
-                </Grid>
-              </Grid>
-            </CardContent>
-          </Card>
-          </Grid>
-          <Grid
-            item
-            lg={3}
-            md={12}
-            xs={12}
-          >
-          <Card>
-            <CardContent>
-              <Typography variant="h3">
-                Publish object to group
-              </Typography>
-              <Grid
-                alignItems="center"
-                container
-                direction="row"
-                justify="flex-start"
-                spacing={3}
-              >
-                <Grid
-                  item
-                  lg={2}
-                  md={12}
-                  xs={12}
-                >
-                  <Groups />
-                </Grid>
-              </Grid>
-            </CardContent>
-          </Card>
-          </Grid> */}
           <Grid
             item
             lg={8}
@@ -173,7 +115,13 @@ export default function Tools({ setDownloading, setSaving, setPublishing, compCh
               <Typography gutterBottom variant = 'h1'>
                 Group Sharing
               </Typography>
-              <Sharing objectId = { objectId } />
+              {
+                objectId !== 'newDraft'
+                  ?
+                    <Sharing objectId = { objectId } />
+                  :
+                    null 
+              }
             </CardContent>
           </Card>
           </Grid>
@@ -188,29 +136,29 @@ export default function Tools({ setDownloading, setSaving, setPublishing, compCh
               <Typography gutterBottom variant = 'h1'>
                 Saving and Publishing
               </Typography>
-              <SaveServer savingFunction = { setSaveTo }/>
+              <SaveServer savingLocation = { savingLocation } serverLock = { serverLock } setSaveTo = { setSaveTo } />
               <Typography>
                 &nbsp;
               </Typography>
-              <Button variant="contained" color="secondary" disableElevation disabled = {saveTo.length === 0 ? true : false} fullWidth onClick={() => setSaving(1)}>
+              <Button variant="contained" color="secondary" disableElevation disabled = {saveTo.length === 0 ? true : false} fullWidth onClick={() => clickActions('saveDraft')}>
                 SAVE DRAFT
               </Button>
               <Typography>
                 &nbsp;
               </Typography>
-              <Button variant="contained" color="primary" disableElevation disabled = {saveTo.length === 0 ? true : false} fullWidth onClick={() => setPublishing(1)}>
+              <Button variant="contained" color="primary" disableElevation disabled = {saveTo.length === 0 ? true : false} fullWidth onClick={() => clickActions('publishDraft')}>
                 PUBLISH DRAFT
               </Button>
               <Typography>
                 &nbsp;
               </Typography>
-              <Button variant="contained" color="primary" disableElevation fullWidth onClick={() => setDownloading(1)}>
+              <Button variant="contained" color="primary" disableElevation fullWidth onClick={() => clickActions('downloadDraft')}>
                 DOWNLOAD DRAFT
               </Button>
               <Typography>
                 &nbsp;
               </Typography>
-              <Button variant="contained" color="secondary" disableElevation disabled = { !writtenToServer } fullWidth>
+              <Button variant="contained" color="secondary" disableElevation disabled = { !writtenToServer } fullWidth onClick={() => clickActions('deleteDraft')}>
                 DELETE DRAFT
               </Button>
             </CardContent>

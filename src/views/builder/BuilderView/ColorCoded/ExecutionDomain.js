@@ -37,8 +37,6 @@ const StyledCell = withStyles({
 // Pass an object and whether or not its keys are properties.
 export default function ExecutionDomain({ items, cF }) {
   
-  console.log('IoData:', items)
-  
   const classes = useStyles();
 
   // State for showing missing sections.

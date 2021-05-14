@@ -26,6 +26,9 @@ class ApiInfo(models.Model):
 
     # Need to use a human-readable name
     human_readable_hostname = models.CharField(blank = True, max_length = 1000)
+    
+    # Need to know where to make calls.
+    public_hostname = models.CharField(blank = True, max_length = 1000)
 
     # "Arbitrarily" long token
     token = models.CharField(blank = True, max_length = 1000)

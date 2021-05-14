@@ -286,19 +286,20 @@ export default function Sharing({ objectId }) {
     // TODO: eventually have logic for allowing sharing with other
     // servers...
     const splitUp = objectId.split('/linked/');
-    var hn = splitUp[0].split('/');
-    hn = hn.slice(0, hn.length-1);
-    hn = hn[0] + '//' + hn[2];
-    const oI = splitUp[0];
+    var helper = splitUp[0].split('/builder/')[1]
+    var hostname = helper.split('/');
+    hostname.pop();
+    hostname[0] = hostname[0] + ':/';
+    hostname = hostname.join('/');
+    const oI = splitUp[0].replace('/builder/', '').replace('/', '://');
     const token = splitUp[1];
 
     console.log(oI)
-    console.log(hn)
-    console.log(hn + '/api/objects/permissions/set/')
+    console.log(hostname + '/api/objects/permissions/set/')
     console.log(group)
     console.log(perm)
     
-    fetch(hn + '/api/objects/permissions/set/', {
+    fetch(hostname + '/api/objects/permissions/set/', {
         method: 'POST',
         headers: {
             'Authorization': 'Token ' + token,
@@ -362,9 +363,18 @@ export default function Sharing({ objectId }) {
     // Get the hostname, actual object ID, and token.
     // TODO: change 
     const splitUp = objectId.split('/linked/');
-    const hostname = splitUp[0].split('/')[0] + '//' + splitUp[0].split('/')[2];
-    const oI = splitUp[0];
+    var helper = splitUp[0].split('/builder/')[1]
+    var hostname = helper.split('/');
+    hostname.pop();
+    hostname[0] = hostname[0] + ':/';
+    hostname = hostname.join('/');
+    const oI = splitUp[0].replace('/builder/', '').replace('/', '://');
     const token = splitUp[1];
+
+    console.log('OTHER INFO')
+    console.log(hostname)
+    console.log(oI)
+    console.log(token)
     
     fetch(hostname + '/api/objects/permissions/', {
         method: 'POST',

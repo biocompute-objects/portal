@@ -49,6 +49,7 @@ def add_api(request):
         username = bulk['username'], 
     	hostname = bulk['hostname'], 
     	human_readable_hostname = bulk['human_readable_hostname'], 
+        public_hostname = bulk['public_hostname'],
     	token = bulk['token'],
         other_info = bulk['other_info']
     )

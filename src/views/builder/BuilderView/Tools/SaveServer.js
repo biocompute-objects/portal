@@ -1,30 +1,12 @@
 // Source: https://material-ui.com/components/selects/#simple-select
 
 import React, { useEffect } from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import InputLabel from '@material-ui/core/InputLabel';
-import MenuItem from '@material-ui/core/MenuItem';
-import FormHelperText from '@material-ui/core/FormHelperText';
-import FormControl from '@material-ui/core/FormControl';
-import Select from '@material-ui/core/Select';
 import { Typography } from '@material-ui/core';
 
 // Servers, hostnames, and groups.
 import ServersHostnamesGroups from './ServersHostnamesGroups';
 
-const useStyles = makeStyles((theme) => ({
-  formControl: {
-    margin: theme.spacing(1),
-    marginLeft: '0',
-    marginRight: '0',
-    width: '100%',
-  },
-  selectEmpty: {
-    marginTop: theme.spacing(2),
-  }
-}));
-
-export default function SaveServer({ savingFunction }) {
+export default function SaveServer({ savingLocation, serverLock, setSaveTo }) {
 
   // Saving is only possible if a user is logged in
   // and has access to a server.
@@ -32,13 +14,6 @@ export default function SaveServer({ savingFunction }) {
   // State
   const [loggedInWithServers, setLoggedInWithServers] = React.useState(false);
   const [userInfo, setUserInfo] = React.useState({});
-  
-  const classes = useStyles();
-  const [age, setAge] = React.useState('');
-
-  const handleChange = (event) => {
-    setAge(event.target.value);
-  };
 
   useEffect(() => {
 
@@ -57,7 +32,7 @@ export default function SaveServer({ savingFunction }) {
   return (
     loggedInWithServers
           ?
-            <ServersHostnamesGroups items = { userInfo.apiinfo } savingFunction = { savingFunction } />
+            <ServersHostnamesGroups items = { userInfo.apiinfo } savingLocation = { savingLocation } serverLock = { serverLock } setSaveTo = { setSaveTo } />
           :
             <Typography>You must be logged in to save or publish drafts.</Typography>
   );
