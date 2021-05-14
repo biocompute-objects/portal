@@ -194,6 +194,83 @@ export default function BuilderView() {
     // the server to see if the object is compliant.
     // TODO: replace later with page-specific check.
 
+    if(publish === 1) {
+
+      // TODO: bad fix here, need to have apiinfo be
+      // an object rather than an array...
+      var foundToken = '';
+
+      JSON.parse(localStorage.getItem('user'))['apiinfo'].map(item => {
+        if(item['public_hostname'] === savingLocation['hostname']) {
+          foundToken = item['token'];
+        }
+      });
+
+      // Determine the table to write to based on the
+      // group name.
+      
+      // Call the API.
+      fetch(savingLocation['hostname'] + '/api/objects/create/', {
+        method: 'POST',
+        body: JSON.stringify({
+          POST_create_new_object: [
+              {
+                contents: objectContents,
+                owner_group: savingLocation['group'],
+                schema: 'IEEE',
+                state: 'DRAFT',
+                table: savingLocation['group'].replace('ers', '')
+              }
+          ]
+      }),
+      headers: {
+        'Authorization': 'Token ' + foundToken,
+        "Content-type": "application/json; charset=UTF-8"
+      }
+      }).then(res => res.json().then(data => ({
+        data: data,
+        status: res.status
+      })).then(res => {
+        
+        // Did the request go ok or not?
+        if(res.status === 200) {
+
+          // Set the object ID.
+
+          // MUST use a copy of the state variable.
+          // Source: https://www.freecodecamp.org/news/handling-state-in-react-four-immutable-approaches-to-consider-d1f5c00249d5/
+
+          // The loading and object finding steps are necessary
+          // to force a re-render apparently?
+          
+          // Now we're loading.
+          setLoading(true);
+
+          // The object hasn't been "found".
+          setObjectFound(false);
+          
+          // TODO: may be a bit expensive to copy, could instead
+          // set state value directly?
+          var helper = Object.assign({}, objectContents);
+          helper['object_id'] = res.data[0]['object_id'];
+          setObjectContents(helper);
+
+          // Lock the savable server.
+          setServerLock(true);
+
+          // Done loading and "looking" for the object.
+          setLoading(false);
+          setObjectFound(true);
+
+        }
+
+      }))
+
+      // Done saving.
+      setSaveDraft(0);
+      
+    }
+
   }, [publish]);
 
   
