@@ -510,7 +510,7 @@ export default function BuilderView() {
       :
         <DeepContext.Provider value={{ retrievedDraft, objectOwner }}>
           <div>
-            <Tools savingLocation = { savingLocation } setSavingLocation = { setSavingLocation } setDownloadDraft = { setDownloadDraft } setSaveDraft = { setSaveDraft } setPublish = { setPublish } complianceCheck = { complianceCheck } setComplianceCheck = { setComplianceCheck } objectId = { objectId } serverLock = { serverLock } />
+            <Tools savingLocation = { savingLocation } setSavingLocation = { setSavingLocation } setDownloadDraft = { setDownloadDraft } setSaveDraft = { setSaveDraft } setPublish = { setPublish } complianceCheck = { complianceCheck } setComplianceCheck = { setComplianceCheck } objectId = { objectId } setObjectId = { setObjectId } serverLock = { serverLock } />
             <Views downloadDraft = { downloadDraft } setDownloadDraft = { setDownloadDraft } saveDraft = { saveDraft } setSaveDraft = { setSaveDraft } objectContents = { objectContents } setObjectContents = { setObjectContents } publish = { publish } setPublish = { setPublish } complianceCheck = { complianceCheck } objectId = { objectId } loading = { loading } objectFound = { objectFound } />
           </div>
         </DeepContext.Provider>

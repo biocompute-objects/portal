@@ -8,12 +8,13 @@ import Autocomplete from '@material-ui/lab/Autocomplete';
 // Context
 // Source: https://www.digitalocean.com/community/tutorials/react-usecontext
 import { DeepContext } from '../../BuilderView';
-import { Typography } from '@material-ui/core';
 
-export default function ServersHostnamesGroups({ items, savingLocation, serverLock, setSaveTo }) {
+export default function ServersHostnamesGroups({ items, savingLocation, serverLock, setObjectId, setSaveTo, type }) {
     
     // State
     const [selectedValue, setSelectedValue] = React.useState([]);
+    console.log('type(setSaveTo): ', typeof(setSaveTo))
+    console.log('type(setObjectId): ', typeof(setObjectId))
 
     // From the context
     const { objectOwner, retrievedDraft } = useContext(DeepContext);
@@ -21,16 +22,33 @@ export default function ServersHostnamesGroups({ items, savingLocation, serverLo
     // Some quick processing to make the keys usable.
     const processed = [];
 
+    // Render the options for servers based on the type of server
+    // list we have.
     items.map(item => {
         Object.keys(item['other_info']['group_permissions']).map(subitem => {
             
-            // Only add a group if 'add' or 'change' permissions are there.
-            if(item['other_info']['group_permissions'][subitem].findIndex(element => element.includes('add', 'change')) >= 0) {
-                processed.push({ 
-                    hostname: item['public_hostname'],
-                    human_readable_hostname: item['human_readable_hostname'],
-                    group: subitem
-                });
+            if(subitem.indexOf('draft') >= 0 && type === 'draft') {
+
+                // Only add a group if 'add' or 'change' permissions are there.
+                if(item['other_info']['group_permissions'][subitem].findIndex(element => element.includes('add', 'change')) >= 0) {
+                    processed.push({ 
+                        hostname: item['public_hostname'],
+                        human_readable_hostname: item['human_readable_hostname'],
+                        group: subitem
+                    });
+                }
+
+            } else if(subitem.indexOf('publish') >= 0 && type === 'publish') {
+
+                // Only add a group if 'add' or 'change' permissions are there.
+                if(item['other_info']['group_permissions'][subitem].findIndex(element => element.includes('add', 'change')) >= 0) {
+                    processed.push({ 
+                        hostname: item['public_hostname'],
+                        human_readable_hostname: item['human_readable_hostname'],
+                        group: subitem
+                    });
+                }
+
             }
 
         })
@@ -57,9 +75,11 @@ export default function ServersHostnamesGroups({ items, savingLocation, serverLo
         
         // Check for null...
         if(selectedValue === null) {
-            setSaveTo([])
+            setSaveTo([]);
+            // setObjectId('');
         } else {
-            setSaveTo(selectedValue)
+            setSaveTo(selectedValue);
+            // setObjectId(selectedValue);
         }
         
     }, [selectedValue])
@@ -68,7 +88,7 @@ export default function ServersHostnamesGroups({ items, savingLocation, serverLo
         retrievedDraft === true
             ?
                 <Autocomplete
-                    disabled = { serverLock }
+                    disabled = { type === 'draft' ? serverLock : serverLock === false ? true : false }
                     fullWidth
                     inputValue = { objectOwner }  
                     onChange={(event, newValue) => {
@@ -76,18 +96,18 @@ export default function ServersHostnamesGroups({ items, savingLocation, serverLo
                     }}
                     options={processed}
                     getOptionLabel={(option) => option.hostname + ' - ' + option.human_readable_hostname + ' (' + option.group + ')'}
-                    renderInput={(params) => <TextField {...params} label="Select server to save to."/>}
+                    renderInput={(params) => <TextField {...params} label={ type === 'draft' ? "Select server to save draft to." : "Select server to publish draft to." } />}
                 />
             :
                 <Autocomplete
-                    disabled = { serverLock }
+                    disabled = { type === 'draft' ? serverLock : serverLock === false ? true : false }
                     fullWidth  
                     onChange={(event, newValue) => {
                         setSelectedValue(newValue)
                     }}
                     options={processed}
                     getOptionLabel={(option) => option.hostname + ' - ' + option.human_readable_hostname + ' (' + option.group + ')'}
-                    renderInput={(params) => <TextField {...params} label="Select server to save to."/>}
+                    renderInput={(params) => <TextField {...params} label={ type === 'draft' ? "Select server to save draft to." : "Select server to publish draft to." } />}
                 />
   );
 }

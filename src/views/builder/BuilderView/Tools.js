@@ -45,20 +45,16 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Tools({ savingLocation, setSavingLocation, setDownloadDraft, setSaveDraft, setPublish, complianceCheck, setComplianceCheck, objectId, serverLock }) {
-  
-  console.log('Here is the objectId:', objectId)
+export default function Tools({ savingLocation, setSavingLocation, setDownloadDraft, setSaveDraft, setPublish, complianceCheck, setComplianceCheck, objectId, setObjectId, serverLock }) {
   
   // Saving information.
   const [saveTo, setSaveTo] = React.useState([]);
   const [writtenToServer, setWrittenToServer] = React.useState(false);
+
+  console.log('type(setSaveTo) 3: ', typeof(setSaveTo))
+    console.log('type(setObjectId) 3: ', typeof(setObjectId))
   
   const classes = useStyles();
-
-  // Listen for an update to the saving location.
-  // useEffect(() => {
-  //   setLocation(saveTo);
-  // }, [saveTo])
 
   // Define the actions for each click.
   const clickActions = (which) => {
@@ -136,7 +132,7 @@ export default function Tools({ savingLocation, setSavingLocation, setDownloadDr
               <Typography gutterBottom variant = 'h1'>
                 Saving and Publishing
               </Typography>
-              <SaveServer savingLocation = { savingLocation } serverLock = { serverLock } setSaveTo = { setSaveTo } />
+              <SaveServer savingLocation = { savingLocation } serverLock = { serverLock } setObjectId = { setObjectId } setSaveTo = { setSaveTo } type = { 'draft' } />
               <Typography>
                 &nbsp;
               </Typography>
@@ -146,7 +142,11 @@ export default function Tools({ savingLocation, setSavingLocation, setDownloadDr
               <Typography>
                 &nbsp;
               </Typography>
-              <Button variant="contained" color="primary" disableElevation disabled = {saveTo.length === 0 ? true : false} fullWidth onClick={() => clickActions('publishDraft')}>
+              <SaveServer savingLocation = { savingLocation } serverLock = { serverLock } setSaveTo = { setSaveTo } type = { 'publish' } />
+              <Typography>
+                &nbsp;
+              </Typography>
+              <Button variant="contained" color="primary" disableElevation disabled = { serverLock === false ? true : false } fullWidth onClick={() => clickActions('publishDraft')}>
                 PUBLISH DRAFT
               </Button>
               <Typography>
