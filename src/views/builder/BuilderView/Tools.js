@@ -10,25 +10,33 @@ import { Grid } from '@material-ui/core';
 import Typography from '@material-ui/core/Typography';
 
 // Search field
-import SearchField from './Tools/SearchField'
+import SearchField from './Tools/SearchField';
 
 // Logic field
-import LogicField from './Tools/LogicField'
+import LogicField from './Tools/LogicField';
 
 // Sharing object
-import Sharing from './Tools/Sharing'
-
-// Save to server
-import SaveServer from './Tools/SaveServer'
+import Sharing from './Tools/Sharing';
 
 // Publish button
-import Button from '@material-ui/core/Button'
+import Button from '@material-ui/core/Button';
 
 // Regex box
-import RegexBox from './Tools/RegexBox'
+import RegexBox from './Tools/RegexBox';
 
 // Add condition
-import AddCondition from './Tools/AddCondition'
+import AddCondition from './Tools/AddCondition';
+
+// Servers
+import ServerList from './Tools/ServerList';
+
+// Confirm publishing
+import PublishDialog from './Tools/PublishDialog';
+import { Publish } from '@material-ui/icons';
+
+// Rendering URL parameters.
+// Source: https://stackoverflow.com/a/60312798
+import { useNavigate } from 'react-router-dom';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -45,45 +53,172 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Tools({ savingLocation, setSavingLocation, setDownloadDraft, setSaveDraft, setPublish, complianceCheck, setComplianceCheck, objectId, setObjectId, serverLock }) {
+export default function Tools({ objectIdDerivatives, setDraftSavingLocation, setPublishSavingLocation, setDownloadDraft, setSaveDraft, setPublish, objectId, publishedObjectId, publishMessage, setObjectId, serverLock }) {
   
-  // Saving information.
-  const [saveTo, setSaveTo] = React.useState([]);
-  const [writtenToServer, setWrittenToServer] = React.useState(false);
+  // State
+  const [saveDraftTo, setSaveDraftTo] = React.useState('');
+  const [savePublishTo, setSavePublishTo] = React.useState('');
 
-  console.log('type(setSaveTo) 3: ', typeof(setSaveTo))
-    console.log('type(setObjectId) 3: ', typeof(setObjectId))
+  // For publishing.
+  const [open, setOpen] = React.useState(false);
+
+  // Re-direct after publishing.
+  // Source: https://stackoverflow.com/a/58536772/5029459
+  const [redirect, setRedirect] = React.useState(false);
   
+  useEffect(() => {
+    
+    if(redirect === true) {
+
+      // Crappy but works.
+      // Source: https://stackoverflow.com/a/64928405/5029459
+      window.location.href = publishedObjectId;
+
+    }
+
+  }, [redirect]);
+
+
+
+
+
+
+
+
+
+
+
+//   // Saving is only possible if a user is logged in
+//   // and has access to a server.
+
+
+
+//   // State
+//   const [loggedInWithServers, setLoggedInWithServers] = React.useState(false);
+//   const [userInfo, setUserInfo] = React.useState({});
+
+//   useEffect(() => {
+
+//     // Logged in and has servers?
+//     const userInfoCheck = JSON.parse(localStorage.getItem('user'));
+
+//     if(userInfoCheck !== null) {
+//       if(userInfoCheck.apiinfo.length > 0) {
+//         setLoggedInWithServers(true);
+//         setUserInfo(userInfoCheck);
+//       }
+//     }
+
+//   }, [])
+
+//   return (
+//     loggedInWithServers
+//           ?
+//             <ServersHostnamesGroups items = { userInfo.apiinfo } savingLocation = { savingLocation } serverLock = { serverLock } setObjectId = { setObjectId } setSaveTo = { setSaveTo } type = { type } />
+//           :
+//             <Typography>You must be logged in to save or publish drafts.</Typography>
+//   );
+
+
+
+
+
+
+
+
+
+
+// // State
+// const [selectedValue, setSelectedValue] = React.useState([]);
+
+// // From the context
+// const { objectOwner, retrievedDraft } = useContext(DeepContext);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
   const classes = useStyles();
 
   // Define the actions for each click.
   const clickActions = (which) => {
 
     if(which === 'saveDraft') {
-
-      setSaveDraft(1)
+      
+      // From parent.
+      setSaveDraft(1);
 
     } else if(which === 'publishDraft') {
 
-      setPublish(1)
+      // From parent.
+      setOpen(true);
 
     } else if(which === 'downloadDraft') {
       
-      setDownloadDraft(1)
+      // From parent.
+      setDownloadDraft(1);
 
-    } else {
-
-      console.log('delete')
+    } else if(which === 'deleteDraft') {
+      
+      // From parent.
+      
+      // setDeletingDraft(true);
 
     }
 
   }
 
   // Listen for a change in save location.
-  // We don't use setSavingLocation directly.
+  // to change the server lock.
   useEffect(() => {
-    setSavingLocation(saveTo);
-  }, [saveTo])
+    
+    // UN-parse the saving location information.
+    // The saving location information has to
+    // be a string for the selects to not complain.
+    setDraftSavingLocation(
+      {
+        'hostname': saveDraftTo.split(' - ')[0],
+        'group': saveDraftTo.split(' - ')[1]
+      }
+      
+    );
+
+  }, [saveDraftTo])
+
+  useEffect(() => {
+    
+    // UN-parse the saving location information.
+    // The saving location information has to
+    // be a string for the selects to not complain.
+    setPublishSavingLocation(
+      {
+        'hostname': savePublishTo.split(' - ')[0],
+        'group': savePublishTo.split(' - ')[1]
+      }
+      
+    );
+
+  }, [savePublishTo])
 
   return (
     <div className={classes.root}>
@@ -112,11 +247,13 @@ export default function Tools({ savingLocation, setSavingLocation, setDownloadDr
                 Group Sharing
               </Typography>
               {
-                objectId !== 'newDraft'
+                objectIdDerivatives['rawName'] !== ""
                   ?
-                    <Sharing objectId = { objectId } />
+                    <Sharing objectIdDerivatives = { objectIdDerivatives } />
                   :
-                    null 
+                    <Typography variant = 'h3'>
+                      Please select a server to save your draft to in order to set permissions for the draft.
+                    </Typography> 
               }
             </CardContent>
           </Card>
@@ -132,23 +269,25 @@ export default function Tools({ savingLocation, setSavingLocation, setDownloadDr
               <Typography gutterBottom variant = 'h1'>
                 Saving and Publishing
               </Typography>
-              <SaveServer savingLocation = { savingLocation } serverLock = { serverLock } setObjectId = { setObjectId } setSaveTo = { setSaveTo } type = { 'draft' } />
+              {/* <SaveServer savingLocation = { savingLocation } serverLock = { serverLock } setObjectId = { setObjectId } setSaveTo = { setSaveTo } type = { 'draft' } /> */}
+              <ServerList disabledValue = { serverLock } options = { JSON.parse(localStorage.getItem('user'))['apiinfo'] } setter = { setSaveDraftTo } type = { 'draft' } />
               <Typography>
                 &nbsp;
               </Typography>
-              <Button variant="contained" color="secondary" disableElevation disabled = {saveTo.length === 0 ? true : false} fullWidth onClick={() => clickActions('saveDraft')}>
+              <Button variant="contained" color="secondary" disableElevation disabled = { saveDraftTo === '' ? true : false } fullWidth onClick={() => clickActions('saveDraft')}>
                 SAVE DRAFT
               </Button>
               <Typography>
                 &nbsp;
               </Typography>
-              <SaveServer savingLocation = { savingLocation } serverLock = { serverLock } setSaveTo = { setSaveTo } type = { 'publish' } />
+              <ServerList disabledValue = { !serverLock } options = { JSON.parse(localStorage.getItem('user'))['apiinfo'] } setter = { setSavePublishTo } type = { 'publish' } />
               <Typography>
                 &nbsp;
               </Typography>
-              <Button variant="contained" color="primary" disableElevation disabled = { serverLock === false ? true : false } fullWidth onClick={() => clickActions('publishDraft')}>
+              <Button variant="contained" color="primary" disableElevation disabled = { savePublishTo === '' ? true : false } fullWidth onClick={() => clickActions('publishDraft')}>
                 PUBLISH DRAFT
               </Button>
+              <PublishDialog open = { open } publishMessage = { publishMessage } setRedirect = { setRedirect } setOpen = { setOpen } setter = { setPublish } />          
               <Typography>
                 &nbsp;
               </Typography>
@@ -158,7 +297,7 @@ export default function Tools({ savingLocation, setSavingLocation, setDownloadDr
               <Typography>
                 &nbsp;
               </Typography>
-              <Button variant="contained" color="secondary" disableElevation disabled = { !writtenToServer } fullWidth onClick={() => clickActions('deleteDraft')}>
+              <Button variant="contained" color="secondary" disableElevation disabled = { !serverLock } fullWidth onClick={() => clickActions('deleteDraft')}>
                 DELETE DRAFT
               </Button>
             </CardContent>

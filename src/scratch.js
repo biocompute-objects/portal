@@ -313,7 +313,6 @@ useEffect(() => {
   // TODO: fix this call later to not rely on the URL passed in?
   // TODO: fix this later to allow for the use of prefixes.
    //    attach_id: 'True',
-
    let history = useNavigate();
   
    // Redirect

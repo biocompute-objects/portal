@@ -14,7 +14,7 @@ import {
 import { Search as SearchIcon } from 'react-feather';
 
 // Server options for creating new objects.
-import ServerDropdown from './ServerInfoMini'
+// import ServerDropdown from './ServerInfoMini'
 
 const useStyles = makeStyles((theme) => ({
   root: {},
@@ -80,7 +80,7 @@ const Toolbar = ({ className, ...rest }) => {
                 placeholder="Search customer"
                 variant="outlined"
               /> */}
-              <ServerDropdown />
+              {/* <ServerDropdown /> */}
             </Box>
           </CardContent>
         </Card>

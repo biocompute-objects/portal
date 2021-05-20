@@ -13,18 +13,8 @@ import TablePagination from '@material-ui/core/TablePagination';
 import TableRow from '@material-ui/core/TableRow';
 import TableSortLabel from '@material-ui/core/TableSortLabel';
 import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
 import Paper from '@material-ui/core/Paper';
 import Checkbox from '@material-ui/core/Checkbox';
-import IconButton from '@material-ui/core/IconButton';
-import Tooltip from '@material-ui/core/Tooltip';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Switch from '@material-ui/core/Switch';
-import DeleteIcon from '@material-ui/icons/Delete';
-import FilterListIcon from '@material-ui/icons/FilterList';
-
-// Groups
-import Groups from './Groups';
 
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -201,7 +191,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Sharing({ objectId }) {
+export default function Sharing({ objectIdDerivatives }) {
   
   const classes = useStyles();
 
@@ -285,20 +275,13 @@ export default function Sharing({ objectId }) {
 
     // TODO: eventually have logic for allowing sharing with other
     // servers...
-    const splitUp = objectId.split('/linked/');
-    var helper = splitUp[0].split('/builder/')[1]
-    var hostname = helper.split('/');
-    hostname.pop();
-    hostname[0] = hostname[0] + ':/';
-    hostname = hostname.join('/');
-    const oI = splitUp[0].replace('/builder/', '').replace('/', '://');
-    const token = splitUp[1];
-
-    console.log(oI)
-    console.log(hostname + '/api/objects/permissions/set/')
-    console.log(group)
-    console.log(perm)
     
+    console.log(hostname);
+    console.log(group);
+    console.log(perm);
+    // Get the token for this particular server.
+    const token = 'e08e29f893ce386845ab440472cf9c3ea567cb35';
+
     fetch(hostname + '/api/objects/permissions/set/', {
         method: 'POST',
         headers: {
@@ -306,7 +289,7 @@ export default function Sharing({ objectId }) {
             'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-            'object_id': oI,
+            'object_id': objectIdDerivatives['rawName'],
             'group': group,
             'perm': perm
         })
@@ -351,39 +334,29 @@ export default function Sharing({ objectId }) {
 
   // Check an array for a substring.
   const checkArrayForSubstring = (searchable, what) => {
-      return searchable.findIndex(element => element.includes(what)) >= 0
+    return searchable.findIndex(element => element.includes(what)) >= 0
   }
 
   // Wait for everything to load, then populate.
   useEffect(() => {
-
-    console.log('SENDABLE:', objectId)
+    
     // First, ask the server for the permissions.
 
     // Get the hostname, actual object ID, and token.
     // TODO: change 
-    const splitUp = objectId.split('/linked/');
-    var helper = splitUp[0].split('/builder/')[1]
-    var hostname = helper.split('/');
-    hostname.pop();
-    hostname[0] = hostname[0] + ':/';
-    hostname = hostname.join('/');
-    const oI = splitUp[0].replace('/builder/', '').replace('/', '://');
-    const token = splitUp[1];
 
-    console.log('OTHER INFO')
-    console.log(hostname)
-    console.log(oI)
-    console.log(token)
+    // Get the token for this particular server.
+    const token = 'e08e29f893ce386845ab440472cf9c3ea567cb35';
+    console.log('PERMS ARE HERE: ', objectIdDerivatives)
     
-    fetch(hostname + '/api/objects/permissions/', {
+    fetch(objectIdDerivatives['hostname'] + '/api/objects/permissions/', {
         method: 'POST',
         headers: {
             'Authorization': 'Token ' + token,
             'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-            'object_id': oI
+            'object_id': objectIdDerivatives['rawName']
         })
         }).then(res => res.json().then(data => ({
             data: data,

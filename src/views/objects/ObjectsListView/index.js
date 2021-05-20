@@ -88,17 +88,8 @@ const ObjectsListView = () => {
 
           // Go over each object for each table.
           for(let objectInfo of data[tableName]) {
-            console.log('objectInfo ', objectInfo)
             rowData.push(createData(objectInfo['fields']['object_id'], item['token'], cF(cF(objectInfo.fields.contents.provenance_domain).name), objectInfo['fields']['state'], item['human_readable_hostname'], '01/29/21'));
           }
-          
-          // Push data.
-          // rowData.push(createData(splitUp, cF(cF(item.fields.contents.provenance_domain).name), item.fields.state, item['human_readable_hostname'], '01/29/21'));
-
-
-
-
-
 
           // // Were the objects found?
           // if(responseInfo.request_code === '200') {
@@ -123,22 +114,16 @@ const ObjectsListView = () => {
           //   )
 
           // }
-
-
-
-
-
-
+          
         }
+
+        // We're no longer loading.
+        setRows(rowData);
+        setLoading(false);
 
       })
 
     })
-
-    // We're no longer loading.
-    console.log('rowData', rowData)
-    setRows(rowData);
-    setLoading(false);
     
   }
 

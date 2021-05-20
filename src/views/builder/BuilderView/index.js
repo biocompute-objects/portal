@@ -20,8 +20,7 @@ export const DeepContext = createContext();
 
 export default function BuilderView() {
   
-  // Set the state.
-  //const [loading, setLoading] = useState(true);
+  // State
   //const [objectFound, setObjectFound] = useState();
   //const [objectInfo, setObjectInfo] = useState();
 
@@ -51,6 +50,9 @@ export default function BuilderView() {
   // For publishing.
   const [publish, setPublish] = useState(0);
 
+  // Was publishing successful?
+  const [publishMessage, setPublishMessage] = useState({});
+
   // For downloading drafts.
   const [downloadDraft, setDownloadDraft] = useState(0);
 
@@ -58,7 +60,8 @@ export default function BuilderView() {
   const [deleteDraft, setDeleteDraft] = useState(0);
 
   // Where are we saving either a draft or a published object?
-  const [savingLocation, setSavingLocation] = useState([]);
+  const [draftSavingLocation, setDraftSavingLocation] = useState('');
+  const [publishSavingLocation, setPublishSavingLocation] = useState('');
 
   // Was the initial draft successfuly created OR are we working
   // with a draft that was save previously?
@@ -68,11 +71,17 @@ export default function BuilderView() {
   const [objectId, setObjectId] = useState('');
   const [parsePath, setParsePath] = useState(useLocation().pathname);
 
+  // All of the relevant things associated with an object ID.
+  const [objectIdDerivatives, setObjectIdDerivatives] = useState({});
+
   // Was this draft retrieved (i.e. from a link?)
   const [retrievedDraft, setRetrievedDraft] = useState(true);
 
   // Who owns it?
   const [objectOwner, setObjectOwner] = useState('');
+
+  // The PUBLISHED object ID.
+  const [publishedObjectId, setPublishedObjectId] = useState('');
 
   // Behavior for urls (the table and data to use are based on the URL)
   // https://.../builder -> ask for a new draft ID
@@ -80,6 +89,31 @@ export default function BuilderView() {
 
   
   // ----- ACTIONS ----- //
+
+
+  // ----- HELPER FUNCTIONS ----- //
+
+
+  // Get usable information from the object ID.
+  const extractObjectInfo = (oI) => {
+
+    // Set the derivative variables.
+    var splitHelper = oI.split('/');
+
+    // A little bit of extra work for the hostname.
+    var hostHelper = splitHelper.slice(0, 3);
+    hostHelper.splice(1, 1);
+    hostHelper[0] = hostHelper[0] + '/';
+    hostHelper = hostHelper.join('/');
+
+    return({
+      'rawName': oI,
+      'hostname': hostHelper,
+      'objectIdentifier': splitHelper.slice(splitHelper.length-1, splitHelper.length)[0],
+      'table': splitHelper.slice(splitHelper.length-1, splitHelper.length)[0].split('_').slice(0, 2).join('_').toLowerCase()
+    })
+
+  }
 
 
   // ----- SAVING ----- //
@@ -103,7 +137,7 @@ export default function BuilderView() {
       var foundToken = '';
 
       JSON.parse(localStorage.getItem('user'))['apiinfo'].map(item => {
-        if(item['public_hostname'] === savingLocation['hostname']) {
+        if(item['public_hostname'] === draftSavingLocation['hostname']) {
           foundToken = item['token'];
         }
       });
@@ -112,16 +146,16 @@ export default function BuilderView() {
       // group name.
       
       // Call the API.
-      fetch(savingLocation['hostname'] + '/api/objects/create/', {
+      fetch(draftSavingLocation['hostname'] + '/api/objects/create/', {
         method: 'POST',
         body: JSON.stringify({
           POST_create_new_object: [
               {
                 contents: objectContents,
-                owner_group: savingLocation['group'],
+                owner_group: draftSavingLocation['group'],
                 schema: 'IEEE',
                 state: 'DRAFT',
-                table: savingLocation['group'].replace('ers', '')
+                table: draftSavingLocation['group'].replace('ers', '')
               }
           ]
       }),
@@ -156,6 +190,9 @@ export default function BuilderView() {
           var helper = Object.assign({}, objectContents);
           helper['object_id'] = res.data[0]['object_id'];
           setObjectContents(helper);
+
+          // Set the state.
+          setObjectId(res.data[0]['object_id']);
 
           // Lock the savable server.
           setServerLock(true);
@@ -175,14 +212,14 @@ export default function BuilderView() {
 
   }, [saveDraft]);
 
-  // Testing only.
+  // If the object ID changes,
+  // set the derivative properties.
   useEffect(() => {
-    console.log('savingLocation: ', savingLocation)
-  }, [savingLocation]);
 
-  useEffect(() => {
-    console.log('objectContents: ', objectContents)
-  }, [objectContents]);
+    // Set the derivative properties.
+    setObjectIdDerivatives(extractObjectInfo(objectId));
+
+  }, [objectId])
 
 
   // ----- PUBLISHING ----- //
@@ -201,7 +238,7 @@ export default function BuilderView() {
       var foundToken = '';
 
       JSON.parse(localStorage.getItem('user'))['apiinfo'].map(item => {
-        if(item['public_hostname'] === savingLocation['hostname']) {
+        if(item['public_hostname'] === publishSavingLocation['hostname']) {
           foundToken = item['token'];
         }
       });
@@ -210,16 +247,16 @@ export default function BuilderView() {
       // group name.
       
       // Call the API.
-      fetch(savingLocation['hostname'] + '/api/objects/create/', {
+      fetch(publishSavingLocation['hostname'] + '/api/objects/create/', {
         method: 'POST',
         body: JSON.stringify({
           POST_create_new_object: [
               {
                 contents: objectContents,
-                owner_group: savingLocation['group'],
+                owner_group: publishSavingLocation['group'],
                 schema: 'IEEE',
-                state: 'DRAFT',
-                table: savingLocation['group'].replace('ers', '')
+                state: 'PUBLISH',
+                table: publishSavingLocation['group'].replace('ers', '')
               }
           ]
       }),
@@ -234,44 +271,38 @@ export default function BuilderView() {
         
         // Did the request go ok or not?
         if(res.status === 200) {
-
-          // Set the object ID.
-
-          // MUST use a copy of the state variable.
-          // Source: https://www.freecodecamp.org/news/handling-state-in-react-four-immutable-approaches-to-consider-d1f5c00249d5/
-
-          // The loading and object finding steps are necessary
-          // to force a re-render apparently?
           
-          // Now we're loading.
-          setLoading(true);
+          // Good request.
+          setPublishMessage({
+            'status': 200,
+            'message': 'The draft was successfully published on host ' + publishSavingLocation['hostname'] + ' with object URI ' + res.data[0]['object_id'] + '.'
+          })
 
-          // The object hasn't been "found".
-          setObjectFound(false);
-          
-          // TODO: may be a bit expensive to copy, could instead
-          // set state value directly?
-          var helper = Object.assign({}, objectContents);
-          helper['object_id'] = res.data[0]['object_id'];
-          setObjectContents(helper);
+          // Set the published object ID.
+          setPublishedObjectId(res.data[0]['object_id']);
 
-          // Lock the savable server.
-          setServerLock(true);
+        } else {
 
-          // Done loading and "looking" for the object.
-          setLoading(false);
-          setObjectFound(true);
+          // Bad request.
+          setPublishMessage({
+            'status': 400,
+            'message': 'The draft was unable to be published.  The server said...'
+          })
 
         }
 
       }))
 
-      // Done saving.
-      setSaveDraft(0);
+      // Done publishing.
+      setPublish(0);
       
     }
 
   }, [publish]);
+
+  useEffect(() => {
+    console.log('publishSavingLocation: ', publishSavingLocation)
+  }, [publishSavingLocation])
 
   
   // ----- DOWNLOADING ----- //
@@ -354,7 +385,7 @@ export default function BuilderView() {
     // Delete the object.
 
   }, [deleteDraft]);
-
+  
 
   // ----- INITIAL RENDERING ----- //
 
@@ -367,9 +398,6 @@ export default function BuilderView() {
     const splitUp = parsePath.split('builder');
 
     if(splitUp[splitUp.length - 1] == "") {
-      
-      // New draft.
-      setObjectId('newDraft');
 
       // Set the object contents to template values.
       setObjectContents({"object_id": "","spec_version":"IEEE","etag":"","provenance_domain":{"name":"","version":"","created":"","modified":"","contributors":[{"contribution":["createdBy"],"name":""}],"license":""},"usability_domain":[""],"description_domain":{"keywords":[""],"pipeline_steps":[{"step_number":0,"name":"","description":"","input_list":[{"uri":{"uri":""}}],"output_list":[{"uri":{"uri":""}}]}]},"execution_domain":{"script":[{"uri":{"uri":""}}],"script_driver":"","software_prerequisites":[{"name":"","version":"","uri":{"uri":""}}],"external_data_endpoints":[{"name":"","url":""}],"environment_variables":{}},"io_domain":{"input_subdomain":[{"uri":{"uri":""}}],"output_subdomain":[{"mediatype":"","uri":{"uri":""}}]},"parametric_domain":[{"param":"","value":"","step":""}]});
@@ -453,55 +481,6 @@ export default function BuilderView() {
     }
 
   }, []);
-
-
-  
-  
-  // // Are we working with a new draft object or an existing one?
-  // if(parsePath.indexOf('DRAFT') === -1) {
-
-  //   // New object.  We have to wait for the user to
-  //   // ask for a new object ID using a specified prefix.
-
-  // } else {
-    
-  //   // Check against the REGEX to determine the table
-  //   // and object ID.
-
-  //   // Simply check for two underscores for a draft table,
-  //   // otherwise we have a publish table.
-
-  //   var tableName = '';
-
-  //   if(parsePath.indexOf('_') != parsePath.lastIndexOf('_')) {
-
-  //     // Draft table.
-  //     tableName = parsePath.split('/')[2].split('_');
-  //     tableName = [tableName[0], tableName[1]].join('_').toLowerCase();
-
-  //   } else {
-
-  //     // Publish table.
-  //     tableName = parsePath.split('/')[2].split('_')[0].toLowerCase() + '_publish';
-
-  //   }
-
-  //   // Remove the 'builder' part of the URI.
-
-  //   // First, see where the 'builder' part is.
-  //   const builderIndex = window.location.href.indexOf('/builder');
-
-  //   // Now drop this part of the string.
-  //   var objectId = window.location.href.substr(0, builderIndex) + window.location.href.substr(builderIndex+8, window.location.href.length);
-
-  //   console.log("===================================", objectId)
-  //   // Mods for local dev
-  //   if(objectId.indexOf(':3000') !== -1) {
-  //       objectId = objectId.substring(0, objectId.indexOf(':3000')) +
-  //       objectId.substring(objectId.indexOf(':3000') + 5, objectId.length)
-  //   console.log("===================================", objectId)
-  //   }
-  // }
   
   return (
     toolsLoading === true
@@ -510,8 +489,11 @@ export default function BuilderView() {
       :
         <DeepContext.Provider value={{ retrievedDraft, objectOwner }}>
           <div>
-            <Tools savingLocation = { savingLocation } setSavingLocation = { setSavingLocation } setDownloadDraft = { setDownloadDraft } setSaveDraft = { setSaveDraft } setPublish = { setPublish } complianceCheck = { complianceCheck } setComplianceCheck = { setComplianceCheck } objectId = { objectId } setObjectId = { setObjectId } serverLock = { serverLock } />
+
+            <Tools objectIdDerivatives = { objectIdDerivatives } setDraftSavingLocation = { setDraftSavingLocation } setPublishSavingLocation = { setPublishSavingLocation } setDownloadDraft = { setDownloadDraft } setSaveDraft = { setSaveDraft } setPublish = { setPublish } complianceCheck = { complianceCheck } setComplianceCheck = { setComplianceCheck } objectId = { objectId } publishedObjectId = { publishedObjectId } setObjectId = { setObjectId } serverLock = { serverLock } publishMessage = { publishMessage } />
+
             <Views downloadDraft = { downloadDraft } setDownloadDraft = { setDownloadDraft } saveDraft = { saveDraft } setSaveDraft = { setSaveDraft } objectContents = { objectContents } setObjectContents = { setObjectContents } publish = { publish } setPublish = { setPublish } complianceCheck = { complianceCheck } objectId = { objectId } loading = { loading } objectFound = { objectFound } />
+
           </div>
         </DeepContext.Provider>
   );

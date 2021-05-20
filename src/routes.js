@@ -20,11 +20,13 @@ import Resources from 'src/views/resources/Resources';
 // Routing rules are given at https://github.com/snd/url-pattern
 
 const routes = () => {
+
 	var isLoggedIn = false
+
 	if(localStorage.getItem('token')) {
 		isLoggedIn = true 
 	}
-	console.log('message',isLoggedIn);	
+  
   return [
 	  {
       path: '/',
@@ -50,6 +52,11 @@ const routes = () => {
       ]
     },
     {
+      path: 'objects/view/', element: <ObjectViewLayout />, children: [
+        { path: ':prefix_:id/:id2.:id3', element: <ObjectView /> }
+      ] 
+    },
+    {
       path: '/',
       element: <DashboardLayout />,
       children: [
@@ -63,13 +70,6 @@ const routes = () => {
       children: [
         { path: '', element: <BuilderView />}, 
         { path: '*', element: <BuilderView /> }
-      ]
-    },
-    {
-      path: '/',
-      element: <ObjectViewLayout /> ,
-      children: [
-        { path: ':prefix_:id/:id2.:id3', element: <ObjectView /> }
       ]
     },
     {
