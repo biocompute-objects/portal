@@ -188,22 +188,28 @@ export default function Tools({ objectIdDerivatives, setDraftSavingLocation, set
 
   }
 
-  // Listen for a change in save location.
+  // Listen for a change in save location
   // to change the server lock.
   useEffect(() => {
     
     // UN-parse the saving location information.
     // The saving location information has to
     // be a string for the selects to not complain.
-    setDraftSavingLocation(
-      {
-        'hostname': saveDraftTo.split(' - ')[0],
-        'group': saveDraftTo.split(' - ')[1]
-      }
+    
+    // Prevent assignment on first render...
+    // TODO: better way to do this?
+    if(saveDraftTo !== '') {
+      setDraftSavingLocation(
       
-    );
+        {
+          'hostname': saveDraftTo.split(' - ')[0],
+          'group': saveDraftTo.split(' - ')[1]
+        }
+        
+      );
+    }
 
-  }, [saveDraftTo])
+  }, [saveDraftTo, setDraftSavingLocation]);
 
   useEffect(() => {
     
@@ -274,7 +280,7 @@ export default function Tools({ objectIdDerivatives, setDraftSavingLocation, set
               <Typography>
                 &nbsp;
               </Typography>
-              <Button variant="contained" color="secondary" disableElevation disabled = { saveDraftTo === '' ? true : false } fullWidth onClick={() => clickActions('saveDraft')}>
+              <Button variant="contained" color="secondary" disableElevation disabled = { saveDraftTo === '' & receivedDefault === null ? true : false } fullWidth onClick={() => clickActions('saveDraft')}>
                 SAVE DRAFT
               </Button>
               <Typography>

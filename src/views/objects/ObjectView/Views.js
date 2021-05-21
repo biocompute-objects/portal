@@ -81,9 +81,6 @@ export default function Views({ objectId }) {
   
   const classes = useStyles();
 
-  // Fetch context.
-  const fc = useContext(FetchContext);
-
   // Get the ID requested, but first, set the state.
   const [loading, setLoading] = useState(true);
   const [objectFound, setObjectFound] = useState();

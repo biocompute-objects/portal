@@ -457,12 +457,16 @@ export default function BuilderView() {
           setObjectContents(parsed['fields']['contents']);
 
           // Set the draft saving location.
-          console.log('firing...')
           setReceivedDefault(parsed['fields']['public_hostname'] + ' - ' + parsed['fields']['human_readable_hostname'] + ' - (' + parsed['fields']['owner_group'] + ')');
 
           // Lock the savable server based on the information
           // associated with the draft.
           setServerLock(true);
+
+          setDraftSavingLocation({
+            'hostname': parsed['fields']['public_hostname'],
+            'group': parsed['fields']['owner_group']
+          });
 
           // setLoading and setObjectFound MUST be within
           // the response section of this fetch so as to
@@ -497,6 +501,9 @@ export default function BuilderView() {
 
 
   // None.
+  useEffect(() => {
+    console.log('draftSavingLocation: ', draftSavingLocation)
+  }, [draftSavingLocation])
   
   return (
     toolsLoading === true
