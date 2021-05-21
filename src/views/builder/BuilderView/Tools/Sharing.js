@@ -280,12 +280,20 @@ export default function Sharing({ objectIdDerivatives }) {
     console.log(group);
     console.log(perm);
     // Get the token for this particular server.
-    const token = 'e08e29f893ce386845ab440472cf9c3ea567cb35';
+
+    // BAD fix, should have apiinfo stored as object...
+    var foundToken = '';
+
+    JSON.parse(localStorage.getItem('user'))['apiinfo'].map(item => {
+      if(item['public_hostname'] === hostname) {
+        foundToken = item['token'];
+      }
+    });
 
     fetch(hostname + '/api/objects/permissions/set/', {
         method: 'POST',
         headers: {
-            'Authorization': 'Token ' + token,
+            'Authorization': 'Token ' + foundToken,
             'Content-Type': 'application/json'
         },
         body: JSON.stringify({
@@ -346,7 +354,7 @@ export default function Sharing({ objectIdDerivatives }) {
     // TODO: change 
 
     // Get the token for this particular server.
-    const token = 'e08e29f893ce386845ab440472cf9c3ea567cb35';
+    const token = '29cb1bbf2b5c0c8fe0dbc22fa29833f0d516deb0';
     console.log('PERMS ARE HERE: ', objectIdDerivatives)
     
     fetch(objectIdDerivatives['hostname'] + '/api/objects/permissions/', {

@@ -1,4 +1,3 @@
-import { TrendingUpRounded } from '@material-ui/icons';
 import React, { createContext, useEffect, useState } from 'react';
 
 // Rendering URL parameters.
@@ -21,8 +20,6 @@ export const DeepContext = createContext();
 export default function BuilderView() {
   
   // State
-  //const [objectFound, setObjectFound] = useState();
-  //const [objectInfo, setObjectInfo] = useState();
 
   // The actual object contents.
   const [objectContents, setObjectContents] = useState({});
@@ -74,18 +71,14 @@ export default function BuilderView() {
   // All of the relevant things associated with an object ID.
   const [objectIdDerivatives, setObjectIdDerivatives] = useState({});
 
-  // Was this draft retrieved (i.e. from a link?)
-  const [retrievedDraft, setRetrievedDraft] = useState(true);
-
   // Who owns it?
   const [objectOwner, setObjectOwner] = useState('');
 
   // The PUBLISHED object ID.
   const [publishedObjectId, setPublishedObjectId] = useState('');
 
-  // Behavior for urls (the table and data to use are based on the URL)
-  // https://.../builder -> ask for a new draft ID
-  // https://.../builder/PREFIX_DRAFT_... -> load the draft information.
+  // A provided default for the server to save the draft to.
+  const [receivedDefault, setReceivedDefault] = useState(null);
 
   
   // ----- ACTIONS ----- //
@@ -330,6 +323,7 @@ export default function BuilderView() {
     // Click handler that releases the object URL after the element has been clicked
     // This is required for one-off downloads of the blob content
     const clickHandler = function() {
+
       setTimeout(() => {
         // Release the object URL
         URL.revokeObjectURL(url);
@@ -341,6 +335,7 @@ export default function BuilderView() {
         (this.remove && (this.remove(), 1)) ||
         (this.parentNode && this.parentNode.removeChild(this));
       }, 150);
+
     };
     
     // // Add the click event listener on the anchor element
@@ -399,11 +394,10 @@ export default function BuilderView() {
 
     if(splitUp[splitUp.length - 1] == "") {
 
+      // NEW draft
+      
       // Set the object contents to template values.
       setObjectContents({"object_id": "","spec_version":"IEEE","etag":"","provenance_domain":{"name":"","version":"","created":"","modified":"","contributors":[{"contribution":["createdBy"],"name":""}],"license":""},"usability_domain":[""],"description_domain":{"keywords":[""],"pipeline_steps":[{"step_number":0,"name":"","description":"","input_list":[{"uri":{"uri":""}}],"output_list":[{"uri":{"uri":""}}]}]},"execution_domain":{"script":[{"uri":{"uri":""}}],"script_driver":"","software_prerequisites":[{"name":"","version":"","uri":{"uri":""}}],"external_data_endpoints":[{"name":"","url":""}],"environment_variables":{}},"io_domain":{"input_subdomain":[{"uri":{"uri":""}}],"output_subdomain":[{"mediatype":"","uri":{"uri":""}}]},"parametric_domain":[{"param":"","value":"","step":""}]});
-
-      // Draft was NOT retrieved from a link.
-      setRetrievedDraft(false);
       
       // No longer loading.
       setToolsLoading(false);
@@ -413,23 +407,37 @@ export default function BuilderView() {
       setObjectFound(true);
 
     } else {
-
-      // TODO: bad fix here, token should be pulled
-      // from user's information...
+      
+      // EXISTING draft
       
       // Take everything after the builder section.
-      const splitAgain = parsePath.split('/builder/')[1].replace('/', '://');
-      const fT = splitAgain.split('/linked/')[1];
+      const splitAgain = splitUp[1].split('/');
 
-      // Get the object ID so that we can get permissions.
-      const oI = splitAgain.split('/linked/')[0];
+      // Get the hostname and object ID.
+      const hostname = splitAgain[1] + '://' + splitAgain[2];
+      const oI = hostname + '/' + splitAgain.slice(3, splitAgain.length);
+      
+      // Now look for a token associated with the hostname.
+
+      // BAD fix, should have apiinfo stored as object...
+      var foundToken = '';
+
+      JSON.parse(localStorage.getItem('user'))['apiinfo'].map(item => {
+        if(item['public_hostname'] === hostname) {
+          foundToken = item['token'];
+        }
+      });
+
+      console.log('hostname: ', hostname);
+      console.log('oI: ', oI);
+      console.log('foundToken: ', foundToken);
 
       // Ask the server for the contents.
-      fetch(splitAgain, {
+      fetch(oI, {
         method: 'GET',
         headers: {
-          'Authorization': 'Token ' + fT,
-          "Content-type": "application/json; charset=UTF-8"
+          'Authorization': 'Token ' + foundToken,
+          'Content-type': 'application/json; charset=UTF-8'
       }
       }).then(res => res.json().then(data => ({
         data: data,
@@ -439,13 +447,16 @@ export default function BuilderView() {
         // Did the request go ok or not?
         if(res.status === 200) {
 
-          console.log(JSON.parse(res.data)[0])
+          console.log('Server return contents: ', JSON.parse(res.data)[0])
 
           // Parse the results.
           const parsed = JSON.parse(res.data)[0];
 
           // Set the object information.
-          setObjectContents(parsed['fields']['contents'])
+          setObjectContents(parsed['fields']['contents']);
+
+          // Set the draft saving location.
+          setReceivedDefault(parsed['fields']['public_hostname'] + ' - ' + parsed['fields']['human_readable_hostname'] + ' - (' + parsed['fields']['owner_group'] + ')');
 
           // Lock the savable server based on the information
           // associated with the draft.
@@ -458,14 +469,11 @@ export default function BuilderView() {
           // TODO: improve error checking here to check for
           // an invalid object ID.
 
-          // The draft was retrieved.
-          setRetrievedDraft(true);
-
           // Who created it?
           setObjectOwner(parsed['fields']['public_hostname'] + ' - ' + parsed['fields']['human_readable_hostname'] + ' (' + parsed['fields']['owner_group'] + ')')
 
           // Get the permissions.
-          setObjectId(parsePath);
+          setObjectId(oI);
           
           // No longer loading.
           setToolsLoading(false);
@@ -481,16 +489,22 @@ export default function BuilderView() {
     }
 
   }, []);
+
+
+  // ----- Listeners ----- //
+
+
+  // None.
   
   return (
     toolsLoading === true
       ?
         null
       :
-        <DeepContext.Provider value={{ retrievedDraft, objectOwner }}>
+        <DeepContext.Provider value={{ objectOwner }}>
           <div>
 
-            <Tools objectIdDerivatives = { objectIdDerivatives } setDraftSavingLocation = { setDraftSavingLocation } setPublishSavingLocation = { setPublishSavingLocation } setDownloadDraft = { setDownloadDraft } setSaveDraft = { setSaveDraft } setPublish = { setPublish } complianceCheck = { complianceCheck } setComplianceCheck = { setComplianceCheck } objectId = { objectId } publishedObjectId = { publishedObjectId } setObjectId = { setObjectId } serverLock = { serverLock } publishMessage = { publishMessage } />
+            <Tools objectIdDerivatives = { objectIdDerivatives } setDraftSavingLocation = { setDraftSavingLocation } setPublishSavingLocation = { setPublishSavingLocation } setDownloadDraft = { setDownloadDraft } setSaveDraft = { setSaveDraft } setPublish = { setPublish } complianceCheck = { complianceCheck } setComplianceCheck = { setComplianceCheck } objectId = { objectId } publishedObjectId = { publishedObjectId } setObjectId = { setObjectId } serverLock = { serverLock } publishMessage = { publishMessage } receivedDefault = { receivedDefault } />
 
             <Views downloadDraft = { downloadDraft } setDownloadDraft = { setDownloadDraft } saveDraft = { saveDraft } setSaveDraft = { setSaveDraft } objectContents = { objectContents } setObjectContents = { setObjectContents } publish = { publish } setPublish = { setPublish } complianceCheck = { complianceCheck } objectId = { objectId } loading = { loading } objectFound = { objectFound } />
 

@@ -53,7 +53,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Tools({ objectIdDerivatives, setDraftSavingLocation, setPublishSavingLocation, setDownloadDraft, setSaveDraft, setPublish, objectId, publishedObjectId, publishMessage, setObjectId, serverLock }) {
+export default function Tools({ objectIdDerivatives, setDraftSavingLocation, setPublishSavingLocation, setDownloadDraft, setSaveDraft, setPublish, objectId, publishedObjectId, publishMessage, receivedDefault, setObjectId, serverLock }) {
   
   // State
   const [saveDraftTo, setSaveDraftTo] = React.useState('');
@@ -132,7 +132,7 @@ export default function Tools({ objectIdDerivatives, setDraftSavingLocation, set
 // const [selectedValue, setSelectedValue] = React.useState([]);
 
 // // From the context
-// const { objectOwner, retrievedDraft } = useContext(DeepContext);
+// const { objectOwner } = useContext(DeepContext);
 
 
 
@@ -270,7 +270,7 @@ export default function Tools({ objectIdDerivatives, setDraftSavingLocation, set
                 Saving and Publishing
               </Typography>
               {/* <SaveServer savingLocation = { savingLocation } serverLock = { serverLock } setObjectId = { setObjectId } setSaveTo = { setSaveTo } type = { 'draft' } /> */}
-              <ServerList disabledValue = { serverLock } options = { JSON.parse(localStorage.getItem('user'))['apiinfo'] } setter = { setSaveDraftTo } type = { 'draft' } />
+              <ServerList disabledValue = { serverLock } options = { JSON.parse(localStorage.getItem('user'))['apiinfo'] } receivedDefault = { receivedDefault } setter = { setSaveDraftTo } type = { 'draft' } />
               <Typography>
                 &nbsp;
               </Typography>

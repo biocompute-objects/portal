@@ -32,6 +32,7 @@ import Raw from './Raw'
 
 // Fetch context.
 import { FetchContext } from '../../../App';
+import { PinDropSharp } from '@material-ui/icons';
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -74,9 +75,8 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Views({ table, objectId }) {
+export default function Views({ objectId }) {
   
-  console.log('%%%%', table)
   console.log('$$$$', objectId)
   
   const classes = useStyles();
@@ -104,45 +104,46 @@ export default function Views({ table, objectId }) {
   const getObjectInfo = () => {
     
     // Call the API.
-    fetch(fc['sending']['bcoapi_objects_read'], {
-      method: 'POST',
-      body: JSON.stringify({
-        POST_read_object: [
-            {
-                table: table, 
-                object_id: objectId
-            }
-        ]
-    }),
-    headers: {
-      "Content-type": "application/json; charset=UTF-8"
+
+    // NO token necessary since published objects
+    // are freely requestable by the public.
+
+    fetch(objectId, {
+      method: 'GET',
+      headers: {
+        'Content-type': 'application/json; charset=UTF-8'
     }
-    }).then(response=>response.json()).then(data=>{
+    }).then(res => res.json().then(data => ({
+      data: data,
+      status: res.status
+    })).then(res => {
       
-      console.log('+++++++++++++++++', data)
-      // Get the bulk response.
-      const bulkResponse = data.POST_read_object[0];
+        // Did the request go ok or not?
+        if(res.status === 200) {
 
-      // Was the object found?
-      if(bulkResponse.request_code === '200') {
-        
-        //console.log('-----', bulkResponse.content)
-        // We found the object, so set the data.
-        setObjectInfo(bulkResponse.content);
-        setObjectFound(true);
+          console.log('Server return contents: ', JSON.parse(res.data))
 
-      } else {
+          // Parse the results.
+          const parsed = JSON.parse(res.data);
 
-        // There was a problem, so show what it was.
-        setObjectInfo(bulkResponse.message);
-        setObjectFound(false);
-  
-      }
+          // We found the object, so set the data.
+          setObjectInfo(JSON.parse(res.data)[0]['fields']['contents']);
+          setObjectFound(true);
 
-      // We're no longer loading.
-      setLoading(false);
+        } else {
 
-    })
+          // There was a problem, so show what it was.
+          setObjectInfo();
+          setObjectFound(false);
+
+        }
+
+        // We're no longer loading.
+        setLoading(false);
+
+      })
+
+    )
     
   }
   
@@ -150,17 +151,6 @@ export default function Views({ table, objectId }) {
     setLoading(true);
     getObjectInfo();
   }, []);
-
-  // Use the parent context.
-  // Source: https://www.digitalocean.com/community/tutorials/react-usecontext
-
-  // As of 1/29/21, there is a problem in React with this function call.
-  // Source: https://stackoverflow.com/questions/62564671/using-usecontext-in-react-doesnt-give-me-the-expect-data
-
-  // Pull the state from the parent.
-  //const { 
-  //  view
-  //} = useContext(DisplayContext);
 
   // Define a variable for switching views within
   // the component (as opposed to getting the value)
@@ -192,8 +182,7 @@ export default function Views({ table, objectId }) {
                   <Tab icon={<AccountTreeIcon />} label="Tree" {...a11yProps(1)} />
                   <Tab icon={<InsertDriveFileIcon />} label="Raw" {...a11yProps(2)} />
                 </Tabs>
-                <Chip color='primary' label={'DRAFT'}></Chip>
-                <Chip color='primary' label={'PUBLISHED'}></Chip>
+                <Chip color='primary' label={'SOME INFO ABOUT OWNER GROUPS / DRAFT / PUBLISHED / EMBARGO / ETC...'}></Chip>
               </AppBar>
               {/* <Typography>
                 Object ID: {objectId}

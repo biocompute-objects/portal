@@ -18,51 +18,11 @@ import Views from './Views'
 
 export default function ObjectView() {
 
-  // For development only.
-  const removePortNumber = (uri) => {
-
-    // Add port number 3000.
-
-    // Look for the index of the localhost url.
-    const localhostUrlIndex = uri.indexOf('127.0.0.1');
-
-    // Construct the new URI.
-    const newUri = uri.substring(0,localhostUrlIndex+9) + '/' + uri.substring(localhostUrlIndex+15, uri.length);
-    console.log('newUri', newUri);
-
-    return(newUri);
-
-  }
-  
-  // The table to use is based on the URL.
-
-  // Set the object requested.
-  const parsePath = useLocation().pathname;
-
-  // Check against the REGEX to determine the table.
-
-  // Simply check for two underscores for a draft table,
-  // otherwise we have a publish table.
-
-  var tableName = '';
-
-  if(parsePath.indexOf('_') != parsePath.lastIndexOf('_')) {
-
-    // Draft table.
-    tableName = parsePath.split('/')[1].split('_');
-    tableName = [tableName[0], tableName[1]].join('_').toLowerCase();
-
-  } else {
-
-    // Publish table.
-    tableName = parsePath.split('/')[1].split('_')[0].toLowerCase() + '_publish';
-
-  }
-  
+  // Split to get a real URI, then ask for the object.  
   return (
     <div>
       <Tools />
-      <Views table={tableName} objectId={ window.location.href.indexOf(':3000') !== -1 ? removePortNumber(window.location.href) : window.location.href } />
+      <Views objectId = { window.location.href.split('objects/view/')[1].replace('/', '://') } />
     </div>
   );
 }

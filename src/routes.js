@@ -35,25 +35,15 @@ const routes = () => {
         { path: '', element: <Navigate to="/dashboard" /> },
         { path: 'account', element: isLoggedIn ? <AccountView /> : <Navigate to="/login" /> },
         { path: 'objects', element: <ObjectsListView /> },
-        { path: 'documentation', element: <Documentation />, children:[
-            { path: '', element: ''}
-          ]
-        },
-        { path: 'resources', element: <Resources />, children:[
-            { path: '', element: ''}
-          ]
-        },
-        { path: 'documentation', element: <Documentation />, children:[
-            { path: '', element: ''}
-          ]
-        },
+        { path: 'documentation', element: <Documentation /> },
+        { path: 'resources', element: <Resources /> },
         { path: 'community', element: <Community /> },
         { path: 'validator', element: <ValidatorView /> }
       ]
     },
     {
-      path: 'objects/view/', element: <ObjectViewLayout />, children: [
-        { path: ':prefix_:id/:id2.:id3', element: <ObjectView /> }
+      path: 'objects/view', element: <ObjectViewLayout />, children: [
+        { path: '*', element: <ObjectView /> }
       ] 
     },
     {
