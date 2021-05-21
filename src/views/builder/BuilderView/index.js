@@ -137,66 +137,95 @@ export default function BuilderView() {
 
       // Determine the table to write to based on the
       // group name.
-      
-      // Call the API.
-      fetch(draftSavingLocation['hostname'] + '/api/objects/create/', {
-        method: 'POST',
-        body: JSON.stringify({
-          POST_create_new_object: [
-              {
-                contents: objectContents,
-                owner_group: draftSavingLocation['group'],
-                schema: 'IEEE',
-                state: 'DRAFT',
-                table: draftSavingLocation['group'].replace('ers', '')
-              }
-          ]
-      }),
-      headers: {
-        'Authorization': 'Token ' + foundToken,
-        "Content-type": "application/json; charset=UTF-8"
-      }
-      }).then(res => res.json().then(data => ({
-        data: data,
-        status: res.status
-      })).then(res => {
-        
-        // Did the request go ok or not?
-        if(res.status === 200) {
 
-          // Set the object ID.
+      // Determine whether or not we have an object ID,
+      // then make the call based on that.
+      if(objectId === '') {
 
-          // MUST use a copy of the state variable.
-          // Source: https://www.freecodecamp.org/news/handling-state-in-react-four-immutable-approaches-to-consider-d1f5c00249d5/
-
-          // The loading and object finding steps are necessary
-          // to force a re-render apparently?
-          
-          // Now we're loading.
-          setLoading(true);
-
-          // The object hasn't been "found".
-          setObjectFound(false);
-          
-          // TODO: may be a bit expensive to copy, could instead
-          // set state value directly?
-          var helper = Object.assign({}, objectContents);
-          helper['object_id'] = res.data[0]['object_id'];
-          setObjectContents(helper);
-
-          // Set the state.
-          setObjectId(res.data[0]['object_id']);
-
-          // Lock the savable server.
-          setServerLock(true);
-
-          // Done loading and "looking" for the object.
-          setLoading(false);
-          setObjectFound(true);
-
+        // Call the API.
+        fetch(draftSavingLocation['hostname'] + '/api/objects/create/', {
+          method: 'POST',
+          body: JSON.stringify({
+            POST_create_new_object: [
+                {
+                  contents: objectContents,
+                  owner_group: draftSavingLocation['group'],
+                  schema: 'IEEE',
+                  state: 'DRAFT',
+                  table: draftSavingLocation['group'].replace('ers', '')
+                }
+            ]
+        }),
+        headers: {
+          'Authorization': 'Token ' + foundToken,
+          "Content-type": "application/json; charset=UTF-8"
         }
+        }).then(res => res.json().then(data => ({
+          data: data,
+          status: res.status
+        })).then(res => {
+          
+          // Did the request go ok or not?
+          if(res.status === 200) {
 
-      }))
+            // Set the object ID.
+
+            // MUST use a copy of the state variable.
+            // Source: https://www.freecodecamp.org/news/handling-state-in-react-four-immutable-approaches-to-consider-d1f5c00249d5/
+
+            // The loading and object finding steps are necessary
+            // to force a re-render apparently?
+            
+            // Now we're loading.
+            setLoading(true);
+
+            // The object hasn't been "found".
+            setObjectFound(false);
+            
+            // TODO: may be a bit expensive to copy, could instead
+            // set state value directly?
+            var helper = Object.assign({}, objectContents);
+            helper['object_id'] = res.data[0]['object_id'];
+            setObjectContents(helper);
+
+            // Set the state.
+            setObjectId(res.data[0]['object_id']);
+
+            // Lock the savable server.
+            setServerLock(true);
+
+            // Done loading and "looking" for the object.
+            setLoading(false);
+            setObjectFound(true);
+
+          }
+
+        }))
+
+      } else {
+
+        // Call the API.
+        fetch(draftSavingLocation['hostname'] + '/api/objects/create/', {
+          method: 'POST',
+          body: JSON.stringify({
+            POST_create_new_object: [
+                {
+                  contents: objectContents,
+                  object_id: objectId,
+                  owner_group: draftSavingLocation['group'],
+                  schema: 'IEEE',
+                  state: 'DRAFT',
+                  table: draftSavingLocation['group'].replace('ers', '')
+                }
+            ]
+        }),
+        headers: {
+          'Authorization': 'Token ' + foundToken,
+          "Content-type": "application/json; charset=UTF-8"
+        }
+        })
+
+      }
 
       // Done saving.
       setSaveDraft(0);
