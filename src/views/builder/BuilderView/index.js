@@ -210,6 +210,7 @@ export default function BuilderView() {
   useEffect(() => {
 
     // Set the derivative properties.
+    console.log('objectId has changed: ', objectId)
     setObjectIdDerivatives(extractObjectInfo(objectId));
 
   }, [objectId])
@@ -402,7 +403,7 @@ export default function BuilderView() {
       // No longer loading.
       setToolsLoading(false);
       setLoading(false);
-
+      
       // The object was "found".
       setObjectFound(true);
 
@@ -456,6 +457,7 @@ export default function BuilderView() {
           setObjectContents(parsed['fields']['contents']);
 
           // Set the draft saving location.
+          console.log('firing...')
           setReceivedDefault(parsed['fields']['public_hostname'] + ' - ' + parsed['fields']['human_readable_hostname'] + ' - (' + parsed['fields']['owner_group'] + ')');
 
           // Lock the savable server based on the information

@@ -351,16 +351,21 @@ export default function Sharing({ objectIdDerivatives }) {
     // First, ask the server for the permissions.
 
     // Get the hostname, actual object ID, and token.
-    // TODO: change 
 
-    // Get the token for this particular server.
-    const token = '29cb1bbf2b5c0c8fe0dbc22fa29833f0d516deb0';
-    console.log('PERMS ARE HERE: ', objectIdDerivatives)
+    // TODO: bad fix here, need to have apiinfo be
+    // an object rather than an array...
+    var foundToken = '';
+
+    JSON.parse(localStorage.getItem('user'))['apiinfo'].map(item => {
+      if(item['public_hostname'] === objectIdDerivatives['hostname']) {
+        foundToken = item['token'];
+      }
+    });
     
     fetch(objectIdDerivatives['hostname'] + '/api/objects/permissions/', {
         method: 'POST',
         headers: {
-            'Authorization': 'Token ' + token,
+            'Authorization': 'Token ' + foundToken,
             'Content-Type': 'application/json'
         },
         body: JSON.stringify({

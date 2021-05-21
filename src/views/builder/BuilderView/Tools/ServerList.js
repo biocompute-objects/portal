@@ -45,22 +45,40 @@ export default function ServerList({ disabledValue, options, receivedDefault, se
 
     });
     
+    // Trouble with inputValue, so split the logic.
     return (
-        <Autocomplete
-            disabled = { disabledValue }
-            fullWidth
-            inputValue = { receivedDefault !== null ? receivedDefault : null }  
-            onChange={ (event, newValue) => {
-                newValue === null
-                    ?
-                        setter('')
-                    :
-                        setter(newValue['hostname'] + ' - ' + newValue['group'])
-            } }
-            options={ processed }
-            getOptionLabel={ (option) => option.hostname + ' - ' + option.human_readable_hostname + ' (' + option.group + ')' }
-            renderInput={ (params) => <TextField {...params} label = { type === 'draft' ? "Select server to save draft to." : "Select server to publish draft to." } />}
-        />
+        receivedDefault !== null
+            ?
+                <Autocomplete
+                    disabled = { disabledValue }
+                    fullWidth
+                    inputValue = { receivedDefault }  
+                    onChange={ (event, newValue) => {
+                        newValue === null
+                            ?
+                                setter('')
+                            :
+                                setter(newValue['hostname'] + ' - ' + newValue['group'])
+                    } }
+                    options={ processed }
+                    getOptionLabel={ (option) => option.hostname + ' - ' + option.human_readable_hostname + ' (' + option.group + ')' }
+                    renderInput={ (params) => <TextField {...params} label = { type === 'draft' ? "Select server to save draft to." : "Select server to publish draft to." } />}
+                />
+            :
+                <Autocomplete
+                    disabled = { disabledValue }
+                    fullWidth 
+                    onChange={ (event, newValue) => {
+                        newValue === null
+                            ?
+                                setter('')
+                            :
+                                setter(newValue['hostname'] + ' - ' + newValue['group'])
+                    } }
+                    options={ processed }
+                    getOptionLabel={ (option) => option.hostname + ' - ' + option.human_readable_hostname + ' (' + option.group + ')' }
+                    renderInput={ (params) => <TextField {...params} label = { type === 'draft' ? "Select server to save draft to." : "Select server to publish draft to." } />}
+                />
     );
 
 }
