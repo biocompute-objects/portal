@@ -48,7 +48,6 @@ export default function UsabilityDomain({ items, cF }) {
   // TODO: For some reason didn't work with [items.ud]
 
   useEffect(() => {
-    console.log('itemsud:', items)
     if(items.ud[0] === "") {
       setMissingUsabilityDomain(true);
     } else {

@@ -1,47 +1,34 @@
+// Source: https://material-ui.com/components/autocomplete/#combo-box
+
+/* eslint-disable no-use-before-define */
 import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import InputLabel from '@material-ui/core/InputLabel';
-import MenuItem from '@material-ui/core/MenuItem';
-import FormHelperText from '@material-ui/core/FormHelperText';
-import FormControl from '@material-ui/core/FormControl';
-import Select from '@material-ui/core/Select';
+import TextField from '@material-ui/core/TextField';
+import Autocomplete from '@material-ui/lab/Autocomplete';
 
-const useStyles = makeStyles((theme) => ({
-  formControl: {
-    margin: theme.spacing(1),
-    marginLeft: '0',
-    marginRight: '0',
-    minWidth: 90,
-  },
-  selectEmpty: {
-    marginTop: theme.spacing(2),
-  },
-}));
+export default function Groups({ items }) {
+  
+    // Some quick processing to make the keys usable.
+    const processed = [];
 
-export default function Groups() {
-  const classes = useStyles();
-  const [age, setAge] = React.useState('');
+    const handleChange = () => {
+        alert('here')
+    }
 
-  const handleChange = (event) => {
-    setAge(event.target.value);
-  };
+    items.map(item => {
+        processed.push({ name: item });
+    });
 
-  return (
-    <div>
-      <FormControl className={classes.formControl}>
-        <InputLabel id="demo-simple-select-label">Group</InputLabel>
-        <Select
-          labelId="demo-simple-select-label"
-          id="demo-simple-select"
-          value={age}
-          onChange={handleChange}
-        >
-          <MenuItem value={10}>GWU-HIVE - 24.35.124.3 (Users)</MenuItem>
-          <MenuItem value={10}>GWU-HIVE - 24.35.124.3 (Admins)</MenuItem>
-          <MenuItem value={20}>FDA - 52.52.102.7 (Reviewers)</MenuItem>
-          <MenuItem value={30}>NIH - 24.45.3.54 (Internal Research)</MenuItem>
-        </Select>
-      </FormControl>
-    </div>
-  );
+    // Default value: https://stackoverflow.com/questions/61213634/assigning-default-value-to-autocomplete-in-materialui-and-react-js
+  
+    return (
+        <Autocomplete
+            defaultValue={{ name: 'None'}}
+            id="combo-box-demo"
+            onChange={handleChange}
+            options={processed}
+            getOptionLabel={(option) => option.name}
+            style={{ width: 300 }}
+            renderInput={(params) => <TextField {...params} />}
+        />
+    );
 }

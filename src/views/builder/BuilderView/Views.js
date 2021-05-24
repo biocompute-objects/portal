@@ -65,6 +65,10 @@ function a11yProps(index) {
 }
 
 const useStyles = makeStyles((theme) => ({
+  loading: {
+    marginTop: '100px',
+    textAlign: 'center'
+  },
   root: {
     flexGrow: 1,
     backgroundColor: theme.palette.background.paper,
@@ -72,173 +76,23 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Views({ saving, setSaving, publishing, setPublishing, compCheck, table, objectId }) {
+export default function Views({ downloadDraft, setDownloadDraft, saveDraft, setSaveDraft, publish, setPublish, complianceCheck, objectId, objectContents, setObjectContents, loading, objectFound }) {
   
-  console.log('%%%%%%%%')
-  console.log(compCheck)
-  console.log(table)
-  console.log('typeof(table):', typeof(table))
-  console.log(objectId)
-  console.log('##########')
+  // console.log('%%%%%%%%')
+  // console.log(complianceCheck)
+  // console.log(objectId)
+  // console.log('##########')
   
   const classes = useStyles();
 
-  // Fetch context.
-  const fc = useContext(FetchContext);
-
-  // Get the ID requested, but first, set the state.
-  const [loading, setLoading] = useState(true);
-  const [objectFound, setObjectFound] = useState();
-  const [objectInfo, setObjectInfo] = useState();
-
-  // Make the request to the API, then pass the
-  // result to the children.
-
-  // Source: https://www.bitnative.com/2020/07/06/four-ways-to-fetch-data-in-react/
-  // Source: https://stackoverflow.com/questions/60888028/how-to-wait-for-fetch-before-rendering-data-in-functional-component
-
-  // Construct the request.
-
-  // Fetch behavior requires further processing.
-
-  // Source: https://stackoverflow.com/questions/43903767/read-the-body-of-a-fetch-promise
-
-  // TODO: fix this call later to not rely on the URL passed in?
-  // TODO: fix this later to allow for the use of prefixes.
-   //    attach_id: 'True',
-
-  let history = useNavigate();
-  
-  // Redirect
-  function redirect(where) {
-    return history(where);
-  }
-
-  // If no object ID is provided, then a new one is generated.
-  const newDraftObject = () => {
-    
-    // Object ID and eTag are generated on server.
-
-    // DRAFT template.  Only required fields from the top-level with
-    // no break in the requirement chain for descendents are generated
-    // here.
-
-    // Some fields (e.g. "contributors") must be provided a default value.
-    // Sensible values will be given where possible.
-    
-    // Call the API.
-    fetch(fc['sending']['bcoapi_objects_create'], {
-      method: 'POST',
-      body: JSON.stringify({
-        POST_create_new_object: [
-            {
-              table: 'bco_draft',
-              schema: 'IEEE',
-              contents: JSON.parse('{"spec_version":"IEEE","etag":"0","provenance_domain":{"name":"","version":"","created":"","modified":"","contributors":[{"contribution":["createdBy"],"name":""}],"license":""},"usability_domain":[""],"description_domain":{"keywords":[""],"pipeline_steps":[{"step_number":0,"name":"","description":"","input_list":[{"uri":{"uri":""}}],"output_list":[{"uri":{"uri":""}}]}]},"execution_domain":{"script":[{"uri":{"uri":""}}],"script_driver":"","software_prerequisites":[{"name":"","version":"","uri":{"uri":""}}],"external_data_endpoints":[{"name":"","url":""}],"environment_variables":{}},"io_domain":{"input_subdomain":[{"uri":{"uri":""}}],"output_subdomain":[{"mediatype":"","uri":{"uri":""}}]},"parametric_domain":[{"param":"","value":"","step":""}]}'),
-              state: 'DRAFT'
-            }
-        ]
-    }),
-    headers: {
-      "Content-type": "application/json; charset=UTF-8"
-    }
-    }).then(response=>response.json()).then(data=>{
-
-      console.log('NEW DRAFT OBJECT: ', data);
-
-      // Parse the response data for the URL to re-direct to,
-      // making sure we're going to the BUILDER page.
-
-      // Split the URI and re-construct the route.
-      const splitUp = data.POST_create_new_object[0]['object_id'].split('/');
-
-      // Now re-direct.
-      redirect('/builder/' + splitUp[3]);
-
-      // Crappy but works.
-      // Source: https://reactgo.com/react-refresh-page/
-      window.location.reload();
-
-    })
-  }
-  
-  const getObjectInfo = () => {
-    
-    // Call the API.
-    fetch(fc['sending']['bcoapi_objects_read'], {
-      
-      method: 'POST',
-      body: JSON.stringify({
-        POST_read_object: [
-            {
-                table: table, 
-                object_id: objectId
-            }
-        ]
-
-    }),
-    headers: {
-      "Content-type": "application/json; charset=UTF-8"
-    }
-    }).then(response=>response.json()).then(data=>{
-      
-      console.log('+++++++++++++++++', data);
-
-      // Get the bulk response.
-      const bulkResponse = data.POST_read_object[0];
-
-      // Was the object found?
-      if(bulkResponse.request_code === '200') {
-        
-        // We found the object, so set the data.
-        setObjectInfo(bulkResponse.content);
-        setObjectFound(true);
-
-      } else {
-
-        // There was a problem, so show what it was.
-        setObjectInfo(bulkResponse.message);
-        setObjectFound(false);
-  
-      }
-
-      // We're no longer loading.
-      setLoading(false);
-
-    })
-  }
-  
   useEffect(() => {
+    console.log('loading: ', loading)
+  }, [loading]);
 
-    // Default to the loading state.
-    setLoading(true);
-
-    // Were a table and object ID provided?
-    if(typeof(table) === 'undefined' || typeof(objectId) === 'undefined') {
-
-      // We need a new draft object.
-      newDraftObject();
-
-    } else {
-      
-      // Look for the object ID provided.
-      getObjectInfo();
-
-    }
-    
-  }, []);
-
-  // Use the parent context.
-  // Source: https://www.digitalocean.com/community/tutorials/react-usecontext
-
-  // As of 1/29/21, there is a problem in React with this function call.
-  // Source: https://stackoverflow.com/questions/62564671/using-usecontext-in-react-doesnt-give-me-the-expect-data
-
-  // Pull the state from the parent.
-  //const { 
-  //  view
-  //} = useContext(DisplayContext);
-
+  useEffect(() => {
+    console.log('objectFound: ', objectFound)
+  }, [objectFound]);
+  
   // Define a variable for switching views within
   // the component (as opposed to getting the value)
   // from the parent).
@@ -253,11 +107,18 @@ export default function Views({ saving, setSaving, publishing, setPublishing, co
 
   // Use value={Number(view)} to pull from the parent..
 
+  // Listen to see if we're saving.
+  useEffect(() => {
+    console.log('Saving!!!!!!')
+  }, [saveDraft])
+
   return (
     loading
       ?
-        <div>
-          <Typography>Loading...</Typography>
+        <div className = { classes.loading }>
+          <Typography variant = 'h1'>
+            Loading...
+          </Typography>
         </div>
       :
         objectFound
@@ -273,10 +134,10 @@ export default function Views({ saving, setSaving, publishing, setPublishing, co
                 Object ID: {objectId}
               </Typography> */}
               <TabPanel value={componentView} index={0}>
-                <ColorCoded saving={saving} setSaving={setSaving} publishing={publishing} setPublishing={setPublishing} compCheck={compCheck} contents={objectInfo} />
+                <ColorCoded downloadDraft={componentView === 0 ? downloadDraft : null} setDownloadDraft={setDownloadDraft} saveDraft={saveDraft} setSaveDraft={setSaveDraft} publish={publish} setPublish={setPublish} complianceCheck={complianceCheck} objectContents={objectContents} setObjectContents={setObjectContents} />
               </TabPanel>
               <TabPanel value={componentView} index={1}>
-                <Raw saving={saving} setSaving={setSaving} publishing={publishing} setPublishing={setPublishing} compCheck={compCheck} contents={objectInfo} />
+                {/* <Raw downloadDraft={componentView === 1 ? downloadDraft : null} setDownloadDraft={setDownloadDraft} saveDraft={saveDraft} setSaveDraft={setSaveDraft} publish={publish} setPublish={setPublish} complianceCheck={complianceCheck} contents={objectInfo} /> */}
               </TabPanel>
             </div>
           :
@@ -286,7 +147,7 @@ export default function Views({ saving, setSaving, publishing, setPublishing, co
               There was a problem with the request, see output below.
             </Typography>
             <Typography>
-              Server http://127.0.0.1 says: {objectInfo}
+              Server http://127.0.0.1 says: 'We had a problem!'
             </Typography>
           </div>
   );

@@ -1,0 +1,12 @@
+[Unit]
+Description=portalusers gunicorn daemon
+After=network.target
+
+[Service]
+User=beta_portal_user
+Group=nginx
+WorkingDirectory=/home/beta_portal_user/portal/userdb/portalusers/
+ExecStart=/home/beta_portal_user/portal/userdb/portalusers/env/bin/gunicorn --workers 3 --bind 127.0.0.1:8080 portalusers.wsgi:application --access-logfile -
+
+[Install]
+WantedBy=multi-user.target

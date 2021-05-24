@@ -37,6 +37,8 @@ const useStyles = makeStyles((theme) => ({
 // Pass an object and whether or not its keys are properties.
 export default function Meta({ items }) {  
   
+  console.log('ITEMS CHECK: ', items)
+  
   const classes = withStyles();
   const svgClasses = useStyles();
 
@@ -72,7 +74,7 @@ export default function Meta({ items }) {
             </Typography>
           </StyledCell>
           <StyledCell>
-            <TextField disabled defaultValue={items.object_id} fullWidth id="outlined-basic" variant="outlined" />
+            <TextField disabled label = {items.meObjectId} fullWidth id="outlined-basic" variant="outlined" />
           </StyledCell>
         </TableRow>
         <TableRow>
@@ -92,7 +94,7 @@ export default function Meta({ items }) {
             </Typography>
           </StyledCell>
           <StyledCell>
-            <TextField disabled defaultValue={items.etag} fullWidth id="outlined-basic" variant="outlined" />
+            <TextField disabled label = {items.meEtag} fullWidth id="outlined-basic" variant="outlined" />
           </StyledCell>
         </TableRow>
       </TableBody>

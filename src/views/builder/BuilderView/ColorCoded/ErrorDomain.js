@@ -47,8 +47,6 @@ export default function ErrorDomain({ items, cF }) {
 
   
   // None.
-  console.log('=++++++++++++++++', items)
-  console.log(cF(items))
 
 
   // ----- Error ----- //

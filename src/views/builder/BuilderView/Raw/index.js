@@ -53,7 +53,10 @@ const StyledCell = withStyles({
 })(TableCell);
 
 // Pass an object and whether or not its keys are properties.
-export default function Raw({ saving, setSaving, publishing, setPublishing, compCheck, contents }) {
+export default function Raw({ downloading, setDownloading, saving, setSaving, publishing, setPublishing, compCheck, contents }) {
+  
+  // As of 5/13/21, there is no relationship between the color-coded
+  // draft view and the raw draft view.
   
   console.log('typeof(contents): ', typeof(contents));
   const classes = useStyles();

@@ -1,3 +1,4 @@
+from django.db.models.query import QuerySet
 from rest_framework import serializers
 from rest_framework_jwt.settings import api_settings
 from django.contrib.auth.models import User
@@ -13,9 +14,12 @@ from django.contrib.auth.models import Group
 # API serializer
 class ApiSerializer(serializers.ModelSerializer):
 
+    # Only if the username on portal and the API are the same...
+    # username = serializers.SlugRelatedField(slug_field = 'username', queryset = User.objects.all())
+    
     class Meta:
         model = ApiInfo
-        fields = ('hostname', 'human_readable', 'apikey',)
+        fields = ('username', 'hostname', 'human_readable_hostname', 'public_hostname', 'token', 'other_info',)
 
 
 class GroupSerializer(serializers.ModelSerializer):
@@ -41,19 +45,24 @@ class UserSerializerWithToken(serializers.ModelSerializer):
     password = serializers.CharField(write_only=True)
 
     def get_token(self, obj):
+
         jwt_payload_handler = api_settings.JWT_PAYLOAD_HANDLER
         jwt_encode_handler = api_settings.JWT_ENCODE_HANDLER
 
         payload = jwt_payload_handler(obj)
         token = jwt_encode_handler(payload)
+
         return token
 
     def create(self, validated_data):
+
         password = validated_data.pop('password', None)
         instance = self.Meta.model(**validated_data)
+
         if password is not None:
             instance.set_password(password)
         instance.save()
+
         return instance
 
     class Meta:

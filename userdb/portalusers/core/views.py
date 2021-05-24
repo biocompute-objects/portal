@@ -16,7 +16,7 @@ def current_user(request):
     """
     Determine the current user by their token, and return their data
     """
-    
+    print('HERE')
     serializer = UserSerializer(request.user)
 
     print('+++++++++++++++')
@@ -30,8 +30,10 @@ def add_api(request):
     """
     Update a user's information based on their token.
     """
-
+    
     # Get the user.
+    print('U check')
+    print(UserSerializer(request.user).data)
     user = UserSerializer(request.user).data['username']
 
     # TODO: right way to do this?
@@ -41,22 +43,20 @@ def add_api(request):
     # Get the bulk information.
     bulk = json.loads(request.body)
 
-    # Get the hostname.
-    hostname = bulk['api_hostname']
-
-    # Get the human-readable hostname.
-    human_readable = bulk['api_human_readable']
-
-    # Get the new API key.
-    api_key = bulk['api_key']
-
     # Add the key for the user.
-    updated = ApiInfo(username = user_object, hostname = hostname, human_readable = human_readable, apikey = api_key)
+    updated = ApiInfo(
+    	local_username = user_object,
+        username = bulk['username'], 
+    	hostname = bulk['hostname'], 
+    	human_readable_hostname = bulk['human_readable_hostname'], 
+        public_hostname = bulk['public_hostname'],
+    	token = bulk['token'],
+        other_info = bulk['other_info']
+    )
     updated.save()
 
     print('========')
     print(user)
-    print(api_key)
     print(updated)
     print('=========')
     return(Response(UserSerializer(request.user).data))
@@ -71,9 +71,37 @@ class UserList(APIView):
     permission_classes = (permissions.AllowAny,)
 
     def post(self, request, format=None):
-        serializer = UserSerializerWithToken(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            print(serializer.data)
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        
+        print('request.data: ')
+        print(request.data)
+        print('===============')
+
+        # Does this user already exist?
+        if User.objects.filter(username = request.data['username']).exists():
+
+            # Bad request because the user already exists.
+            return Response(status=status.HTTP_409_CONFLICT)
+        
+        else:
+            
+            serializer = UserSerializerWithToken(data=request.data)
+            
+            if serializer.is_valid():
+                serializer.save()
+                
+                return Response(serializer.data, status=status.HTTP_201_CREATED)
+            
+            else:
+
+                # The request didn't provide what we needed.
+                return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+# (OPTIONAL) Special "one-off" view for an API writing to user
+# because 1) we don't want a persisent user-writable account
+# outside of the system, and 2) the API has no way of writing
+# without the user's token.
+
+# So, write to the table, then change the token.
+# We could have gone with a temporary token here, but
+# that may be too much too worry about.

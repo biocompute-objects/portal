@@ -164,7 +164,7 @@ const EnhancedTableToolbar = (props) => {
           {numSelected} selected
         </Typography>
       ) : (
-        <Typography className={classes.title} variant="h6" id="tableTitle" component="div">
+        <Typography className={classes.title} variant="h1" id="tableTitle" component="div">
           BioCompute Objects
         </Typography>
       )}
@@ -427,10 +427,6 @@ export default function Results({ rowInfo }) {
     setPage(0);
   };
 
-  const handleChangeDense = (event) => {
-    setDense(event.target.checked);
-  };
-
   const isSelected = (name) => selected.indexOf(name) !== -1;
 
   const emptyRows = rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
@@ -482,7 +478,7 @@ export default function Results({ rowInfo }) {
                         <BcoPreviewPopup bcoLink={row.objectId} />
                       </TableCell> */}
                       <TableCell component="th" id={labelId} scope="row" padding="none">
-                        <Linker color = { 'blueLink' } uri={ window.location.href.indexOf(':3000') !== -1 ? addPortNumber(row.objectId) : row.objectId } accessionOnly = { true } state = { row.state } />
+                        <Linker color = { 'blueLink' } uri = { row.objectId } accessionOnly = { true } state = { row.state } token = { row.objectIdToken } />
                       </TableCell>
                       <TableCell>{row.name}</TableCell>
                       <TableCell>{row.state}</TableCell>
