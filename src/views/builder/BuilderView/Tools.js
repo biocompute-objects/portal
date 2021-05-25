@@ -53,80 +53,28 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Tools({ objectIdDerivatives, setDraftSavingLocation, setPublishSavingLocation, setDownloadDraft, setSaveDraft, setPublish, publishedObjectId, publishMessage, receivedDefault, serverLock }) {
+export default function Tools({ objectIdDerivatives, setDraftSavingLocation, setPublishSavingLocation, setDownloadDraft, setSaveDraft, setPublish, publishedObjectId, publishMessage, receivedDefault, serverLock, setDeleteDraftPostPublish }) {
   
   // State
   const [saveDraftTo, setSaveDraftTo] = React.useState('');
   const [savePublishTo, setSavePublishTo] = React.useState('');
 
-  // For publishing.
+  // For publishing
   const [open, setOpen] = React.useState(false);
+  const [retainDraft, setRetainDraft] = React.useState(false);
 
-  // Re-direct after publishing.
-  // Source: https://stackoverflow.com/a/58536772/5029459
-  const [redirect, setRedirect] = React.useState(false);
+  // Is the user logged in?
+  const [loggedInWithServers, setLoggedInWithServers] = React.useState(false);
+  const [userInfo, setUserInfo] = React.useState(null);
+
+  // return (
+  //   loggedInWithServers
+  //         ?
+  //           <ServersHostnamesGroups items = { userInfo.apiinfo } savingLocation = { savingLocation } serverLock = { serverLock } setObjectId = { setObjectId } setSaveTo = { setSaveTo } type = { type } />
+  //         :
+  //           <Typography>You must be logged in to save or publish drafts.</Typography>
+  // );
   
-  useEffect(() => {
-    
-    if(redirect === true) {
-
-      // Crappy but works.
-      // Source: https://stackoverflow.com/a/64928405/5029459
-      window.location.href = publishedObjectId;
-
-    }
-
-  }, [redirect]);
-
-
-
-
-
-
-
-
-
-
-
-//   // Saving is only possible if a user is logged in
-//   // and has access to a server.
-
-
-
-//   // State
-//   const [loggedInWithServers, setLoggedInWithServers] = React.useState(false);
-//   const [userInfo, setUserInfo] = React.useState({});
-
-//   useEffect(() => {
-
-//     // Logged in and has servers?
-//     const userInfoCheck = JSON.parse(localStorage.getItem('user'));
-
-//     if(userInfoCheck !== null) {
-//       if(userInfoCheck.apiinfo.length > 0) {
-//         setLoggedInWithServers(true);
-//         setUserInfo(userInfoCheck);
-//       }
-//     }
-
-//   }, [])
-
-//   return (
-//     loggedInWithServers
-//           ?
-//             <ServersHostnamesGroups items = { userInfo.apiinfo } savingLocation = { savingLocation } serverLock = { serverLock } setObjectId = { setObjectId } setSaveTo = { setSaveTo } type = { type } />
-//           :
-//             <Typography>You must be logged in to save or publish drafts.</Typography>
-//   );
-
-
-
-
-
-
-
-
-
 
 // // State
 // const [selectedValue, setSelectedValue] = React.useState([]);
@@ -135,29 +83,6 @@ export default function Tools({ objectIdDerivatives, setDraftSavingLocation, set
 // const { objectOwner } = useContext(DeepContext);
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    
   const classes = useStyles();
 
   // Define the actions for each click.
@@ -187,6 +112,10 @@ export default function Tools({ objectIdDerivatives, setDraftSavingLocation, set
     }
 
   }
+
+  
+  // ----- LISTENERS ----- //
+
 
   // Listen for a change in save location
   // to change the server lock.
@@ -225,6 +154,48 @@ export default function Tools({ objectIdDerivatives, setDraftSavingLocation, set
     );
 
   }, [savePublishTo])
+
+  // Keep the draft after publishing?
+  useEffect(() => {
+    setDeleteDraftPostPublish(!retainDraft);
+  }, [retainDraft]);
+
+  // Re-direct after publishing.
+  // Source: https://stackoverflow.com/a/58536772/5029459
+  const [redirect, setRedirect] = React.useState(false);
+  
+  useEffect(() => {
+    
+    if(redirect === true) {
+
+      // Crappy but works.
+      // Source: https://stackoverflow.com/a/64928405/5029459
+      window.location.href = publishedObjectId;
+
+    }
+
+  }, [redirect]);
+  
+  
+  // ----- INITIAL RENDER ----- //
+
+  
+  // Saving is only possible if a user is logged in
+  // and has access to a server.
+  useEffect(() => {
+
+    // Logged in and has servers?
+    const userInfoCheck = JSON.parse(localStorage.getItem('user'));
+    console.log('userInfoCheck: ', userInfoCheck)
+
+    if(userInfoCheck !== null) {
+      if(userInfoCheck.apiinfo.length > 0) {
+        setLoggedInWithServers(true);
+        setUserInfo(userInfoCheck);
+      }
+    }
+
+  }, []);
 
   return (
     <div className={classes.root}>
@@ -276,7 +247,7 @@ export default function Tools({ objectIdDerivatives, setDraftSavingLocation, set
                 Saving and Publishing
               </Typography>
               {/* <SaveServer savingLocation = { savingLocation } serverLock = { serverLock } setObjectId = { setObjectId } setSaveTo = { setSaveTo } type = { 'draft' } /> */}
-              <ServerList disabledValue = { serverLock } options = { JSON.parse(localStorage.getItem('user'))['apiinfo'] } receivedDefault = { receivedDefault } setter = { setSaveDraftTo } type = { 'draft' } />
+              <ServerList disabledValue = { serverLock } options = { userInfo === null ? null : userInfo['apiinfo'] } receivedDefault = { receivedDefault } setter = { setSaveDraftTo } type = { 'draft' } />
               <Typography>
                 &nbsp;
               </Typography>
@@ -286,14 +257,14 @@ export default function Tools({ objectIdDerivatives, setDraftSavingLocation, set
               <Typography>
                 &nbsp;
               </Typography>
-              <ServerList disabledValue = { !serverLock } options = { JSON.parse(localStorage.getItem('user'))['apiinfo'] } setter = { setSavePublishTo } type = { 'publish' } />
+              <ServerList disabledValue = { !serverLock } options = { userInfo === null ? null : userInfo['apiinfo'] } setter = { setSavePublishTo } type = { 'publish' } />
               <Typography>
                 &nbsp;
               </Typography>
               <Button variant="contained" color="primary" disableElevation disabled = { savePublishTo === '' ? true : false } fullWidth onClick={() => clickActions('publishDraft')}>
                 PUBLISH DRAFT
               </Button>
-              <PublishDialog open = { open } publishMessage = { publishMessage } setRedirect = { setRedirect } setOpen = { setOpen } setter = { setPublish } />          
+              <PublishDialog open = { open } publishMessage = { publishMessage } retainDraft = { retainDraft } setRetainDraft = { setRetainDraft } setRedirect = { setRedirect } setOpen = { setOpen } setter = { setPublish } />          
               <Typography>
                 &nbsp;
               </Typography>

@@ -60,6 +60,13 @@ export default function BuilderView() {
   const [draftSavingLocation, setDraftSavingLocation] = useState('');
   const [publishSavingLocation, setPublishSavingLocation] = useState('');
 
+  // Delete the draft after we publish?
+  const [deleteDraftPostPublish, setDeleteDraftPostPublish] = useState(true);
+
+  useEffect(() => {
+    console.log('deleteDraftPostPublish: ', deleteDraftPostPublish);
+  }, [deleteDraftPostPublish])
+
   // Was the initial draft successfuly created OR are we working
   // with a draft that was save previously?
   const [serverLock, setServerLock] = useState(false);
@@ -277,6 +284,7 @@ export default function BuilderView() {
               {
                 contents: objectContents,
                 owner_group: publishSavingLocation['group'],
+                retain_draft: !deleteDraftPostPublish,
                 schema: 'IEEE',
                 state: 'PUBLISH',
                 table: publishSavingLocation['group'].replace('ers', '')
@@ -322,10 +330,6 @@ export default function BuilderView() {
     }
 
   }, [publish]);
-
-  useEffect(() => {
-    console.log('publishSavingLocation: ', publishSavingLocation)
-  }, [publishSavingLocation])
 
   
   // ----- DOWNLOADING ----- //
@@ -542,7 +546,7 @@ export default function BuilderView() {
         <DeepContext.Provider value={{ objectOwner }}>
           <div>
 
-            <Tools objectIdDerivatives = { objectIdDerivatives } setDraftSavingLocation = { setDraftSavingLocation } setPublishSavingLocation = { setPublishSavingLocation } setDownloadDraft = { setDownloadDraft } setSaveDraft = { setSaveDraft } setPublish = { setPublish } complianceCheck = { complianceCheck } setComplianceCheck = { setComplianceCheck } objectId = { objectId } publishedObjectId = { publishedObjectId } setObjectId = { setObjectId } serverLock = { serverLock } publishMessage = { publishMessage } receivedDefault = { receivedDefault } />
+            <Tools objectIdDerivatives = { objectIdDerivatives } setDraftSavingLocation = { setDraftSavingLocation } setPublishSavingLocation = { setPublishSavingLocation } setDownloadDraft = { setDownloadDraft } setSaveDraft = { setSaveDraft } setPublish = { setPublish } complianceCheck = { complianceCheck } setComplianceCheck = { setComplianceCheck } objectId = { objectId } publishedObjectId = { publishedObjectId } setObjectId = { setObjectId } serverLock = { serverLock } publishMessage = { publishMessage } receivedDefault = { receivedDefault } setDeleteDraftPostPublish = { setDeleteDraftPostPublish } />
 
             <Views downloadDraft = { downloadDraft } setDownloadDraft = { setDownloadDraft } saveDraft = { saveDraft } setSaveDraft = { setSaveDraft } objectContents = { objectContents } setObjectContents = { setObjectContents } publish = { publish } setPublish = { setPublish } complianceCheck = { complianceCheck } objectId = { objectId } loading = { loading } objectFound = { objectFound } />
 
