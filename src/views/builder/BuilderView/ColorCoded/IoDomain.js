@@ -21,6 +21,9 @@ const useStyles = makeStyles((theme) => ({
   },
   missingHeader: {
     color: 'red'
+  },
+  root: {
+    color: 'white'
   }
 }));
 
@@ -385,16 +388,16 @@ export default function IoDomain({ items, cF }) {
         items.iodInputSubdomain.map((item, index) => (
             <TableRow>
               <StyledCell>
-                <TextField value={cF(item.uri.filename)} variant="outlined" onChange={(e) => setInputInput(e, index, 'filename')} />
+                <TextField InputProps={{ className: classes.root }} value={cF(item.uri.filename)} variant="outlined" onChange={(e) => setInputInput(e, index, 'filename')} />
               </StyledCell>
               <StyledCell>
-                <TextField error={cF(item.uri.uri) === "" ? true : false} value={cF(item.uri.uri)} variant="outlined" onChange={(e) => setInputInput(e, index, 'uri')} />
+                <TextField InputProps={{ className: classes.root }} error={cF(item.uri.uri) === "" ? true : false} value={cF(item.uri.uri)} variant="outlined" onChange={(e) => setInputInput(e, index, 'uri')} />
               </StyledCell>
               <StyledCell>
-                <TextField label={"YYYY-MM-DDTHH:MM:SS+HH:MM"} fullWidth id="outlined-basic" value={cF(item.uri.access_time)} onChange={(e) => setInputInput(e, index, 'access_time')} variant="outlined" />
+                <TextField InputProps={{ className: classes.root }} label={"YYYY-MM-DDTHH:MM:SS+HH:MM"} fullWidth id="outlined-basic" value={cF(item.uri.access_time)} onChange={(e) => setInputInput(e, index, 'access_time')} variant="outlined" />
               </StyledCell>
               <StyledCell colSpan="2">
-                <TextField value={cF(item.uri.sha1_checksum)} variant="outlined" onChange={(e) => setInputInput(e, index, 'sha1_checksum')} fullWidth />
+                <TextField InputProps={{ className: classes.root }} value={cF(item.uri.sha1_checksum)} variant="outlined" onChange={(e) => setInputInput(e, index, 'sha1_checksum')} fullWidth />
               </StyledCell>
               <StyledCell>
                 <Button variant="contained" color="primary" disableElevation fullWidth onClick={() => removeRowsInput(index)}>
@@ -450,19 +453,19 @@ export default function IoDomain({ items, cF }) {
         items.iodOutputSubdomain.map((item, index) => (
             <TableRow>
               <StyledCell>
-                <TextField error={cF(item.mediatype) === "" ? true : false} value={cF(item.mediatype)} variant="outlined" onChange={(e) => setInputOutput(e, index, 'mediatype', true)} />
+                <TextField InputProps={{ className: classes.root }} error={cF(item.mediatype) === "" ? true : false} value={cF(item.mediatype)} variant="outlined" onChange={(e) => setInputOutput(e, index, 'mediatype', true)} />
               </StyledCell>
               <StyledCell>
-                <TextField value={cF(item.uri.filename)} variant="outlined" onChange={(e) => setInputOutput(e, index, 'filename')} />
+                <TextField InputProps={{ className: classes.root }} value={cF(item.uri.filename)} variant="outlined" onChange={(e) => setInputOutput(e, index, 'filename')} />
               </StyledCell>
               <StyledCell>
-                <TextField error={cF(item.uri.uri) === "" ? true : false} value={cF(item.uri.uri)} variant="outlined" onChange={(e) => setInputOutput(e, index, 'uri')} />
+                <TextField InputProps={{ className: classes.root }} error={cF(item.uri.uri) === "" ? true : false} value={cF(item.uri.uri)} variant="outlined" onChange={(e) => setInputOutput(e, index, 'uri')} />
               </StyledCell>
               <StyledCell>
-                <TextField label={"YYYY-MM-DDTHH:MM:SS+HH:MM"} fullWidth id="outlined-basic" value={cF(item.uri.access_time)} onChange={(e) => setInputOutput(e, index, 'access_time')} variant="outlined" />
+                <TextField InputProps={{ className: classes.root }} label={"YYYY-MM-DDTHH:MM:SS+HH:MM"} fullWidth id="outlined-basic" value={cF(item.uri.access_time)} onChange={(e) => setInputOutput(e, index, 'access_time')} variant="outlined" />
               </StyledCell>
               <StyledCell>
-                <TextField value={cF(item.uri.sha1_checksum)} variant="outlined" onChange={(e) => setInputOutput(e, index, 'sha1_checksum')} />
+                <TextField InputProps={{ className: classes.root }} value={cF(item.uri.sha1_checksum)} variant="outlined" onChange={(e) => setInputOutput(e, index, 'sha1_checksum')} />
               </StyledCell>
               <StyledCell>
                 <Button variant="contained" color="primary" disableElevation fullWidth onClick={() => removeRowsOutput(index)}>

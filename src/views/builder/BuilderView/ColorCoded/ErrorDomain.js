@@ -17,6 +17,7 @@ const useStyles = makeStyles((theme) => ({
       margin: theme.spacing(1),
       width: '25ch',
     },
+    color: 'white'
   },
 }));
 
@@ -33,7 +34,8 @@ const StyledCell = withStyles({
 // Pass an object and whether or not its keys are properties.
 export default function ErrorDomain({ items, cF }) {
   
-  const classes = withStyles(), inputClasses = useStyles();
+  const inputClasses = useStyles();
+  const classes = withStyles();
 
   // No state required to check for missing section because
   // error domain is optional in IEEE 2791.
@@ -65,7 +67,8 @@ export default function ErrorDomain({ items, cF }) {
       <TableBody>
         <TableRow>
           <StyledCell>
-            <TextField
+            <TextField 
+              InputProps={{ className: inputClasses.root }}
               color="primary"
               defaultValue={JSON.stringify(cF(items.errd), null, 4)}
               fullWidth

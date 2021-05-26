@@ -18,6 +18,7 @@ const useStyles = makeStyles((theme) => ({
         margin: theme.spacing(1),
         width: '25ch',
       },
+      color: 'white'
     },
     header: {
       color: 'white'
@@ -82,7 +83,8 @@ export default function UsabilityDomain({ items, cF }) {
       <TableBody>
         <TableRow>
           <StyledCell>
-            <TextField
+            <TextField 
+              InputProps={{ className: classes.root }}
               color="primary"
               error={cF(items.ud[0]) === "" ? true : false} 
               defaultValue={cF(items.ud)}

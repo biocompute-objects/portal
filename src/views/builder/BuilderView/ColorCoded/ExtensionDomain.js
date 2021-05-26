@@ -17,6 +17,7 @@ const useStyles = makeStyles((theme) => ({
       margin: theme.spacing(1),
       width: '25ch',
     },
+    color: 'white'
   },
 }));
 
@@ -63,6 +64,7 @@ export default function ExtensionDomain({ items }) {
         <TableRow>
           <StyledCell>
             <TextField
+              InputProps={{ className: inputClasses.root }}
               color="primary"
               fullWidth
               id="outlined-multiline-static"

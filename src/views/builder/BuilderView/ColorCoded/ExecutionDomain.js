@@ -21,6 +21,9 @@ const useStyles = makeStyles((theme) => ({
   },
   missingHeader: {
     color: 'red'
+  },
+  root: {
+    color: 'white'
   }
 }));
 
@@ -471,7 +474,7 @@ export default function ExecutionDomain({ items, cF }) {
           </Typography>
         </StyledCell>
         <StyledCell colSpan="6">
-          <TextField error={missingScriptDriver ? true : false} fullWidth id="outlined-basic" value={cF(items.edScriptDriver)} onChange={(e) => items.setEdScriptDriver(e.target.value)} variant="outlined" />
+          <TextField InputProps={{ className: classes.root }} error={missingScriptDriver ? true : false} fullWidth id="outlined-basic" value={cF(items.edScriptDriver)} onChange={(e) => items.setEdScriptDriver(e.target.value)} variant="outlined" />
         </StyledCell>
       </TableRow>
       <TableRow>
@@ -517,22 +520,22 @@ export default function ExecutionDomain({ items, cF }) {
         items.edSoftwarePrerequisites.map((item, index) => (
             <TableRow>
               <StyledCell>
-                <TextField value={cF(item.name)} variant="outlined" onChange={(e) => setInput(e, index, 'name', 'edSoftwarePrerequisites')} />
+                <TextField InputProps={{ className: classes.root }} value={cF(item.name)} variant="outlined" onChange={(e) => setInput(e, index, 'name', 'edSoftwarePrerequisites')} />
               </StyledCell>
               <StyledCell>
-                <TextField value={cF(item.version)} variant="outlined" onChange={(e) => setInput(e, index, 'version', 'edSoftwarePrerequisites')} />
+                <TextField InputProps={{ className: classes.root }} value={cF(item.version)} variant="outlined" onChange={(e) => setInput(e, index, 'version', 'edSoftwarePrerequisites')} />
               </StyledCell>
               <StyledCell>
-                <TextField value={cF(item.uri.filename)} variant="outlined" onChange={(e) => setInput(e, index, 'filename', 'edSoftwarePrerequisites')} />
+                <TextField InputProps={{ className: classes.root }} value={cF(item.uri.filename)} variant="outlined" onChange={(e) => setInput(e, index, 'filename', 'edSoftwarePrerequisites')} />
               </StyledCell>
               <StyledCell>
-                <TextField error={cF(item.uri.uri) === "" ? true : false} value={cF(item.uri.uri)} variant="outlined" onChange={(e) => setInput(e, index, 'uri', 'edSoftwarePrerequisites')} />
+                <TextField InputProps={{ className: classes.root }} error={cF(item.uri.uri) === "" ? true : false} value={cF(item.uri.uri)} variant="outlined" onChange={(e) => setInput(e, index, 'uri', 'edSoftwarePrerequisites')} />
               </StyledCell>
               <StyledCell>
-                <TextField label={"YYYY-MM-DDTHH:MM:SS+HH:MM"} fullWidth id="outlined-basic" value={cF(item.uri.access_time)} onChange={(e) => setInput(e, index, 'access_time', 'edSoftwarePrerequisites')} variant="outlined" />
+                <TextField InputProps={{ className: classes.root }} label={"YYYY-MM-DDTHH:MM:SS+HH:MM"} fullWidth id="outlined-basic" value={cF(item.uri.access_time)} onChange={(e) => setInput(e, index, 'access_time', 'edSoftwarePrerequisites')} variant="outlined" />
               </StyledCell>
               <StyledCell>
-                <TextField value={cF(item.uri.sha1_checksum)} variant="outlined" onChange={(e) => setInput(e, index, 'sha1_checksum', 'edSoftwarePrerequisites')} fullWidth />
+                <TextField InputProps={{ className: classes.root }} value={cF(item.uri.sha1_checksum)} variant="outlined" onChange={(e) => setInput(e, index, 'sha1_checksum', 'edSoftwarePrerequisites')} fullWidth />
               </StyledCell>
               <StyledCell>
                 <Button variant="contained" color="primary" disableElevation fullWidth onClick={() => removeRows('edSoftwarePrerequisites', index)}>
@@ -573,10 +576,10 @@ export default function ExecutionDomain({ items, cF }) {
         items.edExternalDataEndpoints.map((item, index) => (
             <TableRow>
               <StyledCell colSpan="3">
-                <TextField error={cF(item.name) === "" ? true : false} fullWidth value={cF(item.name)} variant="outlined" onChange={(e) => setInput(e, index, 'name', 'edExternalDataEndpoints')} />
+                <TextField InputProps={{ className: classes.root }} error={cF(item.name) === "" ? true : false} fullWidth value={cF(item.name)} variant="outlined" onChange={(e) => setInput(e, index, 'name', 'edExternalDataEndpoints')} />
               </StyledCell>
               <StyledCell colSpan="3">
-                <TextField error={cF(item.url) === "" ? true : false} fullWidth value={cF(item.url)} variant="outlined" onChange={(e) => setInput(e, index, 'url', 'edExternalDataEndpoints')} />
+                <TextField InputProps={{ className: classes.root }} error={cF(item.url) === "" ? true : false} fullWidth value={cF(item.url)} variant="outlined" onChange={(e) => setInput(e, index, 'url', 'edExternalDataEndpoints')} />
               </StyledCell>
               <StyledCell>
                 <Button variant="contained" color="primary" disableElevation fullWidth onClick={() => removeRows('edExternalDataEndpoints', index)}>
@@ -627,16 +630,16 @@ export default function ExecutionDomain({ items, cF }) {
         items.edScript.map((item, index) => (
             <TableRow>
               <StyledCell colSpan="2">
-                <TextField fullWidth value={cF(item.uri.filename)} variant="outlined" onChange={(e) => setInput(e, index, 'filename', 'edScript')} />
+                <TextField InputProps={{ className: classes.root }} fullWidth value={cF(item.uri.filename)} variant="outlined" onChange={(e) => setInput(e, index, 'filename', 'edScript')} />
               </StyledCell>
               <StyledCell colSpan="2">
-                <TextField error={cF(item.uri.uri) === "" ? true : false} fullWidth value={cF(item.uri.uri)} variant="outlined" onChange={(e) => setInput(e, index, 'uri', 'edScript')} />
+                <TextField InputProps={{ className: classes.root }} error={cF(item.uri.uri) === "" ? true : false} fullWidth value={cF(item.uri.uri)} variant="outlined" onChange={(e) => setInput(e, index, 'uri', 'edScript')} />
               </StyledCell>
               <StyledCell>
-                <TextField label={"YYYY-MM-DDTHH:MM:SS+HH:MM"} fullWidth id="outlined-basic" value={cF(item.uri.access_time)} onChange={(e) => setInput(e, index, 'access_time', 'edScript')} variant="outlined" />
+                <TextField InputProps={{ className: classes.root }} label={"YYYY-MM-DDTHH:MM:SS+HH:MM"} fullWidth id="outlined-basic" value={cF(item.uri.access_time)} onChange={(e) => setInput(e, index, 'access_time', 'edScript')} variant="outlined" />
               </StyledCell>
               <StyledCell>
-                <TextField value={cF(item.uri.sha1_checksum)} variant="outlined" onChange={(e) => setInput(e, index, 'sha1_checksum', 'edScript')} fullWidth />
+                <TextField InputProps={{ className: classes.root }} value={cF(item.uri.sha1_checksum)} variant="outlined" onChange={(e) => setInput(e, index, 'sha1_checksum', 'edScript')} fullWidth />
               </StyledCell>
               <StyledCell>
                 <Button variant="contained" color="primary" disableElevation fullWidth onClick={() => removeRows('edScript', index)}>

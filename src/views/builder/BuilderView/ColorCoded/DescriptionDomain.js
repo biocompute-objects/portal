@@ -36,6 +36,9 @@ const useStyles = makeStyles((theme) => ({
 	missingHeaderOptional: {
 		color: 'yellow'
 	},
+  root: {
+    color: 'white'
+  },
   stepNumber: {
     width: '8%'
   }
@@ -729,7 +732,7 @@ export default function DescriptionDomain({ compCheck, checkBlank, items, cF }) 
           </Typography>
         </TableCell>
         <StyledCell>
-          <TextField error={missingKeywords ? true : false} fullWidth variant="outlined" value={cF(items.ddKeywords)} onChange={(e) => items.setDdKeywords([e.target.value])} />
+          <TextField InputProps={{ className: classes.root }} error={missingKeywords ? true : false} fullWidth variant="outlined" value={cF(items.ddKeywords)} onChange={(e) => items.setDdKeywords([e.target.value])} />
         </StyledCell>
         <TableCell>
           <Typography variant="h3">
@@ -737,7 +740,7 @@ export default function DescriptionDomain({ compCheck, checkBlank, items, cF }) 
           </Typography>
         </TableCell>
         <StyledCell>
-          <TextField fullWidth variant="outlined" value={cF(items.ddPlatform)} onChange={(e) => items.setDdPlatform([e.target.value])} />
+          <TextField InputProps={{ className: classes.root }} fullWidth variant="outlined" value={cF(items.ddPlatform)} onChange={(e) => items.setDdPlatform([e.target.value])} />
         </StyledCell>
         <TableCell>
         </TableCell>
@@ -792,10 +795,10 @@ export default function DescriptionDomain({ compCheck, checkBlank, items, cF }) 
 						items.ddXref.map((item, index) => (
 								<TableRow key={index}>
 									<StyledCell>
-										<TextField error={cF(item.namespace) === "" ? true : false} fullWidth variant="outlined" value={cF(item.namespace)} onChange={(e) => setInput(e, index, 'namespace', 'ddXref')} />
+										<TextField InputProps={{ className: classes.root }} error={cF(item.namespace) === "" ? true : false} fullWidth variant="outlined" value={cF(item.namespace)} onChange={(e) => setInput(e, index, 'namespace', 'ddXref')} />
 									</StyledCell>
 									<StyledCell>
-										<TextField error={cF(item.name) === "" ? true : false} fullWidth variant="outlined" value={cF(item.name)} onChange={(e) => setInput(e, index, 'name', 'ddXref')} />
+										<TextField InputProps={{ className: classes.root }} error={cF(item.name) === "" ? true : false} fullWidth variant="outlined" value={cF(item.name)} onChange={(e) => setInput(e, index, 'name', 'ddXref')} />
 									</StyledCell>
 									<StyledCell>
 										<Accordion>
@@ -814,7 +817,7 @@ export default function DescriptionDomain({ compCheck, checkBlank, items, cF }) 
 														item.ids.map((subitem, subindex) => (
 																<>
 																	<ListItem>
-																		<TextField error={cF(subitem) === "" ? true : false} label={'ID'} fullWidth variant="outlined" value={cF(subitem)} onChange={(e) => setListInput(e, index, 'ids', subindex, 'id')} />
+																		<TextField InputProps={{ className: classes.root }} error={cF(subitem) === "" ? true : false} label={'ID'} fullWidth variant="outlined" value={cF(subitem)} onChange={(e) => setListInput(e, index, 'ids', subindex, 'id')} />
 																	</ListItem>
 																	{
 																		subindex !== item.ids.length-1
@@ -845,7 +848,7 @@ export default function DescriptionDomain({ compCheck, checkBlank, items, cF }) 
 										</Accordion>
 									</StyledCell>
 									<StyledCell>
-										<TextField error={cF(item.access_time) === "" ? true : false} label={"YYYY-MM-DDTHH:MM:SS+HH:MM"} fullWidth id="outlined-basic" value={cF(item.access_time)} onChange={(e) => setInput(e, index, 'access_time', 'ddXref')} variant="outlined" />
+										<TextField InputProps={{ className: classes.root }} error={cF(item.access_time) === "" ? true : false} label={"YYYY-MM-DDTHH:MM:SS+HH:MM"} fullWidth id="outlined-basic" value={cF(item.access_time)} onChange={(e) => setInput(e, index, 'access_time', 'ddXref')} variant="outlined" />
 									</StyledCell>
 									<StyledCell>
 										<Button variant="contained" color="primary" disableElevation fullWidth onClick={() => removeRows('ddXref', index)}>
@@ -922,16 +925,16 @@ export default function DescriptionDomain({ compCheck, checkBlank, items, cF }) 
             <>
 						<TableRow key={index}>
               <TableCell className={classes.stepNumber} rowSpan="2">
-                <TextField variant="outlined" value={index+1} />{compCheck}
+                <TextField InputProps={{ className: classes.root }} variant="outlined" value={index+1} />{compCheck}
               </TableCell>
               <StyledCell>
-                <TextField error={cF(item.name) === "" ? true : false} fullWidth variant="outlined" value={cF(item.name)} onChange={(e) => setInput(e, index, 'name', 'ddPipelineSteps')} />
+                <TextField InputProps={{ className: classes.root }} error={cF(item.name) === "" ? true : false} fullWidth variant="outlined" value={cF(item.name)} onChange={(e) => setInput(e, index, 'name', 'ddPipelineSteps')} />
               </StyledCell>
               <StyledCell>
-                <TextField error={cF(item.description) === "" ? true : false} fullWidth variant="outlined" multiline rows={4} value={cF(item.description)} onChange={(e) => setInput(e, index, 'description', 'ddPipelineSteps')} />
+                <TextField InputProps={{ className: classes.root }} error={cF(item.description) === "" ? true : false} fullWidth variant="outlined" multiline rows={4} value={cF(item.description)} onChange={(e) => setInput(e, index, 'description', 'ddPipelineSteps')} />
               </StyledCell>
               <StyledCell>
-								<TextField fullWidth variant="outlined" value={cF(item.version)} onChange={(e) => setInput(e, index, 'version', 'ddPipelineSteps')} />
+								<TextField InputProps={{ className: classes.root }} fullWidth variant="outlined" value={cF(item.version)} onChange={(e) => setInput(e, index, 'version', 'ddPipelineSteps')} />
               </StyledCell>
               <StyledCell>
                 <Button variant="contained" color="primary" disableElevation fullWidth onClick={() => removeRows('ddPipelineSteps', index)}>
@@ -957,19 +960,19 @@ export default function DescriptionDomain({ compCheck, checkBlank, items, cF }) 
                         item.output_list.map((subitem, subindex) => (
                           <>
                             <ListItem>
-                              <TextField label={'Name'} fullWidth variant="outlined" value={cF(subitem.filename)} onChange={(e) => setListInput(e, index, 'output_list', subindex, 'filename')} />
+                              <TextField InputProps={{ className: classes.root }} label={'Name'} fullWidth variant="outlined" value={cF(subitem.filename)} onChange={(e) => setListInput(e, index, 'output_list', subindex, 'filename')} />
                             </ListItem>
                             <ListItem>
-                              <TextField label={'Filename'} fullWidth variant="outlined" value={cF(subitem.filename)} onChange={(e) => setListInput(e, index, 'output_list', subindex, 'filename')} />
+                              <TextField InputProps={{ className: classes.root }} label={'Filename'} fullWidth variant="outlined" value={cF(subitem.filename)} onChange={(e) => setListInput(e, index, 'output_list', subindex, 'filename')} />
                             </ListItem>
                             <ListItem>
-                              <TextField error={cF(subitem.uri.uri) === "" ? true : false} label={'URI'} fullWidth variant="outlined" value={cF(subitem.uri.uri)} onChange={(e) => setListInput(e, index, 'output_list', subindex, 'uri')} />
+                              <TextField InputProps={{ className: classes.root }} error={cF(subitem.uri.uri) === "" ? true : false} label={'URI'} fullWidth variant="outlined" value={cF(subitem.uri.uri)} onChange={(e) => setListInput(e, index, 'output_list', subindex, 'uri')} />
                             </ListItem>
                             <ListItem>
-                              <TextField label={'Access Time'} fullWidth variant="outlined" value={cF(subitem.access_time)} onChange={(e) => setListInput(e, index, 'output_list', subindex, 'access_time')} />
+                              <TextField InputProps={{ className: classes.root }} label={'Access Time'} fullWidth variant="outlined" value={cF(subitem.access_time)} onChange={(e) => setListInput(e, index, 'output_list', subindex, 'access_time')} />
                             </ListItem>
                             <ListItem>
-                              <TextField label={'SHA1 Checksum'} fullWidth variant="outlined" value={cF(subitem.sha1_checksum)} onChange={(e) => setListInput(e, index, 'output_list', subindex, 'sha1_checksum')} />
+                              <TextField InputProps={{ className: classes.root }} label={'SHA1 Checksum'} fullWidth variant="outlined" value={cF(subitem.sha1_checksum)} onChange={(e) => setListInput(e, index, 'output_list', subindex, 'sha1_checksum')} />
                             </ListItem>
                             {
                               subindex !== item.output_list.length-1
@@ -1016,16 +1019,16 @@ export default function DescriptionDomain({ compCheck, checkBlank, items, cF }) 
                         item.input_list.map((subitem, subindex) => (
                           <>
                             <ListItem>
-                              <TextField label={'Filename'} fullWidth variant="outlined" value={cF(subitem.filename)} onChange={(e) => setListInput(e, index, 'input_list', subindex, 'filename')} />
+                              <TextField InputProps={{ className: classes.root }} label={'Filename'} fullWidth variant="outlined" value={cF(subitem.filename)} onChange={(e) => setListInput(e, index, 'input_list', subindex, 'filename')} />
                             </ListItem>
                             <ListItem>
-                              <TextField error={cF(subitem.uri.uri) === "" ? true : false} label={'URI'} fullWidth variant="outlined" value={cF(subitem.uri.uri)} onChange={(e) => setListInput(e, index, 'input_list', subindex, 'uri')} />
+                              <TextField InputProps={{ className: classes.root }} error={cF(subitem.uri.uri) === "" ? true : false} label={'URI'} fullWidth variant="outlined" value={cF(subitem.uri.uri)} onChange={(e) => setListInput(e, index, 'input_list', subindex, 'uri')} />
                             </ListItem>
                             <ListItem>
-                              <TextField label={'Access Time'} fullWidth variant="outlined" value={cF(subitem.access_time)} onChange={(e) => setListInput(e, index, 'input_list', subindex, 'access_time')} />
+                              <TextField InputProps={{ className: classes.root }} label={'Access Time'} fullWidth variant="outlined" value={cF(subitem.access_time)} onChange={(e) => setListInput(e, index, 'input_list', subindex, 'access_time')} />
                             </ListItem>
                             <ListItem>
-                              <TextField label={'SHA1 Checksum'} fullWidth variant="outlined" value={cF(subitem.sha1_checksum)} onChange={(e) => setListInput(e, index, 'input_list', subindex, 'sha1_checksum')} />
+                              <TextField InputProps={{ className: classes.root }} label={'SHA1 Checksum'} fullWidth variant="outlined" value={cF(subitem.sha1_checksum)} onChange={(e) => setListInput(e, index, 'input_list', subindex, 'sha1_checksum')} />
                             </ListItem>
                             {
                               subindex !== item.input_list.length-1
@@ -1072,16 +1075,16 @@ export default function DescriptionDomain({ compCheck, checkBlank, items, cF }) 
                         item.output_list.map((subitem, subindex) => (
                           <>
                             <ListItem>
-                              <TextField label={'Filename'} fullWidth variant="outlined" value={cF(subitem.filename)} onChange={(e) => setListInput(e, index, 'output_list', subindex, 'filename')} />
+                              <TextField InputProps={{ className: classes.root }} label={'Filename'} fullWidth variant="outlined" value={cF(subitem.filename)} onChange={(e) => setListInput(e, index, 'output_list', subindex, 'filename')} />
                             </ListItem>
                             <ListItem>
-                              <TextField error={cF(subitem.uri.uri) === "" ? true : false} label={'URI'} fullWidth variant="outlined" value={cF(subitem.uri.uri)} onChange={(e) => setListInput(e, index, 'output_list', subindex, 'uri')} />
+                              <TextField InputProps={{ className: classes.root }} error={cF(subitem.uri.uri) === "" ? true : false} label={'URI'} fullWidth variant="outlined" value={cF(subitem.uri.uri)} onChange={(e) => setListInput(e, index, 'output_list', subindex, 'uri')} />
                             </ListItem>
                             <ListItem>
-                              <TextField label={'Access Time'} fullWidth variant="outlined" value={cF(subitem.access_time)} onChange={(e) => setListInput(e, index, 'output_list', subindex, 'access_time')} />
+                              <TextField InputProps={{ className: classes.root }} label={'Access Time'} fullWidth variant="outlined" value={cF(subitem.access_time)} onChange={(e) => setListInput(e, index, 'output_list', subindex, 'access_time')} />
                             </ListItem>
                             <ListItem>
-                              <TextField label={'SHA1 Checksum'} fullWidth variant="outlined" value={cF(subitem.sha1_checksum)} onChange={(e) => setListInput(e, index, 'output_list', subindex, 'sha1_checksum')} />
+                              <TextField InputProps={{ className: classes.root }} label={'SHA1 Checksum'} fullWidth variant="outlined" value={cF(subitem.sha1_checksum)} onChange={(e) => setListInput(e, index, 'output_list', subindex, 'sha1_checksum')} />
                             </ListItem>
                             {
                               subindex !== item.output_list.length-1

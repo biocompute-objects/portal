@@ -21,6 +21,9 @@ const useStyles = makeStyles((theme) => ({
   },
   missingHeader: {
     color: 'red'
+  },
+  root: {
+    color: 'white'
   }
 }));
 
@@ -277,13 +280,13 @@ export default function ParametricDomain({ items, cF }) {
         items.pad.map((item, index) => (
             <TableRow>
               <StyledCell>
-                <TextField error={cF(item.step) === "" ? true : false} value={cF(item.step)} onChange={(e) => setInput(e, index, 'step')} variant="outlined" />
+                <TextField InputProps={{ className: classes.root }} error={cF(item.step) === "" ? true : false} value={cF(item.step)} onChange={(e) => setInput(e, index, 'step')} variant="outlined" />
               </StyledCell>
               <StyledCell>
-                <TextField error={cF(item.param) === "" ? true : false} value={cF(item.param)} onChange={(e) => setInput(e, index, 'param')} variant="outlined" />
+                <TextField InputProps={{ className: classes.root }} error={cF(item.param) === "" ? true : false} value={cF(item.param)} onChange={(e) => setInput(e, index, 'param')} variant="outlined" />
               </StyledCell>
               <StyledCell>
-                <TextField error={cF(item.value) === "" ? true : false} value={cF(item.value)} onChange={(e) => setInput(e, index, 'value')} variant="outlined" />
+                <TextField InputProps={{ className: classes.root }} error={cF(item.value) === "" ? true : false} value={cF(item.value)} onChange={(e) => setInput(e, index, 'value')} variant="outlined" />
               </StyledCell>
               <StyledCell>
                 <Button variant="contained" color="primary" disableElevation fullWidth onClick={() => removeRows(index)}>

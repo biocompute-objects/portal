@@ -31,6 +31,9 @@ const useStyles = makeStyles((theme) => ({
   },
   translated: {
     WebkitTransform: 'translateY(7px)'
+  },
+  root: {
+    color: 'white'
   }
 }));
 
@@ -74,7 +77,7 @@ export default function Meta({ items }) {
             </Typography>
           </StyledCell>
           <StyledCell>
-            <TextField disabled label = {items.meObjectId} fullWidth id="outlined-basic" variant="outlined" />
+            <TextField InputProps={{ className: classes.root }} disabled label = {items.meObjectId} fullWidth id="outlined-basic" variant="outlined" />
           </StyledCell>
         </TableRow>
         <TableRow>
@@ -94,7 +97,7 @@ export default function Meta({ items }) {
             </Typography>
           </StyledCell>
           <StyledCell>
-            <TextField disabled label = {items.meEtag} fullWidth id="outlined-basic" variant="outlined" />
+            <TextField InputProps={{ className: classes.root }} disabled label = {items.meEtag} fullWidth id="outlined-basic" variant="outlined" />
           </StyledCell>
         </TableRow>
       </TableBody>

@@ -39,7 +39,10 @@ const useStyles = makeStyles((theme) => ({
   },
 	missingHeaderOptional: {
 		color: 'yellow'
-	}
+	},
+  root: {
+    color: 'white'
+  }
 }));
 
 // Cell styling
@@ -553,19 +556,19 @@ export default function ProvenanceDomain({ items, cF }) {
             Name
           </TableCell>
           <StyledCell colSpan="3" noGutter>
-            <TextField error={missingName ? true : false} fullWidth id="outlined-basic" value={cF(items.pdName)} onChange={(e) => items.setPdName(e.target.value)} variant="outlined" />
+            <TextField InputProps={{ className: classes.root }} error={missingName ? true : false} fullWidth id="outlined-basic" value={cF(items.pdName)} onChange={(e) => items.setPdName(e.target.value)} variant="outlined" />
           </StyledCell>
           <TableCell className={missingVersion ? classes.missingHeader: classes.header}>
             Version
           </TableCell>
           <StyledCell noGutter>
-            <TextField error={missingVersion ? true : false} fullWidth id="outlined-basic" value={cF(items.pdVersion)} onChange={(e) => checkSemanticVersioning(e.target.value)} variant="outlined" />
+            <TextField InputProps={{ className: classes.root }} error={missingVersion ? true : false} fullWidth id="outlined-basic" value={cF(items.pdVersion)} onChange={(e) => checkSemanticVersioning(e.target.value)} variant="outlined" />
           </StyledCell>
           <TableCell className={missingLicense ? classes.missingHeader: classes.header}>
             License
           </TableCell>
           <StyledCell colSpan="4" noGutter>
-            <TextField error={missingLicense ? true : false} fullWidth id="outlined-basic" value={cF(items.pdLicense)} onChange={(e) => items.setPdLicense(e.target.value)} variant="outlined" />
+            <TextField InputProps={{ className: classes.root }} error={missingLicense ? true : false} fullWidth id="outlined-basic" value={cF(items.pdLicense)} onChange={(e) => items.setPdLicense(e.target.value)} variant="outlined" />
           </StyledCell>
         </TableRow>
         <TableRow>
@@ -573,7 +576,7 @@ export default function ProvenanceDomain({ items, cF }) {
             Derived From
           </StyledCell>
           <StyledCell colSpan="10" noGutter>
-            <TextField fullWidth id="outlined-basic" value={cF(items.pdDerivedFrom)} onChange={(e) => items.setPdDerivedFrom(e.target.value)} variant="outlined" />
+            <TextField InputProps={{ className: classes.root }} fullWidth id="outlined-basic" value={cF(items.pdDerivedFrom)} onChange={(e) => items.setPdDerivedFrom(e.target.value)} variant="outlined" />
           </StyledCell>
         </TableRow>
         <TableRow>
@@ -583,31 +586,31 @@ export default function ProvenanceDomain({ items, cF }) {
             Created
           </StyledCell>
           <StyledCell noGutter>
-            <TextField label={"YYYY-MM-DDTHH:MM:SS+HH:MM"} fullWidth id="outlined-basic" value={cF(items.pdCreated)} onChange={(e) => items.setPdCreated(e.target.value)} variant="outlined" />
+            <TextField InputProps={{ className: classes.root }} label={"YYYY-MM-DDTHH:MM:SS+HH:MM"} fullWidth id="outlined-basic" value={cF(items.pdCreated)} onChange={(e) => items.setPdCreated(e.target.value)} variant="outlined" />
           </StyledCell>
           <StyledCell>
             Modified
           </StyledCell>
           <StyledCell noGutter>
-            <TextField label={"YYYY-MM-DDTHH:MM:SS+HH:MM"} fullWidth id="outlined-basic" value={cF(items.pdModified)} onChange={(e) => items.setPdModified(e.target.value)} variant="outlined" />
+            <TextField InputProps={{ className: classes.root }} label={"YYYY-MM-DDTHH:MM:SS+HH:MM"} fullWidth id="outlined-basic" value={cF(items.pdModified)} onChange={(e) => items.setPdModified(e.target.value)} variant="outlined" />
           </StyledCell>
           <StyledCell>
             Obsolete After
           </StyledCell>
           <StyledCell noGutter>
-            <TextField label={"YYYY-MM-DDTHH:MM:SS+HH:MM"} fullWidth id="outlined-basic" value={cF(items.pdObsoleteAfter)} onChange={(e) => items.setPdObsoleteAfter(e.target.value)} variant="outlined" />
+            <TextField InputProps={{ className: classes.root }} label={"YYYY-MM-DDTHH:MM:SS+HH:MM"} fullWidth id="outlined-basic" value={cF(items.pdObsoleteAfter)} onChange={(e) => items.setPdObsoleteAfter(e.target.value)} variant="outlined" />
           </StyledCell>
           <StyledCell>
             Embargo Start Time
           </StyledCell>
           <StyledCell noGutter>
-            <TextField label={"YYYY-MM-DDTHH:MM:SS+HH:MM"} fullWidth id="outlined-basic" value={cF(items.pdEmbargoStartTime)} onChange={(e) => items.setPdEmbargoStartTime(e.target.value)} variant="outlined" />
+            <TextField InputProps={{ className: classes.root }} label={"YYYY-MM-DDTHH:MM:SS+HH:MM"} fullWidth id="outlined-basic" value={cF(items.pdEmbargoStartTime)} onChange={(e) => items.setPdEmbargoStartTime(e.target.value)} variant="outlined" />
           </StyledCell>
           <StyledCell>
             Embargo End Time
           </StyledCell>
           <StyledCell noGutter>
-            <TextField label={"YYYY-MM-DDTHH:MM:SS+HH:MM"} fullWidth id="outlined-basic" value={cF(items.pdEmbargoEndTime)} onChange={(e) => items.setPdEmbargoEndTime(e.target.value)} variant="outlined" />
+            <TextField InputProps={{ className: classes.root }} label={"YYYY-MM-DDTHH:MM:SS+HH:MM"} fullWidth id="outlined-basic" value={cF(items.pdEmbargoEndTime)} onChange={(e) => items.setPdEmbargoEndTime(e.target.value)} variant="outlined" />
           </StyledCell>
           <StyledCell>
           </StyledCell>
@@ -635,28 +638,28 @@ export default function ProvenanceDomain({ items, cF }) {
               items.pdReview.map((item, index) => (
                   <TableRow key={index}>
                     <StyledCell>
-                      <TextField fullWidth variant="outlined" value={cF(item.date)} onChange={(e) => setInput(e, index, 'date', 'pdReview')} />
+                      <TextField InputProps={{ className: classes.root }} fullWidth variant="outlined" value={cF(item.date)} onChange={(e) => setInput(e, index, 'date', 'pdReview')} />
                     </StyledCell>
                     <StyledCell>
                       <StatusReviewer error={item.status.length === 0 ? true : false} item={ item } index={ index } setInput={ setInput } />
                     </StyledCell>
                     <StyledCell>
-                      <TextField error={item.reviewer.name === "" ? true : false} fullWidth variant="outlined" value={cF(item.reviewer.name)} onChange={(e) => setInput(e, index, 'reviewer.name', 'pdReview')} />
+                      <TextField InputProps={{ className: classes.root }} error={item.reviewer.name === "" ? true : false} fullWidth variant="outlined" value={cF(item.reviewer.name)} onChange={(e) => setInput(e, index, 'reviewer.name', 'pdReview')} />
                     </StyledCell>
                     <StyledCell>
                       <ContributionReviewer error={item.reviewer.contribution.length === 0 ? true : false} item={ item.reviewer } index={ index } setInput={ setInput } />
                     </StyledCell>
                     <StyledCell>
-                      <TextField fullWidth variant="outlined" value={cF(item.reviewer.affiliation)} onChange={(e) => setInput(e, index, 'reviewer.affiliation', 'pdReview')} />
+                      <TextField InputProps={{ className: classes.root }} fullWidth variant="outlined" value={cF(item.reviewer.affiliation)} onChange={(e) => setInput(e, index, 'reviewer.affiliation', 'pdReview')} />
                     </StyledCell>
                     <StyledCell>
-                      <TextField fullWidth variant="outlined" value={cF(item.reviewer.email)} onChange={(e) => setInput(e, index, 'reviewer.email', 'pdReview')} />
+                      <TextField InputProps={{ className: classes.root }} fullWidth variant="outlined" value={cF(item.reviewer.email)} onChange={(e) => setInput(e, index, 'reviewer.email', 'pdReview')} />
                     </StyledCell>
                     <StyledCell>
-                      <TextField fullWidth variant="outlined" value={cF(item.reviewer.orcid)} onChange={(e) => setInput(e, index, 'reviewer.orcid', 'pdReview')} />
+                      <TextField InputProps={{ className: classes.root }} fullWidth variant="outlined" value={cF(item.reviewer.orcid)} onChange={(e) => setInput(e, index, 'reviewer.orcid', 'pdReview')} />
                     </StyledCell>
                     <StyledCell colSpan="3">
-                      <TextField fullWidth multiline variant="outlined" value={cF(item.reviewer.comment)} onChange={(e) => setInput(e, index, 'reviewer.comment', 'pdReview')} rows={4} />
+                      <TextField InputProps={{ className: classes.root }} fullWidth multiline variant="outlined" value={cF(item.reviewer.comment)} onChange={(e) => setInput(e, index, 'reviewer.comment', 'pdReview')} rows={4} />
                     </StyledCell>
                     <StyledCell>
                       <Button variant="contained" color="primary" disableElevation fullWidth onClick={() => removeRows('pdReview', index)}>
@@ -695,19 +698,19 @@ export default function ProvenanceDomain({ items, cF }) {
             items.pdContributors.map((item, index) => 
               <TableRow key={index}>
                 <StyledCell colSpan="2">
-                  <TextField error={cF(item.name) === "" ? true : false} fullWidth variant="outlined" value={cF(item.name)} onChange={(e) => setInput(e, index, 'name', 'pdContributors')} />
+                  <TextField InputProps={{ className: classes.root }} error={cF(item.name) === "" ? true : false} fullWidth variant="outlined" value={cF(item.name)} onChange={(e) => setInput(e, index, 'name', 'pdContributors')} />
                 </StyledCell>
                 <StyledCell>
                   <Contribution error={item.contribution.length === 0 ? true : false} item={ item } index={ index } setInput={ setInput } />
                 </StyledCell>
                 <StyledCell colSpan="2">
-                  <TextField fullWidth variant="outlined" value={cF(item.affiliation)} onChange={(e) => setInput(e, index, 'affiliation', 'pdContributors')} />
+                  <TextField InputProps={{ className: classes.root }} fullWidth variant="outlined" value={cF(item.affiliation)} onChange={(e) => setInput(e, index, 'affiliation', 'pdContributors')} />
                 </StyledCell>
                 <StyledCell colSpan="2">
-                  <TextField fullWidth variant="outlined" value={cF(item.email)} onChange={(e) => setInput(e, index, 'email', 'pdContributors')} />
+                  <TextField InputProps={{ className: classes.root }} fullWidth variant="outlined" value={cF(item.email)} onChange={(e) => setInput(e, index, 'email', 'pdContributors')} />
                 </StyledCell>
                 <StyledCell colSpan="3">
-                  <TextField fullWidth variant="outlined" value={cF(item.orcid)} onChange={(e) => setInput(e, index, 'orcid', 'pdContributors')} />
+                  <TextField InputProps={{ className: classes.root }} fullWidth variant="outlined" value={cF(item.orcid)} onChange={(e) => setInput(e, index, 'orcid', 'pdContributors')} />
                 </StyledCell>
                 <StyledCell>
                   <Button variant="contained" color="primary" disableElevation fullWidth onClick={() => removeRows('pdContributors', index)}>

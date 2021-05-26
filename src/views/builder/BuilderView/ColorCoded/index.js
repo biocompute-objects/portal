@@ -138,7 +138,7 @@ const ColorCoded = ({ complianceCheck, setComplianceCheck, objectContents, setOb
   const [iodInputSubdomain, setIodInputSubdomain] = useState(objectContents.io_domain.input_subdomain);
   const [iodOutputSubdomain, setIodOutputSubdomain] = useState(objectContents.io_domain.output_subdomain);  
 
-  // Parameter domain
+  // Parametric domain
   const [pad, setPad] = useState(objectContents.parametric_domain);
 
   // Error domain
