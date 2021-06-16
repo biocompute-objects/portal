@@ -32,9 +32,9 @@ const ProfileDetails = ({ className, ...rest }) => {
     firstName: userInfo.first_name,
     lastName: userInfo.last_name,
     email: userInfo.email,
-    alt_email: userInfo.apiinfo[0].alt_email,
-    affiliation: userInfo.apiinfo[0].affiliation,
-    orcid: userInfo.apiinfo[0].orcid
+    alt_email: userInfo.apiinfo[0].other_info.alt_email,
+    affiliation: userInfo.apiinfo[0].other_info.affiliation,
+    orcid: userInfo.apiinfo[0].other_info.orcid
   });
 
   const handleChange = (event) => {
@@ -58,19 +58,19 @@ const ProfileDetails = ({ className, ...rest }) => {
         { userInfo.username }
       </Typography>
       <Typography gutterBottom variant="subtitle1">
-        Name: { userInfo.first_name } { userInfo.last_name }
+        Name: { values.firstName } { values.lastName }
       </Typography>
       <Typography gutterBottom variant="subtitle1">
-        Affiliation: {userInfo.apiinfo[0].affiliation}
+        Affiliation: {values.affiliation}
       </Typography>
       <Typography gutterBottom variant="subtitle1">
-        Email: {userInfo.email}
+        Email: {values.email}
       </Typography>
       <Typography gutterBottom variant="subtitle1">
-        Alternative Email: {userInfo.apiinfo[0].alt_email}
+        Alternative Email: {values.alt_email}
       </Typography>
       <Typography gutterBottom variant="subtitle1">
-        ORCID: {userInfo.apiinfo[0].orcid}
+        ORCID: {values.orcid}
       </Typography>
     </Grid>
 

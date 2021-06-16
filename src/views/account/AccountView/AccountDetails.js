@@ -25,11 +25,12 @@ const useStyles = makeStyles(() => ({
 
 
 
-var retrieveUser = localStorage.getItem('user');
-var userInfo = JSON.parse(retrieveUser);
+
 
 
 const AccountDetails = ({ className, ...rest }) => {
+  var retrieveUser = localStorage.getItem('user');
+  var userInfo = JSON.parse(retrieveUser);
   const classes = useStyles();
   const navigate = useNavigate();
   const [apikey, setApikey] = useState();
@@ -41,10 +42,11 @@ const AccountDetails = ({ className, ...rest }) => {
     firstName: userInfo.first_name || "",
     lastName: userInfo.last_name || "",
     email: userInfo.email || "",
-    alt_email: userInfo.apiinfo[0].alt_email || "",
-    affiliation: userInfo.apiinfo[0].affiliation || "",
-    orcid: userInfo.apiinfo[0].orcid || "",
-    username: userInfo.username || ""
+    alt_email: userInfo.apiinfo[0].other_info.alt_email || "",
+    affiliation: userInfo.apiinfo[0].other_info.affiliation || "",
+    orcid: userInfo.apiinfo[0].other_info.orcid || "",
+    username: userInfo.username || "",
+    token: localStorage.getItem('token')
   });
 
   const handleChange = (event) => {
@@ -65,7 +67,8 @@ const AccountDetails = ({ className, ...rest }) => {
           email: values.email || "",
           alt_email: values.alt_email || "",
           affiliation: values.affiliation || "",
-          orcid: values.orcid || ""
+          orcid: values.orcid || "",
+          token: values.token
           }}
       onSubmit= {(values) => {
     
@@ -84,7 +87,8 @@ const AccountDetails = ({ className, ...rest }) => {
                   "first_name": values.firstName,
                   "last_name": values.lastName,
                   "affiliation": values.affiliation,
-                  "orcid": values.orcid
+                  "orcid": values.orcid,
+                  'token': values.token
 
                 })
               })
@@ -94,11 +98,11 @@ const AccountDetails = ({ className, ...rest }) => {
                 
                   localStorage.setItem('token', json.token);
                   localStorage.setItem('user', JSON.stringify(json.user));
-                  navigate('/account', { replace: true });
+                  window.location.reload();
                 } else {
               
                     console.log('Error')
-                    navigate('/dashboard', { replace: true });
+                    navigate('/account', { replace: true });
                   }
                 })
       }}

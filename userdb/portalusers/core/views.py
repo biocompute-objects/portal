@@ -83,6 +83,7 @@ class UserList(APIView):
             return Response(status=status.HTTP_409_CONFLICT)
         
         else:
+            
             serializer = UserSerializerWithToken(data=request.data)
 
             
@@ -108,34 +109,42 @@ class UserList(APIView):
 
 @api_view(['POST'])
 def update_user(request):
+    """
+    Update a user's information. Could probably be merged with add_api, or take over add_api
+    """
+
+    # Get the username 
     user = UserSerializer(request.user).data['username']
-    print(user)
+
+   # Get the user with associated username
     user_object = User.objects.get(username = user)
-    print(user_object)
+
+    # Get ApiInfo associated with user
     api_object = ApiInfo.objects.get(local_username = user_object)
-    print(api_object)
+  
     bulk = json.loads(request.body)
-    print(bulk)
+  
+
     bulk.pop('username')
-    print("bulk " + str(bulk))
+    token = bulk.pop('token')
+   
     
     for key, value in bulk.items():
-        print("key")
-     
+  
         if (key == 'first_name') or (key == 'last_name') or (key == 'email'):
             setattr(user_object, key,value)
         else:
             old_info = api_object.other_info
             old_info[key] = value
-            print(old_info)
+      
             setattr(api_object, 'other_info', old_info)
 
     user_object.save()
-    print(str(user_object.__dict__ )+ "\n")
-    print("user saved successfully!\n")
+
     api_object.save()
-    print(str(api_object.__dict__) + "\n")
-    api_object.save()
-    print("api saved successfully!\n")
-  
-    return(Response(UserSerializerWithToken(request.user).data))
+
+    # properly formatted response
+    return Response({
+          'token': token,
+          'user': UserSerializer(request.user).data
+          })
