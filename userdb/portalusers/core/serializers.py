@@ -43,6 +43,7 @@ class UserSerializerWithToken(serializers.ModelSerializer):
 
     token = serializers.SerializerMethodField()
     password = serializers.CharField(write_only=True)
+    user = UserSerializer(many = True)
 
     def get_token(self, obj):
 
@@ -59,12 +60,14 @@ class UserSerializerWithToken(serializers.ModelSerializer):
         password = validated_data.pop('password', None)
         instance = self.Meta.model(**validated_data)
 
+
         if password is not None:
             instance.set_password(password)
+            instance.set_user(UserSerializer(**validated_data))
         instance.save()
 
         return instance
 
     class Meta:
         model = User
-        fields = ('token', 'username', 'password', 'first_name', 'last_name', 'email', 'groups',)
+        fields = ('token', 'password', 'user',)

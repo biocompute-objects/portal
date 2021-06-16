@@ -83,8 +83,8 @@ class UserList(APIView):
             return Response(status=status.HTTP_409_CONFLICT)
         
         else:
-            
             serializer = UserSerializerWithToken(data=request.data)
+
             
             if serializer.is_valid():
                 serializer.save()
@@ -105,3 +105,37 @@ class UserList(APIView):
 # So, write to the table, then change the token.
 # We could have gone with a temporary token here, but
 # that may be too much too worry about.
+
+@api_view(['POST'])
+def update_user(request):
+    user = UserSerializer(request.user).data['username']
+    print(user)
+    user_object = User.objects.get(username = user)
+    print(user_object)
+    api_object = ApiInfo.objects.get(local_username = user_object)
+    print(api_object)
+    bulk = json.loads(request.body)
+    print(bulk)
+    bulk.pop('username')
+    print("bulk " + str(bulk))
+    
+    for key, value in bulk.items():
+        print("key")
+     
+        if (key == 'first_name') or (key == 'last_name') or (key == 'email'):
+            setattr(user_object, key,value)
+        else:
+            old_info = api_object.other_info
+            old_info[key] = value
+            print(old_info)
+            setattr(api_object, 'other_info', old_info)
+
+    user_object.save()
+    print(str(user_object.__dict__ )+ "\n")
+    print("user saved successfully!\n")
+    api_object.save()
+    print(str(api_object.__dict__) + "\n")
+    api_object.save()
+    print("api saved successfully!\n")
+  
+    return(Response(UserSerializerWithToken(request.user).data))
