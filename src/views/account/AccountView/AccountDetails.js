@@ -1,8 +1,14 @@
+
+
+
 // src/views/account/AccountView/AccountDetails.js
 
 import React, { useState, useContext } from 'react';
+import { Link as RouterLink, useNavigate } from 'react-router-dom';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
+import { FetchContext } from '../../../App';
+import { Formik } from 'formik';
 import {
   Box,
   Button,
@@ -17,18 +23,28 @@ const useStyles = makeStyles(() => ({
   root: {}
 }));
 
+
+
+var retrieveUser = localStorage.getItem('user');
+var userInfo = JSON.parse(retrieveUser);
+
+
 const AccountDetails = ({ className, ...rest }) => {
-  var retrieveUser = localStorage.getItem('user');
-  var userInfo = JSON.parse(retrieveUser)	
   const classes = useStyles();
+  const navigate = useNavigate();
+  const [apikey, setApikey] = useState();
+
+  // Fetch context.
+  const fc = useContext(FetchContext);
   
   const [values, setValues] = useState({
-    firstName: userInfo.first_name,
-    lastName: userInfo.last_name,
-    email: userInfo.email,
-    alt_email: userInfo.alt_email,
-    affiliation: userInfo.affiliation,
-    orcid: userInfo.orcid
+    firstName: userInfo.first_name || "",
+    lastName: userInfo.last_name || "",
+    email: userInfo.email || "",
+    alt_email: userInfo.apiinfo[0].alt_email || "",
+    affiliation: userInfo.apiinfo[0].affiliation || "",
+    orcid: userInfo.apiinfo[0].orcid || "",
+    username: userInfo.username || ""
   });
 
   const handleChange = (event) => {
@@ -39,12 +55,66 @@ const AccountDetails = ({ className, ...rest }) => {
   };
 
   return (
-    <form
-      autoComplete="off"
-      noValidate
-      className={clsx(classes.root, className)}
-      {...rest}
+
+
+    <Formik
+      initialValues={{
+          firstName: values.firstName || "",
+          username: values.username || "",
+          lastName: values.lastName || "",
+          email: values.email || "",
+          alt_email: values.alt_email || "",
+          affiliation: values.affiliation || "",
+          orcid: values.orcid || ""
+          }}
+      onSubmit= {(values) => {
+    
+            fetch(fc['sending']['userdb_update_user'], {
+                method: 'POST',
+                headers: {
+                  Authorization: `JWT ${localStorage.getItem('token')}`,
+                  "Content-type": "application/json; charset=UTF-8"
+                },
+
+                body: JSON.stringify({
+                  api_key: apikey,
+                  "username": values.username, 
+                  "email": values.email,
+                  "alt_email": values.alt_email,
+                  "first_name": values.firstName,
+                  "last_name": values.lastName,
+                  "affiliation": values.affiliation,
+                  "orcid": values.orcid
+
+                })
+              })
+              .then(res => res.json()).then(json => {
+
+                if(typeof(json.user) !== 'undefined') {
+                
+                  localStorage.setItem('token', json.token);
+                  localStorage.setItem('user', JSON.stringify(json.user));
+                  navigate('/account', { replace: true });
+                } else {
+              
+                    console.log('Error')
+                    navigate('/dashboard', { replace: true });
+                  }
+                })
+      }}
+
+     
     >
+    {({
+              errors,
+              handleBlur,
+              handleChange,
+              handleSubmit,
+              isSubmitting,
+              touched,
+              values
+            }) => (
+    <form onSubmit={handleSubmit}>
       <Card elevation={0}>
         <CardContent>
           <Grid
@@ -61,7 +131,6 @@ const AccountDetails = ({ className, ...rest }) => {
                 label="First name"
                 name="firstName"
                 onChange={handleChange}
-                required
                 value={values.firstName}
                 variant="outlined"
               />
@@ -76,7 +145,6 @@ const AccountDetails = ({ className, ...rest }) => {
                 label="Last name"
                 name="lastName"
                 onChange={handleChange}
-                required
                 value={values.lastName}
                 variant="outlined"
               />
@@ -91,7 +159,6 @@ const AccountDetails = ({ className, ...rest }) => {
                 label="Email Address"
                 name="email"
                 onChange={handleChange}
-                required
                 value={values.email}
                 variant="outlined"
               />
@@ -103,11 +170,10 @@ const AccountDetails = ({ className, ...rest }) => {
             >
               <TextField
                 fullWidth
-                label="Profile Picture TODO"
-                name="avatar"
+                label="Alt Email"
+                name="alt_email"
                 onChange={handleChange}
-                type="image"
-                value={values.avatar}
+                value={values.alt_email}
                 variant="outlined"
               />
             </Grid>
@@ -121,7 +187,6 @@ const AccountDetails = ({ className, ...rest }) => {
                 label="Affiliation"
                 name="affiliation"
                 onChange={handleChange}
-                required
                 value={values.affiliation}
                 variant="outlined"
               />
@@ -136,7 +201,6 @@ const AccountDetails = ({ className, ...rest }) => {
                 label="ORCID"
                 name="orcid"
                 onChange={handleChange}
-                required
                 value={values.orcid}
                 variant="outlined"
               />
@@ -151,12 +215,16 @@ const AccountDetails = ({ className, ...rest }) => {
           <Button
             color="primary"
             variant="contained"
+            type="submit"
+            value="Submit"
           >
             Save details
           </Button>
         </Box>
       </Card>
-    </form>
+      </form>
+    )}
+    </Formik>
   );
 };
 
