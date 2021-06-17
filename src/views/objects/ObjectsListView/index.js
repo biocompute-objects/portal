@@ -36,8 +36,8 @@ const ObjectsListView = () => {
   const [loading, setLoading] = useState(true);
   const [rows, setRows] = useState();
 
-  function createData(objectId, name, state, source, lastUpdated) {
-      return { objectId, name, state, source, lastUpdated };
+  function createData(objectId, objectIdToken, name, state, source, lastUpdated) {
+      return { objectId, objectIdToken, name, state, source, lastUpdated };
   }
 
   // Row data
@@ -45,60 +45,83 @@ const ObjectsListView = () => {
 
   const getObjectsListing = () => {
     
-    // Call the API.
-    fetch(fc['sending']['bcoapi_objects_read'], {
-      method: 'POST',
-      body: JSON.stringify({
-        POST_read_object: [
-          {
-            table: 'bco_draft'
-          },
-          {
-            table: 'bco_publish'
-          }
-        ]
-    }),
-    headers: {
-      "Content-type": "application/json; charset=UTF-8"
+    // First get the API info.
+    var ApiInfo = JSON.parse(localStorage.getItem('user'));
+
+    // If there is no user info stored, assume we're the anonymous user.
+    if(typeof(ApiInfo) === null) {
+
+      // Use the anon token, which is publicly available.
+      ApiInfo = [{
+
+      }];
+
+    } else {
+
+      // There was a user.
+      ApiInfo = ApiInfo['apiinfo'];
+
     }
-    }).then(response=>response.json()).then(data=>{
-      
-      console.log('+++++++++++++++++', data)
-      // Get the bulk response.
-      const bulkResponse = data.POST_read_object;
 
-      // Go over each result.
-      for(let responseInfo of bulkResponse) {
+    // For each host, get the information.
+    ApiInfo.map(item => {
 
-        // Were the objects found?
-        if(responseInfo.request_code === '200') {
-          
-          responseInfo.content.map(item => {
+      // Call the API using the server information
+      // associated with the user.
+      // fetch('http://127.0.0.1:8000/api/objects/token/', {
+      // 'https://' + item['hostname'] + '/api/objects/token/'
+      fetch(item['public_hostname'] + '/api/objects/token/', {
+        method: 'POST',
+        body: JSON.stringify({
+          token: item['token']
+      }),
+      headers: {
+          "Authorization": "Token " + item['token'],
+          "Content-type": "application/json; charset=UTF-8"
+      }
+      }).then(response=>response.json()).then(data=>{
+        
+        console.log('+++++++++++++++++', data)
+
+        // Go over each result.
+        for(let tableName of Object.keys(data)) {
+
+          // Go over each object for each table.
+          for(let objectInfo of data[tableName]) {
+            rowData.push(createData(objectInfo['fields']['object_id'], item['token'], cF(cF(objectInfo.fields.contents.provenance_domain).name), objectInfo['fields']['state'], item['human_readable_hostname'], '01/29/21'));
+          }
+
+          // // Were the objects found?
+          // if(responseInfo.request_code === '200') {
             
-              // Tweak the draft IDs so that we are taken to the builder upon clicking.
-              if(item.fields.object_id.indexOf('DRAFT') !== -1) {
+          //   responseInfo.content.map(item => {
+              
+          //       // Tweak the draft IDs so that we are taken to the builder upon clicking.
+          //       if(item.fields.object_id.indexOf('DRAFT') !== -1) {
 
-                // Reconstruct the URL.
-                var splitUp = item.fields.object_id.split('/');
-                splitUp = 'http://' + splitUp[2] + '/builder/' + splitUp[3];
-                
-                // Push data.
-                rowData.push(createData(splitUp, cF(cF(item.fields.contents.provenance_domain).name), item.fields.state, 'GWU-HIVE - 24.35.124.3 (Hadley King)', '01/29/21'));
+          //         // Reconstruct the URL.
+          //         var splitUp = item.fields.object_id.split('/');
+          //         splitUp = 'http://' + splitUp[2] + '/builder/' + splitUp[3];
+                  
+          //         // Push data.
+          //         rowData.push(createData(splitUp, cF(cF(item.fields.contents.provenance_domain).name), item.fields.state, 'GWU-HIVE - 24.35.124.3 (Hadley King)', '01/29/21'));
 
-              } else {
-                rowData.push(createData(item.fields.object_id, cF(cF(item.fields.contents.provenance_domain).name), item.fields.state, 'GWU-HIVE - 24.35.124.3 (Hadley King)', '01/29/21'));
-              }
+          //       } else {
+          //         rowData.push(createData(item.fields.object_id, cF(cF(item.fields.contents.provenance_domain).name), item.fields.state, 'GWU-HIVE - 24.35.124.3 (Hadley King)', '01/29/21'));
+          //       }
 
-            }
-          )
+          //     }
+          //   )
 
+          // }
+          
         }
 
-      }
+        // We're no longer loading.
+        setRows(rowData);
+        setLoading(false);
 
-      // We're no longer loading.
-      setRows(rowData);
-      setLoading(false);
+      })
 
     })
     
@@ -111,10 +134,10 @@ useEffect(() => {
 
   return (
     <Page
-      className={classes.root}
-      title="BioCompute Objects"
+      className = {classes.root}
+      title = "BioCompute Objects"
     >
-      <Container maxWidth={false}>
+      <Container maxWidth = {false}>
         <Toolbar />
         {
           loading
@@ -123,7 +146,7 @@ useEffect(() => {
                 <Typography>Loading...</Typography>
               </div>
             :
-              <Results rowInfo={rows} />
+              <Results rowInfo = {rows} />
         }
       </Container>
     </Page>

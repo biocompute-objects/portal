@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import { lighten, makeStyles } from '@material-ui/core/styles';
@@ -37,10 +37,6 @@ import Chip from '@material-ui/core/Chip';
 import { useContext } from 'react'
 import { ParentContext } from './index'
 
-function createData(organization, hostname, username, apikey, permissions, status) {
-  return { organization, hostname, username, apikey, permissions, status };
-}
-
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
     return -1;
@@ -68,10 +64,9 @@ function stableSort(array, comparator) {
 }
 
 const headCells = [
-  { id: 'organization', numeric: false, disablePadding: true, label: 'Organization' },
+  { id: 'servername', numeric: false, disablePadding: true, label: 'Server Name' },
   { id: 'hostname', numeric: true, disablePadding: false, label: 'Hostname' },
-  { id: 'username', numeric: false, disablePadding: false, label: 'Username' },
-  { id: 'apikey', numeric: false, disablePadding: false, label: 'API key' },
+  { id: 'token', numeric: false, disablePadding: false, label: 'Token' },
   { id: 'permissions', numeric: false, disablePadding: false, label: 'Permissions' },
   { id: 'status', numeric: false, disablePadding: false, label: 'Status' },
 ];
@@ -99,7 +94,7 @@ function EnhancedTableHead(props) {
         {headCells.map((headCell) => (
           <TableCell
             key={headCell.id}
-            align='center'
+            align='left'
             padding={headCell.disablePadding ? 'none' : 'default'}
             sortDirection={orderBy === headCell.id ? order : false}
           >
@@ -153,6 +148,7 @@ const useToolbarStyles = makeStyles((theme) => ({
 }));
 
 const EnhancedTableToolbar = (props) => {
+  
   const classes = useToolbarStyles();
   const { numSelected } = props;
 
@@ -225,16 +221,62 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function EnhancedTable({ onClickOpen }) {
-  const classes = useStyles();
-  const [order, setOrder] = React.useState('asc');
-  const [orderBy, setOrderBy] = React.useState('organization');
-  const [selected, setSelected] = React.useState([]);
+// For creating user data.
+function createData(servername, hostname, token, permissions, status) {
+  return { servername, hostname, token, permissions, status };
+}
 
-  const [rows, setRows] = React.useState([
-    createData('NIH', '23.423.13.45', 'carmstrong', 'dsd$4jkx%sl2#', 'Read, Write', 'Active'),
-    createData('FDA', '3.33.41.435', 'carmstrong', 'djf#klxl;%', 'Read', 'Inactive')
-  ]);
+export default function EnhancedTable({ onClickOpen }) {
+  
+  const classes = useStyles();
+  
+  // State
+  const [order, setOrder] = React.useState('asc');
+  const [orderBy, setOrderBy] = React.useState('servername');
+  const [selected, setSelected] = React.useState([]);
+  const [permissions, setPermissions] = React.useState([]);
+  const [updatedUser, setUpdatedUser] = React.useState(false);
+
+  // All user information.
+  // const [rows, setRows] = React.useState([
+  //   createData('NIH', '23.423.13.45', 'carmstrong', 'Read, Write', 'Active'),
+  //   createData('FDA', '3.33.41.435', 'carmstrong', 'Read', 'Inactive')
+  // ]);
+  const [rows, setRows] = React.useState([]);
+
+  // Set the parent context setters.
+  // Source: https://stackoverflow.com/questions/58936042/pass-context-between-siblings-using-context-in-react
+  const { setShowing, serverAdded, setServerAdded } = useContext(ParentContext);
+
+  // Get the credentials from the user's most recently stored credentials.
+  useEffect(() => {
+    
+    // Define an array to hold the permissions.
+    var perms = [];
+
+    // Get the permissions.
+    setPermissions(JSON.parse(localStorage.getItem('user'))['apiinfo']);
+
+    permissions.map(perm => {
+      perms.push(
+        createData(
+          perm['human_readable_hostname'],
+          perm['hostname'],
+          perm['token'],
+          perm['other_info']['group_permissions'],
+          'Active'
+        )
+      )
+    })
+
+    // Update the server info.
+    setRows(perms);
+    console.log('rows:', rows)
+
+    // The server added flag is no longer necessary.
+    setServerAdded(false);
+
+  }, [serverAdded])
 
   // Create a function to add a new server row to the table.
   // Source: https://webomnizz.com/change-parent-component-state-from-child-using-hooks-in-react/
@@ -279,10 +321,6 @@ export default function EnhancedTable({ onClickOpen }) {
 
   const isSelected = (name) => selected.indexOf(name) !== -1;
 
-  // Set the parent context setters.
-  // Source: https://stackoverflow.com/questions/58936042/pass-context-between-siblings-using-context-in-react
-  const { setShowing } = useContext(ParentContext);
-
   return (
     <div className={classes.root}>
       <Paper className={classes.paper}>
@@ -306,48 +344,66 @@ export default function EnhancedTable({ onClickOpen }) {
             <TableBody>
               {stableSort(rows, getComparator(order, orderBy))
                 .map((row, index) => {
-                  const isItemSelected = isSelected(row.organization);
-                  const labelId = `enhanced-table-checkbox-${index}`;
+                    const isItemSelected = isSelected(row.servername);
+                    const labelId = `enhanced-table-checkbox-${index}`;
                       return (
-                      <TableRow
-                        hover
-                        onClick={(event) => handleClick(event, row.organization)}
-                        role="checkbox"
-                        aria-checked={isItemSelected}
-                        tabIndex={-1}
-                        key={row.organization}
-                        selected={isItemSelected}
-                      >
-                        <TableCell padding="checkbox">
-                          <Checkbox
-                            checked={isItemSelected}
-                            inputProps={{ 'aria-labelledby': labelId }}
-                          />
-                        </TableCell>
-                        <TableCell component="th" id={labelId} scope="row" padding="none">
-                          {row.organization}
-                        </TableCell>
-                        <TableCell align="left">{row.hostname}</TableCell>
-                        <TableCell align="left">{row.username}</TableCell>
-                        <TableCell align="left">{row.apikey}</TableCell>
-                        <TableCell align="left"><Permissions /></TableCell>
-                        <TableCell align="center"><Chip className={row.status === "Active" ? classes.serverActive : classes.serverInactive} color='primary' label={row.status}></Chip></TableCell>
-                      </TableRow>
-                    );
-
-                })}
+                        <TableRow
+                          hover
+                          onClick={(event) => handleClick(event, row.servername)}
+                          role="checkbox"
+                          aria-checked={isItemSelected}
+                          tabIndex={-1}
+                          key={row.servername}
+                          selected={isItemSelected}
+                        >
+                          <TableCell padding="checkbox">
+                            <Checkbox
+                              checked={isItemSelected}
+                              inputProps={{ 'aria-labelledby': labelId }}
+                            />
+                          </TableCell>
+                          <TableCell component="th" id={labelId} scope="row" padding="none">
+                            {row.servername}
+                          </TableCell>
+                          <TableCell align="left">{row.hostname}</TableCell>
+                          <TableCell align="left">
+                            {/* <Button
+                              color="primary"
+                              onClick={() => setShowing(true)}
+                              variant="contained"
+                            >
+                              Set credentials
+                            </Button> */}
+                            {row.token}
+                          </TableCell>
+                          <TableCell align="left">
+                            <Button
+                              color="primary"
+                              fullWidth
+                              onClick={() => setShowing(true)}
+                              variant="contained"
+                            >
+                              Show permissions
+                            </Button>
+                            <Permissions permissionSet = {row.permissions}/>
+                          </TableCell>
+                          <TableCell align="center"><Chip className={row.status === "Active" ? classes.serverActive : classes.serverInactive} color='primary' label={row.status}></Chip></TableCell>
+                        </TableRow>
+                      );
+                    }
+                  )}
               <TableRow
               >
                 <TableCell align="center" colSpan={7}>
                   <Button
-                  color="primary"
-                  onClick={() => setShowing(true)}
-                  rows={rows}
-                  newServer={newServer}
-                  variant="contained"
-                >
-                  Add Server
-                </Button>
+                    color="primary"
+                    onClick={() => setShowing(true)}
+                    rows={rows}
+                    newServer={newServer}
+                    variant="contained"
+                  >
+                    Add Server
+                  </Button>
                 </TableCell>
               </TableRow>
             </TableBody>

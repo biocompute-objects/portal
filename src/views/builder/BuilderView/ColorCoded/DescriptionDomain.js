@@ -52,8 +52,6 @@ const StyledCell = withStyles({
 /*export default function DescriptionDomain({ addRows, removeRows, descriptionKeywords, items, cF }) {*/
 export default function DescriptionDomain({ compCheck, checkBlank, items, cF }) {
   
-  console.log('Description Domain:', items);
-  
   const classes = useStyles();
 
   // State for showing missing sections.

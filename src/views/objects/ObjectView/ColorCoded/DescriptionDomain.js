@@ -109,7 +109,7 @@ export default function DescriptionDomain({ items }) {
                       <List>
                         {
                               item.input_list.map(subitem => (
-                                <LinkerInList color={ 'blackLink' } uri={ subitem.uri } />
+                                <LinkerInList color={ 'blackLink' } uri={ subitem.uri.uri } />
                             )
                           )
                         }
@@ -130,7 +130,7 @@ export default function DescriptionDomain({ items }) {
                       <List>
                         {
                               item.output_list.map(subitem => (
-                                <LinkerInList color={ 'blackLink' } uri={ subitem.uri } />
+                                <LinkerInList color={ 'blackLink' } uri={ subitem.uri.uri } />
                             )
                           )
                         }

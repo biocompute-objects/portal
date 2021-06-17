@@ -1,10 +1,13 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import {
   makeStyles
 } from '@material-ui/core';
 
 // For links.
 import Link from '@material-ui/core/Link';
+
+// Fetch context.
+import { FetchContext } from '../../../App';
 
 // SVG/Link styling
 const useStyles = makeStyles((theme) => ({
@@ -24,34 +27,16 @@ export default function Linker({ uri, color, accessionOnly, state }) {
 
   const svgClasses = useStyles();
 
-  // The URI to use.
-  var uriProcessed = uri;
-  
-  // Accession only or full URI?
-  if(accessionOnly === true) {
-
-    // Parse based on state of the object.
-    if(state === 'DRAFT') {
-
-      // Keep only the last part of the URI.
-      uriProcessed = uriProcessed.split('/');
-      uriProcessed = uriProcessed.slice(-1)[0];
-      console.log('uriProcessed:', uriProcessed)
-
-    } else if(state === 'PUBLISHED') {
-
-      // Keep only the last two parts of the URI.
-      uriProcessed = uriProcessed.split('/');
-      uriProcessed = uriProcessed.slice(-2)[0] + '/' + uriProcessed.slice(-1)[0];
-
-    }
-    
-  }
+  // Fetch context.
+  const fc = useContext(FetchContext);
 
   // Arguments
   // ---------
   // url (string): Link URL
   // color (string): Link color
+
+  // Process the URI.
+  const processed = uri.replace('://', '/');
 
 
   // ----- Meta Information ----- //
@@ -61,11 +46,19 @@ export default function Linker({ uri, color, accessionOnly, state }) {
 
 
   // ----- Linker ----- //
-
-
+  
+  
   return(
-    <Link className={svgClasses[color]} href={uri} target="_blank">
-      {uriProcessed}
-    </Link>
+    state === 'DRAFT'
+      ?
+        <Link className = { svgClasses[color] } href = { window.location.href.replace('/objects', '/builder/') + processed } target="_blank">
+          { processed.split('/').slice(-1) }
+        </Link>
+      :
+        <Link className = { svgClasses[color] } href = { window.location.href + '/view/' + processed } target="_blank">
+          { processed.split('/').slice(-2).join('/') }
+        </Link>
   );
+
+
 }

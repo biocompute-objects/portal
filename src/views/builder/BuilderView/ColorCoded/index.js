@@ -21,9 +21,6 @@ import UsabilityDomain from './UsabilityDomain'
 import cF from '../../../../utils/cF'
 import { DescriptionOutlined } from '@material-ui/icons';
 
-// Fetch context.
-import { FetchContext } from '../../../../App';
-
 const useStyles = makeStyles((theme) => ({
   root: {
     backgroundColor: theme.palette.background.dark,
@@ -67,24 +64,23 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-const ColorCoded = ({ saving, setSaving, publishing, setPublishing, compCheck, contents }) => {
+const ColorCoded = ({ complianceCheck, setComplianceCheck, objectContents, setObjectContents }) => {
   
-  // contents is the actual object information.  
-  console.log('^^^^', contents)
+  // As of 5/13/21, there is no relationship between the color-coded
+  // draft view and the raw draft view.
 
+  console.log('RENDER CHECK: ', objectContents)
   const classes = useStyles();
 
-  // Fetch context.
-  const fc = useContext(FetchContext);
+  // TODO: not necessary with re-factor code?
 
   // Set fake data for missing domains.
-  ['provenance_domain', 'usability_domain', 'description_domain', 'execution_domain', 'io_domain', 'parametric_domain', 'error_domain', 'extension_domain'].map(item => {
-      if(!(item in contents)) {
-        contents[item] = '';
-      }
-    }
-  )
-  console.log('######', contents)
+  // ['provenance_domain', 'usability_domain', 'description_domain', 'execution_domain', 'io_domain', 'parametric_domain', 'error_domain', 'extension_domain'].map(item => {
+  //     if(!(item in contents)) {
+  //       contents[item] = '';
+  //     }
+  //   }
+  // )
 
   // Compliance-checking functions
   const checkBlank = (value) => {
@@ -103,233 +99,53 @@ const ColorCoded = ({ saving, setSaving, publishing, setPublishing, compCheck, c
   
   // State
 
-  // TODO: Make sure this is written correctly?
-
-  // For saving drafts
-  useEffect(() => {
-
-    // Default to the loading state.
-    //setLoading(true);
-
-    // Update the draft.    
-    if(saving === 1) {
-
-      // TODO: Find cleaner way to send this?
-      // De-structure the URL.
-
-      // Split the URI and re-construct the route.
-      const splitUp = window.location.href.split('/');
-      const destructured = splitUp[0] + '//' + splitUp[2] + '/' + splitUp[4];
-      
-      // Call the API.
-      fetch(fc['sending']['bco_api_objects_create'], {
-        method: 'POST',
-        body: JSON.stringify({
-          POST_create_new_object: [
-              {
-                table: 'bco_draft',
-                object_id: destructured,
-                schema: 'IEEE',
-                contents: {
-                  "object_id": destructured,
-                  "etag": contents.eTag,
-                  "spec_version": "IEEE",
-                  "provenance_domain": {
-                    "name": pdName,
-                    "version": pdVersion,
-                    "created": pdCreated,
-                    "modified": pdModifed,
-                    "contributors": pdContributors,
-                    "license": pdLicense
-                  },
-                  "usability_domain": ud,
-                  "description_domain": {
-                    "keywords": ddKeywords,
-                    "pipeline_steps": ddPipelineSteps
-                  },
-                  "execution_domain": {
-                    "script": edScript,
-                    "script_driver": edScriptDriver,
-                    "software_prerequisites": edSoftwarePrerequisites,
-                    "external_data_endpoints": edExternalDataEndpoints,
-                    "environment_variables": edEnvironmentVariables
-                  },
-                  "io_domain": {
-                    "input_subdomain": iodInputSubdomain,
-                    "output_subdomain": iodOutputSubdomain
-                  },
-                  "parametric_domain": pad,
-                  "error_domain": errd,
-                  "extension_domain": exd
-                },
-                state: 'DRAFT'
-              }
-          ]
-      }),
-      headers: {
-        "Content-type": "application/json; charset=UTF-8"
-      }
-      }).then(response=>response.json()).then(data=>{
-        
-        console.log('+++++++++++++++++', data);
-
-        // Get the bulk response.
-        const bulkResponse = data.POST_create_new_object[0];
-
-        // Was the object found?
-        if(bulkResponse.request_code === '200') {
-          
-          // We found the object, so set the data.
-          alert('The object with ID \n\n' + destructured + '\n\n was saved successfully.')
-
-        } else {
-
-          // There was a problem, so show what it was.
-          alert('There was a problem saving the object with ID \n\n' + destructured + '\n\n  See errors below...\n\n' + bulkResponse.message);
-    
-        }
-
-        // We're no longer saving.
-        setSaving(0);
-
-      })
-      
-    }
-    
-  }, [saving]);
-
-  // For publishing drafts
-  useEffect(() => {
-
-    // Update the draft.    
-    if(publishing === 1) {
-
-      // TODO: Find cleaner way to send this?
-      // De-structure the URL.
-
-      // Split the URI and re-construct the route.
-      const splitUp = window.location.href.split('/');
-      const destructured = splitUp[0] + '//' + splitUp[2] + '/' + splitUp[4];
-      
-      // Call the API.  
-      fetch(fc['sending']['bcoapi_objects_create'], { 
-        method: 'POST',
-        body: JSON.stringify({
-          POST_create_new_object: [
-              {
-                table: 'bco_publish',
-                schema: 'IEEE',
-                contents: {
-                  "object_id": destructured,
-                  "etag": contents.eTag,
-                  "spec_version": "IEEE",
-                  "provenance_domain": {
-                    "name": pdName,
-                    "version": pdVersion,
-                    "created": pdCreated,
-                    "modified": pdModifed,
-                    "contributors": pdContributors,
-                    "license": pdLicense
-                  },
-                  "usability_domain": ud,
-                  "description_domain": {
-                    "keywords": ddKeywords,
-                    "pipeline_steps": ddPipelineSteps
-                  },
-                  "execution_domain": {
-                    "script": edScript,
-                    "script_driver": edScriptDriver,
-                    "software_prerequisites": edSoftwarePrerequisites,
-                    "external_data_endpoints": edExternalDataEndpoints,
-                    "environment_variables": edEnvironmentVariables
-                  },
-                  "io_domain": {
-                    "input_subdomain": iodInputSubdomain,
-                    "output_subdomain": iodOutputSubdomain
-                  },
-                  "parametric_domain": pad,
-                  "error_domain": errd,
-                  "extension_domain": exd
-                },
-                state: 'PUBLISHED'
-              }
-          ]
-      }),
-      headers: {
-        "Content-type": "application/json; charset=UTF-8"
-      }
-      }).then(response=>response.json()).then(data=>{
-        
-        console.log('+++++++++++++++++', data);
-
-        // Get the bulk response.
-        const bulkResponse = data.POST_create_new_object[0];
-
-        // Was the object found?
-        if(bulkResponse.request_code === '200') {
-          
-          // We found the object, so set the data.
-          alert('The object with ID \n\n' + destructured + '\n\n was saved successfully with ID \n\n' + bulkResponse['object_id'] + '\n\nClosing this alert will re-direct you to the object view page for this object.')
-
-        } else {
-
-          // There was a problem, so show what it was.
-          alert('There was a problem saving the object with ID \n\n' + destructured + '\n\nSee errors below...\n\n' + bulkResponse.message);
-    
-        }
-
-        // We're no longer publishing.
-        setPublishing(0);
-
-      })
-
-    }
-    
-  }, [publishing]);
+  // Meta
+  const [meObjectId, setMeObjectId] = useState(objectContents.object_id);
+  const [meEtag, setMeEtag] = useState(objectContents.etag);
 
   // Provenance domain
-  const [pdName, setPdName] = useState(contents.provenance_domain.name);
-  const [pdVersion, setPdVersion] = useState(contents.provenance_domain.version);
-  const [pdLicense, setPdLicense] = useState(contents.provenance_domain.license);
-  const [pdDerivedFrom, setPdDerivedFrom] = useState(contents.provenance_domain.derived_from);
-  const [pdCreated, setPdCreated] = useState(contents.provenance_domain.created);
-  const [pdModifed, setPdModified] = useState(contents.provenance_domain.modified);
-  const [pdObsoleteAfter, setPdObsoleteAfter] = useState(contents.provenance_domain.obsolete_after);
-  const [pdEmbargoStartTime, setPdEmbargoStartTime] = useState(cF(cF(contents.provenance_domain.embargo)['start_time']));
-  const [pdEmbargoEndTime, setPdEmbargoEndTime] = useState(cF(cF(contents.provenance_domain.embargo)['end_time']));
-  const [pdReview, setPdReview] = useState(contents.provenance_domain.review);
-  const [pdContributors, setPdContributors] = useState(contents.provenance_domain.contributors);
+  const [pdName, setPdName] = useState(objectContents.provenance_domain.name);
+  const [pdVersion, setPdVersion] = useState(objectContents.provenance_domain.version);
+  const [pdLicense, setPdLicense] = useState(objectContents.provenance_domain.license);
+  const [pdDerivedFrom, setPdDerivedFrom] = useState(objectContents.provenance_domain.derived_from);
+  const [pdCreated, setPdCreated] = useState(objectContents.provenance_domain.created);
+  const [pdModifed, setPdModified] = useState(objectContents.provenance_domain.modified);
+  const [pdObsoleteAfter, setPdObsoleteAfter] = useState(objectContents.provenance_domain.obsolete_after);
+  const [pdEmbargoStartTime, setPdEmbargoStartTime] = useState(cF(cF(objectContents.provenance_domain.embargo)['start_time']));
+  const [pdEmbargoEndTime, setPdEmbargoEndTime] = useState(cF(cF(objectContents.provenance_domain.embargo)['end_time']));
+  const [pdReview, setPdReview] = useState(objectContents.provenance_domain.review);
+  const [pdContributors, setPdContributors] = useState(objectContents.provenance_domain.contributors);
 
   // Usability domain
-  const [ud, setUd] = useState(contents.usability_domain);
+  const [ud, setUd] = useState(objectContents.usability_domain);
 
   // Description domain
-  const [ddKeywords, setDdKeywords] = useState(contents.description_domain.keywords);
-  const [ddPlatform, setDdPlatform] = useState(contents.description_domain.platform);
-  const [ddXref, setDdXref] = useState(contents.description_domain.xref);
-  const [ddPipelineSteps, setDdPipelineSteps] = useState(contents.description_domain.pipeline_steps);
+  const [ddKeywords, setDdKeywords] = useState(objectContents.description_domain.keywords);
+  const [ddPlatform, setDdPlatform] = useState(objectContents.description_domain.platform);
+  const [ddXref, setDdXref] = useState(objectContents.description_domain.xref);
+  const [ddPipelineSteps, setDdPipelineSteps] = useState(objectContents.description_domain.pipeline_steps);
 
   // Execution domain
-  const [edScript, setEdScript] = useState(contents.execution_domain.script);
-  const [edScriptDriver, setEdScriptDriver] = useState(contents.execution_domain.script_driver);
-  const [edSoftwarePrerequisites, setEdSoftwarePrerequisites] = useState(contents.execution_domain.software_prerequisites);
+  const [edScript, setEdScript] = useState(objectContents.execution_domain.script);
+  const [edScriptDriver, setEdScriptDriver] = useState(objectContents.execution_domain.script_driver);
+  const [edSoftwarePrerequisites, setEdSoftwarePrerequisites] = useState(objectContents.execution_domain.software_prerequisites);
   
-  const [edExternalDataEndpoints, setEdExternalDataEndpoints] = useState(contents.execution_domain.external_data_endpoints);
+  const [edExternalDataEndpoints, setEdExternalDataEndpoints] = useState(objectContents.execution_domain.external_data_endpoints);
   
-  const [edEnvironmentVariables, setEdEnvironmentVariables] = useState(contents.execution_domain.environment_variables);
+  const [edEnvironmentVariables, setEdEnvironmentVariables] = useState(objectContents.execution_domain.environment_variables);
   
   // IO Domain
-  const [iodInputSubdomain, setIodInputSubdomain] = useState(contents.io_domain.input_subdomain);
-  const [iodOutputSubdomain, setIodOutputSubdomain] = useState(contents.io_domain.output_subdomain);  
+  const [iodInputSubdomain, setIodInputSubdomain] = useState(objectContents.io_domain.input_subdomain);
+  const [iodOutputSubdomain, setIodOutputSubdomain] = useState(objectContents.io_domain.output_subdomain);  
 
   // Parameter domain
-  const [pad, setPad] = useState(contents.parametric_domain);
+  const [pad, setPad] = useState(objectContents.parametric_domain);
 
   // Error domain
-  const [errd, setErrd] = useState(contents.error_domain);
+  const [errd, setErrd] = useState(objectContents.error_domain);
 
   // Extension domain
-  const [exd, setExd] = useState(contents.extension_domain);
+  const [exd, setExd] = useState(objectContents.extension_domain);
 
   // To trigger re-renders
   const [rerender, setRerender] = useState(0);
@@ -357,28 +173,32 @@ const ColorCoded = ({ saving, setSaving, publishing, setPublishing, compCheck, c
   // Source: https://stackoverflow.com/questions/48131100/react-render-array-of-components
   // Source: https://stackoverflow.com/questions/43585840/react-render-dynamic-list-of-components
 
-  // Note that the meta information is generated directly from the object,
-  // but is not contained in the object itself.
-  const meta = {
-    "object_id": contents.object_id, 
-    "spec_version": contents.spec_version,
-    "etag": contents.eTag
-  }
-
+  // Note that meta attributes have no setters as they
+  // are set in the parent.
   const renderList = [ 
-    meta, 
-    { compCheck, checkBlank, pdName, pdVersion, pdLicense, pdDerivedFrom, pdCreated, pdModifed, pdObsoleteAfter, pdEmbargoStartTime, pdEmbargoEndTime, pdReview, pdContributors, rerender, setRerender, setPdName, setPdVersion, setPdLicense, setPdDerivedFrom, setPdCreated, setPdModified, setPdObsoleteAfter, setPdEmbargoStartTime, setPdEmbargoEndTime, setPdReview, setPdContributors }, 
-    { compCheck, checkBlank, ud, setUd },
-    { compCheck, checkBlank, iodInputSubdomain, iodOutputSubdomain, setIodInputSubdomain, setIodOutputSubdomain, rerender, setRerender },
-    { compCheck, checkBlank, edScript, edScriptDriver, edSoftwarePrerequisites, edExternalDataEndpoints, edEnvironmentVariables, rerender, setEdScript, setEdScriptDriver, setEdSoftwarePrerequisites, setEdExternalDataEndpoints, setEdEnvironmentVariables, setRerender },
-    { compCheck, checkBlank, ddKeywords, ddPlatform, ddXref, ddPipelineSteps, rerender, setDdKeywords, setDdPlatform, setDdXref, setDdPipelineSteps, setRerender },
-    { compCheck, checkBlank, pad, rerender, setPad, setRerender },
-    { compCheck, checkBlank, errd, setErrd }, 
-    { compCheck, checkBlank, exd, setExd }
+    { complianceCheck, meObjectId, meEtag, rerender, setRerender },
+    { complianceCheck, checkBlank, pdName, pdVersion, pdLicense, pdDerivedFrom, pdCreated, pdModifed, pdObsoleteAfter, pdEmbargoStartTime, pdEmbargoEndTime, pdReview, pdContributors, rerender, setRerender, setPdName, setPdVersion, setPdLicense, setPdDerivedFrom, setPdCreated, setPdModified, setPdObsoleteAfter, setPdEmbargoStartTime, setPdEmbargoEndTime, setPdReview, setPdContributors }, 
+    { complianceCheck, checkBlank, ud, setUd },
+    { complianceCheck, checkBlank, iodInputSubdomain, iodOutputSubdomain, setIodInputSubdomain, setIodOutputSubdomain, rerender, setRerender },
+    { complianceCheck, checkBlank, edScript, edScriptDriver, edSoftwarePrerequisites, edExternalDataEndpoints, edEnvironmentVariables, rerender, setEdScript, setEdScriptDriver, setEdSoftwarePrerequisites, setEdExternalDataEndpoints, setEdEnvironmentVariables, setRerender },
+    { complianceCheck, checkBlank, ddKeywords, ddPlatform, ddXref, ddPipelineSteps, rerender, setDdKeywords, setDdPlatform, setDdXref, setDdPipelineSteps, setRerender },
+    { complianceCheck, checkBlank, pad, rerender, setPad, setRerender },
+    { complianceCheck, checkBlank, errd, setErrd }, 
+    { complianceCheck, checkBlank, exd, setExd }
   ];
 
   const compList = [ Meta, ProvenanceDomain, UsabilityDomain, IoDomain, ExecutionDomain, DescriptionDomain, ParametricDomain, ErrorDomain, ExtensionDomain ];
   const classNames = [ 'meta', 'provenanceDomain', 'usabilityDomain', 'ioDomain', 'executionDomain', 'descriptionDomain', 'parametricDomain', 'errorDomain', 'extensionDomain' ];
+
+  // Listeners
+
+  // Listen for ANY change to the object,
+  // and kick back up everything.
+  useEffect(() => {
+
+    setObjectContents({"object_id": meObjectId,"spec_version":"IEEE", "eTag": meEtag, "provenance_domain":{"name": pdName,"version": pdVersion,"created": pdCreated,"modified": pdModifed,"contributors": pdContributors,"license": pdLicense},"usability_domain": ud,"description_domain":{"keywords": ddKeywords,"pipeline_steps": ddPipelineSteps},"execution_domain":{"script": edScript,"script_driver": edScriptDriver,"software_prerequisites": edSoftwarePrerequisites,"external_data_endpoints": edExternalDataEndpoints,"environment_variables": edEnvironmentVariables},"io_domain":{"input_subdomain": iodInputSubdomain,"output_subdomain": iodOutputSubdomain},"parametric_domain": pad,"error_domain": errd,"extension_domain": exd})
+
+  }, [pdName, pdVersion, pdLicense, pdDerivedFrom, pdCreated, pdModifed, pdObsoleteAfter, pdEmbargoStartTime, pdEmbargoEndTime, pdReview, pdContributors, ud, ddKeywords, ddPlatform, ddXref, ddPipelineSteps, edScript, edScriptDriver, edSoftwarePrerequisites, edExternalDataEndpoints, edEnvironmentVariables, iodInputSubdomain, iodOutputSubdomain, pad, errd, exd]);
  
   return (
     <Container maxWidth={false}>

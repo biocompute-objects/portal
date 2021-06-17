@@ -1,6 +1,6 @@
 // src/views/auth/LoginView.js
 
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import PropTypes from 'prop-types';
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
 import * as Yup from 'yup';
@@ -20,7 +20,17 @@ import Page from 'src/components/Page';
 // Fetch context.
 import { FetchContext } from '../../App';
 
+// Registration error
+// Source: https://material-ui.com/components/alert/#simple-alerts
+import Alert from '@material-ui/lab/Alert';
+
 const useStyles = makeStyles((theme) => ({
+  alertSpec: {
+    width: '100%',
+    '& > * + *': {
+      marginTop: theme.spacing(2),
+    }
+  },
   root: {
     backgroundColor: theme.palette.background.dark,
     height: '100%',
@@ -36,6 +46,9 @@ const LoginView = () => {
 
   // Fetch context.
   const fc = useContext(FetchContext);
+
+  // State
+  const [loginError, setLoginError] = useState(false);
 
   return (
     <Page
@@ -72,13 +85,19 @@ const LoginView = () => {
                 })
               })
               .then(res => res.json()).then(json => {
-                if(typeof(json.user) !== 'undefined') {
-                  localStorage.setItem('token', json.token);
-                  localStorage.setItem('user', JSON.stringify(json.user));
-                  navigate('/dashboard', { replace: true });
-                } else {
-                      console.log('Bad login')
-                    navigate('/register', { replace: true });
+                  if(typeof(json.user) !== 'undefined') {
+                    
+                    // Set the user information.
+                    localStorage.setItem('token', json.token);
+                    localStorage.setItem('user', JSON.stringify(json.user));
+
+                    navigate('/dashboard', { replace: true });
+
+                  } else {
+                    
+                    // Bad login.
+                    setLoginError(true);
+
                   }
                 })
               }
@@ -153,9 +172,13 @@ const LoginView = () => {
                   variant="outlined"
                 />
                 <Box my={2}>
+                  <div className={classes.alertSpec}>
+                    {loginError && <Alert severity = "error">Incorrect username or password!</Alert>}
+                  </div>
+                </Box>
+                <Box my={2}>
                   <Button
                     color="primary"
-                    disabled={isSubmitting}
                     fullWidth
                     size="large"
                     type="submit"

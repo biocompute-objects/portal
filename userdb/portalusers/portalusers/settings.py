@@ -26,8 +26,7 @@ SECRET_KEY = 'g6$hm-04*#=aedyrt@1nvig1a0bdzm_gmxfnl0k*+0q0ostl2c'
 DEBUG = True
 
 # TODO: Is this necessary?
-ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
-#ALLOWED_HOSTS = ['beta.portal.aws.biochemistry.gwu.edu']
+ALLOWED_HOSTS = ['beta.portal.aws.biochemistry.gwu.edu', '127.0.0.1', 'localhost']
 
 
 # Application definition
@@ -44,6 +43,8 @@ INSTALLED_APPS = [
     'core.apps.CoreConfig'
 ]
 
+# Allow requests from the portal.
+# Source: https://dzone.com/articles/how-to-fix-django-cors-error
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -137,8 +138,14 @@ REST_FRAMEWORK = {
     ),
 }
 
+# Allow requests from the portal and the API ONLY.
+# Source: https://dzone.com/articles/how-to-fix-django-cors-error
+CORS_ORIGIN_ALL_ALL = False
 CORS_ORIGIN_WHITELIST = (
     'http://localhost:3000',
+    'http://127.0.0.1:3000',
+    'http://localhost:8000',
+    'http://127.0.0.1:8000'
 )
 
 JWT_AUTH = {

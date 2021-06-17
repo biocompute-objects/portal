@@ -12,20 +12,17 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import { useContext } from 'react';
 import { ParentContext } from './index';
 
-// Host status
-import ServerStatus from './ServerStatus';
-
-export default function FormDialog(props) {
+export default function ShowCredentials(props) {
 
   // Use the parent context.
   // Source: https://stackoverflow.com/questions/58936042/pass-context-between-siblings-using-context-in-react
-  const { showing, setShowing, setServerAdded } = useContext(ParentContext);
+  const { showing, setShowing } = useContext(ParentContext);
 
   // State variables to hold the server information.
   const [hostname, setHostname] = useState('');
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  // const [apikey, setApikey] = useState('');
+  const [apikey, setApikey] = useState('');
   const [fieldsFilled, setFieldsFilled] = useState(false);
   const [requestStatus, setRequestStatus] = useState('');
 
@@ -34,19 +31,16 @@ export default function FormDialog(props) {
   // If all fields are provided, allow the submission to go through.
   useEffect(() => {
 
-    if(hostname !== '' && username !== '' && password !== '') {
+    if(hostname !== '' && username !== '' && password !== '' && apikey !== '') {
       setFieldsFilled(true);
     } else {
       setFieldsFilled(false);
     }
 
-  }, [hostname, username, password])
+  }, [hostname, username, password, apikey])
   
   const handleClose = () => {
     setShowing(false);
-
-    // TODO: move later to be more "graceful" on close...
-    setRequestStatus('');
     //props.newServer('asdfas');
   };
 
@@ -55,88 +49,65 @@ export default function FormDialog(props) {
 
   // Check if the server and the given key are valid.
   const checkApi = () => {
-
+    
     // Fetch to the server to verify a valid account.
-
-    // TODO: fix hostname to take just the server root IP
-    // instead of the full URL with /accounts/describe/.
     fetch(hostname, {
       method: 'POST',
       body: JSON.stringify({
-        username: username,
-        password: password
+        POST_get_key_permissions: [ 
+          {
+            apikey: apikey
+          }
+        ]
       }),
       headers: {
         "Content-type": "application/json; charset=UTF-8"
       }
-      }).then(response => response.json()).then(data => {
-        
-        // See if this server has already been added.
-        var serverAdded = false;
-
-        // TODO: a bit expensive, use a for loop/break paradigm instead.
-        JSON.parse(localStorage.getItem('user'))['apiinfo'].map(record => {
-
-          // Already added?
-          
-          // Slight tweak here as the URL on the host isn't just the
-          if(record['hostname'] === data['hostname']) {
-            serverAdded = true;
-          }
-
-        })
-
-        // Was the hostname already added?
-        if(serverAdded === false) {
-
-          // Instead of using status directly, we'll check for a necessary key.
-
-          // Was the request a success or not?
-          if(data['hostname'] !== 'undefined') {
-
-            // Update the message.
-            setRequestStatus('success');
-
-            // Add the server information to the user information.
-            var updatedUser = JSON.parse(localStorage.getItem('user'));
-            updatedUser['apiinfo'].push(data);
-
-            // Add the server information to the user's information via userdb call.
-            fetch('http://127.0.0.1:8080/core/add_api/', {
-                method: 'POST',
-                body: JSON.stringify(updatedUser['apiinfo'][0]),
-                headers: {
-                    "Authorization": `JWT ${localStorage.getItem('token')}`,
-                    "Content-type": "application/json; charset=UTF-8"
-                }
-                }).then(response=>response.json()).then(data=>{
-                  
-                  // Update the local storage with the new information.
-                  localStorage.setItem('user', JSON.stringify(updatedUser));
-
-                  // The server was added, so update the state.
-                  setServerAdded(true);
-
-                  // UX thing, give a little time before closing the dialog.
-                  setTimeout(handleClose, 2500);
+      }).then(response=>response.json()).then(data=>{
                 
-            })
+        // Was the request a success?
+        const requestStatus = data.POST_get_key_permissions[0].request_code;
 
-          } else {
+        if(requestStatus === '200') {
 
-            // There was an issue, so alert the user.
-            setRequestStatus('failure');
+          // Update the message.
+          setRequestStatus('success');
 
-          }
+          // Get the relevant information from the API.
+          console.log(data.POST_get_key_permissions[0]);
 
-        } else {
+          // Add the permissions to the user's information via userdb call.
+          fetch('http://127.0.0.1:8080/core/add_api/', {
+              method: 'POST',
+              body: JSON.stringify({
+                  api_hostname: hostname,
+                  api_human_readable: "some readable name",
+                  api_key: apikey
+              }),
+              headers: {
+                  Authorization: `JWT ${localStorage.getItem('token')}`,
+                  "Content-type": "application/json; charset=UTF-8"
+              }
+              }).then(response=>response.json()).then(data=>{
+                
+                console.log(data);
+                // Update the local storage with the new information.
+                localStorage.setItem('user', JSON.stringify(data));
 
-          // Indicate the error.
-          setRequestStatus('already_added');
-    
+                // UX thing, give a little time before closing the dialog.
+                setTimeout(handleClose, 2500);
+              
+          })
+          
+        } else if(requestStatus === '404') {
+
+          // Update the message.
+          setRequestStatus('failure');
+
         }
+        
+    })
 
-      })
   }
 
   const setInput = (event, which) => {
@@ -160,7 +131,7 @@ export default function FormDialog(props) {
     } else if(which == 'apikey') {
 			
 			// Change the API key.
-			// setApikey(event.target.value);
+			setApikey(event.target.value);
 
     }
 
@@ -198,14 +169,14 @@ export default function FormDialog(props) {
             fullWidth
             onChange={(e) => setInput(e, 'password')}
           />
-          {/* <TextField
+          <TextField
             autoFocus
             margin="dense"
             id="apikey"
             label="API Key"
             fullWidth
             onChange={(e) => setInput(e, 'apikey')}
-          /> */}
+          />
           <ServerStatus serverStatus={requestStatus} />
         </DialogContent>
         <DialogActions>

@@ -38,8 +38,6 @@ const useStyles = makeStyles(() => ({
 const Profile = ({ className, ...rest }) => {
   
   const classes = useStyles();
-  
-  var userInfo = JSON.parse(localStorage.getItem('user'));
 
   return (
 

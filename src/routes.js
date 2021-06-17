@@ -20,78 +20,74 @@ import Resources from 'src/views/resources/Resources';
 // Routing rules are given at https://github.com/snd/url-pattern
 
 const routes = () => {
+
 	var isLoggedIn = false
+
 	if(localStorage.getItem('token')) {
 		isLoggedIn = true 
 	}
-	console.log('message',isLoggedIn);	
+  
   return [
 	  {
-    path: '/',
-
-    element: isLoggedIn ? <MainLayout /> : <Navigate to="/login" />,
-    children: [
-      { path: 'account', element: <AccountView /> },
-      { path: 'objects', element: <ObjectsListView /> },
-      { path: 'documentation', element: <Documentation />, children:[
-          { path: '', element: ''}
-        ]
-      },
-      { path: 'resources', element: <Resources />, children:[
-          { path: '', element: ''}
-        ]
-      },
-      { path: 'documentation', element: <Documentation />, children:[
-          { path: '', element: ''}
-        ]
-      },
-      { path: 'community', element: <Community />, children: [
-          { path: ':prefix_:state_:uuid', element: <BuilderView /> }
-        ]
-      },
-      { path: 'validator', element: <ValidatorView /> }
-    ]
-  },
-  {
-    path: '/',
-    element: isLoggedIn ? <DashboardLayout /> : <Navigate to="/login" />,
-    children: [
-      { path: 'dashboard', element: <HomeView /> },
-      { path: '', element: <Navigate to="/dashboard" /> }
-    ]
-  },
-  {
-    path: '/',
-    element: isLoggedIn ? <ObjectViewLayout /> : <Navigate to="/login" />,
-    children: [
-      { path: ':prefix_:id/:id2.:id3', element: <ObjectView /> }
-    ]
-  },
-  {
-    path: '/',
-    element: !isLoggedIn ? <MainLayout /> : <Navigate to="/dashboard" />,
-    children: [
-      { path: 'documentation', element: <Documentation />, children:[
-          { path: '', element: ''}
-        ]
-      },
-      { path: 'login', element: <LoginView /> },
-      { path: 'register', element: <RegisterView /> }
-    ]
-  },
-  {
-    path: '/',
-    element: <MainLayout />,
-    children: [
-      { path: 'documentation', element: <Documentation />, children:[
-          { path: '', element: ''}
-        ]
-      },
-      { path: '404', element: <Navigate to="/login" />},
-      { path: '*', element: <Navigate to="/login" /> }
-    ]
-  }
-]};
+      path: '/',
+      element: <MainLayout /> ,
+      children: [
+        { path: '', element: <Navigate to="/dashboard" /> },
+        { path: 'account', element: isLoggedIn ? <AccountView /> : <Navigate to="/login" /> },
+        { path: 'objects', element: <ObjectsListView /> },
+        { path: 'documentation', element: <Documentation /> },
+        { path: 'resources', element: <Resources /> },
+        { path: 'community', element: <Community /> },
+        { path: 'validator', element: <ValidatorView /> }
+      ]
+    },
+    {
+      path: 'objects/view', element: <ObjectViewLayout />, children: [
+        { path: '*', element: <ObjectView /> }
+      ] 
+    },
+    {
+      path: '/',
+      element: <DashboardLayout />,
+      children: [
+        { path: 'dashboard', element: <HomeView /> },
+        { path: '', element: <Navigate to="/dashboard" /> }
+      ]
+    },
+    {
+      path: '/builder',
+      element: <MainLayout />,
+      children: [
+        { path: '', element: <BuilderView />}, 
+        { path: '*', element: <BuilderView /> }
+      ]
+    },
+    {
+      path: '/',
+      element: <MainLayout />,
+      children: [
+        { path: 'documentation', element: <Documentation />, children:[
+            { path: '', element: ''}
+          ]
+        },
+        { path: 'login', element: <LoginView /> },
+        { path: 'register', element: <RegisterView /> }
+      ]
+    },
+    {
+      path: '/',
+      element: <MainLayout />,
+      children: [
+        { path: 'documentation', element: <Documentation />, children:[
+            { path: '', element: ''}
+          ]
+        },
+        { path: '404', element: isLoggedIn ? <Navigate to="/dashboard" /> : <Navigate to="/login" /> },
+        { path: '*', element: isLoggedIn ? <Navigate to="/dashboard" /> : <Navigate to="/login" /> }
+      ]
+    }
+  ]
+};
 
 
 // No login.

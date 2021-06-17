@@ -29,11 +29,6 @@ import NavItem from './NavItem';
 // Navigation.
 const items_auth = [
   {
-    href: '/dashboard',
-    icon: MenuIcon,
-    title: 'Home'
-  },
-  {
     href: '/documentation',
     icon: UserIcon,
     title: 'Documentation'
@@ -47,6 +42,11 @@ const items_auth = [
     href: '/community',
     icon: UserIcon,
     title: 'Community'
+  },
+  {
+    href: '/builder',
+    icon: UserIcon,
+    title: 'Builder'
   },
   {
     href: '/account',
@@ -67,14 +67,24 @@ const items_no_auth = [
     title: 'Documentation'
   },
   {
-    href: '/login',
+    href: '/resources',
     icon: UserIcon,
-    title: 'Log In'
+    title: 'Resources'
   },
   {
-    href: '/register',
-    icon: UsersIcon,
-    title: 'Register'
+    href: '/community',
+    icon: UserIcon,
+    title: 'Community'
+  },
+  {
+    href: '/builder',
+    icon: UserIcon,
+    title: 'Builder'
+  },
+  {
+    href: '/login',
+    icon: UserIcon,
+    title: 'Log In/Register'
   },
   {
     href: '/objects',
@@ -140,7 +150,7 @@ function TopBar(props, { className, onMobileNavOpen, ...rest }) {
   const logged_in_bar = (
 
         <Toolbar>
-          <RouterLink to="/">
+          <RouterLink to="/dashboard">
             <Logo />
           </RouterLink>
           <Hidden smDown>
