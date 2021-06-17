@@ -124,7 +124,7 @@ const RegisterView = () => {
       innerRef={formRef}
       validationSchema={Yup.object().shape({
         email: Yup.string()
-          .required('eMail is required to register'),
+          .required('email is required to register'),
         username: Yup.string()
           .min(6, 'User name is too short - must contain 6 chars minimum')
           .max(255)
