@@ -49,11 +49,11 @@ const ObjectsListView = () => {
     var ApiInfo = JSON.parse(localStorage.getItem('user'));
 
     // If there is no user info stored, assume we're the anonymous user.
-    if(typeof(ApiInfo) === null) {
+    if(ApiInfo === null) {
 
       // Use the anon token, which is publicly available.
       ApiInfo = [{
-
+        // hardcode public_hostname gw // local // public token in server conf
       }];
 
     } else {

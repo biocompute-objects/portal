@@ -42,7 +42,8 @@ function App() {
 			'bcoapi_objects_view': 'http://127.0.0.1:8000/api/objects/view/',
 			'userdb_addapi': 'http://127.0.0.1:8080/users/add_api/',
 			'userdb_users': 'http://127.0.0.1:8080/users/list/',
-			'userdb_tokenauth': 'http://127.0.0.1:8080/users/token-auth/'
+			'userdb_tokenauth': 'http://127.0.0.1:8080/users/token-auth/',
+			'userdb_update_user': 'http://127.0.0.1:8080/update_user/'
 		},
 		'production': {
 			'bcoapi_accounts_new': 'https://beta.portal.aws.biochemistry.gwu.edu/api/accounts/new/',

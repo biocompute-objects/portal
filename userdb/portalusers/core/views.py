@@ -85,6 +85,7 @@ class UserList(APIView):
         else:
             
             serializer = UserSerializerWithToken(data=request.data)
+
             
             if serializer.is_valid():
                 serializer.save()
@@ -105,3 +106,45 @@ class UserList(APIView):
 # So, write to the table, then change the token.
 # We could have gone with a temporary token here, but
 # that may be too much too worry about.
+
+@api_view(['POST'])
+def update_user(request):
+    """
+    Update a user's information. Could probably be merged with add_api, or take over add_api
+    """
+
+    # Get the username 
+    user = UserSerializer(request.user).data['username']
+
+   # Get the user with associated username
+    user_object = User.objects.get(username = user)
+
+    # Get ApiInfo associated with user
+    api_object = ApiInfo.objects.get(local_username = user_object)
+  
+    bulk = json.loads(request.body)
+  
+
+    bulk.pop('username')
+    token = bulk.pop('token')
+   
+    
+    for key, value in bulk.items():
+  
+        if (key == 'first_name') or (key == 'last_name') or (key == 'email'):
+            setattr(user_object, key,value)
+        else:
+            old_info = api_object.other_info
+            old_info[key] = value
+      
+            setattr(api_object, 'other_info', old_info)
+
+    user_object.save()
+
+    api_object.save()
+
+    # properly formatted response
+    return Response({
+          'token': token,
+          'user': UserSerializer(request.user).data
+          })

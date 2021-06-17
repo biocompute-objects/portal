@@ -124,11 +124,11 @@ const RegisterView = () => {
       innerRef={formRef}
       validationSchema={Yup.object().shape({
         email: Yup.string()
-          .required('eMail is required to register'),
+          .required('Email is required to register'),
         username: Yup.string()
-          .min(6, 'User name is too short - must contain 6 chars minimum')
+          .min(6, 'Username is too short - must contain 6 chars minimum')
           .max(255)
-          .required('User Name is required'),
+          .required('Username is required'),
         password: Yup.string()
           .min(8, "Password is too short - should be 8 chars minimum.")
           .matches(/(?=.*[0-9])/, "Password must contain a number.")
@@ -144,8 +144,8 @@ const RegisterView = () => {
           body: JSON.stringify({
             "username": values.username, 
             "password": values.password,
-            "firstname": values.firstName, 
-            "lastname": values.lastName,
+            "first_name": values.firstName, 
+            "last_name": values.lastName,
             "email": values.email
           })
             }).then(res => res.json().then(data => ({

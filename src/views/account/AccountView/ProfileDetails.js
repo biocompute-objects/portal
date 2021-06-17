@@ -24,14 +24,17 @@ const ProfileDetails = ({ className, ...rest }) => {
   const classes = useStyles();
   
   var userInfo = JSON.parse(localStorage.getItem('user'));
+
+
+
   
   const [values, setValues] = useState({
     firstName: userInfo.first_name,
     lastName: userInfo.last_name,
     email: userInfo.email,
-    alt_email: userInfo.alt_email,
-    affiliation: userInfo.affiliation,
-    orcid: userInfo.orcid
+    alt_email: userInfo.apiinfo[0].other_info.alt_email,
+    affiliation: userInfo.apiinfo[0].other_info.affiliation,
+    orcid: userInfo.apiinfo[0].other_info.orcid
   });
 
   const handleChange = (event) => {
@@ -55,16 +58,19 @@ const ProfileDetails = ({ className, ...rest }) => {
         { userInfo.username }
       </Typography>
       <Typography gutterBottom variant="subtitle1">
-        Name: { userInfo.first_name } { userInfo.last_name }
+        Name: { values.firstName } { values.lastName }
       </Typography>
       <Typography gutterBottom variant="subtitle1">
-        Affiliation: {userInfo.affiliation}
+        Affiliation: {values.affiliation}
       </Typography>
       <Typography gutterBottom variant="subtitle1">
-        Email: {userInfo.email}
+        Email: {values.email}
       </Typography>
       <Typography gutterBottom variant="subtitle1">
-        ORCID: {userInfo.orcid}
+        Alternative Email: {values.alt_email}
+      </Typography>
+      <Typography gutterBottom variant="subtitle1">
+        ORCID: {values.orcid}
       </Typography>
     </Grid>
 
