@@ -59,7 +59,7 @@ def add_api(request):
     print(user)
     print(updated)
     print('=========')
-    return(Response(UserSerializer(request.user).data))
+    return(Response(UserSerializer(request.user).data, status=status.HTTP_201_CREATED))
 
 
 class UserList(APIView):
