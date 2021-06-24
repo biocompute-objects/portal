@@ -25,7 +25,7 @@ function App() {
 	// ----- DEVELOPMENT / PRODUCTION SWITCH ----- //
 
 	// Set the switch.
-	const production = true;
+	const production = false;
 
 
 

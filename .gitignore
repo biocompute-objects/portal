@@ -22,3 +22,18 @@
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+
+# --- USER-ADDED IGNORES --- #
+
+# The migrations folder.
+userdb/portalusers/core/migrations/
+
+# The UserDB.
+userdb/portalusers/db.sqlite3
+
+# pycaches
+userdb/portalusers/core/__pycache__/
+userdb/portalusers/portalusers/__pycache__/
+
+# package lock
+package-lock.json
