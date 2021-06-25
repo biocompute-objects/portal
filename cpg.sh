@@ -1,12 +1,9 @@
 #!/bin/bash
 
-# Description:  The script for cloning from GitHub.
-# This is script 1 of 2, the next one is mpb.sh,
-# run by any wheel user.
+# Description:  The script for cloning the portal from GitHub.
 
 # Make sure we're in the right directory.
 cd ~
-
 
 # Cloning
 
