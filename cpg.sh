@@ -11,7 +11,7 @@ cd ~
 rm portal -rf
 
 # Clone the repository.
-git clone https://github.com/carmstrong1gw/portal
+git clone https://github.com/biocompute-objects/portal
 
 # Get in the repository.
 cd portal
