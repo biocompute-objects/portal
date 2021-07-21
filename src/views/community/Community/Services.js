@@ -36,6 +36,7 @@ const useStyles = makeStyles({
 
 export default function Services() {
   const classes = useStyles();
+  const services = 'https://www.biocomputeobject.org/services/'
   var logo = require('src/images/logo.png');
   const service = [
     'BCO Certification',
@@ -50,7 +51,7 @@ export default function Services() {
 
   return (
     <Card className={classes.root, classes.linkCard} elevation={0}>
-      <CardActionArea className={classes.linkCard} component={RouterLink} to={"/builder"}>
+      <CardActionArea onClick={() => window.open(services)}>
         <CardContent>
             <Typography className={classes.title}>
               BioCompute Services<br/>

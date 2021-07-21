@@ -35,11 +35,12 @@ const useStyles = makeStyles({
 
 export default function Organization() {
   const classes = useStyles();
+  const organization = 'https://www.biocomputeobject.org/organization/'
   var logo = require('src/images/logo.png')
 
   return (
     <Card className={classes.root, classes.linkCard} elevation={0}>
-      <CardActionArea className={classes.linkCard} component={RouterLink} to={"/builder"}>
+      <CardActionArea onClick={() => window.open(organization)}>
         <CardContent>
             <Typography className={classes.title}>
               BioCompute Organization<br/>

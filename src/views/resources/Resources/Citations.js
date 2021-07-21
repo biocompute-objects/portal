@@ -41,11 +41,9 @@ const useStyles = makeStyles({
 export default function Citations() {
   const classes = useStyles();
   var logo = require('src/images/logo.png')
-  var registryLink = 'https://portal.aws.biochemistry.gwu.edu/registry'
 
   return (
     <Card className={classes.root, classes.supportCard} elevation={5}>
-      <CardActionArea onClick={() => window.open(registryLink)}>
         <CardContent>
             <Typography className={classes.title}>
               <img src={logo} height={36} alt="BCO logo"/>
@@ -89,7 +87,6 @@ export default function Citations() {
               </ol>
             </Typography>
         </CardContent>
-      </CardActionArea>
     </Card>
   );
 }

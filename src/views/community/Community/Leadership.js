@@ -35,11 +35,12 @@ const useStyles = makeStyles({
 
 export default function Leadership() {
   const classes = useStyles();
+  const leadership = 'https://www.biocomputeobject.org/community/#leadership'
   var logo = require('src/images/logo.png')
 
   return (
     <Card className={classes.root, classes.linkCard} elevation={0}>
-      <CardActionArea className={classes.linkCard} component={RouterLink} to={"/builder"}>
+      <CardActionArea onClick={() => window.open(leadership)}>
         <CardContent>
             <Typography className={classes.title}>
               BioCompute Leadership<br/>
