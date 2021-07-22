@@ -19,21 +19,11 @@ function App() {
 
 	const routing = useRoutes(routes());
 
-
-
-
-	// ----- DEVELOPMENT / PRODUCTION SWITCH ----- //
-
-	// Set the switch.
-	const production = true;
-
-
-
 	// ----- HOSTNAMES ----- //
 
 	// Define hostnames here.
 	const hostnames = {
-		'development': {
+		'local': {
 			'bcoapi_accounts_new': 'http://127.0.0.1:8000/api/accounts/new/',
 			'bcoapi_description_permissions': 'http://127.0.0.1:8000/api/description/permissions/',
 			'bcoapi_objects_create': 'http://127.0.0.1:8000/api/objects/create/',
@@ -44,7 +34,18 @@ function App() {
 			'userdb_users': 'http://127.0.0.1:8080/users/list/',
 			'userdb_tokenauth': 'http://127.0.0.1:8080/users/token-auth/'
 		},
-		'production': {
+		'development': {
+			'bcoapi_accounts_new': 'https://dev.portal.aws.biochemistry.gwu.edu/api/accounts/new/',
+			'bcoapi_description_permissions': 'https://dev.portal.aws.biochemistry.gwu.edu/api/description/permissions/',
+			'bcoapi_objects_create': 'https://dev.portal.aws.biochemistry.gwu.edu/api/objects/create/',
+			'bcoapi_objects_list': 'https://dev.portal.aws.biochemistry.gwu.edu/api/objects/token/',
+			'bcoapi_objects_read': 'https://dev.portal.aws.biochemistry.gwu.edu/api/objects/read/',
+			'bcoapi_objects_view': 'https://dev.portal.aws.biochemistry.gwu.edu/api/objects/view/',
+			'userdb_addapi': 'https://dev.portal.aws.biochemistry.gwu.edu/users/add_api/',
+			'userdb_users': 'https://dev.portal.aws.biochemistry.gwu.edu/users/list/',
+			'userdb_tokenauth': 'https://dev.portal.aws.biochemistry.gwu.edu/users/token-auth/'
+		},
+		'beta': {
 			'bcoapi_accounts_new': 'https://beta.portal.aws.biochemistry.gwu.edu/api/accounts/new/',
 			'bcoapi_description_permissions': 'https://beta.portal.aws.biochemistry.gwu.edu/api/description/permissions/',
 			'bcoapi_objects_create': 'https://beta.portal.aws.biochemistry.gwu.edu/api/objects/create/',
@@ -59,9 +60,9 @@ function App() {
 
 
 
-
-	// Set what we're sending to the context.
-	const sending = production === false ? hostnames.development : hostnames.production
+	// ----- LOCAL / DEVELOPMENT / BETA SWITCH ----- //
+	// Change hostnames.* to match the deployment environment
+	const sending = hostnames.beta
 	
 	return (
 		<ThemeProvider theme={theme}>
