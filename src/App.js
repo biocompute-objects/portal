@@ -55,6 +55,28 @@ function App() {
 			'userdb_addapi': 'https://beta.portal.aws.biochemistry.gwu.edu/users/add_api/',
 			'userdb_users': 'https://beta.portal.aws.biochemistry.gwu.edu/users/list/',
 			'userdb_tokenauth': 'https://beta.portal.aws.biochemistry.gwu.edu/users/token-auth/'
+		},
+		'test': {
+			'bcoapi_accounts_new': 'https://test.portal.biochemistry.gwu.edu/api/accounts/new/',
+			'bcoapi_description_permissions': 'https://test.portal.biochemistry.gwu.edu/api/description/permissions/',
+			'bcoapi_objects_create': 'https://test.portal.biochemistry.gwu.edu/api/objects/create/',
+			'bcoapi_objects_list': 'https://test.portal.biochemistry.gwu.edu/api/objects/token/',
+			'bcoapi_objects_read': 'https://test.portal.biochemistry.gwu.edu/api/objects/read/',
+			'bcoapi_objects_view': 'https://test.portal.biochemistry.gwu.edu/api/objects/view/',
+			'userdb_addapi': 'https://test.portal.biochemistry.gwu.edu/users/add_api/',
+			'userdb_users': 'https://test.portal.biochemistry.gwu.edu/users/list/',
+			'userdb_tokenauth': 'https://test.portal.biochemistry.gwu.edu/users/token-auth/'
+		},
+		'production': {
+			'bcoapi_accounts_new': 'https://portal.biochemistry.gwu.edu/api/accounts/new/',
+			'bcoapi_description_permissions': 'https://portal.biochemistry.gwu.edu/api/description/permissions/',
+			'bcoapi_objects_create': 'https://portal.biochemistry.gwu.edu/api/objects/create/',
+			'bcoapi_objects_list': 'https://portal.biochemistry.gwu.edu/api/objects/token/',
+			'bcoapi_objects_read': 'https://portal.biochemistry.gwu.edu/api/objects/read/',
+			'bcoapi_objects_view': 'https://portal.biochemistry.gwu.edu/api/objects/view/',
+			'userdb_addapi': 'https://portal.biochemistry.gwu.edu/users/add_api/',
+			'userdb_users': 'https://portal.biochemistry.gwu.edu/users/list/',
+			'userdb_tokenauth': 'https://portal.biochemistry.gwu.edu/users/token-auth/'
 		}
 	};
 
@@ -62,7 +84,7 @@ function App() {
 
 	// ----- LOCAL / DEVELOPMENT / BETA SWITCH ----- //
 	// Change hostnames.* to match the deployment environment
-	const sending = hostnames.beta
+	const sending = hostnames.production
 	
 	return (
 		<ThemeProvider theme={theme}>
