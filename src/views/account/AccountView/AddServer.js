@@ -181,7 +181,7 @@ export default function FormDialog(props) {
     updatedUser['apiinfo'].push(serverInfo);
 
     // Add the server information to the user's information via userdb call.
-    fetch('http://127.0.0.1:8080/users/add_api/', {
+    fetch(hostname, {
     method: 'POST',
     body: JSON.stringify(updatedUser['apiinfo'][updatedUser['apiinfo'].length - 1]),
     headers: {
