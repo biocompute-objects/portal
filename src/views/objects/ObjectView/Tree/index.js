@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import {
   makeStyles
 } from '@material-ui/core';
@@ -16,8 +16,6 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const Tree = ({ contents }) => {
-    
-  const classes = useStyles();
 
   return (
     <RecursiveComponent 

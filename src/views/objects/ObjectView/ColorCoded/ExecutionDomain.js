@@ -12,7 +12,7 @@ import TableRow from '@material-ui/core/TableRow';
 import Linker from './components/Linker';
 
 // For contact information.
-import Tooltip from '@material-ui/core/Tooltip';
+// import Tooltip from '@material-ui/core/Tooltip';
 
 // Cell styling
 const StyledCell = withStyles({
@@ -23,55 +23,6 @@ const StyledCell = withStyles({
     border: '1px solid black'
   }
 })(TableCell);
-
-// A function to process a key.
-const processKey = (ikey) => {
-  
-  // Define the returnable variable.
-  var returnable = '';
-  
-  // Split on the underscore, then capitalize.
-  const splitUp = ikey.split('_');
-
-  // Only process if we have anything.
-  if(splitUp.length > 1) {
-
-    // Join and return.
-    var capJoined = [];
-
-    splitUp.map(value => {
-      if(value === 'id') {
-        capJoined.push('ID')
-      } else if(value === 'io') {
-        capJoined.push('IO')
-      } else {
-        capJoined.push(value.charAt(0).toUpperCase() + value.slice(1));
-      }
-    });
-
-    // Kick it back.
-    returnable = capJoined.join(' ')
-
-  } else {
-    if(ikey === 'etag') {
-      returnable = 'eTag';
-    } else if(ikey === 'url') {
-      returnable = 'URL';
-    } else if(ikey === 'uri') {
-      returnable = 'URI'
-    } else if(ikey === 'email') {
-      returnable = 'eMail'
-    } else if(ikey === 'orcid') {
-      returnable = 'ORCID'
-    } else {
-      returnable = ikey.charAt(0).toUpperCase() + ikey.slice(1);
-    }
-  }
-
-  // Kick it back.
-  return(returnable)
-
-}
 
 // Pass an object and whether or not its keys are properties.
 export default function ExecutionDomain({ items }) {

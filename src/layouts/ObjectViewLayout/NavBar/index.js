@@ -8,7 +8,7 @@ import {
 } from '@material-ui/core';
 
 // Featured BCOs
-import ObjectOptions from './ObjectOptions'
+import ObjectOptions from './ObjectOptions';
 
 const useStyles = makeStyles(() => ({
   desktopDrawer: {

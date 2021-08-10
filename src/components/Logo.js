@@ -9,9 +9,8 @@ const useStyles = makeStyles(() => ({
 }));
 
 const Logo = (props) => {
-  
   const classes = useStyles();
-  
+
   return (
     <img
       alt="Logo"

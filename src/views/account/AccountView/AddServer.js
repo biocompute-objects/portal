@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useState } from 'react';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import Dialog from '@material-ui/core/Dialog';
@@ -34,7 +34,7 @@ export default function FormDialog(props) {
   
   // Use the parent context.
   // Source: https://stackoverflow.com/questions/58936042/pass-context-between-siblings-using-context-in-react
-  const { showing, setShowing, setServerAdded } = useContext(ParentContext);
+  const { showing, setShowing } = useContext(ParentContext);
 
   // State variables to hold the server information.
   const [hostname, setHostname] = useState('');

@@ -9,10 +9,7 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 
 // Datetime picker
-import Datetime from 'react-datetime';
 import "react-datetime/css/react-datetime.css";
-
-import DatePicker from "react-datepicker";
 
 // Inputs
 import TextField from '@material-ui/core/TextField';
@@ -116,7 +113,7 @@ export default function ProvenanceDomain({ items, cF }) {
     }
 
     // License
-    if(items.pdLicense == "") {
+    if(items.pdLicense === "") {
 
       // No license.
       setMissingLicense(true);
@@ -132,7 +129,7 @@ export default function ProvenanceDomain({ items, cF }) {
     // in IEEE-2791).
     if(cF(items.pdReview) !== '') {
       
-      if(items.pdReview.length == 0) {
+      if(items.pdReview.length === 0) {
 
         // No review.
         setMissingReview(false);
@@ -179,10 +176,10 @@ export default function ProvenanceDomain({ items, cF }) {
           
         }
         
-        for(var i = 0; i < items.pdReview.length; i++) {
+        for(var reviewName = 0; i < items.pdReview.length; reviewName++) {
           
           // Name
-          if(items.pdReview[i].reviewer.name === "") {
+          if(items.pdReview[reviewName].reviewer.name === "") {
             
             // No name.
             setMissingReviewName(true);
@@ -204,10 +201,10 @@ export default function ProvenanceDomain({ items, cF }) {
           
         }
         
-        for(var i = 0; i < items.pdReview.length; i++) {
+        for(var reviewCont = 0; reviewCont < items.pdReview.length; reviewCont++) {
           
           // Contribution
-          if(items.pdReview[i].reviewer.contribution.length === 0) {
+          if(items.pdReview[reviewCont].reviewer.contribution.length === 0) {
             
             // No contribution.
             setMissingReviewContribution(true);
@@ -237,7 +234,7 @@ export default function ProvenanceDomain({ items, cF }) {
     // our state is compared only to the relevant field.
 
     // Contributors are required
-    if(items.pdContributors.length == 0) {
+    if(items.pdContributors.length === 0) {
       
       // No contributors.
       setMissingContributors(true);
@@ -258,10 +255,10 @@ export default function ProvenanceDomain({ items, cF }) {
       setMissingContributors(false);
 
       // Each one of the contributors.
-      for(var i = 0; i < items.pdContributors.length; i++) {
+      for(var contName = 0; contName < items.pdContributors.length; contName++) {
 
         // Name
-        if(items.pdContributors[i].name === "") {
+        if(items.pdContributors[contName].name === "") {
           
           // No Name.
           setMissingContributorsName(true);
@@ -284,10 +281,10 @@ export default function ProvenanceDomain({ items, cF }) {
       }
 
       // Each one of the contributors.
-      for(var i = 0; i < items.pdContributors.length; i++) {
+      for(var contCont = 0; contCont < items.pdContributors.length; contCont++) {
         
         // Contribution        
-        if(items.pdContributors[i].contribution.length === 0) {
+        if(items.pdContributors[contCont].contribution.length === 0) {
           
           // No contribution.
           setMissingContributorsContribution(true);

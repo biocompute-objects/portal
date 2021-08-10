@@ -16,7 +16,7 @@ import LinkIcon from '@material-ui/icons/Link';
 
 // Context
 // Source: https://www.digitalocean.com/community/tutorials/react-usecontext
-import { DisplayContext } from '../../ObjectViewLayout/index';
+import { DisplayContext } from '../index';
 
 // Styling
 // Source: https://stackoverflow.com/questions/43975839/material-ui-next-styling-text-inside-listitemtext
@@ -44,7 +44,6 @@ function ListItemLink(props) {
 // Source: https://material-ui.com/components/checkboxes/#checkbox
 
 export default function ObjectOptions() {
-  
   // Use the parent context.
   // Source: https://www.digitalocean.com/community/tutorials/react-usecontext
 
@@ -52,9 +51,9 @@ export default function ObjectOptions() {
   // Source: https://stackoverflow.com/questions/62564671/using-usecontext-in-react-doesnt-give-me-the-expect-data
 
   // Pull the state and change handler from the context.
-  const { 
-    state, handleChange, 
-    view, defaultView 
+  const {
+    state, handleChange,
+    view, defaultView
   } = useContext(DisplayContext);
 
   // Strings are required to make the radio select work,
@@ -71,12 +70,12 @@ export default function ObjectOptions() {
     <div className={classes.root}>
       <List className={classes.navHeader}>
         <ListItemText classes={{ primary: classes.emphasized }} primary="Object Options" />
-          <ListItem button onPress={() => alert('logging...')}>
-            <ListItemIcon>
-              <EmailIcon />
-            </ListItemIcon>
-            <ListItemText primary="eMail Object" />
-          </ListItem>
+        <ListItem button onPress={() => alert('logging...')}>
+          <ListItemIcon>
+            <EmailIcon />
+          </ListItemIcon>
+          <ListItemText primary="eMail Object" />
+        </ListItem>
         <ListItem button>
           <ListItemIcon>
             <LinkIcon />
@@ -97,22 +96,19 @@ export default function ObjectOptions() {
               label="Describe fields on hover"
             /> */}
             {
-              ['meta', 'provenanceDomain', 'descriptionDomain', 'executionDomain', 'ioDomain', 'usabilityDomain', 'parametricDomain', 'errorDomain', 'extensionDomain'].map(domain => (
-                  <FormControlLabel
-                    control={<Checkbox checked={state[domain]} onChange={handleChange} name={domain} />}
-                    label={
+              ['meta', 'provenanceDomain', 'descriptionDomain', 'executionDomain', 'ioDomain', 'usabilityDomain', 'parametricDomain', 'errorDomain', 'extensionDomain'].map((domain) => (
+                <FormControlLabel
+                  control={<Checkbox checked={state[domain]} onChange={handleChange} name={domain} />}
+                  label={
                       domain == 'meta'
-                        ? 
-                          'Meta'
-                        :
-                          [
-                            domain.substr(0, domain.indexOf('D')).charAt(0).toUpperCase() + domain.substr(0, domain.indexOf('D')).slice(1), 
-                            domain.substr(domain.indexOf('D'))
-                          ].join(' ')
+                        ? 'Meta'
+                        : [
+                          domain.substr(0, domain.indexOf('D')).charAt(0).toUpperCase() + domain.substr(0, domain.indexOf('D')).slice(1),
+                          domain.substr(domain.indexOf('D'))
+                        ].join(' ')
                     }
-                  />
-                )
-              )
+                />
+              ))
             }
             {/* <FormControlLabel
               control={<Checkbox name="inlineBrowser" />}

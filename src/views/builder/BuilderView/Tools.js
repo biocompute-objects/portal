@@ -10,10 +10,10 @@ import { Grid } from '@material-ui/core';
 import Typography from '@material-ui/core/Typography';
 
 // Search field
-import SearchField from './Tools/SearchField';
+// import SearchField from './Tools/SearchField';
 
 // Logic field
-import LogicField from './Tools/LogicField';
+// import LogicField from './Tools/LogicField';
 
 // Sharing object
 import Sharing from './Tools/Sharing';
@@ -22,21 +22,21 @@ import Sharing from './Tools/Sharing';
 import Button from '@material-ui/core/Button';
 
 // Regex box
-import RegexBox from './Tools/RegexBox';
+// import RegexBox from './Tools/RegexBox';
 
 // Add condition
-import AddCondition from './Tools/AddCondition';
+// import AddCondition from './Tools/AddCondition';
 
 // Servers
 import ServerList from './Tools/ServerList';
 
 // Confirm publishing
 import PublishDialog from './Tools/PublishDialog';
-import { Publish } from '@material-ui/icons';
+// import { Publish } from '@material-ui/icons';
 
 // Rendering URL parameters.
 // Source: https://stackoverflow.com/a/60312798
-import { useNavigate } from 'react-router-dom';
+// import { useNavigate } from 'react-router-dom';
 
 
 const useStyles = makeStyles((theme) => ({

@@ -23,10 +23,6 @@ import CardContent from '@material-ui/core/CardContent';
 // Source: https://stackoverflow.com/a/55884366/5029459
 import ReactHtmlParser from 'react-html-parser';
 
-// Dummy redirecting after draft object creation.
-// See https://www.codegrepper.com/code-examples/javascript/useHistory+is+not+exported+form+react-router-dom
-import { useNavigate } from 'react-router-dom';
-
 // Fetch context.
 import { FetchContext } from '../../../../App';
 

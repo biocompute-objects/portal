@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Container,
   Grid,
@@ -19,7 +19,6 @@ import UsabilityDomain from './UsabilityDomain'
 
 // Checking for field value existence
 import cF from '../../../../utils/cF'
-import { DescriptionOutlined } from '@material-ui/icons';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -149,25 +148,6 @@ const ColorCoded = ({ complianceCheck, setComplianceCheck, objectContents, setOb
 
   // To trigger re-renders
   const [rerender, setRerender] = useState(0);
-  
-  // Generic add row
-  /*const addRows = ({ stateVariable, stateVariableSetter, rowTemplate }) => {
-
-    // For some reason we can't have the push
-    // call inside of setRows.
-
-    // Get the state variable.
-    var dummy = stateVariable;
-
-    // Push the new row.
-    dummy.push(rowTemplate);
-
-    // Update the state.
-    stateVariableSetter(dummy);
-
-    setRerender(rerender+1)
-
-  }*/
 
   // Define the components to render.
   // Source: https://stackoverflow.com/questions/48131100/react-render-array-of-components

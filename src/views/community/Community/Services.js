@@ -1,21 +1,17 @@
 // src/views/community/Community/Services.js
 
 import React from 'react';
-import { Card,
-	CardActionArea,
-	CardActions,
-	CardContent,
-	makeStyles,
-	Typography
-}from '@material-ui/core';
+import {
+  Card,
+  CardActionArea,
+  CardContent,
+  makeStyles,
+  Typography
+} from '@material-ui/core';
 
-// Routing to pages
-import { Link as RouterLink } from 'react-router-dom';
+import logo from 'src/images/logo.png';
 
 const useStyles = makeStyles({
-  root: {
-    minWidth: 275,
-  },
   bullet: {
     display: 'inline-block',
     margin: '0 2px',
@@ -23,8 +19,9 @@ const useStyles = makeStyles({
     transform: 'scale(0.8)',
   },
   linkCard: {
-      minHeight: '300px',
-      textAlign: 'center'
+    minHeight: '300px',
+    minWidth: 275,
+    textAlign: 'center'
   },
   title: {
     fontSize: '33px',
@@ -36,38 +33,36 @@ const useStyles = makeStyles({
 
 export default function Services() {
   const classes = useStyles();
-  const services = 'https://www.biocomputeobject.org/services/'
-  var logo = require('src/images/logo.png');
+  const services = 'https://www.biocomputeobject.org/services/';
   const service = [
     'BCO Certification',
     'BCO Verification',
     'BCO Database',
     'BCO Technical Support'
   ];
-  const serviceList = service.map((service) =>
-    <li>{service}</li>
-  );
-  
+  const serviceList = service.map((slist) => <li>{slist}</li>);
 
   return (
-    <Card className={classes.root, classes.linkCard} elevation={0}>
+    <Card className={classes.linkCard} elevation={0}>
       <CardActionArea onClick={() => window.open(services)}>
         <CardContent>
-            <Typography className={classes.title}>
-              BioCompute Services<br/>
-              <img src={logo} height={100} alt="BCO logo"/><br/>
-            </Typography>
-            <Typography >
-              The objective of the BioCompute Public-Private Partnership is to 
-	  facilitate the efficient communication of certain critical elements of 
-	  genomic analyses for the purpose of rendering genomic analyses more easily 
-	  and beneficially consumed by research institutions, clinical and diagnostic 
-	  care facilities, biotech and pharma entities, and regulatory bodies such 
-	  as the FDA.
-              <ol className={classes.bullet}>
-                {serviceList}
-              </ol>
-            </Typography>
+          <Typography className={classes.title}>
+            BioCompute Services
+            <br />
+            <img src={logo} height={100} alt="BCO logo" />
+            <br />
+          </Typography>
+          <Typography>
+            The objective of the BioCompute Public-Private Partnership is to
+            facilitate the efficient communication of certain critical elements of
+            genomic analyses for the purpose of rendering genomic analyses more easily
+            and beneficially consumed by research institutions, clinical and diagnostic
+            care facilities, biotech and pharma entities, and regulatory bodies such
+            as the FDA.
+            <ol className={classes.bullet}>
+              {serviceList}
+            </ol>
+          </Typography>
         </CardContent>
       </CardActionArea>
     </Card>

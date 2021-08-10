@@ -25,7 +25,6 @@ import {
 } from 'react-feather';
 import NavItem from './NavItem';
 
-
 // Navigation.
 const items_auth = [
   {
@@ -103,88 +102,92 @@ function TopBar(props, { className, onMobileNavOpen, ...rest }) {
   function Logout() {
     localStorage.clear();
     navigate('/login', { replace: true });
-};
+  }
 
-  var isLoggedIn = false
-  if(localStorage.getItem('token')) {
-	isLoggedIn = true 
-  };
+  let isLoggedIn = false;
+  if (localStorage.getItem('token')) {
+    isLoggedIn = true;
+  }
   const classes = useStyles();
   const [notifications] = useState([]);
 
   const logged_out_bar = (
-          <Toolbar>
-          <RouterLink to="/dashboard">
-            <Logo />
-          </RouterLink>
-          <Hidden smDown>
-            {items_no_auth.map((item) => (
-                <NavItem
-                  href={item.href}
-                  key={item.title}
-                  title={item.title}
-                  icon={item.icon}
-                />
-              ))}
-            <IconButton color="inherit">
-              <Badge
-                badgeContent={notifications.length}
-                color="primary"
-                variant="dot"
-              >
-              <InputIcon />
-              </Badge>
-            </IconButton>
-          </Hidden>
-          <Hidden mdUp>
-            <IconButton
-              color="inherit"
-              onClick={onMobileNavOpen}
-            >
-              <MenuIcon />
-            </IconButton>
-          </Hidden>
-        </Toolbar>
+    <Toolbar>
+      <RouterLink to="/dashboard">
+        <Logo />
+      </RouterLink>
+      <Hidden smDown>
+        {items_no_auth.map((item) => (
+          <NavItem
+            href={item.href}
+            key={item.title}
+            title={item.title}
+            icon={item.icon}
+          />
+        ))}
+        <IconButton color="inherit">
+          <Badge
+            badgeContent={notifications.length}
+            color="primary"
+            variant="dot"
+          >
+            <InputIcon />
+          </Badge>
+        </IconButton>
+      </Hidden>
+      <Hidden mdUp>
+        <IconButton
+          color="inherit"
+          onClick={onMobileNavOpen}
+        >
+          <MenuIcon />
+        </IconButton>
+      </Hidden>
+    </Toolbar>
   );
 
   const logged_in_bar = (
 
-        <Toolbar>
-          <RouterLink to="/dashboard">
-            <Logo />
-          </RouterLink>
-          <Hidden smDown>
-            {items_auth.map((item) => (
-                <NavItem
-                  href={item.href}
-                  key={item.title}
-                  title={item.title}
-                  icon={item.icon}
-                />
-            ))}
-            <IconButton 
-              color="inherit" 
-              onClick={Logout}>
-                <span>Log Out</span>
-            </IconButton>
-          </Hidden>
-          <Hidden mdUp>
-            <IconButton
-              color="inherit"
-              onClick={onMobileNavOpen}
-            >
-              <MenuIcon />
-            </IconButton>
-          </Hidden>
-        </Toolbar>
+    <Toolbar>
+      <RouterLink to="/dashboard">
+        <Logo />
+      </RouterLink>
+      <Hidden smDown>
+        {items_auth.map((item) => (
+          <NavItem
+            href={item.href}
+            key={item.title}
+            title={item.title}
+            icon={item.icon}
+          />
+        ))}
+        <IconButton
+          color="inherit"
+          onClick={Logout}
+        >
+          <span>Log Out</span>
+        </IconButton>
+      </Hidden>
+      <Hidden mdUp>
+        <IconButton
+          color="inherit"
+          onClick={onMobileNavOpen}
+        >
+          <MenuIcon />
+        </IconButton>
+      </Hidden>
+    </Toolbar>
   );
-  
-  return <AppBar
-        className={clsx(classes.root, className)}
-        elevation={0}
-        {...rest}>
-		{isLoggedIn ? logged_in_bar : logged_out_bar}
-		</AppBar>
+
+  return (
+    <AppBar
+      className={clsx(classes.root, className)}
+      elevation={0}
+      {...rest}
+    >
+      {isLoggedIn ? logged_in_bar : logged_out_bar}
+    </AppBar>
+  );
 }
 
 TopBar.propTypes = {

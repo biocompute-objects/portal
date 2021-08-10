@@ -4,8 +4,8 @@ import React, { useState } from 'react';
 import { Outlet } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core';
 import TopBar from '../shared/TopBar';
-import BottomBar from './BottomBar'
-import NavBar from './NavBar'
+import BottomBar from './BottomBar';
+import NavBar from './NavBar';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -47,7 +47,7 @@ const ObjectViewLayout = () => {
   const [isMobileNavOpen, setMobileNavOpen] = useState(false);
 
   // Object Options
-  /*const [objectOptions, setObjectOptions] = React.useState({
+  /* const [objectOptions, setObjectOptions] = React.useState({
     emailObject: false,
     derivationChain: false,
     downloadObject: false
@@ -63,7 +63,7 @@ const ObjectViewLayout = () => {
   const handleClose = () => {
     setEmailObject(false);
   };
-  
+
   // Display Options
   const [state, setState] = React.useState({
     descriptionDomain: true,
@@ -81,10 +81,10 @@ const ObjectViewLayout = () => {
     setState({ ...state, [event.target.name]: event.target.checked });
   };
 
-  // Default Object View 
-  const [view, setView] = React.useState("1");
+  // Default Object View
+  const [view, setView] = React.useState('1');
 
-  const defaultView = event => {
+  const defaultView = (event) => {
     setView(event.target.value);
   };
 
@@ -95,16 +95,21 @@ const ObjectViewLayout = () => {
 
   // Instead, we have to use context.
   // Source (example): https://reactjs.org/docs/context.html
-  
+
   // Note that the example as of 1/26/21 uses documentation for
   // React version 17.0.1.
 
   return (
-    <DisplayContext.Provider value={{ 
-      emailObject, handleClickOpen, handleClose,
-      state, handleChange, 
-      view, defaultView 
-    }}>
+    <DisplayContext.Provider value={{
+      emailObject,
+      handleClickOpen,
+      handleClose,
+      state,
+      handleChange,
+      view,
+      defaultView
+    }}
+    >
       <div className={classes.root}>
         <TopBar onMobileNavOpen={() => setMobileNavOpen(true)} />
         <NavBar
@@ -114,7 +119,7 @@ const ObjectViewLayout = () => {
         <div className={classes.wrapper}>
           <div className={classes.contentContainer}>
             <div className={classes.content}>
-                <Outlet />
+              <Outlet />
             </div>
           </div>
         </div>

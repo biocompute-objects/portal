@@ -1,7 +1,6 @@
 // src/views/auth/LoginView.js
 
 import React, { useContext, useState } from 'react';
-import PropTypes from 'prop-types';
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
 import * as Yup from 'yup';
 import { Formik } from 'formik';
@@ -18,11 +17,11 @@ import {
 import Page from 'src/components/Page';
 
 // Fetch context.
+import Alert from '@material-ui/lab/Alert';
 import { FetchContext } from '../../App';
 
 // Registration error
 // Source: https://material-ui.com/components/alert/#simple-alerts
-import Alert from '@material-ui/lab/Alert';
 
 const useStyles = makeStyles((theme) => ({
   alertSpec: {
@@ -40,7 +39,6 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const LoginView = () => {
-
   const classes = useStyles();
   const navigate = useNavigate();
 
@@ -72,43 +70,37 @@ const LoginView = () => {
               password: Yup.string().max(255).required('Password is required')
             })}
             onSubmit={(values) => {
-              
               // Determine whether or not our login was legitimate.
-              fetch(fc['sending']['userdb_tokenauth'], {
+              fetch(fc.sending.userdb_tokenauth, {
                 method: 'POST',
                 headers: {
                   'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({
-                  "username": values.username, 
-                  "password": values.password
+                  username: values.username,
+                  password: values.password
                 })
               })
-              .then(res => res.json()).then(json => {
-                  if(typeof(json.user) !== 'undefined') {
-                    
+                .then((res) => res.json()).then((json) => {
+                  if (typeof (json.user) !== 'undefined') {
                     // Set the user information.
                     localStorage.setItem('token', json.token);
                     localStorage.setItem('user', JSON.stringify(json.user));
 
                     navigate('/dashboard', { replace: true });
-
                   } else {
-                    
                     // Bad login.
                     setLoginError(true);
-
                   }
-                })
-              }
-            }
+                });
+            }}
           >
             {({
               errors,
               handleBlur,
               handleChange,
               handleSubmit,
-              isSubmitting,
+              //              isSubmitting,
               touched,
               values
             }) => (
@@ -136,14 +128,12 @@ const LoginView = () => {
                     item
                     xs={12}
                     md={6}
-                  >
-                  </Grid>
+                  />
                   <Grid
                     item
                     xs={12}
                     md={6}
-                  >
-                  </Grid>
+                  />
                 </Grid>
                 <TextField
                   error={Boolean(touched.username && errors.username)}
@@ -173,7 +163,7 @@ const LoginView = () => {
                 />
                 <Box my={2}>
                   <div className={classes.alertSpec}>
-                    {loginError && <Alert severity = "error">Incorrect username or password!</Alert>}
+                    {loginError && <Alert severity="error">Incorrect username or password!</Alert>}
                   </div>
                 </Box>
                 <Box my={2}>

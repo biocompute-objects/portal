@@ -7,17 +7,19 @@ import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
 
 // Raw view
-import Raw from './Raw'
+import Raw from './Raw';
 
 // Context
 // Source: https://www.digitalocean.com/community/tutorials/react-usecontext
-//import { DisplayContext } from '../../../layouts/ObjectViewLayout/index';
+// import { DisplayContext } from '../../../layouts/ObjectViewLayout/index';
 
 // Fetch context.
 import { FetchContext } from '../../../App';
 
 function TabPanel(props) {
-  const { children, value, index, ...other } = props;
+  const {
+    children, value, index, ...other
+  } = props;
 
   return (
     <div
@@ -58,7 +60,6 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function Views({ table, objectId }) {
-  
   const classes = useStyles();
 
   // Fetch context.
@@ -80,50 +81,43 @@ export default function Views({ table, objectId }) {
   // Fetch behavior requires further processing.
 
   // Source: https://stackoverflow.com/questions/43903767/read-the-body-of-a-fetch-promise
-  
+
   const getObjectInfo = () => {
-    
-    // Call the API.    
-    fetch(fc['sending']['bcoapi_objects_read'], {
+    // Call the API.
+    fetch(fc.sending.bcoapi_objects_read, {
       method: 'POST',
       body: JSON.stringify({
         POST_read_object: [
-            {
-                table: table, 
-                object_id: objectId
-            }
+          {
+            table,
+            object_id: objectId
+          }
         ]
-    }),
-    headers: {
-      "Content-type": "application/json; charset=UTF-8"
-    }
-    }).then(response=>response.json()).then(data=>{
-      
-      console.log('+++++++++++++++++', data)
+      }),
+      headers: {
+        'Content-type': 'application/json; charset=UTF-8'
+      }
+    }).then((response) => response.json()).then((data) => {
+      console.log('+++++++++++++++++', data);
       // Get the bulk response.
       const bulkResponse = data.POST_read_object[0];
 
       // Was the object found?
-      if(bulkResponse.request_code == '200') {
-        
+      if (bulkResponse.request_code == '200') {
         // We found the object, so set the data.
         setObjectInfo(bulkResponse.contents.object);
         setObjectFound(true);
-
       } else {
-
         // There was a problem, so show what it was.
         setObjectInfo(bulkResponse.message);
         setObjectFound(false);
-  
       }
 
       // We're no longer loading.
       setLoading(false);
+    });
+  };
 
-    })
-  }
-  
   useEffect(() => {
     setLoading(true);
     getObjectInfo();
@@ -136,9 +130,9 @@ export default function Views({ table, objectId }) {
   // Source: https://stackoverflow.com/questions/62564671/using-usecontext-in-react-doesnt-give-me-the-expect-data
 
   // Pull the state from the parent.
-  //const { 
+  // const {
   //  view
-  //} = useContext(DisplayContext);
+  // } = useContext(DisplayContext);
 
   // Define a variable for switching views within
   // the component (as opposed to getting the value)

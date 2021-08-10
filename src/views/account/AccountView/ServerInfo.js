@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import { lighten, makeStyles } from '@material-ui/core/styles';
@@ -235,7 +235,7 @@ export default function EnhancedTable({ onClickOpen }) {
   const [orderBy, setOrderBy] = React.useState('servername');
   const [selected, setSelected] = React.useState([]);
   const [permissions, setPermissions] = React.useState([]);
-  const [updatedUser, setUpdatedUser] = React.useState(false);
+  // const [updatedUser, setUpdatedUser] = React.useState(false);
 
   // All user information.
   // const [rows, setRows] = React.useState([
@@ -257,7 +257,7 @@ export default function EnhancedTable({ onClickOpen }) {
     // Get the permissions.
     setPermissions(JSON.parse(localStorage.getItem('user'))['apiinfo']);
 
-    permissions.map(perm => {
+    permissions.forEach(perm => {
       perms.push(
         createData(
           perm['human_readable_hostname'],

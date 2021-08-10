@@ -98,11 +98,11 @@ export default function ExecutionDomain({ items, cF }) {
       // Assume the header is not red.
       setMissingSoftwarePrerequisites(false);
 
-      // Each one of the prerequisites.
-      for(var i = 0; i < items.edSoftwarePrerequisites.length; i++) {
+      // Each one of the prerequisites name.
+      for(var prereqName = 0; prereqName < items.edSoftwarePrerequisites.length; prereqName++) {
 
         // Name
-        if(items.edSoftwarePrerequisites[i].name === "") {
+        if(items.edSoftwarePrerequisites[prereqName].name === "") {
           
           // No name.
           setMissingSoftwarePrerequisitesName(true);
@@ -121,11 +121,11 @@ export default function ExecutionDomain({ items, cF }) {
         
       }
 
-      // Each one of the prerequisites.
-      for(var i = 0; i < items.edSoftwarePrerequisites.length; i++) {
+      // Each one of the prerequisites version.
+      for(var prereqVersion = 0; prereqVersion < items.edSoftwarePrerequisites.length; prereqVersion++) {
 
         // Version
-        if(items.edSoftwarePrerequisites[i].version === "") {
+        if(items.edSoftwarePrerequisites[prereqVersion].version === "") {
           
           // No version.
           setMissingSoftwarePrerequisitesVersion(true);
@@ -144,11 +144,11 @@ export default function ExecutionDomain({ items, cF }) {
         
       }
 
-      // Each one of the prerequisites.
-      for(var i = 0; i < items.edSoftwarePrerequisites.length; i++) {
+      // Each one of the prerequisites URI.
+      for(var prereqURI = 0; prereqURI < items.edSoftwarePrerequisites.length; prereqURI++) {
 
         // URI
-        if(items.edSoftwarePrerequisites[i].uri.uri === "") {
+        if(items.edSoftwarePrerequisites[prereqURI].uri.uri === "") {
           
           // No URI.
           setMissingSoftwarePrerequisitesUri(true);
@@ -217,10 +217,10 @@ export default function ExecutionDomain({ items, cF }) {
       }
 
       // Each one of the endpoints.
-      for(var i = 0; i < items.edExternalDataEndpoints.length; i++) {
+      for(var edURL = 0; edURL < items.edExternalDataEndpoints.length; edURL++) {
 
         // Name
-        if(items.edExternalDataEndpoints[i].url === "") {
+        if(items.edExternalDataEndpoints[edURL].url === "") {
           
           // No URL.
           setMissingExternalDataEndpointsUrl(true);
@@ -266,10 +266,10 @@ export default function ExecutionDomain({ items, cF }) {
       setMissingScript(false);
 
       // Each one of the scripts.
-      for(var i = 0; i < items.edScript.length; i++) {
+      for(var edScript = 0; edScript < items.edScript.length; edScript++) {
 
         // Name
-        if(items.edScript[i].uri.uri === "") {
+        if(items.edScript[edScript].uri.uri === "") {
           
           // No URI.
           setMissingScriptUri(true);

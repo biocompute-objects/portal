@@ -15,9 +15,9 @@ export default function ServerList({ disabledValue, options, receivedDefault, se
     // list we have IF we have them.
     if(options !== null) {
 
-        options.map(item => {
+        options.forEach(item => {
 
-            Object.keys(item['other_info']['group_permissions']).map(subitem => {
+            Object.keys(item['other_info']['group_permissions']).forEach(subitem => {
                 
                 if(subitem.indexOf('draft') >= 0 && type === 'draft') {
     
