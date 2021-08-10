@@ -84,7 +84,7 @@ function App() {
 
 	// ----- LOCAL / DEVELOPMENT / BETA SWITCH ----- //
 	// Change hostnames.* to match the deployment environment
-	const sending = hostnames.production
+	const sending = hostnames.local
 	
 	return (
 		<ThemeProvider theme={theme}>
