@@ -7,9 +7,6 @@ import CardActionArea from '@material-ui/core/CardActionArea';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
 
-// Routing to pages
-import { Link as RouterLink } from 'react-router-dom';
-
 const useStyles = makeStyles({
   bullet: {
     display: 'inline-block',
@@ -24,19 +21,25 @@ const useStyles = makeStyles({
   title: {
     fontSize: '33px',
   },
+  subtitle: {
+    fontSize: '20px',
+  },
   pos: {
     marginBottom: 12,
   },
 });
+
+const docsLink = 'https://docs.biocomputeobject.org/';
 
 export default function About() {
   const classes = useStyles();
 
   return (
     <Card className={classes.linkCard}>
-      <CardActionArea component={RouterLink} to="/documentation">
+      <CardActionArea onClick={() => window.open(docsLink)}>
         <CardContent className={classes.linkCard}>
-          <Typography className={classes.title}>About BioCompute</Typography>
+          <Typography className={classes.title}>BioCompute Documentation</Typography>
+          <Typography className={classes.subtitle}>External site</Typography>
           <Typography>
             <br />
             User Guide

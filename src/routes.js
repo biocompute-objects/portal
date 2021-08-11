@@ -13,7 +13,6 @@ import ObjectView from 'src/views/objects/ObjectView';
 import ObjectViewLayout from 'src/layouts/ObjectViewLayout';
 import RegisterView from 'src/views/auth/RegisterView';
 import ValidatorView from 'src/views/validator/ValidatorView';
-import Documentation from 'src/views/documentation/Documentation';
 import Community from 'src/views/community/Community';
 import Resources from 'src/views/resources/Resources';
 
@@ -34,7 +33,10 @@ const routes = () => {
         { path: '', element: <HomeView /> },
         { path: 'account', element: isLoggedIn ? <AccountView /> : <Navigate to="/login" /> },
         { path: 'objects', element: <ObjectsListView /> },
-        { path: 'documentation', element: <Documentation /> },
+        {
+          path: 'documentation',
+          element: <Navigate to="https://docs.biocomputeobject.org/" />
+        },
         { path: 'resources', element: <Resources /> },
         { path: 'community', element: <Community /> },
         { path: 'validator', element: <ValidatorView /> }
@@ -66,13 +68,6 @@ const routes = () => {
       path: '/',
       element: <MainLayout />,
       children: [
-        {
-          path: 'documentation',
-          element: <Documentation />,
-          children: [
-            { path: '', element: '' }
-          ]
-        },
         { path: 'login', element: <LoginView /> },
         { path: 'register', element: <RegisterView /> }
       ]
@@ -81,13 +76,6 @@ const routes = () => {
       path: '/',
       element: <MainLayout />,
       children: [
-        {
-          path: 'documentation',
-          element: <Documentation />,
-          children: [
-            { path: '', element: '' }
-          ]
-        },
         { path: '404', element: isLoggedIn ? <Navigate to="/" /> : <Navigate to="/login" /> },
         { path: '*', element: isLoggedIn ? <Navigate to="/" /> : <Navigate to="/login" /> }
       ]
