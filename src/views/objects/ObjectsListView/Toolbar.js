@@ -1,3 +1,5 @@
+// src/views/objects/ObjectsListView/Toolbar.js
+
 import React from 'react';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
@@ -38,14 +40,14 @@ const Toolbar = ({ className, ...rest }) => {
         display="flex"
         justifyContent="flex-end"
       >
-        <Button 
+        <Button
           className={classes.importButton}
           color="primary"
           variant="contained"
         >
           Import BCOs
         </Button>
-        <Button 
+        <Button
           className={classes.exportButton}
           color="primary"
           variant="contained"
@@ -63,7 +65,7 @@ const Toolbar = ({ className, ...rest }) => {
         <Card>
           <CardContent>
             <Box maxWidth={500}>
-              {/* <TextField
+              <TextField
                 fullWidth
                 InputProps={{
                   startAdornment: (
@@ -79,8 +81,7 @@ const Toolbar = ({ className, ...rest }) => {
                 }}
                 placeholder="Search customer"
                 variant="outlined"
-              /> */}
-              {/* <ServerDropdown /> */}
+              />
             </Box>
           </CardContent>
         </Card>
