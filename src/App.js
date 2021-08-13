@@ -66,7 +66,7 @@ function App() {
       userdb_tokenauth: 'https://beta.portal.aws.biochemistry.gwu.edu/users/token-auth/',
       anon_api_info: [
         {
-          token: '9f0b1e3661f56cb14b5f516003b41b23971cbd6a',
+          token: '391d9d985c5cb491ad5e563e345282e98c361105',
           public_hostname: 'https://beta.portal.aws.biochemistry.gwu.edu'
         }
       ]
@@ -83,7 +83,7 @@ function App() {
       userdb_tokenauth: 'https://test.portal.biochemistry.gwu.edu/users/token-auth/',
       anon_api_info: [
         {
-          token: '9f0b1e3661f56cb14b5f516003b41b23971cbd6a',
+          token: 'f8e583d6b4c44c901ade8092994a1f6ceb892c0d',
           public_hostname: 'https://test.portal.biochemistry.gwu.edu'
         }
       ]
