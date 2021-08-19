@@ -55,7 +55,7 @@ const BottomBar = ({
           &nbsp;&nbsp;&nbsp;
           <Link
             className={classes.bottomLink}
-            href="https://biocomputeobject.org/contact"
+            href="https://docs.biocomputeobject.org/contact"
             target="_blank"
           >
             Contact Us

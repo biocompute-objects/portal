@@ -1,4 +1,7 @@
-import { createTheme, colors } from '@material-ui/core';
+// /src/theme/index.js
+
+import { colors } from '@material-ui/core';
+import { createTheme } from '@material-ui/core/styles';
 import shadows from './shadows';
 import typography from './typography';
 

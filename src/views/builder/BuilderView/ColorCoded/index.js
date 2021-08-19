@@ -1,3 +1,5 @@
+// /src/views/builder/BuilderView/ColorCoded/index.js 
+
 import React, { useEffect, useState } from 'react';
 import {
   Container,
