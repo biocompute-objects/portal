@@ -179,7 +179,6 @@ export default function Views({ objectId }) {
                   <Tab icon={<AccountTreeIcon />} label="Tree" {...a11yProps(1)} />
                   <Tab icon={<InsertDriveFileIcon />} label="Raw" {...a11yProps(2)} />
                 </Tabs>
-                <Chip color='primary' label={'SOME INFO ABOUT OWNER GROUPS / DRAFT / PUBLISHED / EMBARGO / ETC...'}></Chip>
               </AppBar>
               {/* <Typography>
                 Object ID: {objectId}

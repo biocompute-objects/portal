@@ -69,8 +69,9 @@ export default function ObjectOptions() {
   return (
     <div className={classes.root}>
       <List className={classes.navHeader}>
+        {/*
         <ListItemText classes={{ primary: classes.emphasized }} primary="Object Options" />
-        <ListItem button onPress={() => alert('logging...')}>
+          <ListItem button onPress={() => alert('logging...')}>
           <ListItemIcon>
             <EmailIcon />
           </ListItemIcon>
@@ -88,6 +89,7 @@ export default function ObjectOptions() {
           </ListItemIcon>
           <ListItemText primary="Download Object" />
         </ListItem>
+	  */}
         <ListItemText classes={{ primary: classes.emphasized }} primary="Display Options" />
         <FormControl component="fieldset" className={classes.formControl}>
           <FormGroup>

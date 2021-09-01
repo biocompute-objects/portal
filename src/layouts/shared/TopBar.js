@@ -67,14 +67,14 @@ const itemsNoAuth = [
     title: 'Builder'
   },
   {
-    href: '/login',
-    icon: UserIcon,
-    title: 'Log In/Register'
-  },
-  {
     href: '/objects',
     icon: UsersIcon,
     title: 'BioCompute Objects'
+  },
+  {
+    href: '/login',
+    icon: UserIcon,
+    title: 'Log In/Register'
   }
 ];
 

@@ -7,7 +7,7 @@ import React from 'react';
 import { useLocation } from 'react-router-dom';
 
 // Tools
-import Tools from './Tools'
+// import Tools from './Tools'
 
 // Views
 import Views from './Views'
@@ -21,7 +21,7 @@ export default function ObjectView() {
   // Split to get a real URI, then ask for the object.  
   return (
     <div>
-      <Tools />
+     {/* <Tools />*/}
       <Views objectId = { window.location.href.split('objects/view/')[1].replace('/', '://') } />
     </div>
   );
