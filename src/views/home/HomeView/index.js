@@ -1,16 +1,18 @@
 // src/views/home/HomeView/index.js
 
-import React, { useState} from 'react';
-import { Box, Container, Grid, makeStyles } from '@material-ui/core';
+import React from 'react';
+import {
+  Box, Container, Grid, makeStyles
+} from '@material-ui/core';
 import Page from 'src/components/Page';
-import Builder from './Builder'
-import Specification from './Specification'
-import About from './About'
-import BioComputeResources from './BioComputeResources'
-import Hive from './Hive'
-import Community from './Community'
-import NewsBar from './NewsBar'
-import Galaxy from './Galaxy'
+import Builder from './Builder';
+import Specification from './Specification';
+import About from './About';
+import BioComputeResources from './BioComputeResources';
+import Hive from './Hive';
+import Community from './Community';
+import NewsBar from './NewsBar';
+import Galaxy from './Galaxy';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -33,10 +35,10 @@ const HomeView = () => {
   return (
     <Page className={classes.root} title="Dashboard">
       <Container maxWidth={false}>
-        <Grid container justify='center' spacing={3}>
+        <Grid container justifyContent="center" spacing={3}>
           <Grid item xs={12} sm={8} lg={9} xl={10}>
             <Container maxWidth={false}>
-              <Grid container justify='center' spacing={3}>
+              <Grid container justifyContent="center" spacing={3}>
                 <Grid item xs={12} sm={12} lg={4} xl={4}>
                   <About />
                 </Grid>
@@ -50,7 +52,7 @@ const HomeView = () => {
             </Container>
             <Container className={classes.marginTopped} maxWidth={false}>
               <Box className={classes.whiteBackground}>
-                <Grid classes={classes.colored} container justify='space-around' spacing={3}>
+                <Grid classes={classes.colored} container justifyContent="space-around" spacing={3}>
                   <Grid item lg={12} sm={12} xl={12} xs={12}>
                     <BioComputeResources />
                   </Grid>
@@ -67,7 +69,7 @@ const HomeView = () => {
               </Box>
             </Container>
           </Grid>
-          <Grid item xs={0} sm={4} lg={3} xl={2} >
+          <Grid item xs={false} sm={4} lg={3} xl={2}>
             <NewsBar />
           </Grid>
         </Grid>

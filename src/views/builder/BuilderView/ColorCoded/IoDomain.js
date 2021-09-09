@@ -130,10 +130,10 @@ export default function IoDomain({ items, cF }) {
       setMissingOutputSubdomain(false);
 
       // Each one of the output files.
-      for(var i = 0; i < items.iodOutputSubdomain.length; i++) {
+      for(var iodMedia = 0; iodMedia < items.iodOutputSubdomain.length; iodMedia++) {
 
         // Mediatype
-        if(items.iodOutputSubdomain[i].mediatype === "") {
+        if(items.iodOutputSubdomain[iodMedia].mediatype === "") {
           
           // No mediatype.
           setMissingOutputSubdomainMediatype(true);
@@ -155,10 +155,10 @@ export default function IoDomain({ items, cF }) {
       }
 
       // Each one of the output files.
-      for(var i = 0; i < items.iodOutputSubdomain.length; i++) {
+      for(var iodURI = 0; iodURI < items.iodOutputSubdomain.length; iodURI++) {
 
         // URI
-        if(items.iodOutputSubdomain[i].uri.uri === "") {
+        if(items.iodOutputSubdomain[iodURI].uri.uri === "") {
           
           // No URI.
           setMissingOutputSubdomainUri(true);

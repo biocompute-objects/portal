@@ -1,38 +1,28 @@
 // src/layouts/shared/TopBar.js
 
-import React, { useState, useContext } from 'react';
+import React from 'react';
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import {
   AppBar,
-  Badge,
   Button,
-  Box,
   Hidden,
   IconButton,
   Toolbar,
   makeStyles
 } from '@material-ui/core';
 import MenuIcon from '@material-ui/icons/Menu';
-import InputIcon from '@material-ui/icons/Input';
 import Logo from 'src/components/Logo';
 
 import {
-  BarChart as BarChartIcon,
   User as UserIcon,
   Users as UsersIcon
 } from 'react-feather';
 import NavItem from './NavItem';
 
-
 // Navigation.
-const items_auth = [
-  {
-    href: '/documentation',
-    icon: UserIcon,
-    title: 'Documentation'
-  },
+const itemsAuth = [
   {
     href: '/resources',
     icon: UserIcon,
@@ -60,12 +50,7 @@ const items_auth = [
   }
 ];
 
-const items_no_auth = [
-  {
-    href: '/documentation',
-    icon: UserIcon,
-    title: 'Documentation'
-  },
+const itemsNoAuth = [
   {
     href: '/resources',
     icon: UserIcon,
@@ -82,19 +67,44 @@ const items_no_auth = [
     title: 'Builder'
   },
   {
-    href: '/login',
-    icon: UserIcon,
-    title: 'Log In/Register'
-  },
-  {
     href: '/objects',
     icon: UsersIcon,
     title: 'BioCompute Objects'
+  },
+  {
+    href: '/login',
+    icon: UserIcon,
+    title: 'Log In/Register'
   }
 ];
 
-const useStyles = makeStyles(() => ({
-  root: {}
+const useStyles = makeStyles((theme) => ({
+  item: {
+    display: 'flex',
+    paddingTop: 0,
+    paddingBottom: 0
+  },
+  button: {
+    color: '#ffffff',
+    marginLeft: 'auto',
+    marginRight: 'auto',
+    fontSize: '20px',
+    textTransform: 'none',
+    width: '100%'
+  },
+  icon: {
+    marginRight: theme.spacing(1)
+  },
+  active: {
+    backgroundColor: '#1ca527',
+    color: '#ffffff',
+    '& $title': {
+      fontWeight: theme.typography.fontWeightMedium
+    },
+    '& $icon': {
+      color: '#ffffff'
+    }
+  }
 }));
 
 function TopBar(props, { className, onMobileNavOpen, ...rest }) {
@@ -103,88 +113,84 @@ function TopBar(props, { className, onMobileNavOpen, ...rest }) {
   function Logout() {
     localStorage.clear();
     navigate('/login', { replace: true });
-};
+  }
 
-  var isLoggedIn = false
-  if(localStorage.getItem('token')) {
-	isLoggedIn = true 
-  };
+  let isLoggedIn = false;
+  if (localStorage.getItem('token')) {
+    isLoggedIn = true;
+  }
   const classes = useStyles();
-  const [notifications] = useState([]);
 
-  const logged_out_bar = (
-          <Toolbar>
-          <RouterLink to="/dashboard">
-            <Logo />
-          </RouterLink>
-          <Hidden smDown>
-            {items_no_auth.map((item) => (
-                <NavItem
-                  href={item.href}
-                  key={item.title}
-                  title={item.title}
-                  icon={item.icon}
-                />
-              ))}
-            <IconButton color="inherit">
-              <Badge
-                badgeContent={notifications.length}
-                color="primary"
-                variant="dot"
-              >
-              <InputIcon />
-              </Badge>
-            </IconButton>
-          </Hidden>
-          <Hidden mdUp>
-            <IconButton
-              color="inherit"
-              onClick={onMobileNavOpen}
-            >
-              <MenuIcon />
-            </IconButton>
-          </Hidden>
-        </Toolbar>
+  const loggedOutBar = (
+    <Toolbar>
+      <RouterLink to="/">
+        <Logo />
+      </RouterLink>
+      <Hidden smDown>
+        {itemsNoAuth.map((item) => (
+          <NavItem
+            href={item.href}
+            key={item.title}
+            title={item.title}
+            icon={item.icon}
+          />
+        ))}
+      </Hidden>
+      <Hidden mdUp>
+        <IconButton
+          color="inherit"
+          onClick={onMobileNavOpen}
+        >
+          <MenuIcon />
+        </IconButton>
+      </Hidden>
+    </Toolbar>
   );
 
-  const logged_in_bar = (
+  const loggedInBar = (
 
-        <Toolbar>
-          <RouterLink to="/dashboard">
-            <Logo />
-          </RouterLink>
-          <Hidden smDown>
-            {items_auth.map((item) => (
-                <NavItem
-                  href={item.href}
-                  key={item.title}
-                  title={item.title}
-                  icon={item.icon}
-                />
-            ))}
-            <IconButton 
-              color="inherit" 
-              onClick={Logout}>
-                <span>Log Out</span>
-            </IconButton>
-          </Hidden>
-          <Hidden mdUp>
-            <IconButton
-              color="inherit"
-              onClick={onMobileNavOpen}
-            >
-              <MenuIcon />
-            </IconButton>
-          </Hidden>
-        </Toolbar>
+    <Toolbar>
+      <RouterLink to="/">
+        <Logo />
+      </RouterLink>
+      <Hidden smDown>
+        {itemsAuth.map((item) => (
+          <NavItem
+            href={item.href}
+            key={item.title}
+            title={item.title}
+            icon={item.icon}
+          />
+        ))}
+      </Hidden>
+      <Button
+        activeClassName={classes.active}
+        className={classes.button}
+        color="inherit"
+        onClick={Logout}
+      >
+        Log Out
+      </Button>
+      <Hidden mdUp>
+        <IconButton
+          color="inherit"
+          onClick={onMobileNavOpen}
+        >
+          <MenuIcon />
+        </IconButton>
+      </Hidden>
+    </Toolbar>
   );
-  
-  return <AppBar
-        className={clsx(classes.root, className)}
-        elevation={0}
-        {...rest}>
-		{isLoggedIn ? logged_in_bar : logged_out_bar}
-		</AppBar>
+
+  return (
+    <AppBar
+      className={clsx(classes.root, className)}
+      elevation={0}
+      {...rest}
+    >
+      {isLoggedIn ? loggedInBar : loggedOutBar}
+    </AppBar>
+  );
 }
 
 TopBar.propTypes = {

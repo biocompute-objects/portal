@@ -1,15 +1,9 @@
 import React from 'react';
-import { 
-	Card,
-	CardActionArea,
-	CardContent,
-	makeStyles,
-	Typography
+import {
+  Card,
+  makeStyles
 } from '@material-ui/core';
 import { TwitterTimelineEmbed } from 'react-twitter-embed';
-
-// Routing to pages
-import { Link as RouterLink } from 'react-router-dom';
 
 const useStyles = makeStyles({
   root: {
@@ -32,13 +26,13 @@ export default function BcoDbViewer() {
   const classes = useStyles();
 
   return (
-    <Card className={classes.root, classes.linkCard}>
-    <TwitterTimelineEmbed
-      noFooter
-      sourceType="profile"
-      screenName="BioComputeObj"
-      options={{height: 800}}
-    />
+    <Card className={classes.root}>
+      <TwitterTimelineEmbed
+        noFooter
+        sourceType="profile"
+        screenName="BioComputeObj"
+        options={{ height: 800 }}
+      />
     </Card>
   );
 }

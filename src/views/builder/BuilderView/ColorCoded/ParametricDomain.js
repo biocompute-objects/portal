@@ -1,3 +1,5 @@
+// /src/views/builder/BuilderView/ColorCoded/ParametricDomain.js 
+
 import React, { useEffect, useState } from 'react';
 import {
   makeStyles, withStyles, Typography
@@ -58,7 +60,7 @@ export default function ParametricDomain({ items, cF }) {
 
     // Description (note that Parametric Domain is not a necessary domain
     // in IEEE-2791).
-    if(items.pad.length == 0) {
+    if(items.pad.length === 0) {
 
       // No Parametric Domain.
       setMissingParametricDomain(false);

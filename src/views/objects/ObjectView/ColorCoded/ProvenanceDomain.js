@@ -176,8 +176,8 @@ export default function ProvenanceDomain({ items }) {
             // Even if the key exists, the field
             // may be blank, so check for blank fields.
             var blank_flag = 0;
-            for(var i of ['', "", [], {}]) {
-              if(item[subitem] === i) {
+            for(var cont of ['', "", [], {}]) {
+              if(item[subitem] === cont) {
                 tempArray[subitem] = 'None';
                 blank_flag = 1;
                 break;

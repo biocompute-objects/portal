@@ -1,4 +1,7 @@
-import React, { useContext } from 'react';
+// src/views/objects/ObjectsListView/Linker.js
+
+import React from 'react';
+import PropTypes from 'prop-types';
 import {
   makeStyles
 } from '@material-ui/core';
@@ -6,11 +9,8 @@ import {
 // For links.
 import Link from '@material-ui/core/Link';
 
-// Fetch context.
-import { FetchContext } from '../../../App';
-
 // SVG/Link styling
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
   blackLink: {
     color: '#000000'
   },
@@ -23,12 +23,10 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 // Pass an object and whether or not its keys are properties.
-export default function Linker({ uri, color, accessionOnly, state }) {  
-
+export default function Linker({
+  uri, color, state
+}) {
   const svgClasses = useStyles();
-
-  // Fetch context.
-  const fc = useContext(FetchContext);
 
   // Arguments
   // ---------
@@ -38,27 +36,29 @@ export default function Linker({ uri, color, accessionOnly, state }) {
   // Process the URI.
   const processed = uri.replace('://', '/');
 
-
   // ----- Meta Information ----- //
 
-  
   // None.
 
-
   // ----- Linker ----- //
-  
-  
-  return(
+
+  return (
     state === 'DRAFT'
-      ?
-        <Link className = { svgClasses[color] } href = { window.location.href.replace('/objects', '/builder/') + processed } target="_blank">
+      ? (
+        <Link className={svgClasses[color]} href={window.location.href.replace('/objects', '/builder/') + processed} target="_blank">
           { processed.split('/').slice(-1) }
         </Link>
-      :
-        <Link className = { svgClasses[color] } href = { window.location.href + '/view/' + processed } target="_blank">
+      )
+      : (
+        <Link className={svgClasses[color]} href={`${window.location.href}/view/${processed}`} target="_blank">
           { processed.split('/').slice(-2).join('/') }
         </Link>
+      )
   );
-
-
 }
+
+Linker.propTypes = {
+  uri: PropTypes.string.isRequired,
+  color: PropTypes.string.isRequired,
+  state: PropTypes.string.isRequired
+};

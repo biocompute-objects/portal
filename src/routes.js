@@ -1,6 +1,6 @@
 // src/routes.js
 
-import React, { useState } from 'react';
+import React from 'react';
 import { Navigate } from 'react-router-dom';
 import AccountView from 'src/views/account/AccountView';
 import BuilderView from 'src/views/builder/BuilderView';
@@ -13,52 +13,54 @@ import ObjectView from 'src/views/objects/ObjectView';
 import ObjectViewLayout from 'src/layouts/ObjectViewLayout';
 import RegisterView from 'src/views/auth/RegisterView';
 import ValidatorView from 'src/views/validator/ValidatorView';
-import Documentation from 'src/views/documentation/Documentation';
 import Community from 'src/views/community/Community';
 import Resources from 'src/views/resources/Resources';
 
 // Routing rules are given at https://github.com/snd/url-pattern
 
 const routes = () => {
+  let isLoggedIn = false;
 
-	var isLoggedIn = false
+  if (localStorage.getItem('token')) {
+    isLoggedIn = true;
+  }
 
-	if(localStorage.getItem('token')) {
-		isLoggedIn = true 
-	}
-  
   return [
-	  {
+    {
       path: '/',
-      element: <MainLayout /> ,
+      element: <MainLayout />,
       children: [
-        { path: '', element: <Navigate to="/dashboard" /> },
+        { path: '', element: <HomeView /> },
         { path: 'account', element: isLoggedIn ? <AccountView /> : <Navigate to="/login" /> },
         { path: 'objects', element: <ObjectsListView /> },
-        { path: 'documentation', element: <Documentation /> },
+        {
+          path: 'documentation',
+          element: <Navigate to="https://docs.biocomputeobject.org/" />
+        },
         { path: 'resources', element: <Resources /> },
         { path: 'community', element: <Community /> },
         { path: 'validator', element: <ValidatorView /> }
       ]
     },
     {
-      path: 'objects/view', element: <ObjectViewLayout />, children: [
+      path: 'objects/view',
+      element: <ObjectViewLayout />,
+      children: [
         { path: '*', element: <ObjectView /> }
-      ] 
+      ]
     },
     {
       path: '/',
       element: <DashboardLayout />,
       children: [
-        { path: 'dashboard', element: <HomeView /> },
-        { path: '', element: <Navigate to="/dashboard" /> }
+        { path: '', element: <HomeView /> }
       ]
     },
     {
       path: '/builder',
       element: <MainLayout />,
       children: [
-        { path: '', element: <BuilderView />}, 
+        { path: '', element: <BuilderView /> },
         { path: '*', element: <BuilderView /> }
       ]
     },
@@ -66,10 +68,6 @@ const routes = () => {
       path: '/',
       element: <MainLayout />,
       children: [
-        { path: 'documentation', element: <Documentation />, children:[
-            { path: '', element: ''}
-          ]
-        },
         { path: 'login', element: <LoginView /> },
         { path: 'register', element: <RegisterView /> }
       ]
@@ -78,68 +76,11 @@ const routes = () => {
       path: '/',
       element: <MainLayout />,
       children: [
-        { path: 'documentation', element: <Documentation />, children:[
-            { path: '', element: ''}
-          ]
-        },
-        { path: '404', element: isLoggedIn ? <Navigate to="/dashboard" /> : <Navigate to="/login" /> },
-        { path: '*', element: isLoggedIn ? <Navigate to="/dashboard" /> : <Navigate to="/login" /> }
+        { path: '404', element: isLoggedIn ? <Navigate to="/" /> : <Navigate to="/login" /> },
+        { path: '*', element: isLoggedIn ? <Navigate to="/" /> : <Navigate to="/login" /> }
       ]
     }
-  ]
+  ];
 };
-
-
-// No login.
-// const routes = (isLoggedIn) => [
-//   {
-//     path: '/',
-//     element: <Navigate to="/dashboard" />
-//   },
-//   {
-//     path: '/',
-//     element: <MainLayout />,
-//     children: [
-//       { path: 'account', element: <AccountView /> },
-//       { path: 'objects', element: <ObjectsListView /> },
-//       { path: 'builder', element: <BuilderView />, children: [
-//           { path: ':prefix_:state_:uuid', element: <BuilderView /> }
-//         ]
-//       },
-//       { path: 'validator', element: <ValidatorView /> }
-//     ]
-//   },
-//   {
-//     path: '/',
-//     element: <DashboardLayout />,
-//     children: [
-//       { path: 'dashboard', element: <HomeView /> },
-//       { path: '', element: <Navigate to="/dashboard" /> }
-//     ]
-//   },
-//   {
-//     path: '/',
-//     element: <ObjectViewLayout />,
-//     children: [
-//       { path: ':prefix_:id/:id2.:id3', element: <ObjectView /> }
-//     ]
-//   },
-//   {
-//     path: '/',
-//     element: <MainLayout />,
-//     children: [
-//       { path: 'login', element: <LoginView /> },
-//       { path: 'register', element: <RegisterView /> }
-//     ]
-//   },
-//   {
-//     path: '/',
-//     element: <MainLayout />,
-//     children: [
-//       { path: '404', element: <Navigate to="/login" />},
-//       { path: '*', element: <Navigate to="/login" /> }
-//     ]
-//   }
-// ];
 
 export default routes;

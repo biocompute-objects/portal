@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import {
@@ -14,7 +14,7 @@ import Link from '@material-ui/core/Link';
 
 // Get the host IP.
 // Source: https://stackoverflow.com/questions/57193390/how-to-get-ip-address-of-computer-when-running-react-native-app
-//import { NetworkInfo } from "react-native-network-info";
+// import { NetworkInfo } from "react-native-network-info";
 
 const useStyles = makeStyles(() => ({
   root: {},
@@ -39,7 +39,6 @@ const BottomBar = ({
   ...rest
 }) => {
   const classes = useStyles();
-  const [notifications] = useState([]);
 
   return (
     <AppBar
@@ -51,7 +50,24 @@ const BottomBar = ({
       <Toolbar className={classes.bottom}>
         {/* <NavBar /> */}
         <Typography>
-          BioCompute Portal Version BETA 3.95.0&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;Host: 100.25.1.222&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;<Link className={classes.bottomLink} href={'https://biocomputeobject.org/contact'} target="_blank">Contact Us</Link>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;<Link className={classes.bottomLink} href={'https://github.com/biocompute-objects/portal/issues/new/choose'} target="_blank">Report issue on GitHub</Link>
+          BioCompute Portal Version BETA 3.95.0&nbsp;&nbsp;&nbsp;|
+          &nbsp;&nbsp;&nbsp;Host: 100.25.1.222&nbsp;&nbsp;&nbsp;|
+          &nbsp;&nbsp;&nbsp;
+          <Link
+            className={classes.bottomLink}
+            href="https://docs.biocomputeobject.org/contact"
+            target="_blank"
+          >
+            Contact Us
+          </Link>
+&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+          <Link
+            className={classes.bottomLink}
+            href="https://github.com/biocompute-objects/portal/issues/new/choose"
+            target="_blank"
+          >
+            Report issue on GitHub
+          </Link>
         </Typography>
         <Box flexGrow={1} />
       </Toolbar>

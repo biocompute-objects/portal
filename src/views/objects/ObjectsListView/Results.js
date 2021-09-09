@@ -1,4 +1,6 @@
-import React, { useContext } from 'react';
+// src/views/objects/ObjectsListView/Results.js
+
+import React from 'react';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import { lighten, makeStyles } from '@material-ui/core/styles';
@@ -20,20 +22,14 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import FilterListIcon from '@material-ui/icons/FilterList';
 
 // For object previews.
-import BcoPreviewPopup from '../../../utils/bcoPreviewPopup'
-
-// Links
-import Linker from './Linker'
-
-// Derive from
-import Button from '@material-ui/core/Button';
+// import BcoPreviewPopup from '../../../utils/bcoPreviewPopup'
 
 // Dummy redirecting after draft object creation.
 // See https://www.codegrepper.com/code-examples/javascript/useHistory+is+not+exported+form+react-router-dom
-import { useNavigate } from 'react-router-dom';
+import Linker from './Linker';
 
 // Fetch context.
-import { FetchContext } from '../../../App';
+// import { FetchContext } from '../../../App';
 
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -61,23 +57,28 @@ function stableSort(array, comparator) {
   return stabilizedThis.map((el) => el[0]);
 }
 
-// const headCells = [
-//   { id: 'objectId', numeric: false, disablePadding: true, label: 'Object ID' },
-//   { id: 'name', numeric: true, disablePadding: false, label: 'Name' },
-//   { id: 'state', numeric: false, disablePadding: false, label: 'State' },
-//   { id: 'source', numeric: true, disablePadding: false, label: 'Source' },
-//   { id: 'lastUpdated', numeric: true, disablePadding: false, label: 'Last Updated' }
-// ];
-
 const headCells = [
-  { id: 'objectId', numeric: false, disablePadding: true, label: 'BCO Accession' },
-  { id: 'name', numeric: true, disablePadding: false, label: 'Name' },
-  { id: 'state', numeric: false, disablePadding: false, label: 'State' },
-  { id: 'derivation', numeric: false, disablePadding: false, label: 'Derive Draft'}
+  {
+    id: 'objectId', numeric: false, disablePadding: true, label: 'BCO Accession'
+  },
+  {
+    id: 'name', numeric: true, disablePadding: false, label: 'Name'
+  },
+  {
+    id: 'state', numeric: false, disablePadding: false, label: 'State'
+  },
+  {
+    id: 'source', numeric: false, disablePadding: false, label: 'Source'
+  },
+  {
+    id: 'lastUpdated', numeric: true, disablePadding: false, label: 'Last Updated'
+  }
 ];
 
 function EnhancedTableHead(props) {
-  const { classes, onSelectAllClick, order, orderBy, numSelected, rowCount, onRequestSort } = props;
+  const {
+    classes, onSelectAllClick, order, orderBy, numSelected, rowCount, onRequestSort
+  } = props;
   const createSortHandler = (property) => (event) => {
     onRequestSort(event, property);
   };
@@ -96,8 +97,8 @@ function EnhancedTableHead(props) {
         {headCells.map((headCell) => (
           <TableCell
             key={headCell.id}
-            align={'left'}
-            padding={headCell.disablePadding ? 'none' : 'default'}
+            align="left"
+            padding={headCell.disablePadding ? 'none' : 'normal'}
             sortDirection={orderBy === headCell.id ? order : false}
           >
             <TableSortLabel
@@ -137,13 +138,13 @@ const useToolbarStyles = makeStyles((theme) => ({
   highlight:
     theme.palette.type === 'light'
       ? {
-          color: theme.palette.secondary.main,
-          backgroundColor: lighten(theme.palette.secondary.light, 0.85),
-        }
+        color: theme.palette.secondary.main,
+        backgroundColor: lighten(theme.palette.secondary.light, 0.85),
+      }
       : {
-          color: theme.palette.text.primary,
-          backgroundColor: theme.palette.secondary.dark,
-        },
+        color: theme.palette.text.primary,
+        backgroundColor: theme.palette.secondary.dark,
+      },
   title: {
     flex: '1 1 100%',
   },
@@ -161,7 +162,9 @@ const EnhancedTableToolbar = (props) => {
     >
       {numSelected > 0 ? (
         <Typography className={classes.title} color="inherit" variant="subtitle1" component="div">
-          {numSelected} selected
+          {numSelected}
+          {' '}
+          selected
         </Typography>
       ) : (
         <Typography className={classes.title} variant="h1" id="tableTitle" component="div">
@@ -215,172 +218,19 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function Results({ rowInfo }) {
-  
-  // Fetch context.
-  const fc = useContext(FetchContext);
-  
-  // For development only.
-  const addPortNumber = (uri) => {
-
-    // Add port number 3000.
-
-    // Look for the index of the localhost url.
-    const localhostUrlIndex = uri.indexOf('127.0.0.1');
-
-    // Construct the new URI.
-    const newUri = uri.substring(0,localhostUrlIndex+9) + ':3000/' + uri.substring(localhostUrlIndex+10, uri.length);
-
-    return(newUri);
-
-  }
-
   // Redirects
-  let history = useNavigate();
+  // const history = useNavigate();
 
-  function redirect(where) {
-    return history(where);
-  }
-
-  // Derive a new object from an existing one.
-  const deriveFrom = (uri) => {
-
-    // Call the API to get the existing information,
-    // then call the API to create the draft.
-
-    // TODO: Make API function later...
-
-    // Parse the table name (taken from /views/objects/ObjectView/index.js)
-
-    // TODO: Abstract to general function later?
-
-    // The table to use is based on the URI.
-
-    // Check against the REGEX to determine the table.
-
-    // Simply check for two underscores for a draft table,
-    // otherwise we have a publish table.
-
-    var table = '';
-
-    if(uri.indexOf('DRAFT') !== -1) {
-
-      // Draft table.
-      
-      // Get the prefix.
-      table = uri.split('/');
-      table = table.splice(-1)[0];
-      table = table.split('_')[0];
-      table = table + '_draft';
-      table = table.toLowerCase();
-
-      // ALSO need to remove the 'builder' prefix.
-      uri = uri.replace('/builder/', '/');
-
-    } else {
-
-      // Publish table.
-
-      // Get the prefix.
-      table = uri.split('/');
-      table = table.splice(-2)[0];
-      table = table.split('_')[0];
-      table = table + '_publish';
-      table = table.toLowerCase();
-
-    }
-    console.log('table:', table)
-    // Call the API.
-    fetch(fc['sending']['bcoapi_objects_read'], {
-        method: 'POST',
-        body: JSON.stringify({
-          POST_read_object: [
-              {
-                table: table, 
-                object_id: uri
-              }
-          ]
-  
-      }),
-      headers: {
-        "Content-type": "application/json; charset=UTF-8"
-      }
-      }).then(response=>response.json()).then(data=>{
-        
-        console.log('+++++++++++++++++', data);
-  
-        // Get the bulk response.
-        const bulkResponse = data.POST_read_object[0];
-  
-        // Was the object found?
-        if(bulkResponse.request_code === '200') {
-          
-          // Create the draft and re-direct.
-
-          // Swap out the publish table for the draft table
-          // if a publish table was initially provided.
-          
-          if(table.indexOf('publish') !== -1) {
-
-            table = table.replace('publish', 'draft');
-
-          }
-          
-          fetch(fc['sending']['bcoapi_objects_create'], {
-            method: 'POST',
-            body: JSON.stringify({
-              POST_create_new_object: [
-                  {
-                    table: table,
-                    schema: 'IEEE',
-                    contents: bulkResponse.content,
-                    state: 'DRAFT'
-                  }
-              ]
-          }),
-          headers: {
-            "Content-type": "application/json; charset=UTF-8"
-          }
-          }).then(response=>response.json()).then(data=>{
-      
-            console.log('NEW DRAFT OBJECT: ', data);
-      
-            // Parse the response data for the URL to re-direct to,
-            // making sure we're going to the BUILDER page.
-      
-            // Split the URI and re-construct the route.
-            const splitUp = data.POST_create_new_object[0]['object_id'].split('/').splice(-1);
-      
-            // Now re-direct.
-            redirect('/builder/' + splitUp);
-      
-            // Crappy but works.
-            // Source: https://reactgo.com/react-refresh-page/
-            //window.location.reload();
-      
-          })
-  
-        } else {
-  
-          // There was a problem, so show what it was...
-
-          // TODO: necessary to do this?
-    
-        }
-  
-      })
-
-  }
-  
   // The row data from the parent.
   const rows = rowInfo;
-  
+
   const classes = useStyles();
 
   const [order, setOrder] = React.useState('desc');
   const [orderBy, setOrderBy] = React.useState('state');
   const [selected, setSelected] = React.useState([]);
   const [page, setPage] = React.useState(0);
-  const [dense, setDense] = React.useState(false);
+  const [dense] = React.useState(false);
   const [rowsPerPage, setRowsPerPage] = React.useState(25);
 
   const handleRequestSort = (event, property) => {
@@ -439,7 +289,7 @@ export default function Results({ rowInfo }) {
           <Table
             className={classes.table}
             aria-labelledby="tableTitle"
-            size={'small'}
+            size="small"
             aria-label="enhanced table"
           >
             <EnhancedTableHead
@@ -465,7 +315,7 @@ export default function Results({ rowInfo }) {
                       role="checkbox"
                       aria-checked={isItemSelected}
                       tabIndex={-1}
-                      key={index}
+                      key={labelId}
                       selected={isItemSelected}
                     >
                       <TableCell padding="checkbox">
@@ -478,17 +328,21 @@ export default function Results({ rowInfo }) {
                         <BcoPreviewPopup bcoLink={row.objectId} />
                       </TableCell> */}
                       <TableCell component="th" id={labelId} scope="row" padding="none">
-                        <Linker color = { 'blueLink' } uri = { row.objectId } accessionOnly = { true } state = { row.state } token = { row.objectIdToken } />
+                        <Linker color="blueLink" uri={row.objectId} accessionOnly state={row.state} token={row.objectIdToken} />
                       </TableCell>
                       <TableCell>{row.name}</TableCell>
                       <TableCell>{row.state}</TableCell>
-                      <TableCell>
-                        <Button variant="contained" color="primary" disableElevation onClick = {() => deriveFrom(row.objectId)}>
+
+                      {/* <TableCell>
+                        <Button variant="contained"
+                         color="primary"
+                          disableElevation onClick = {() => deriveFrom(row.objectId)}>
                           Derive
                         </Button>
-                      </TableCell>
-                      {/* <TableCell>{row.source}</TableCell>
-                      <TableCell>{row.lastUpdated}</TableCell> */}
+                      </TableCell> */}
+
+                      <TableCell>{row.source}</TableCell>
+                      <TableCell>{row.lastUpdated}</TableCell>
                     </TableRow>
                   );
                 })}
@@ -506,10 +360,14 @@ export default function Results({ rowInfo }) {
           count={rows.length}
           rowsPerPage={rowsPerPage}
           page={page}
-          onChangePage={handleChangePage}
-          onChangeRowsPerPage={handleChangeRowsPerPage}
+          onPageChange={handleChangePage}
+          onRowsPerPageChange={handleChangeRowsPerPage}
         />
       </Paper>
     </div>
   );
 }
+
+Results.propTypes = {
+  rowInfo: PropTypes.object.isRequired,
+};

@@ -9,7 +9,7 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 
 // Validation Button
-import Button from '@material-ui/core/Button'
+import Button from '@material-ui/core/Button';
 
 // Multiline Input
 import TextField from '@material-ui/core/TextField';
@@ -35,23 +35,20 @@ const StyledCell = withStyles({
 
 // Pass an object and whether or not its keys are properties.
 export default function Raw({ items }) {
-  
-  const classes = withStyles(), inputClasses = useStyles();
+  const classes = withStyles();
+  const inputClasses = useStyles();
 
   // Arguments
   // ---------
   // items: JSON object (Usability Domain)
 
-
   // ----- Meta Information ----- //
 
-  
   // None.
-
 
   // ----- Usability ----- //
 
-  return(
+  return (
     <Table size="small">
       <TableHead className={classes.tabled}>
         <TableRow>

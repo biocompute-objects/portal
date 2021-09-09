@@ -115,7 +115,6 @@ export default function Tools() {
           </Card>
           </Grid>
         </Grid>
-        <Typography>Add object to collection, search across objects, etc...</Typography>
         </AccordionDetails>
       </Accordion>
     </div>

@@ -203,9 +203,6 @@ export default function Sharing({ objectIdDerivatives }) {
   const [rows, setRows] = React.useState([]);
   const [serverGroupInfo, setServerGroupInfo] = React.useState({});
 
-  // TODO: put this state variable in later to reduce redundancy.
-  const [serverToken, setServerToken] = React.useState('');
-
   const [order, setOrder] = React.useState('asc');
   const [orderBy, setOrderBy] = React.useState('group');
   const [selected, setSelected] = React.useState([]);
@@ -214,7 +211,7 @@ export default function Sharing({ objectIdDerivatives }) {
 
   // Checkboxes
   // Source: https://material-ui.com/components/checkboxes/#basic-checkboxes
-  const [checked, setChecked] = React.useState(true);
+  const setChecked = React.useState(true);
 
 
   // --- Functions --- //
@@ -284,7 +281,7 @@ export default function Sharing({ objectIdDerivatives }) {
     // BAD fix, should have apiinfo stored as object...
     var foundToken = '';
 
-    JSON.parse(localStorage.getItem('user'))['apiinfo'].map(item => {
+    JSON.parse(localStorage.getItem('user'))['apiinfo'].forEach(item => {
       if(item['public_hostname'] === hostname) {
         foundToken = item['token'];
       }

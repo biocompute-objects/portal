@@ -57,8 +57,7 @@ const NewsBar = ({ onMobileClose, openMobile }) => {
           onClose={onMobileClose}
           open={openMobile}
           variant="temporary"
-        >
-        </Drawer>
+        />
       </Hidden>
       <Hidden mdDown>
         <Drawer
@@ -71,7 +70,7 @@ const NewsBar = ({ onMobileClose, openMobile }) => {
             noFooter
             sourceType="profile"
             screenName="BioComputeObj"
-            options={{height: 400}}
+            options={{ height: 400 }}
           />
           <Typography align="center" className={classes.mainHighlight} variant="h2">
             Workshops
