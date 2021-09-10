@@ -1,3 +1,5 @@
+// src/views/account/AccountView/ServerInfo.js
+
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
@@ -256,17 +258,18 @@ export default function EnhancedTable({ onClickOpen }) {
 
     // Get the permissions.
     setPermissions(JSON.parse(localStorage.getItem('user'))['apiinfo']);
-
+    console.log('apiinfo: ', permissions)
     permissions.forEach(perm => {
       perms.push(
         createData(
           perm['human_readable_hostname'],
           perm['hostname'],
           perm['token'],
-          perm['other_info']['group_permissions'],
+          perm['other_info']['permissions']['group_permissions'],
           'Active'
         )
       )
+    console.log('permissions: ', perm)
     })
 
     // Update the server info.

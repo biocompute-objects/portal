@@ -1,3 +1,5 @@
+// src/views/account/AccountView/Permissions.js
+
 // Source: https://material-ui.com/components/cards/#simple-card
 
 import React from 'react';
@@ -24,7 +26,7 @@ const useStyles = makeStyles({
 export default function Permissions({ permissionSet }) {
   
   const classes = useStyles();
-
+  console.log(permissionSet);
   return (
     <Card className = {classes.root}>
       <CardContent>
