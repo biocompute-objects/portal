@@ -22,6 +22,9 @@ import ServerStatus from './ServerStatus';
 // Summary information about the server
 import ServerSummary from './ServerSummary';
 
+// Fetch context.
+import { FetchContext } from '../../../App';
+
 const useStyles = makeStyles(() => ({
   centered: {
     textAlign: 'center'
@@ -29,7 +32,8 @@ const useStyles = makeStyles(() => ({
 }));
 
 export default function FormDialog(props) {
-  
+  // Fetch context.
+  const fc = useContext(FetchContext);
   const classes = useStyles();
   
   // Use the parent context.
@@ -112,9 +116,8 @@ export default function FormDialog(props) {
 
   // Ask for a new account.
   const newApiAccount = () => {
-
     // Ask the server for a new account.
-    fetch(hostname, {
+    fetch(fc.sending.userdb_addapi, {
       method: 'POST',
       body: JSON.stringify({
         token: token,
@@ -174,14 +177,14 @@ export default function FormDialog(props) {
 
   // Add the server info to UserDB.
   const addServerInfoToUserDb = () => {
-
+    console.log("hadley", localStorage.getItem('token'))
     // Pull the server info straight off the state variable,
     // then add to UserDB.
     var updatedUser = JSON.parse(localStorage.getItem('user'));
     updatedUser['apiinfo'].push(serverInfo);
 
     // Add the server information to the user's information via userdb call.
-    fetch( hostname + '/users/add_api/', {
+    fetch( fc.sending.userdb_addapi, {
     method: 'POST',
     body: JSON.stringify(updatedUser['apiinfo'][updatedUser['apiinfo'].length - 1]),
     headers: {

@@ -69,7 +69,7 @@ const headCells = [
   { id: 'servername', numeric: false, disablePadding: true, label: 'Server Name' },
   { id: 'hostname', numeric: true, disablePadding: false, label: 'Hostname' },
   { id: 'token', numeric: false, disablePadding: false, label: 'Token' },
-  { id: 'permissions', numeric: false, disablePadding: false, label: 'Permissions' },
+  { id: 'groups', numeric: false, disablePadding: false, label: 'Groups' },
   { id: 'status', numeric: false, disablePadding: false, label: 'Status' },
 ];
 
@@ -265,7 +265,7 @@ export default function EnhancedTable({ onClickOpen }) {
           perm['human_readable_hostname'],
           perm['hostname'],
           perm['token'],
-          perm['other_info']['permissions']['group_permissions'],
+          perm['other_info']['permissions']['groups'],
           'Active'
         )
       )
@@ -379,6 +379,8 @@ export default function EnhancedTable({ onClickOpen }) {
                             </Button> */}
                             {row.token}
                           </TableCell>
+
+
                           <TableCell align="left">
                             <Button
                               color="primary"
