@@ -218,11 +218,13 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function Results({ rowInfo }) {
+
   // Redirects
   // const history = useNavigate();
 
   // The row data from the parent.
   const rows = rowInfo;
+  console.log('rowInfo: ', rowInfo);
 
   const classes = useStyles();
 
