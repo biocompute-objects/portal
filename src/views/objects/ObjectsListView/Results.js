@@ -224,7 +224,6 @@ export default function Results({ rowInfo }) {
 
   // The row data from the parent.
   const rows = rowInfo;
-  console.log('rowInfo: ', rowInfo);
 
   const classes = useStyles();
 
