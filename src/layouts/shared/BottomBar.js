@@ -54,7 +54,7 @@ const BottomBar = ({
         <Typography>
           <Link
             className={classes.bottomLink}
-            href={`https://github.com/biocompute-objects/bco_api/tree/${fc.versions.portal}`}
+            href={`https://github.com/biocompute-objects/portal/tree/${fc.versions.portal}`}
             target="_blank"
           >
             BioCompute Portal {fc.versions.portal}
@@ -69,7 +69,7 @@ const BottomBar = ({
           </Link>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
           <Link
             className={classes.bottomLink}
-            href={`https://github.com/biocompute-objects/bco_api/tree/${fc.versions.userdb}`}
+            href={`https://github.com/biocompute-objects/userdb/tree/${fc.versions.userdb}`}
             target="_blank"
           >
             Portal UserDB {fc.versions.userdb}
