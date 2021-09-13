@@ -4,7 +4,6 @@ import React from 'react';
 import { Navigate } from 'react-router-dom';
 import AccountView from 'src/views/account/AccountView';
 import BuilderView from 'src/views/builder/BuilderView';
-import DashboardLayout from 'src/layouts/DashboardLayout';
 import HomeView from 'src/views/home/HomeView';
 import LoginView from 'src/views/auth/LoginView';
 import MainLayout from 'src/layouts/MainLayout';
@@ -51,7 +50,7 @@ const routes = () => {
     },
     {
       path: '/',
-      element: <DashboardLayout />,
+      element: <MainLayout />,
       children: [
         { path: '', element: <HomeView /> }
       ]
