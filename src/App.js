@@ -106,14 +106,19 @@ function App() {
       ]
     }
   };
-
+  const versions = {
+    portal: '3.96.1',
+    bcodb: '1.2.0',
+    userdb: '1.1.0'
+  };
+  
   // ----- LOCAL / DEVELOPMENT / BETA SWITCH ----- //
   // Change hostnames.* to match the deployment environment
   const sending = hostnames.local;
 
   return (
     <ThemeProvider theme={theme}>
-      <FetchContext.Provider value={{ sending }}>
+      <FetchContext.Provider value={{ sending, versions }}>
         <GlobalStyles />
         {routing}
       </FetchContext.Provider>
