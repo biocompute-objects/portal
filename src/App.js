@@ -107,7 +107,7 @@ function App() {
     }
   };
   const versions = {
-    portal: '3.96.1',
+    portal: '4.0.0',
     bcodb: '1.2.0',
     userdb: '1.1.0'
   };
