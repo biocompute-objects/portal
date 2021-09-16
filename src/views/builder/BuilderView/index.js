@@ -150,7 +150,7 @@ export default function BuilderView() {
       if(objectId === '') {
 
         // Call the API.
-        fetch(draftSavingLocation['hostname'] + '/api/objects/create/', {
+        fetch(draftSavingLocation['hostname'] + '/api/objects/drafts/create/', {
           method: 'POST',
           body: JSON.stringify({
             POST_create_new_object: [

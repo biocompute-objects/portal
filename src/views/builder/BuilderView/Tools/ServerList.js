@@ -14,12 +14,19 @@ export default function ServerList({ disabledValue, options, receivedDefault, se
     // Render the options for servers based on the type of server
     // list we have IF we have them.
     if(options !== null) {
-
+		console.log(options)
         options.forEach(item => {
 
-            Object.keys(item['other_info']['group_permissions']).forEach(subitem => {
-                
-                if(subitem.indexOf('draft') >= 0 && type === 'draft') {
+            Object.keys(item['other_info']['permissions']['groups']).forEach(subitem => {
+                console.log(subitem)
+                if(item['other_info']['permissions']['groups']) {
+                    processed.push({ 
+                        hostname: item['public_hostname'],
+                        human_readable_hostname: item['human_readable_hostname'],
+                        group: subitem
+                    });
+                }
+                /*if(subitem.indexOf('draft') >= 0 && type === 'draft') {
     
                     // Only add a group if 'add' or 'change' permissions are there.
                     if(item['other_info']['group_permissions'][subitem].findIndex(element => element.includes('add', 'change')) >= 0) {
@@ -41,7 +48,7 @@ export default function ServerList({ disabledValue, options, receivedDefault, se
                         });
                     }
     
-                }
+                }*/
     
             })
     

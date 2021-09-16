@@ -42,7 +42,6 @@ const BottomBar = ({
   
   // Fetch context.
   const fc = useContext(FetchContext);
-  console.log(fc.versions)
   return (
     <AppBar
       className={clsx(classes.root, className, classes.appBar)}
