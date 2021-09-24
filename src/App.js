@@ -32,7 +32,7 @@ function App() {
       userdb_tokenauth: 'http://127.0.0.1:8080/users/token-auth/',
       anon_api_info: [
         {
-          token: '9f0b1e3661f56cb14b5f516003b41b23971cbd6a',
+          token: '627626823549f787c3ec763ff687169206626149',
           public_hostname: 'http://127.0.0.1:8000'
         }
       ]

@@ -26,7 +26,7 @@ import FilterListIcon from '@material-ui/icons/FilterList';
 
 // Dummy redirecting after draft object creation.
 // See https://www.codegrepper.com/code-examples/javascript/useHistory+is+not+exported+form+react-router-dom
-import Linker from './Linker';
+import Linker from '../../../components/Linker';
 
 // Fetch context.
 // import { FetchContext } from '../../../App';
@@ -62,7 +62,7 @@ const headCells = [
     id: 'objectId', numeric: false, disablePadding: true, label: 'BCO Accession'
   },
   {
-    id: 'name', numeric: true, disablePadding: false, label: 'Name'
+    id: 'name', numeric: false, disablePadding: false, label: 'Name'
   },
   {
     id: 'state', numeric: false, disablePadding: false, label: 'State'
@@ -281,7 +281,7 @@ export default function Results({ rowInfo }) {
   const isSelected = (name) => selected.indexOf(name) !== -1;
 
   const emptyRows = rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
-
+	console.log('rows', rows)
   return (
     <div className={classes.root}>
       <Paper className={classes.paper}>
@@ -329,7 +329,7 @@ export default function Results({ rowInfo }) {
                         <BcoPreviewPopup bcoLink={row.objectId} />
                       </TableCell> */}
                       <TableCell component="th" id={labelId} scope="row" padding="none">
-                        <Linker color="blueLink" uri={row.objectId} accessionOnly state={row.state} token={row.objectIdToken} />
+                       { <Linker color="blueLink" uri={row.object_id} accessionOnly state={row.state} token={row.objectIdToken} />}
                       </TableCell>
                       <TableCell>{row.name}</TableCell>
                       <TableCell>{row.state}</TableCell>
@@ -342,8 +342,8 @@ export default function Results({ rowInfo }) {
                         </Button>
                       </TableCell> */}
 
-                      <TableCell>{row.source}</TableCell>
-                      <TableCell>{row.lastUpdated}</TableCell>
+                      <TableCell>{row.public_hostname}</TableCell>
+                      <TableCell>{row.last_update}</TableCell>
                     </TableRow>
                   );
                 })}

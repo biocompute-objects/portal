@@ -53,7 +53,19 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Tools({ objectIdDerivatives, setDraftSavingLocation, setPublishSavingLocation, setDownloadDraft, setSaveDraft, setPublish, publishedObjectId, publishMessage, receivedDefault, serverLock, setDeleteDraftPostPublish }) {
+export default function Tools({ 
+	objectIdDerivatives, 
+	setDraftSavingLocation, 
+	setPublishSavingLocation, 
+	setDownloadDraft, 
+	setSaveDraft, 
+	setPublish, 
+	publishedObjectId, 
+	publishMessage, 
+	receivedDefault, 
+	serverLock, 
+	setDeleteDraftPostPublish 
+}) {
   
   // State
   const [saveDraftTo, setSaveDraftTo] = React.useState('');
