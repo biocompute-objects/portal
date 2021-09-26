@@ -1,6 +1,6 @@
 // src/views/account/AccountView/AccountDetails.js
 
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import {
@@ -18,8 +18,8 @@ const useStyles = makeStyles(() => ({
 }));
 
 const AccountDetails = ({ className, ...rest }) => {
-  var retrieveUser = localStorage.getItem('user');
-  var userInfo = JSON.parse(retrieveUser)	
+  var userInfo = JSON.parse(localStorage.getItem('user'))	
+  console.log(userInfo)
   const classes = useStyles();
   
   const [values, setValues] = useState({
@@ -27,24 +27,36 @@ const AccountDetails = ({ className, ...rest }) => {
     lastName: userInfo.last_name,
     email: userInfo.email,
     alt_email: userInfo.alt_email,
-    affiliation: userInfo.affiliation,
-    orcid: userInfo.orcid
+    apiinfo: userInfo.apiinfo,
+    groups: userInfo.groups,
+    password: userInfo.password,
+    username: userInfo.username,
+    profile: {
+        affiliation: userInfo.affiliation,
+        orcid: userInfo.orcid,
+		public: userInfo.public
+    	
+    }
   });
-
+	// pass state to local storage for safe keeping
+  useEffect(() => {
+	  localStorage.setItem('user', JSON.stringify(values))
+  })
+	// Handler for form entery. 
   const handleChange = (event) => {
     setValues({
       ...values,
       [event.target.name]: event.target.value
-    });
+    })
   };
-
+console.log(values)
   return (
     <form
       autoComplete="off"
       noValidate
       className={clsx(classes.root, className)}
       {...rest}
-    >
+      >
       <Card elevation={0}>
         <CardContent>
           <Grid
@@ -66,11 +78,7 @@ const AccountDetails = ({ className, ...rest }) => {
                 variant="outlined"
               />
             </Grid>
-            <Grid
-              item
-              md={4}
-              xs={6}
-            >
+            <Grid item md={4} xs={6}>
               <TextField
                 fullWidth
                 label="Last name"
@@ -81,11 +89,7 @@ const AccountDetails = ({ className, ...rest }) => {
                 variant="outlined"
               />
             </Grid>
-            <Grid
-              item
-              md={4}
-              xs={6}
-            >
+            <Grid item md={4} xs={6}>
               <TextField
                 fullWidth
                 label="Email Address"
@@ -96,11 +100,7 @@ const AccountDetails = ({ className, ...rest }) => {
                 variant="outlined"
               />
             </Grid>
-            <Grid
-              item
-              md={4}
-              xs={6}
-            >
+            <Grid item md={4} xs={6}>
               <TextField
                 fullWidth
                 label="Profile Picture TODO"
@@ -111,11 +111,7 @@ const AccountDetails = ({ className, ...rest }) => {
                 variant="outlined"
               />
             </Grid>
-            <Grid
-              item
-              md={4}
-              xs={6}
-            >
+            <Grid item md={4} xs={6}>
               <TextField
                 fullWidth
                 label="Affiliation"
@@ -126,11 +122,7 @@ const AccountDetails = ({ className, ...rest }) => {
                 variant="outlined"
               />
             </Grid>
-            <Grid
-              item
-              md={4}
-              xs={6}
-            >
+            <Grid item md={4} xs={6}>
               <TextField
                 fullWidth
                 label="ORCID"

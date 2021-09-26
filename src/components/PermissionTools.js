@@ -16,7 +16,7 @@ import RetrieveDraftObject from './API/RetrieveDraftObject.js';
 import ModifyDraftObject from './API/ModifyDraftObject.js';
 import RetrieveDraftObjectPermissions from './API/RetrieveDraftObjectPermissions.js';
 import RetrieveObjectsFromToken from './API/RetrieveObjectsFromToken';
-
+import UserdbTokenAuth from './API/UserdbTokenAuth.js';
 // Sharing object
 import Sharing from '../utils/Sharing';
 
@@ -82,8 +82,13 @@ export default function PermissionTools({
   const mySwitch = 'no'
   // Hook to pull a draft BCO if one does not exist in the local storage.
   useEffect(() => {
-  	  if (!localStorage.bco) {
-  		  RetrieveDraftObject( objectId )
+  	  if (!localStorage.user) {
+		  const tokenAuth = {
+			  url: fc.sending.userdb_tokenauth,
+			  username: 'hadleyking',
+			  password: 'Charles4'
+		  }
+  		  UserdbTokenAuth( tokenAuth )
   	  }
   })
   useEffect(() => {
