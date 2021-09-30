@@ -52,7 +52,7 @@ const ObjectsListView = () => {
     if (ApiInfo === null) {
       // Use the anon token, which is publicly available.
       ApiInfo = fc.sending.anon_api_info;
-
+      console.log(ApiInfo);
       ApiInfo.forEach((item) => {
         // Call the API using the server information
         // associated with the user.
