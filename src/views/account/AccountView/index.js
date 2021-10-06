@@ -6,10 +6,10 @@ import {
   Grid,
   makeStyles
 } from '@material-ui/core';
-// import AddServer from './AddServer'
+import AddServer from './AddServer'
 import Page from 'src/components/Page';
 import Profile from './Profile';
-// import ServerInfo from './ServerInfo';
+import ServerInfo from './ServerInfo';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -53,7 +53,7 @@ const AccountView = () => {
           </Grid>
         </Grid>
       </Container>
-      {/*<Container maxWidth={false}>
+      <Container maxWidth={false}>
         <Grid container spacing={5}>
           <Grid item xs={12} sm={12} lg={12} xl={12}>
             <AddServer />
@@ -66,7 +66,7 @@ const AccountView = () => {
             <ServerInfo />
           </Grid>
         </Grid>
-      </ Container>*/}
+      </ Container>
     </ParentContext.Provider>
   </Page>
   );

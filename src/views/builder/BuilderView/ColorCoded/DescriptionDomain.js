@@ -957,7 +957,7 @@ export default function DescriptionDomain({ compCheck, checkBlank, items, cF }) 
                   <AccordionDetails>
                     <List className={classes.fullWidthList}>
                       {
-                        item.output_list.map((subitem, subindex) => (
+                        item.output_list.forEach((subitem, subindex) => (
                           <>
                             <ListItem>
                               <TextField InputProps={{ className: classes.root }} label={'Name'} fullWidth variant="outlined" value={cF(subitem.filename)} onChange={(e) => setListInput(e, index, 'output_list', subindex, 'filename')} />

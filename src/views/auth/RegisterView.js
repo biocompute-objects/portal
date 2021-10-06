@@ -97,26 +97,19 @@ const RegisterView = () => {
                 .max(255)
                 .required('Password is required'),
               confirmPassword: Yup.string()
-				.oneOf([Yup.ref('password'), null], 'Passwords must match')
-				
+                .oneOf([Yup.ref('password'), null], 'Passwords must match')
+                
             })}
             onSubmit={(values) => {
-				UserdbNewAccount(values)
-			    if (localStorage.getItem('tokenAPI')) {
-				  console.log("getting API account now")
-			      ApiNewAccount(values)
+                UserdbNewAccount(values)
+                if (localStorage.getItem('tokenAPI')) {
+                  console.log("getting API account now")
+                  ApiNewAccount(values)
                   navigate('/login', { replace: true });
-			    }
+                }
             }}
           >
-            {({
-              errors,
-              handleBlur,
-              handleChange,
-              handleSubmit,
-              touched,
-              values
-            }) => (
+            {({errors, handleBlur, handleChange, handleSubmit, touched, values }) => (
               <form onSubmit={handleSubmit}>
                 <Box mb={3}>
                   <Typography

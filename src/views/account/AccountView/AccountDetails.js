@@ -18,8 +18,7 @@ const useStyles = makeStyles(() => ({
 }));
 
 const AccountDetails = ({ className, ...rest }) => {
-  var userInfo = JSON.parse(localStorage.getItem('user'))	
-  console.log(userInfo)
+  var userInfo = JSON.parse(localStorage.getItem('user'))
   const classes = useStyles();
   
   const [values, setValues] = useState({

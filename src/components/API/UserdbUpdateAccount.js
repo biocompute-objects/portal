@@ -1,29 +1,29 @@
-// /src/components/API/UserdbNewAccount.js 
+// /src/components/API/UserdbUpdateAccount.js 
 
 /* submits form for new account on UserDb */
 
 import Alert from '@material-ui/lab/Alert';
-export default function UserdbNewAccount( values ) {
+export default function UserdbUpdateAccount( values ) {
 let responseData = ''
 
   console.log("recieved for userdb", values)
+
   fetch(values.userurl, {
     method: 'POST',
     headers: {
+      Authorization: `JWT ${localStorage.getItem('token')}`,
       'Content-Type': 'application/json'
     },
     body: JSON.stringify({
-      username: values.username,
-      password: values.password,
-      first_name: values.firstName,
-      last_name: values.lastName,
-      email: values.email,
-        profile: {
-            username: values.username,
-            public: false,
-            affiliation: '',
-            orcid: '',
-        }
+        first_name: values.first_name,
+        last_name: values.last_name,
+        email: values.email,
+        groups: values.groups,
+        password: values.password,
+        username: values.username,
+        affiliation: values.affiliation,
+        orcid: values.orcid,
+        public: values.public,
     })
   })
   .then((res) => res.json().then((data) => ({

@@ -2,9 +2,6 @@
 
 import React, { useEffect, useState, useContext } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import Accordion from '@material-ui/core/Accordion';
-import AccordionSummary from '@material-ui/core/AccordionSummary';
-import AccordionDetails from '@material-ui/core/AccordionDetails';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
@@ -105,8 +102,7 @@ export default function PermissionTools({
   // Define the actions for each click.
   const clickActions = (which) => {
     if (which === 'saveDraft') {
-      // From parent.
-      setSaveDraft(1);
+      ModifyDraftObject( objectId )
     } else if (which === 'publishDraft') {
       // From parent.
       setOpen(true);
@@ -176,135 +172,103 @@ export default function PermissionTools({
 
   return (
     <div className={classes.root}>
-      <Accordion>
-        <AccordionSummary
-          expandIcon={<ExpandMoreIcon />}
-          aria-controls="panel1a-content"
-          id="panel1a-header"
-        >
-          <Typography className={classes.heading} variant="h2">Draft Sharing and Publishing</Typography>
-        </AccordionSummary>
-        <AccordionDetails>
-          <Grid
-            container
-            spacing={3}
-          >
-            <Grid
-              item
-              lg={8}
-              md={12}
-              xs={12}
-            >
-              <Card>
-                <CardContent>
-                  <Typography gutterBottom variant="h1">
-                    Group Sharing
-                  </Typography>
-                  {/*
-                objectIdDerivatives['rawName'] !== ""
-                  ?
-                    <Sharing objectIdDerivatives = { objectIdDerivatives } />
-                  :
-                    <Typography variant = 'h3'>
-                      Please select a server to save your draft to in order to 
-					  set permissions for the draft.
-                    </Typography>
-              */}
-                </CardContent>
-              </Card>
-            </Grid>
-            <Grid
-              item
-              lg={4}
-              md={12}
-              xs={12}
-            >
-              <Card>
-                <CardContent>
-                  <Typography gutterBottom variant="h1">
-                    Saving and Publishing
-                  </Typography>
-                  {/* <SaveServer
-                  savingLocation = { savingLocation }
-                      serverLock = { serverLock }
-                      setObjectId = { setObjectId }
-                      setSaveTo = { setSaveTo }
-                      type = { 'draft' }
-                    /> */}
-                  <ServerList
-                    disabledValue={serverLock}
-                    options={userInfo === null ? null : userInfo.apiinfo}
-                    receivedDefault={receivedDefault}
-                    setter={setSaveDraftTo}
-                    type="draft"
-                  />
-                  <Typography>
+      <Grid container spacing={3}>
+        <Grid item lg={8} md={12} xs={12}>
+          <Card>
+            <CardContent>
+              <Typography gutterBottom variant="h1">
+                Group Sharing
+              </Typography>
+		      {/*
+		        objectIdDerivatives['rawName'] !== ""
+		          ?
+		            <Sharing objectIdDerivatives = { objectIdDerivatives } />
+		          :
+		            <Typography variant = 'h3'>
+		              Please select a server to save your draft to in order to set permissions for the draft.
+		            </Typography> 
+		      */}
+            </CardContent>
+          </Card>
+        </Grid>
+        <Grid item lg={4} md={12} xs={12}>
+          <Card>
+            <CardContent>
+              <Typography gutterBottom variant="h1">
+                Saving and Publishing
+              </Typography>
+              <ServerList
+                disabledValue={serverLock}
+                options={userInfo === null ? null : userInfo.apiinfo}
+                receivedDefault={receivedDefault}
+                setter={setSaveDraftTo}
+                type="draft"
+              />
+              <Typography>
+            &nbsp;
+              </Typography>
+              <Button
+                variant="contained"
+                color="secondary"
+                disableElevation
+                disabled={!!(saveDraftTo === '' & receivedDefault === null)}
+                fullWidth
+                onClick={() => clickActions('saveDraft')}
+              >
+                SAVE DRAFT
+              </Button>
+              <Typography>
                 &nbsp;
-                  </Typography>
-                  <Button
-                    variant="contained"
-                    color="secondary"
-                    disableElevation
-                    disabled={!!(saveDraftTo === '' & receivedDefault === null)}
-                    fullWidth
-                    onClick={() => clickActions('saveDraft')}
-                  >
-                    SAVE DRAFT
-                  </Button>
-                  <Typography>
-                    &nbsp;
-                  </Typography>
-                  <ServerList
-                    disabledValue={!serverLock}
-                    options={userInfo === null ? null : userInfo.apiinfo}
-                    setter={setSavePublishTo}
-                    type="publish"
-                  />
-                  <Typography>
-                &nbsp;
-                  </Typography>
-                  <Button
-                    variant="contained"
-                    color="primary"
-                    disableElevation
-                    disabled={savePublishTo === ''}
-                    fullWidth
-                    onClick={() => clickActions('publishDraft')}
-                  >
-                    PUBLISH DRAFT
-                  </Button>
+              </Typography>
+              <ServerList
+                disabledValue={!serverLock}
+                options={userInfo === null ? null : userInfo.apiinfo}
+                setter={setSavePublishTo}
+                type="publish"
+              />
+              <Typography>
+            &nbsp;
+              </Typography>
+              <Button
+                variant="contained"
+                color="primary"
+                disableElevation
+                disabled={savePublishTo === ''}
+                fullWidth
+                onClick={() => clickActions('publishDraft')}
+              >
+                PUBLISH DRAFT
+              </Button>
 
-                  <Typography>
-                &nbsp;
-                  </Typography>
-                  <Button
-                    variant="contained"
-                    color="primary"
-                    disableElevation
-                    fullWidth
-                    onClick={() => clickActions('downloadDraft')}
-                  >
-                    DOWNLOAD DRAFT
-                  </Button>
-                  <Typography>
-                &nbsp;
-                  </Typography>
-                  <Button
-                    variant="contained"
-                    color="secondary"
-                    disableElevation
-                    disabled={!serverLock}
-                    fullWidth
-                    onClick={() => clickActions('deleteDraft')}
-                  >
-                    DELETE DRAFT
-                  </Button>
-                </CardContent>
-              </Card>
-            </Grid>
-          </Grid>
-        </AccordionDetails>
-      </Accordion>
+              <Typography>
+            &nbsp;
+              </Typography>
+              <Button
+                variant="contained"
+                color="primary"
+                disableElevation
+                fullWidth
+                onClick={() => clickActions('downloadDraft')}
+              >
+                DOWNLOAD DRAFT
+              </Button>
+              <Typography>
+            &nbsp;
+              </Typography>
+              <Button
+                variant="contained"
+                color="secondary"
+                disableElevation
+                disabled={!serverLock}
+                fullWidth
+                onClick={() => clickActions('deleteDraft')}
+              >
+                DELETE DRAFT
+              </Button>
+            </CardContent>
+          </Card>
+        </Grid>
+      </Grid>
     </div>
   );
 }

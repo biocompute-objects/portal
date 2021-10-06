@@ -32,7 +32,7 @@ export default function Linker({
   // ---------
   // url (string): Link URL
   // color (string): Link color
-
+  // const [canEdit, setCanEdit] = useState(false)
   // Process the URI.
   const processed = uri.replace('://', '/');
 

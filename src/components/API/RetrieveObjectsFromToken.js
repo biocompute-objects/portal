@@ -30,9 +30,11 @@ export default function RetrieveDraftObjectPermissions( ApiInfo ) {
         tokenContents = response.data;
         localStorage.setItem('tokenContents', JSON.stringify(tokenContents))
         console.log('POST_api_objects_token: ', tokenContents);
+        console.log('response.data33', typeof(response.data) );
+        return response.data;
       } else {
         console.log('POST_api_objects_token: FAILED!');
       }
     })
-  )
+  ).catch(err => console.log(err));
 }
