@@ -67,7 +67,7 @@ const ObjectsListView = () => {
   const getObjectsListing = async () => {
 		console.log('ApiInfo33', ApiInfo);
 		ApiInfo.forEach((item) => {
-			RetrieveObjectsFromToken( item )
+			RetrieveObjectsFromToken( item,  )
 			let tokenContents = JSON.parse(localStorage.getItem('tokenContents'))
 			console.log('tokenContents', tokenContents)
 			tokenContents.forEach(d_item => {

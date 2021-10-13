@@ -37,7 +37,7 @@ const useStyles = makeStyles((theme) => ({
 		color: 'yellow'
 	},
   root: {
-    color: 'white'
+    color: 'black'
   },
   stepNumber: {
     width: '8%'
@@ -498,6 +498,8 @@ export default function DescriptionDomain({ compCheck, checkBlank, items, cF }) 
     // Special rule for URI.
     if(inputName === 'uri') {
       dummy[i][listtype][j][inputName]['uri'] = event.target.value;
+	  console.log("Description Domain", event.target.value)
+
     } else {
       dummy[i][listtype][j] = event.target.value;
     }
@@ -551,20 +553,26 @@ export default function DescriptionDomain({ compCheck, checkBlank, items, cF }) 
         "step_number": stepNumber,
         "name": "",
         "description": "",
-				"input_list": [
-          {
-            "uri": {
-							"uri": ""
-						}
-          }
-        ],
-				"output_list": [
-          {
-            "uri": {
-							"uri": ""
-						}
-          }
-        ]
+		"input_list": [
+			{
+				"uri": {
+					"uri": "",
+					"filename": "",
+					"access_time": "",
+					"sha1_checksum": ""
+				}
+			}
+		],
+		"output_list": [
+			{
+				"uri": {
+					"uri": "",
+					"filename": "",
+					"access_time": "",
+					"sha1_checksum": ""
+				}
+			}
+		]
       });
 
       // Update the state.
@@ -641,12 +649,14 @@ export default function DescriptionDomain({ compCheck, checkBlank, items, cF }) 
 
 			// Push the new row.
 			dummy[which][listtype].push({
-				"uri": {"uri": ""},
-				"filename": "",
-				"access_time": "",
-				"sha1_checksum": ""
+				"uri": {
+					"uri": "",
+					"filename": "",
+					"access_time": "",
+					"sha1_checksum": ""
+				}
 			});
-	
+			console.log('items.setDdPipelineSteps(dummy)',dummy)
 			// Update the state.
 			items.setDdPipelineSteps(dummy);
 
@@ -712,7 +722,7 @@ export default function DescriptionDomain({ compCheck, checkBlank, items, cF }) 
 
 
   // ----- Description ----- //
-
+  console.log('Description Domain', items.ddPipelineSteps[0])
   return(
     <Table size="small">
     <TableHead className={classes.tabled}>
@@ -776,19 +786,6 @@ export default function DescriptionDomain({ compCheck, checkBlank, items, cF }) 
         <TableCell>
         </TableCell>
       </TableRow>
-
-
-
-
-
-
-
-
-
-
-
-
-
       {
         cF(items.ddXref) !== ''
           ?
@@ -868,27 +865,6 @@ export default function DescriptionDomain({ compCheck, checkBlank, items, cF }) 
           </Button>
         </StyledCell>
       </TableRow>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
       <TableRow>
         <TableCell colSpan="5">
           <Typography className={missingSteps ? classes.missingHeader : classes.header} variant="h3">
@@ -942,7 +918,7 @@ export default function DescriptionDomain({ compCheck, checkBlank, items, cF }) 
                 </Button>
               </StyledCell>
             </TableRow>
-						<TableRow key={index}>
+			<TableRow key={index}>
               <StyledCell>
                 <Accordion>
                   <AccordionSummary
@@ -960,10 +936,7 @@ export default function DescriptionDomain({ compCheck, checkBlank, items, cF }) 
                         item.output_list.forEach((subitem, subindex) => (
                           <>
                             <ListItem>
-                              <TextField InputProps={{ className: classes.root }} label={'Name'} fullWidth variant="outlined" value={cF(subitem.filename)} onChange={(e) => setListInput(e, index, 'output_list', subindex, 'filename')} />
-                            </ListItem>
-                            <ListItem>
-                              <TextField InputProps={{ className: classes.root }} label={'Filename'} fullWidth variant="outlined" value={cF(subitem.filename)} onChange={(e) => setListInput(e, index, 'output_list', subindex, 'filename')} />
+                              <TextField InputProps={{ className: classes.root }} label={'Filename'} fullWidth variant="outlined" value={cF(subitem.uri.filename)} onChange={(e) => setListInput(e, index, 'output_list', subindex, 'filename')} />
                             </ListItem>
                             <ListItem>
                               <TextField InputProps={{ className: classes.root }} error={cF(subitem.uri.uri) === "" ? true : false} label={'URI'} fullWidth variant="outlined" value={cF(subitem.uri.uri)} onChange={(e) => setListInput(e, index, 'output_list', subindex, 'uri')} />

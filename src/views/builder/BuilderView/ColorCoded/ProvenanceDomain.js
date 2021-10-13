@@ -61,8 +61,6 @@ export default function ProvenanceDomain({ items, cF }) {
   
   const classes = useStyles();
 
-  console.log('ProvenanceDomain:', items);
-
   // State for showing missing sections.
   // TODO: For some reason didn't work with [items.pdContributors]
 
@@ -175,32 +173,7 @@ export default function ProvenanceDomain({ items, cF }) {
           // Name, Version, and License also depend on it.
           
         }
-         // This section is causing the page to break. Return to it later
-        // for(var reviewName = 0; i < items.pdReview.length; reviewName++) {
-        //
-        //   // Name
-        //   if(items.pdReview[reviewName].reviewer.name === "") {
-        //
-        //     // No name.
-        //     setMissingReviewName(true);
-        //
-        //     // Header
-        //     setMissingReview(true);
-        //
-        //     // Set the OR flag.
-        //     orFlag = true;
-        //
-        //     break;
-        //
-        //   } else {
-        //     setMissingReviewName(false);
-        //   }
-        //
-        //   // Can't rely on orFlag here because fields like
-        //   // Name, Version, and License also depend on it.
-        //
-        // }
-        
+
         for(var reviewCont = 0; reviewCont < items.pdReview.length; reviewCont++) {
           
           // Contribution
@@ -390,7 +363,7 @@ export default function ProvenanceDomain({ items, cF }) {
 
   // See also https://stackoverflow.com/questions/42807901/react-input-element-value-vs-default-value
   const setInput = (event, i, inputName, which) => {
-    
+
     // Get the state variable.
     var dummy = items[which];
 
@@ -415,11 +388,12 @@ export default function ProvenanceDomain({ items, cF }) {
 
         // Change the value at the given index.
         dummy[i][splitUp[0]][splitUp[1]] = event.target.value;
-        
+
       }
       
       // Update the state.
       items.setPdReview(dummy);
+	  console.log('pdModified', items.pdModifed)
 
     } else if(which == 'pdContributors') {
       
@@ -508,7 +482,7 @@ export default function ProvenanceDomain({ items, cF }) {
         delete items[which];
 
       } else {
-
+        console.log('pdReview', dummy)
         // Update the state.
         items.setPdReview(dummy);
 
@@ -540,7 +514,7 @@ export default function ProvenanceDomain({ items, cF }) {
     <Table size="small">
       <TableHead>
         <TableRow>
-          <StyledCell colSpan="8">
+          <StyledCell colSpan="12">
             <Typography className={missingProvenanceDomain ? classes.missingHeader : classes.header} variant="h1">
               Provenance Domain
             </Typography>
@@ -583,13 +557,13 @@ export default function ProvenanceDomain({ items, cF }) {
             Created
           </StyledCell>
           <StyledCell noGutter>
-            <TextField InputProps={{ className: classes.root }} label={"YYYY-MM-DDTHH:MM:SS+HH:MM"} fullWidth id="outlined-basic" value={cF(items.pdCreated)} onChange={(e) => items.setPdCreated(e.target.value)} variant="outlined" />
+            <TextField InputProps={{ className: classes.root }} disabled label={items.pdCreated} fullWidth id="outlined-basic" />
           </StyledCell>
           <StyledCell>
             Modified
           </StyledCell>
           <StyledCell noGutter>
-            <TextField InputProps={{ className: classes.root }} label={"YYYY-MM-DDTHH:MM:SS+HH:MM"} fullWidth id="outlined-basic" value={cF(items.pdModified)} onChange={(e) => items.setPdModified(e.target.value)} variant="outlined" />
+            <TextField InputProps={{ className: classes.root }} disabled label={items.pdModifed} fullWidth id="outlined-basic" />
           </StyledCell>
           <StyledCell>
             Obsolete After
@@ -597,8 +571,17 @@ export default function ProvenanceDomain({ items, cF }) {
           <StyledCell noGutter>
             <TextField InputProps={{ className: classes.root }} label={"YYYY-MM-DDTHH:MM:SS+HH:MM"} fullWidth id="outlined-basic" value={cF(items.pdObsoleteAfter)} onChange={(e) => items.setPdObsoleteAfter(e.target.value)} variant="outlined" />
           </StyledCell>
+        </TableRow>
+        <TableRow>
+          <StyledCell colSpan="5">
+            <Typography className={classes.header} variant="h3">
+              Embargo
+            </Typography>
+          </StyledCell>
+        </TableRow>
+        <TableRow>
           <StyledCell>
-            Embargo Start Time
+            Start Time
           </StyledCell>
           <StyledCell noGutter>
             <TextField InputProps={{ className: classes.root }} label={"YYYY-MM-DDTHH:MM:SS+HH:MM"} fullWidth id="outlined-basic" value={cF(items.pdEmbargoStartTime)} onChange={(e) => items.setPdEmbargoStartTime(e.target.value)} variant="outlined" />
@@ -687,9 +670,9 @@ export default function ProvenanceDomain({ items, cF }) {
         <TableRow>
           <TableCell className={missingContributorsName ? classes.missingHeader : classes.header} colSpan="2">Name</TableCell>
           <TableCell className={missingContributorsContribution ? classes.missingHeader : classes.header}>Contribution</TableCell>
-          <TableCell colSpan="2">Affiliation</TableCell>
-          <TableCell colSpan="2">eMail</TableCell>
-          <TableCell colSpan="4">ORCID</TableCell>
+          <TableCell colSpan="2" className={classes.header}>Affiliation</TableCell>
+          <TableCell colSpan="2" className={classes.header}>eMail</TableCell>
+          <TableCell colSpan="4" className={classes.header}>ORCID</TableCell>
         </TableRow>
           {
             items.pdContributors.map((item, index) => 

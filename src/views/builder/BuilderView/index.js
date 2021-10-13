@@ -121,7 +121,16 @@ export default function BuilderView() {
         spec_version: 'IEEE',
         etag: '',
         provenance_domain: {
-          name: '', version: '', created: '', modified: '', contributors: [{ contribution: ['createdBy'], name: '' }], license: ''
+          name: '', 
+			version: '', 
+			created: new Date(), 
+			modified: new Date(), 
+			contributors: [
+				{ 
+					contribution: ['createdBy'], 
+					name: ''
+			}],
+			license: ''
         },
         usability_domain: [''],
         description_domain: {

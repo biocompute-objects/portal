@@ -8,7 +8,8 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "docs": "jsdoc -c jsdoc.conf.json --verbose"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -30,6 +31,7 @@
     "@material-ui/icons": "^4.11.2",
     "@material-ui/lab": "^4.0.0-alpha.56",
     "@material-ui/styles": "^4.10.0",
+    "better-docs": "^2.3.2",
     "chart.js": "^2.9.3",
     "clsx": "^1.1.1",
     "formik": "^2.1.5",
@@ -72,6 +74,7 @@
     "eslint-plugin-prettier": "^3.1.4",
     "eslint-plugin-react": "^7.20.3",
     "eslint-plugin-react-hooks": "^2.5.1",
+    "jsdoc": "^3.6.7",
     "prettier": "^1.19.1"
   }
 }
