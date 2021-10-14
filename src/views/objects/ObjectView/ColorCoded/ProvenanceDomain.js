@@ -215,18 +215,14 @@ export default function ProvenanceDomain({ items }) {
   var reviewContributors = [];
   var reviewItems = [];
   items.review.map(item => {
-    console.log('review items', item)
     var reviewArray = {};
     reviewKeys.map(subitem => {
-		console.log('review items 2', subitem)
 		if (subitem in item.reviewer) {
-			console.log('review items 3', item.reviewer[subitem])
             var blank_flag = 0;
             for(var cont of ['', "", [], {}]) {
               if(item.reviewer[subitem] === cont) {
                 reviewArray[subitem] = 'None';
                 blank_flag = 1;
-                console.log('review items blank', subitem)
                 break;
               }
             }
@@ -241,13 +237,11 @@ export default function ProvenanceDomain({ items }) {
               }
             }
         } else if (subitem in item) {
-			console.log('review items 4', item[subitem])
             var blank_flag = 0;
             for(var cont of ['', "", [], {}]) {
               if(item[subitem] === cont) {
                 reviewArray[subitem] = 'None';
                 blank_flag = 1;
-                console.log('review items blank', subitem)
                 break;
               }
             }
@@ -264,12 +258,10 @@ export default function ProvenanceDomain({ items }) {
         
         } else {
           reviewArray[subitem] = 'None';
-          console.log('review items blank', reviewArray);
         }
     });
 	
 	reviewContributors.push(reviewArray)
-	console.log('review items final', reviewContributors)
   });
 
   return(
