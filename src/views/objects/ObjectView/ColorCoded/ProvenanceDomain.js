@@ -206,8 +206,71 @@ export default function ProvenanceDomain({ items }) {
     // Add the temp array to provenanceContributors.
     provenanceContributors.push(tempArray);
 
-    }
-  );
+  });
+  var reviewKeys = []
+  contributorKeys.map(item => {
+      reviewKeys.push(item);
+    });
+  reviewKeys.push('status', 'reviewer_comment', 'date')
+  var reviewContributors = [];
+  var reviewItems = [];
+  items.review.map(item => {
+    console.log('review items', item)
+    var reviewArray = {};
+    reviewKeys.map(subitem => {
+		console.log('review items 2', subitem)
+		if (subitem in item.reviewer) {
+			console.log('review items 3', item.reviewer[subitem])
+            var blank_flag = 0;
+            for(var cont of ['', "", [], {}]) {
+              if(item.reviewer[subitem] === cont) {
+                reviewArray[subitem] = 'None';
+                blank_flag = 1;
+                console.log('review items blank', subitem)
+                break;
+              }
+            }
+            if(blank_flag === 0){
+              
+              // For fields that contain lists, we need to 
+              // join on ','.
+              if(Array.isArray(item.reviewer[subitem]) && typeof(item.reviewer[subitem][0]) === 'string') {
+                reviewArray[subitem] = item.reviewer[subitem].join(', ');
+              } else {
+                reviewArray[subitem] = item.reviewer[subitem];
+              }
+            }
+        } else if (subitem in item) {
+			console.log('review items 4', item[subitem])
+            var blank_flag = 0;
+            for(var cont of ['', "", [], {}]) {
+              if(item[subitem] === cont) {
+                reviewArray[subitem] = 'None';
+                blank_flag = 1;
+                console.log('review items blank', subitem)
+                break;
+              }
+            }
+            if(blank_flag === 0){
+              
+              // For fields that contain lists, we need to 
+              // join on ','.
+              if(Array.isArray(item[subitem]) && typeof(item[subitem][0]) === 'string') {
+                reviewArray[subitem] = item[subitem].join(', ');
+              } else {
+                reviewArray[subitem] = item[subitem];
+              }
+            }
+        
+        } else {
+          reviewArray[subitem] = 'None';
+          console.log('review items blank', reviewArray);
+        }
+    });
+	
+	reviewContributors.push(reviewArray)
+	console.log('review items final', reviewContributors)
+  });
 
   return(
     <Table size="small">
@@ -241,6 +304,9 @@ export default function ProvenanceDomain({ items }) {
           )
         }
         <TableRow>
+          <StyledCell colSpan="5">CONTRIBUTORS</StyledCell>
+        </TableRow>
+        <TableRow>
         {
           contributorKeys.map(item => (
               <StyledCell>{processKey(item)}</StyledCell>
@@ -251,7 +317,10 @@ export default function ProvenanceDomain({ items }) {
         {
           provenanceContributors.map(item => (
               <TableRow>
-                {
+                {contributorKeys.map(subitem => (
+                  <StyledCell>{item[subitem]}</StyledCell>
+                ))}
+                {/*
                   contributorKeys.map(subitem => (
                       subitem === 'email'
                         ?
@@ -278,7 +347,28 @@ export default function ProvenanceDomain({ items }) {
                           <StyledCell>{item[subitem]}</StyledCell>
                     )
                   )
-                }
+                */}
+              </TableRow>
+            )
+          )
+        }
+        <TableRow>
+          <StyledCell colSpan='5'>REVIEW</StyledCell>
+        </TableRow>
+        <TableRow>
+        {
+          reviewKeys.map(item => (
+              <StyledCell>{processKey(item)}</StyledCell>
+            )
+          )
+        }
+        </TableRow>
+        {
+          reviewContributors.map(item => (
+              <TableRow>
+                {reviewKeys.map(subitem => (
+                  <StyledCell>{item[subitem]}</StyledCell>
+                ))}
               </TableRow>
             )
           )
@@ -286,37 +376,4 @@ export default function ProvenanceDomain({ items }) {
       </TableBody>
     </Table>
   );
-
-  /*
-  return (
-    <ul className={classes.listed}>
-      {
-        typeof(items) == 'object'
-          ?
-            Array.isArray(items) == true
-              ?
-                typeof(items[0]) == 'string'
-                  ?
-                    items.map(item => (
-                        <li className={classes.listed}>
-                          {item}
-                        </li>
-                      )
-                    )
-                  :
-                  <RecursiveJson items = {items[0]} />
-              :
-                itemsKeys.map(item => (
-                    <li className={classes.listed}>
-                        {processKey(item)}
-                        {<RecursiveJson items = {items[item]} />}
-                    </li>
-                  )
-                )
-          :
-            <li className={classes.listed}>{items}</li>
-      }
-    </ul>
-  );
-  */
 }

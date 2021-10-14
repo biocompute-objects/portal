@@ -180,9 +180,6 @@ export default function Views({ objectId }) {
                   <Tab icon={<InsertDriveFileIcon />} label="Raw" {...a11yProps(2)} />
                 </Tabs>
               </AppBar>
-              {/* <Typography>
-                Object ID: {objectId}
-              </Typography> */}
               <TabPanel value={componentView} index={0}>
                 <ColorCoded contents={objectInfo} />
               </TabPanel>
