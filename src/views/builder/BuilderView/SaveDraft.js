@@ -1,4 +1,5 @@
-// src/views/builder/BuilderView/Raw/index.js 
+// src/views/builder/BuilderView/SaveDraft.js 
+
 
 import React, { useContext, useEffect, useState } from 'react';
 import {
@@ -14,7 +15,7 @@ import TableRow from '@material-ui/core/TableRow';
 import TextField from '@material-ui/core/TextField';
 
 // Checking for field value existence
-import cF from '../../../../utils/cF';
+import cF from '../../../utils/cF';
 
 // JSON errors
 import Card from '@material-ui/core/Card';
@@ -26,9 +27,7 @@ import CardContent from '@material-ui/core/CardContent';
 import ReactHtmlParser from 'react-html-parser';
 
 // Fetch context.
-import { FetchContext } from '../../../../App';
-
-import ReactJson from 'react-json-view'
+import { FetchContext } from '../../../App';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -53,23 +52,15 @@ const StyledCell = withStyles({
 })(TableCell);
 
 // Pass an object and whether or not its keys are properties.
-export default function Raw({ }) {
-  
-  // As of 5/13/21, there is no relationship between the color-coded
-  // draft view and the raw draft view.
-  const [contents, setContents] = useState(JSON.parse(localStorage.getItem('bco')))
-  console.log('typeof(contents): ', typeof(contents), contents);
-  const classes = useStyles();
-  const [jsonErrors, setJsonErrors] = useState('');
-  // Fetch context.
-  const fc = useContext(FetchContext);
+export default function SaveDraft({ }) {
 
-  const { onAdd, onEdit, onDelete } = useState();
-  const handleChange = (event) => {
-    console.log('event.updated_src', JSON.stringify(event.updated_src));
-	localStorage.setItem('bco', JSON.stringify(event.updated_src));
-  };
-  
+  const contents = JSON.parse(localStorage.getItem('bco'))
+  console.log('typeof(contents): ', typeof(contents));
+  const classes = useStyles();
+
+  const rawContents = JSON.stringify(contents, null, 4);
+  const [jsonErrors, setJsonErrors] = useState('');
+
   return(
     <Table size="small">
       <TableHead className={classes.tabled}>
@@ -84,12 +75,15 @@ export default function Raw({ }) {
       <TableBody>
         <TableRow>
           <StyledCell>
-            < ReactJson 
-	          src={contents}
-			  onEdit={handleChange}
-              onDelete={handleChange}
-              onAdd={handleChange}
-			/>
+            <TextField
+              color="primary"
+              fullWidth
+              id="outlined-multiline-static"
+              multiline
+              rows={18}
+              value={rawContents} 
+              variant="outlined"
+            />
           </StyledCell>
         </TableRow>
         <TableRow>

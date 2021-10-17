@@ -359,18 +359,14 @@ export default function Sharing({ objectIdDerivatives }) {
       }
     });
     
-    fetch(objectIdDerivatives['hostname'] + '/api/objects/drafts/permissions/', {
+    fetch(objectIdDerivatives['hostname'] + '/api/objects/permissions/', {
         method: 'POST',
         headers: {
             'Authorization': 'Token ' + foundToken,
             'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-            POST_api_objects_drafts_permissions: [
-				{
-					'object_id': objectIdDerivatives['rawName']
-				}
-			]
+            'object_id': objectIdDerivatives['rawName']
         })
         }).then(res => res.json().then(data => ({
             data: data,
@@ -474,39 +470,39 @@ export default function Sharing({ objectIdDerivatives }) {
   }, []);
 
   // Change rows whenever the server/group information changes.
-  // useEffect(() => {
-  //
-  //   if(Object.keys(serverGroupInfo).length > 0) {
-  //
-  //       console.log('server...', serverGroupInfo)
-  //       console.log('rows...', rows)
-  //
-  //       // The rows are based on one group description
-  //       // per hostname.
-  //
-  //       var newRows = [];
-  //
-  //       Object.keys(serverGroupInfo).map(item => {
-  //
-  //           // Set all the info.
-  //           // TODO: find more concise way to do this.
-  //           const info = serverGroupInfo[item];
-  //
-  //           const hostname = item;
-  //           const human_readable_hostname = info.human_readable_hostname;
-  //
-  //           Object.keys(info['groups']).map(group => {
-  //               newRows.push({ hostname, human_readable_hostname, group });
-  //           });
-  //
-  //       });
-  //
-  //       // Set the rows.
-  //       setRows(newRows);
-  //
-  //   }
-  //
-  // }, [serverGroupInfo]);
+  useEffect(() => {
+    
+    if(Object.keys(serverGroupInfo).length > 0) {
+    
+        console.log('server...', serverGroupInfo)
+        console.log('rows...', rows)
+
+        // The rows are based on one group description
+        // per hostname.
+
+        var newRows = [];
+
+        Object.keys(serverGroupInfo).map(item => {
+            
+            // Set all the info.
+            // TODO: find more concise way to do this.
+            const info = serverGroupInfo[item];
+
+            const hostname = item;
+            const human_readable_hostname = info.human_readable_hostname;
+
+            Object.keys(info['groups']).map(group => {
+                newRows.push({ hostname, human_readable_hostname, group });
+            });
+            
+        });
+
+        // Set the rows.
+        setRows(newRows);
+
+    }
+
+  }, [serverGroupInfo]);
 
   useEffect(() => {
       

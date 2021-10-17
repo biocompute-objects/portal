@@ -104,7 +104,7 @@ export default function Views({ objectId }) {
 
     // NO token necessary since published objects
     // are freely requestable by the public.
-
+    console.log('Server return contents: ')
     fetch(objectId, {
       method: 'GET',
       headers: {
@@ -114,17 +114,12 @@ export default function Views({ objectId }) {
       data: data,
       status: res.status
     })).then(res => {
-      
+        console.log('Server return contents: ', res.data[0])
         // Did the request go ok or not?
         if(res.status === 200) {
 
-          console.log('Server return contents: ', JSON.parse(res.data))
-
-          // Parse the results.
-          const parsed = JSON.parse(res.data);
-
           // We found the object, so set the data.
-          setObjectInfo(JSON.parse(res.data)[0]['fields']['contents']);
+          setObjectInfo(res.data[0]);
           setObjectFound(true);
 
         } else {
