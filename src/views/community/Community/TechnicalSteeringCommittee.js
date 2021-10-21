@@ -33,7 +33,8 @@ const useStyles = makeStyles({
 
 export default function TechnicalSteeringCommittee() {
   const classes = useStyles();
-
+  const webex = 'https://gwu.webex.com/gwu/j.php?MTID=m4e0ce26141691120a2f55bc3a310c73e'
+  const googledoc = 'https://docs.google.com/document/d/1io5OBfsdEif_nWX-TmA22fz7gayHR1MsEwv2vI_QGBY/edit#heading=h.w71cozc8m7s1'
   return (
     <Card className={classes.linkCard} elevation={0}>
       <CardContent>
@@ -57,6 +58,7 @@ export default function TechnicalSteeringCommittee() {
             fullWidth
             size="large"
             type="submit"
+            onClick={() => window.open(googledoc)}
             variant="contained"
           >
             See this Google Doc
@@ -74,6 +76,7 @@ export default function TechnicalSteeringCommittee() {
             color="primary"
             size="large"
             type="submit"
+            onClick={() => window.open(webex)}
             variant="contained"
           >
             Join here
