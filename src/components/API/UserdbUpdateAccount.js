@@ -3,10 +3,10 @@
 /* submits form for new account on UserDb */
 
 import Alert from '@material-ui/lab/Alert';
-export default function UserdbUpdateAccount( values ) {
-let responseData = ''
-
-  console.log("recieved for userdb", values)
+export default function UserdbUpdateAccount(values) {
+  // let responseData = '';
+  console.log("recieved for userdb", values);
+  console.log("Values isPublic : Type", values.isPublic, typeof(values.isPublic));
 
   fetch(values.userurl, {
     method: 'POST',
@@ -34,7 +34,7 @@ let responseData = ''
     // Show the success message for a couple of seconds.
   })
   .catch((error) => {
-      alert("Something went wrong. Most likley that username already exists.", error);
+      Alert("Something went wrong. Most likley that username already exists.", error);
       console.log('error', error)
       return error;
   })
