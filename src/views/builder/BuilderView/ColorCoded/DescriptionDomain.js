@@ -1,3 +1,5 @@
+// src/views/builder/BuilderView/ColorCoded/DescriptionDomain.js 
+
 import React, { useEffect, useState } from 'react';
 import {
   makeStyles, withStyles, Typography
@@ -28,7 +30,7 @@ const useStyles = makeStyles((theme) => ({
     width: '100%'
   },
   header: {
-    color: 'white'
+    color: 'black'
   },
   missingHeader: {
     color: 'red'
@@ -47,7 +49,7 @@ const useStyles = makeStyles((theme) => ({
 // Cell styling
 const StyledCell = withStyles({
   root: {
-    color: 'white'
+    color: 'black'
   }
 })(TableCell);
 
@@ -73,9 +75,10 @@ export default function DescriptionDomain({ compCheck, checkBlank, items, cF }) 
   const [missingStepsNumber, setMissingStepsNumber] = useState(false);
   const [missingStepsName, setMissingStepsName] = useState(false);
   const [missingStepsDescription, setMissingStepsDescription] = useState(false);
-	const [missingStepsVersion, setMissingStepsVersion] = useState(false);
+  const [missingStepsVersion, setMissingStepsVersion] = useState(false);
   const [missingStepsInputUri, setMissingStepsInputUri] = useState(false);
   const [missingStepsOutputUri, setMissingStepsOutputUri] = useState(false);
+  const [missingStepsPrerequisite, setMissingStepsPrerequisite] = useState(false);
 
   useEffect(() => {
     console.log('dummy', items)
@@ -169,8 +172,7 @@ export default function DescriptionDomain({ compCheck, checkBlank, items, cF }) 
 
         // Each one of the Xrefs.
 				
-				// Note the double for loop because of
-				// the nested structure of the IDs.
+		// Note the double for loop because of the nested structure of the IDs.
         for(var i = 0; i < items.ddXref.length; i++) {
 
 					// Do we have any IDs?
@@ -362,9 +364,8 @@ export default function DescriptionDomain({ compCheck, checkBlank, items, cF }) 
 
         // We have an input list, but do we have URIs?
         for(var j = 0; j < items.ddPipelineSteps[i].input_list.length; j++) {
-          if(items.ddPipelineSteps[i].input_list[j]['uri']['uri'] === "") {
+          if(items.ddPipelineSteps[i].input_list[j]['uri'] === "") {
             // No URI.
-			console.log('ddPipelineSteps', items.ddPipelineSteps[i].input_list[j]['uri'])
             setMissingStepsInputUri(true);
 
             // Header
@@ -406,8 +407,7 @@ export default function DescriptionDomain({ compCheck, checkBlank, items, cF }) 
 
         // We have an output list, but do we have URIs?
         for(var j = 0; j < items.ddPipelineSteps[i].output_list.length; j++) {
-          console.log('dummy FML?!?!?', items.ddPipelineSteps[i].output_list[j]['uri'])
-          if(items.ddPipelineSteps[i].output_list[j]['uri']['uri'] === "") {
+          if(items.ddPipelineSteps[i].output_list[j]['uri'] === "") {
 
             // No URI.
             setMissingStepsOutputUri(true);
@@ -444,6 +444,21 @@ export default function DescriptionDomain({ compCheck, checkBlank, items, cF }) 
       setMissingDescriptionDomain(false);
 
     }
+
+    // Each prerequisite of each step.
+    for(var i = 0; i < items.ddPipelineSteps.length; i++) {
+
+      if(!items.ddPipelineSteps[i].prerequisite) {
+        
+        // No input list.
+        setMissingStepsPrerequisite(true);
+
+        break;
+    }  else {
+        setMissingStepsPrerequisite(false);
+     }
+  }
+
 
   }, [items]);
 
@@ -497,18 +512,14 @@ export default function DescriptionDomain({ compCheck, checkBlank, items, cF }) 
 		}
 
     // Special rule for URI.
-    if(inputName === 'uri') {
-      dummy[i][listtype][j][inputName]['uri'] = event.target.value;
-    } else {
-      dummy[i][listtype][j] = event.target.value;
-    }
-
+    dummy[i][listtype][j][inputName] = event.target.value;
+	console.log('dummy 516', dummy, event.target, dummy[i][listtype])
 		// Update the state.
-		if(listtype === 'ids') {
-			items.setDdXref(dummy);
-		} else {
-			items.setDdPipelineSteps(dummy);
-		}
+	if(listtype === 'ids') {
+		items.setDdXref(dummy);
+	} else {
+		items.setDdPipelineSteps(dummy);
+	}
 
     // Needed to re-render the page.
     items.setRerender(items.rerender+1);
@@ -552,18 +563,9 @@ export default function DescriptionDomain({ compCheck, checkBlank, items, cF }) 
         "step_number": stepNumber,
         "name": "",
         "description": "",
-			"input_list": [
-          		{
-            		"uri": {"uri": ""},
-          	  }
-        	],
-				"output_list": [
-          			{
-						"uri": {
-							"uri": ""
-						}
-          			}
-        		]
+			"prerequisite": [{"name": "","uri":{}}],
+			"input_list": [{}],
+			"output_list": [{}]
       });
 	  console.log('dummy', dummy)
 
@@ -635,13 +637,33 @@ export default function DescriptionDomain({ compCheck, checkBlank, items, cF }) 
 			// Update the state.
 			items.setDdXref(dummy);
 
+		} else if (listtype === 'prerequisite') {
+			dummy = items.ddPipelineSteps;
+			dummy[which]["prerequisite"] = {
+				"prerequisite": [
+					{
+						"name": "",
+						 "uri":{
+							"uri": "",
+							"filename": "",
+							"access_time": "",
+							"sha1_checksum": ""}
+					}
+				]
+			};
+			
+			// Push the new row.
+			// dummy[which].push(prereq);
+			console.log('dummy 657', dummy[which], dummy)	
+			// Update the state.
+			items.setDdPipelineSteps(dummy);
 		} else {
 
 			dummy = items.ddPipelineSteps;
 
 			// Push the new row.
 			dummy[which][listtype].push({
-				"uri": {"uri": ""},
+				"uri": "",
 				"filename": "",
 				"access_time": "",
 				"sha1_checksum": ""
@@ -689,29 +711,6 @@ export default function DescriptionDomain({ compCheck, checkBlank, items, cF }) 
     items.setRerender(items.rerender+1);
 
   }
-
-
-  // Arguments
-  // ---------
-  // items: JSON object (Description Domain)
-
-  
-  // ----- Meta Information ----- //
-
-  
-  // Keywords
-  
-  // Collapse the keywords to a string.
-  //const keywords = items.keywords.join(', ');
-
-
-  // ----- Processing ----- //
-  
-
-  // None.
-
-
-  // ----- Description ----- //
 
   return(
     <Table size="small">
@@ -776,19 +775,6 @@ export default function DescriptionDomain({ compCheck, checkBlank, items, cF }) 
         <TableCell>
         </TableCell>
       </TableRow>
-
-
-
-
-
-
-
-
-
-
-
-
-
       {
         cF(items.ddXref) !== ''
           ?
@@ -902,9 +888,9 @@ export default function DescriptionDomain({ compCheck, checkBlank, items, cF }) 
       {
         items.ddPipelineSteps.map((item, index) => (
             <>
-						<TableRow key={index}>
+      <TableRow key={index}>
               <TableCell className={classes.stepNumber} rowSpan="2">
-                <TextField InputProps={{ className: classes.root }} variant="outlined" value={index+1} />{compCheck}
+                <TextField InputProps={{ className: classes.root }} variant="outlined" value={index+1} />
               </TableCell>
               <StyledCell>
                 <TextField InputProps={{ className: classes.root }} error={cF(item.name) === "" ? true : false} fullWidth variant="outlined" value={cF(item.name)} onChange={(e) => setInput(e, index, 'name', 'ddPipelineSteps')} />
@@ -913,7 +899,7 @@ export default function DescriptionDomain({ compCheck, checkBlank, items, cF }) 
                 <TextField InputProps={{ className: classes.root }} error={cF(item.description) === "" ? true : false} fullWidth variant="outlined" multiline rows={4} value={cF(item.description)} onChange={(e) => setInput(e, index, 'description', 'ddPipelineSteps')} />
               </StyledCell>
               <StyledCell>
-								<TextField InputProps={{ className: classes.root }} fullWidth variant="outlined" value={cF(item.version)} onChange={(e) => setInput(e, index, 'version', 'ddPipelineSteps')} />
+                <TextField InputProps={{ className: classes.root }} fullWidth variant="outlined" value={cF(item.version)} onChange={(e) => setInput(e, index, 'version', 'ddPipelineSteps')} />
               </StyledCell>
               <StyledCell>
                 <Button variant="contained" color="primary" disableElevation fullWidth onClick={() => removeRows('ddPipelineSteps', index)}>
@@ -921,7 +907,7 @@ export default function DescriptionDomain({ compCheck, checkBlank, items, cF }) 
                 </Button>
               </StyledCell>
             </TableRow>
-						<TableRow key={index}>
+			<TableRow key={index}>
               <StyledCell>
                 <Accordion>
                   <AccordionSummary
@@ -934,51 +920,114 @@ export default function DescriptionDomain({ compCheck, checkBlank, items, cF }) 
                   </Typography>
                   </AccordionSummary>
                   <AccordionDetails>
-                    <List className={classes.fullWidthList}>
-                      {
-                        item.output_list.map((subitem, subindex) => (
-							<>{console.log('subitem.uri.uri',items.ddPipelineSteps)}
-                            <ListItem>
-							{/*<TextField InputProps={{ className: classes.root }} label={'Name'} fullWidth variant="outlined" value={cF(subitem.uri.filename)} onChange={(e) => setListInput(e, index, 'output_list', subindex, 'filename')} />{console.log('subitem',subitem)}*/}
-                            </ListItem>
-                            <ListItem>
-                              {/*<TextField InputProps={{ className: classes.root }} label={'Filename'} fullWidth variant="outlined" value={cF(subitem.filename)} onChange={(e) => setListInput(e, index, 'output_list', subindex, 'filename')} />*/}
-                            </ListItem>
-                            <ListItem>
-                              <TextField InputProps={{ className: classes.root }} error={cF(subitem.uri.uri) === "" ? true : false} label={'URI'} fullWidth variant="outlined" value={cF(subitem.uri.uri)} onChange={(e) => setListInput(e, index, 'output_list', subindex, 'uri')} />
-                            </ListItem>
-                            <ListItem>
-                              {/*<TextField InputProps={{ className: classes.root }} label={'Access Time'} fullWidth variant="outlined" value={cF(subitem.access_time)} onChange={(e) => setListInput(e, index, 'output_list', subindex, 'access_time')} />*/}
-                            </ListItem>
-                            <ListItem>
-                              {/*<TextField InputProps={{ className: classes.root }} label={'SHA1 Checksum'} fullWidth variant="outlined" value={cF(subitem.sha1_checksum)} onChange={(e) => setListInput(e, index, 'output_list', subindex, 'sha1_checksum')} />*/}
-                            </ListItem>
-                            {
-                              subindex !== item.output_list.length-1
-                                ?
-                                  <ListItem>
-                                    <Button variant="contained" color="primary" disableElevation fullWidth onClick={() => removeListRows(index, subindex, 'output_list')}>
-                                      Remove
-                                    </Button>
-                                  </ListItem>
-                                :
-                                  <ListItem divider>
-                                    <Button variant="contained" color="primary" disableElevation fullWidth onClick={() => removeListRows(index, subindex, 'output_list')}>
-                                      Remove
-                                    </Button>
-                                  </ListItem>
-                            }
-                          </>
-                          )
+					{
+						missingStepsPrerequisite
+						? (
+				                  <List className={classes.fullWidthList}>
+				                    <ListItem>
+				                      <Button variant="contained" color="primary" disableElevation fullWidth onClick={() => addListRows(index, 'prerequisite')}>
+				                        Add Prerequisite
+				                      </Button>
+				                    </ListItem>
+				                  </List>
+			            )
+						:
+							<List className={classes.fullWidthList}>
+							{console.log('dummy 936',item)}
+							{/*
+								item.prerequisite.map((subitem, subindex) => (
+									<>{console.log('subitem.uri.uri',items.ddPipelineSteps)}
+			                          <ListItem>
+									<TextField InputProps={{ className: classes.root }} label={'Name'} fullWidth variant="outlined" value={cF(subitem.uri.filename)} onChange={(e) => setListInput(e, index, 'prerequisite', subindex, 'filename')} />{console.log('subitem',subitem)}
+			                          </ListItem>
+			                          <ListItem>
+			                            <TextField InputProps={{ className: classes.root }} label={'Filename'} fullWidth variant="outlined" value={cF(subitem.filename)} onChange={(e) => setListInput(e, index, 'prerequisite', subindex, 'filename')} />
+			                          </ListItem>
+			                          <ListItem>
+			                            <TextField InputProps={{ className: classes.root }} error={cF(subitem.uri.uri) === "" ? true : false} label={'URI'} fullWidth variant="outlined" value={cF(subitem.uri.uri)} onChange={(e) => setListInput(e, index, 'prerequisite', subindex, 'uri')} />
+			                          </ListItem>
+			                          <ListItem>
+			                            <TextField InputProps={{ className: classes.root }} label={'Access Time'} fullWidth variant="outlined" value={cF(subitem.access_time)} onChange={(e) => setListInput(e, index, 'prerequisite', subindex, 'access_time')} />
+			                          </ListItem>
+			                          <ListItem>
+			                            <TextField InputProps={{ className: classes.root }} label={'SHA1 Checksum'} fullWidth variant="outlined" value={cF(subitem.sha1_checksum)} onChange={(e) => setListInput(e, index, 'prerequisite', subindex, 'sha1_checksum')} />
+			                          </ListItem>
+			                          {
+			                            subindex !== item.prerequisite.length-1
+			                              ?
+			                                <ListItem>
+			                                  <Button variant="contained" color="primary" disableElevation fullWidth onClick={() => removeListRows(index, subindex, 'prerequisite')}>
+			                                    Remove
+			                                  </Button>
+			                                </ListItem>
+			                              :
+			                                <ListItem divider>
+			                                  <Button variant="contained" color="primary" disableElevation fullWidth onClick={() => removeListRows(index, subindex, 'prerequisite')}>
+			                                    Remove
+			                                  </Button>
+			                                </ListItem>
+			                          }
+			                        </>
+			                        )
+			                      )
+			                */}
+		                    <ListItem>
+		                      <Button variant="contained" color="primary" disableElevation fullWidth onClick={() => addListRows(index, 'prerequisite')}>
+		                        Add Prerequisite again
+		                      </Button>
+		                    </ListItem>
+							</List>
+					}
+				  </AccordionDetails>
+
+                {/*<AccordionDetails>
+                  <List className={classes.fullWidthList}>
+                    {
+					item.prerequisite.map((subitem, subindex) => (
+						<>{console.log('subitem.uri.uri',items.ddPipelineSteps)}
+                          <ListItem>
+						<TextField InputProps={{ className: classes.root }} label={'Name'} fullWidth variant="outlined" value={cF(subitem.uri.filename)} onChange={(e) => setListInput(e, index, 'prerequisite', subindex, 'filename')} />{console.log('subitem',subitem)}
+                          </ListItem>
+                          <ListItem>
+                            <TextField InputProps={{ className: classes.root }} label={'Filename'} fullWidth variant="outlined" value={cF(subitem.filename)} onChange={(e) => setListInput(e, index, 'prerequisite', subindex, 'filename')} />
+                          </ListItem>
+                          <ListItem>
+                            <TextField InputProps={{ className: classes.root }} error={cF(subitem.uri.uri) === "" ? true : false} label={'URI'} fullWidth variant="outlined" value={cF(subitem.uri.uri)} onChange={(e) => setListInput(e, index, 'prerequisite', subindex, 'uri')} />
+                          </ListItem>
+                          <ListItem>
+                            <TextField InputProps={{ className: classes.root }} label={'Access Time'} fullWidth variant="outlined" value={cF(subitem.access_time)} onChange={(e) => setListInput(e, index, 'prerequisite', subindex, 'access_time')} />
+                          </ListItem>
+                          <ListItem>
+                            <TextField InputProps={{ className: classes.root }} label={'SHA1 Checksum'} fullWidth variant="outlined" value={cF(subitem.sha1_checksum)} onChange={(e) => setListInput(e, index, 'prerequisite', subindex, 'sha1_checksum')} />
+                          </ListItem>
+                          {
+                            subindex !== item.prerequisite.length-1
+                              ?
+                                <ListItem>
+                                  <Button variant="contained" color="primary" disableElevation fullWidth onClick={() => removeListRows(index, subindex, 'prerequisite')}>
+                                    Remove
+                                  </Button>
+                                </ListItem>
+                              :
+                                <ListItem divider>
+                                  <Button variant="contained" color="primary" disableElevation fullWidth onClick={() => removeListRows(index, subindex, 'prerequisite')}>
+                                    Remove
+                                  </Button>
+                                </ListItem>
+                          }
+                        </>
                         )
-                      }
-                      <ListItem>
-                        <Button variant="contained" color="primary" disableElevation fullWidth onClick={() => addListRows(index, 'output_list')}>
-                          Add Prerequisite
-                        </Button>
-                      </ListItem>
-                    </List>
-                  </AccordionDetails>
+                      )
+                    }
+                    <ListItem>
+                      <Button variant="contained" color="primary" disableElevation fullWidth onClick={() => addListRows(index, 'prerequisite')}>
+                        Add Prerequisite
+                      </Button>
+                    </ListItem>
+                  </List>
+                </AccordionDetails>*/}
+
+					
                 </Accordion>
               </StyledCell>
               <StyledCell>
@@ -998,16 +1047,16 @@ export default function DescriptionDomain({ compCheck, checkBlank, items, cF }) 
                         item.input_list.map((subitem, subindex) => (
                           <>
                             <ListItem>
-                              {/*<TextField InputProps={{ className: classes.root }} label={'Filename'} fullWidth variant="outlined" value={cF(subitem.filename)} onChange={(e) => setListInput(e, index, 'input_list', subindex, 'filename')} />*/}
+                              <TextField InputProps={{ className: classes.root }} label={'Filename'} fullWidth variant="outlined" value={cF(subitem.filename)} onChange={(e) => setListInput(e, index, 'input_list', subindex, 'filename')} />
                             </ListItem>
                             <ListItem>
-                              <TextField InputProps={{ className: classes.root }} error={cF(subitem.uri.uri) === "" ? true : false} label={'URI'} fullWidth variant="outlined" value={cF(subitem.uri.uri)} onChange={(e) => setListInput(e, index, 'input_list', subindex, 'uri')} />
+                              <TextField InputProps={{ className: classes.root }} error={cF(subitem.uri) === "" ? true : false} label={'URI'} fullWidth variant="outlined" value={cF(subitem.uri)} onChange={(e) => setListInput(e, index, 'input_list', subindex, 'uri')} />
                             </ListItem>
                             <ListItem>
-                              {/*<TextField InputProps={{ className: classes.root }} label={'Access Time'} fullWidth variant="outlined" value={cF(subitem.access_time)} onChange={(e) => setListInput(e, index, 'input_list', subindex, 'access_time')} />*/}
+                              <TextField InputProps={{ className: classes.root }} label={'Access Time'} fullWidth variant="outlined" value={cF(subitem.access_time)} onChange={(e) => setListInput(e, index, 'input_list', subindex, 'access_time')} />
                             </ListItem>
                             <ListItem>
-						  {/*<TextField InputProps={{ className: classes.root }} label={'SHA1 Checksum'} fullWidth variant="outlined" value={cF(subitem.sha1_checksum)} onChange={(e) => setListInput(e, index, 'input_list', subindex, 'sha1_checksum')} />*/}
+                              <TextField InputProps={{ className: classes.root }} label={'SHA1 Checksum'} fullWidth variant="outlined" value={cF(subitem.sha1_checksum)} onChange={(e) => setListInput(e, index, 'input_list', subindex, 'sha1_checksum')} />
                             </ListItem>
                             {
                               subindex !== item.input_list.length-1
@@ -1054,16 +1103,16 @@ export default function DescriptionDomain({ compCheck, checkBlank, items, cF }) 
                         item.output_list.map((subitem, subindex) => (
                           <>
                             <ListItem>
-                              {/*<TextField InputProps={{ className: classes.root }} label={'Filename'} fullWidth variant="outlined" value={cF(subitem.filename)} onChange={(e) => setListInput(e, index, 'output_list', subindex, 'filename')} />*/}
+                              <TextField InputProps={{ className: classes.root }} label={'Filename'} fullWidth variant="outlined" value={cF(subitem.filename)} onChange={(e) => setListInput(e, index, 'output_list', subindex, 'filename')} />
                             </ListItem>
                             <ListItem>
-                              <TextField InputProps={{ className: classes.root }} error={cF(subitem.uri.uri) === "" ? true : false} label={'URI'} fullWidth variant="outlined" value={cF(subitem.uri.uri)} onChange={(e) => setListInput(e, index, 'output_list', subindex, 'uri')} />
+                              <TextField InputProps={{ className: classes.root }} error={cF(subitem.uri) === "" ? true : false} label={'URI'} fullWidth variant="outlined" value={cF(subitem.uri)} onChange={(e) => setListInput(e, index, 'output_list', subindex, 'uri')} />
                             </ListItem>
                             <ListItem>
-                              {/*<TextField InputProps={{ className: classes.root }} label={'Access Time'} fullWidth variant="outlined" value={cF(subitem.access_time)} onChange={(e) => setListInput(e, index, 'output_list', subindex, 'access_time')} />*/}
+                              <TextField InputProps={{ className: classes.root }} label={'Access Time'} fullWidth variant="outlined" value={cF(subitem.access_time)} onChange={(e) => setListInput(e, index, 'output_list', subindex, 'access_time')} />
                             </ListItem>
                             <ListItem>
-                              {/*<TextField InputProps={{ className: classes.root }} label={'SHA1 Checksum'} fullWidth variant="outlined" value={cF(subitem.sha1_checksum)} onChange={(e) => setListInput(e, index, 'output_list', subindex, 'sha1_checksum')} />*/}
+                              <TextField InputProps={{ className: classes.root }} label={'SHA1 Checksum'} fullWidth variant="outlined" value={cF(subitem.sha1_checksum)} onChange={(e) => setListInput(e, index, 'output_list', subindex, 'sha1_checksum')} />
                             </ListItem>
                             {
                               subindex !== item.output_list.length-1

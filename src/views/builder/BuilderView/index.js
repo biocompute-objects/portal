@@ -431,8 +431,42 @@ export default function BuilderView() {
       // NEW draft
       
       // Set the object contents to template values.
-      setObjectContents({"object_id": "","spec_version":"IEEE","etag":"","provenance_domain":{"name":"","version":"","created":"","modified":"","contributors":[{"contribution":["createdBy"],"name":""}],"license":""},"usability_domain":[""],"description_domain":{"keywords":[""],"pipeline_steps":[{"step_number":0,"name":"","description":"","input_list":[{"uri":{"uri":""}}],"output_list":[{"uri":{"uri":""}}]}]},"execution_domain":{"script":[{"uri":{"uri":""}}],"script_driver":"","software_prerequisites":[{"name":"","version":"","uri":{"uri":""}}],"external_data_endpoints":[{"name":"","url":""}],"environment_variables":{}},"io_domain":{"input_subdomain":[{"uri":{"uri":""}}],"output_subdomain":[{"mediatype":"","uri":{"uri":""}}]},"parametric_domain":[{"param":"","value":"","step":""}]});
-      
+      setObjectContents(
+		{
+			"object_id": "",
+			"spec_version":"IEEE",
+			"etag":"",
+			"provenance_domain":{
+				"name":"",
+				"version":"",
+				"created":"",
+				"modified":"",
+				"contributors":[{"contribution":["createdBy"],"name":""}],
+				"license":""
+			},
+			"usability_domain":[""],
+			"description_domain":{
+				"keywords":[""],
+				"pipeline_steps":[{
+					"step_number":0,
+					"name":"",
+					"description":"",
+					"input_list":[{"uri":{"uri":""}}],
+					"output_list":[{"uri":{"uri":""}}]
+				}
+			]},
+			"execution_domain":{
+				"script":[{"uri":{"uri":""}}],
+				"script_driver":"",
+				"software_prerequisites":[{"name":"","version":"","uri":{"uri":""}}],
+				"external_data_endpoints":[{"name":"","url":""}],
+				"environment_variables":{}
+			},
+			"io_domain":{"input_subdomain":[{"uri":{"uri":""}}],
+			"output_subdomain":[{"mediatype":"","uri":{"uri":""}}]},
+			"parametric_domain":[{"param":"","value":"","step":""}]
+		}
+	);
       // No longer loading.
       setToolsLoading(false);
       setLoading(false);
