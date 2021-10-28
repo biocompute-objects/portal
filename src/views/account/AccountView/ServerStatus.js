@@ -36,6 +36,12 @@ export default function ServerStatus({ serverStatus }) {
           <Alert className={serverStatus === 'already_added' ? classes.showing : classes.hidden} variant="filled" severity="error">
             This server has already been added to your account.  Click 'Set Credentials' if you wish to update your credentials on the server.
           </Alert>
+          <Alert className={serverStatus === 'information_fetched' ? classes.showing : classes.hidden} variant="filled" severity="success">
+            Server information has been successfully fetched.  Click add server to add this to your profile.
+          </Alert>
+          <Alert className={serverStatus === 'failure_connect' ? classes.showing : classes.hidden} variant="filled" severity="error">
+            Failure to connect to the given server!
+          </Alert>
         </div>
       :
       null

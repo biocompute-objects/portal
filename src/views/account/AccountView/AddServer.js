@@ -117,7 +117,11 @@ export default function FormDialog(props) {
   // Ask for a new account.
   const newApiAccount = () => {
     // Ask the server for a new account.
-    fetch(fc.sending.userdb_addapi, {
+    // TODO: This seems to be using a hard coded database instead of the database that the
+    //      target server might be using.  Doesn't look like the target host is being queried
+    //      I think fc.sending.userdb_addapi should be swapped with hostname + /users/add_api ?
+    // fetch(fc.sending.userdb_addapi, {
+    fetch(`${hostname}/users/add_api`, { // This causes a 405 error in the API Server
       method: 'POST',
       body: JSON.stringify({
         token: token,
@@ -127,10 +131,18 @@ export default function FormDialog(props) {
         "Authorization": `TOKEN ${localStorage.getItem('token')}`,
         "Content-type": "application/json; charset=UTF-8"
       }
-      }).then(response => response.json()).then(data => {
-        
-        // See if this server has already been added.
-        var serverAdded = false;
+    // }).then((response) => response.json(), (response) => response.status).then((data, status) => {
+    }).then((response) => {
+      if (!response.ok) {
+        // There was an error with the authentication.  Seems like the server requires
+        // there to be some level of authentication for whatever reason
+        throw new Error('failure');
+      }
+      return response.json();
+    }).then((data) => {
+      // Check to see if the server rejected the request
+      // See if this server has already been added.
+      let serverAdded = false;
 
         // TODO: a bit expensive, use a for loop/break paradigm instead.
         JSON.parse(localStorage.getItem('user'))['apiinfo'].map(record => {
@@ -155,25 +167,20 @@ export default function FormDialog(props) {
             // Update the message.
             setRequestStatus('success');
 
-            // Save the server information.
-            setServerInfo(data);
-
-          } else {
-
-            // There was an issue, so alert the user.
-            setRequestStatus('failure');
-
-          }
-
+          // Save the server information.
+          setServerInfo(data);
         } else {
-
-          // Indicate the error.
-          setRequestStatus('already_added');
-    
+          // There was an issue, so alert the user.
+          setRequestStatus('failure');
         }
-
-      })
-  }
+      } else {
+        // Indicate the error.
+        setRequestStatus('already_added');
+      }
+    }).catch((error) => {
+      setRequestStatus(error.message);
+    });
+  };
 
   // Add the server info to UserDB.
   const addServerInfoToUserDb = () => {
