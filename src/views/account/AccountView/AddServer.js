@@ -51,7 +51,13 @@ export default function FormDialog(props) {
   const handleClose = () => {
 
     setShowing(false);
+    // Clean out any server info that might have been fetched
+    setServerInfo('');
 
+    // Clean the Public Hostname, Token, and e-Mail
+    setHostname('');
+    setEmail('');
+    setToken('');
     // TODO: move later to be more "graceful" on close...
     setRequestStatus('');
     // props.newServer('asdfas');
@@ -195,12 +201,13 @@ export default function FormDialog(props) {
         // The server was added, so update the state.
         setServerAdded(true);
 
-          // UX thing, give a little time before closing the dialog.
-          setTimeout(handleClose, 2500);
-        
-        } else {
-          
-          // Display whatever the server said.
+        // UX thing, give a little time before closing the dialog.
+        setTimeout(handleClose, 1500);
+        setServerInfo('');
+      } else {
+
+        // Display whatever the server said.
+        console.log('Failed to add the server because: ', result.data.detail);
 
       }
     }));
