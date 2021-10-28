@@ -158,6 +158,35 @@ export default function ProvenanceDomain({ items }) {
   tempArray.unshift('name', 'contribution');
   contributorKeys = tempArray;
 
+  console.log('review', items.review)
+
+  var review = items.review;
+  
+  var reviewItems = [];
+  
+  items.review.map(item => {
+    var reviews = [];
+    console.log('review 169', item);
+    var reviewObject = ({
+		'status': '',
+		'reviewer_comment': '',
+		'date': '',
+		'name': '',
+		'affiliation': '',
+		'email': '',
+		'contribution': [],
+		'orcid': ''
+    });
+    console.log('review 169', item)
+    contributorKeys.map(contitem => {
+      if(contitem in item.reviewer) {
+        console.log('review 173', contitem);
+		reviewObject[contitem] = item.reviewer[contitem]
+      };
+      console.log('review 175', reviewObject );
+    })
+  })
+
   // An array to hold all the contributors.
   var provenanceContributors = [];
 
@@ -241,6 +270,13 @@ export default function ProvenanceDomain({ items }) {
           )
         }
         <TableRow>
+          <StyledCell colSpan="5">
+            <Typography variant="h4">
+              Contributors
+            </Typography>
+          </StyledCell>
+        </TableRow>
+        <TableRow>
         {
           contributorKeys.map(item => (
               <StyledCell>{processKey(item)}</StyledCell>
@@ -250,73 +286,47 @@ export default function ProvenanceDomain({ items }) {
         </TableRow>
         {
           provenanceContributors.map(item => (
-              <TableRow>
-                {
-                  contributorKeys.map(subitem => (
-                      subitem === 'email'
-                        ?
-                          <StyledCell>
-                            {
-                              <HtmlTooltip
-                                interactive
-                                title={
-                                  <React.Fragment>
-                                    <Typography align="center">Profile</Typography>
-                                    <Typography align="center"><img src="/static/Hadley.png" /></Typography>
-                                    <Typography>Hadley King</Typography>
-                                    <Typography>Research Associate</Typography>
-                                    <Typography>Funny guy</Typography>
-                                    <Typography>{item[subitem]}</Typography>
-                                  </React.Fragment>
-                                }
-                              >
-                                <Typography>{item[subitem]}</Typography>
-                              </HtmlTooltip>
-                            }
-                          </StyledCell>
-                        :
-                          <StyledCell>{item[subitem]}</StyledCell>
-                    )
-                  )
-                }
-              </TableRow>
+          <TableRow>
+            {
+              contributorKeys.map(subitem => (
+                <StyledCell>{item[subitem]}</StyledCell>
+                )
+              )
+            }
+          </TableRow>
             )
           )
         }
+       <TableRow>
+          <StyledCell colSpan="5">
+            <Typography variant="h3">
+              Review
+            </Typography>
+          </StyledCell>
+       </TableRow>
+        <TableRow>
+          {
+            contributorKeys.map(item => (
+                <StyledCell>{processKey(item)}</StyledCell>
+              )
+            )
+          }
+        </TableRow>
+          {
+            review.map(item => (
+	          <TableRow>{console.log('review 285', item.reviewer)}
+	            {
+	              contributorKeys.map(subitem => (
+	                <StyledCell>{item[subitem]}</StyledCell>
+	                )
+	              )
+	            }
+	          </TableRow>
+              )
+            )
+          }
       </TableBody>
     </Table>
   );
 
-  /*
-  return (
-    <ul className={classes.listed}>
-      {
-        typeof(items) == 'object'
-          ?
-            Array.isArray(items) == true
-              ?
-                typeof(items[0]) == 'string'
-                  ?
-                    items.map(item => (
-                        <li className={classes.listed}>
-                          {item}
-                        </li>
-                      )
-                    )
-                  :
-                  <RecursiveJson items = {items[0]} />
-              :
-                itemsKeys.map(item => (
-                    <li className={classes.listed}>
-                        {processKey(item)}
-                        {<RecursiveJson items = {items[item]} />}
-                    </li>
-                  )
-                )
-          :
-            <li className={classes.listed}>{items}</li>
-      }
-    </ul>
-  );
-  */
 }
