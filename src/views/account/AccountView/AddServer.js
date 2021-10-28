@@ -65,7 +65,6 @@ export default function FormDialog(props) {
 
   // Check if the server and the given key are valid.
   const checkApi = () => {
-
     // See if this server has already been added.
     let serverAdded = false;
 
@@ -91,14 +90,13 @@ export default function FormDialog(props) {
         // Was the request a success or not?
         if (data.public_hostname !== 'undefined') {
           // Update the message.
-          setRequestStatus('success');
+          setRequestStatus('information_fetched');
 
           // Save the server information.
           setServerInfo(data);
         } else {
           // There was an issue, so alert the user.
-          setRequestStatus('failure');
-
+          setRequestStatus('failure_to_connect');
         }
       });
     } else {
@@ -321,17 +319,3 @@ export default function FormDialog(props) {
     </div>
   );
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
