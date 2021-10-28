@@ -38,7 +38,7 @@ export default function FormDialog(props) {
 
   // Use the parent context.
   // Source: https://stackoverflow.com/questions/58936042/pass-context-between-siblings-using-context-in-react
-  const { showing, setShowing } = useContext(ParentContext);
+  const { showing, setShowing, setServerAdded } = useContext(ParentContext);
 
   // State variables to hold the server information.
   const [hostname, setHostname] = useState('');
@@ -192,8 +192,8 @@ export default function FormDialog(props) {
           // Update the local storage with the new information.
           localStorage.setItem('user', JSON.stringify(res.data));
 
-          // The server was added, so update the state.
-          // setServerAdded(true);
+        // The server was added, so update the state.
+        setServerAdded(true);
 
           // UX thing, give a little time before closing the dialog.
           setTimeout(handleClose, 2500);
