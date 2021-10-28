@@ -35,7 +35,7 @@ export default function FormDialog(props) {
   // Fetch context.
   const fc = useContext(FetchContext);
   const classes = useStyles();
-  
+
   // Use the parent context.
   // Source: https://stackoverflow.com/questions/58936042/pass-context-between-siblings-using-context-in-react
   const { showing, setShowing } = useContext(ParentContext);
@@ -47,72 +47,59 @@ export default function FormDialog(props) {
   const [requestStatus, setRequestStatus] = useState('');
   const [serverInfo, setServerInfo] = useState({});
 
-  // TODO: improve error checking.  
+  // TODO: improve error checking.
   const handleClose = () => {
 
     setShowing(false);
 
     // TODO: move later to be more "graceful" on close...
     setRequestStatus('');
-    //props.newServer('asdfas');
-
+    // props.newServer('asdfas');
   };
 
   // Check if the server and the given key are valid.
   const checkApi = () => {
 
     // See if this server has already been added.
-    var serverAdded = false;
+    let serverAdded = false;
 
     // TODO: a bit expensive, use a for loop/break paradigm instead.
-    JSON.parse(localStorage.getItem('user'))['apiinfo'].map(record => {
-
+    JSON.parse(localStorage.getItem('user')).apiinfo.map((record) => {
       // Already added?
-      if(record['public_hostname'] === hostname) {
+      if (record.public_hostname === hostname) {
         serverAdded = true;
       }
-
-    })
+    });
 
     // Was the hostname already added?
-    if(serverAdded === false) {
-
+    if (serverAdded === false) {
       // Fetch to the server with the given token, if available.
-      fetch(hostname + '/api/public/describe/', {
+      fetch(`${hostname}/api/public/describe/`, {
         method: 'GET',
         headers: {
-          "Content-type": "application/json; charset=UTF-8"
+          'Content-type': 'application/json; charset=UTF-8'
         }
-        }).then(response => response.json()).then(data => {
-        
+      }).then((response) => response.json()).then((data) => {
         // Instead of using status directly, we'll check for a necessary key.
 
         // Was the request a success or not?
-        if(data['public_hostname'] !== 'undefined') {
-
+        if (data.public_hostname !== 'undefined') {
           // Update the message.
           setRequestStatus('success');
 
           // Save the server information.
           setServerInfo(data);
-
         } else {
-
           // There was an issue, so alert the user.
           setRequestStatus('failure');
 
         }
-
-      })
-
+      });
     } else {
-
       // Indicate the error.
       setRequestStatus('already_added');
-
     }
-
-  }
+  };
 
   // Ask for a new account.
   const newApiAccount = () => {
@@ -124,12 +111,12 @@ export default function FormDialog(props) {
     fetch(`${hostname}/users/add_api`, { // This causes a 405 error in the API Server
       method: 'POST',
       body: JSON.stringify({
-        token: token,
-        email: email
+        token,
+        email
       }),
       headers: {
-        "Authorization": `TOKEN ${localStorage.getItem('token')}`,
-        "Content-type": "application/json; charset=UTF-8"
+        Authorization: `TOKEN ${localStorage.getItem('token')}`,
+        'Content-type': 'application/json; charset=UTF-8'
       }
     // }).then((response) => response.json(), (response) => response.status).then((data, status) => {
     }).then((response) => {
@@ -144,28 +131,24 @@ export default function FormDialog(props) {
       // See if this server has already been added.
       let serverAdded = false;
 
-        // TODO: a bit expensive, use a for loop/break paradigm instead.
-        JSON.parse(localStorage.getItem('user'))['apiinfo'].map(record => {
+      // TODO: a bit expensive, use a for loop/break paradigm instead.
+      JSON.parse(localStorage.getItem('user')).apiinfo.map((record) => {
+        // Already added?
 
-          // Already added?
-          
-          // Slight tweak here as the URL on the host isn't just the
-          if(record['hostname'] === data['hostname']) {
-            serverAdded = true;
-          }
+        // Slight tweak here as the URL on the host isn't just the
+        if (record.hostname === data.hostname) {
+          serverAdded = true;
+        }
+      });
 
-        })
+      // Was the hostname already added?
+      if (serverAdded === false) {
+        // Instead of using status directly, we'll check for a necessary key.
 
-        // Was the hostname already added?
-        if(serverAdded === false) {
-
-          // Instead of using status directly, we'll check for a necessary key.
-
-          // Was the request a success or not?
-          if(data['hostname'] !== 'undefined') {
-
-            // Update the message.
-            setRequestStatus('success');
+        // Was the request a success or not?
+        if (data.hostname !== 'undefined') {
+          // Update the message.
+          setRequestStatus('success');
 
           // Save the server information.
           setServerInfo(data);
@@ -184,11 +167,11 @@ export default function FormDialog(props) {
 
   // Add the server info to UserDB.
   const addServerInfoToUserDb = () => {
-    console.log("hadley", localStorage.getItem('token'))
+    console.log('Token: ', localStorage.getItem('token'));
     // Pull the server info straight off the state variable,
     // then add to UserDB.
-    var updatedUser = JSON.parse(localStorage.getItem('user'));
-    updatedUser['apiinfo'].push(serverInfo);
+    const updatedUser = JSON.parse(localStorage.getItem('user'));
+    updatedUser.apiinfo.push(serverInfo);
 
     // Add the server information to the user's information via userdb call.
     fetch( fc.sending.userdb_addapi, {
@@ -219,11 +202,9 @@ export default function FormDialog(props) {
           
           // Display whatever the server said.
 
-        }
-
-    }))
-
-  }
+      }
+    }));
+  };
 
   // Set state variables.
   const setInput = (event, which) => {
@@ -252,25 +233,25 @@ export default function FormDialog(props) {
     <div>
       <Dialog open={showing} onClose={handleClose} aria-labelledby="form-dialog-title">
         <DialogTitle id="form-dialog-title">
-          <Typography variant = 'h1'>
+          <Typography variant="h1">
             Add a new BCO server
           </Typography>
         </DialogTitle>
         <DialogContent>
           <DialogContentText>
-            <Typography variant = 'h3'>
+            <Typography variant="h3">
               Enter the hostname below and click "Request Server Information" to confirm that you are adding the correct server.
             </Typography>
             <Typography>
               <br />
             </Typography>
-            <Typography variant = 'h3'>
+            <Typography variant="h3">
               The returned server information is based on the token you provide.  If you've previously received a token from this server, provide it below when requesting the server information.  Otherwise, if you leave the token field blank, the server will automatically use a public token when requesting the server information.
             </Typography>
             <Typography>
               <br />
             </Typography>
-            <Typography variant = 'h3'>
+            <Typography variant="h3">
               To request a new, non-public token for the host, enter a hostname and an e-Mail and click on "Request New Token".
             </Typography>
           </DialogContentText>
@@ -299,7 +280,7 @@ export default function FormDialog(props) {
             onChange={(e) => setInput(e, 'email')}
           />
           <ServerStatus serverStatus={requestStatus} />
-          <div className = {classes.centered}>
+          <div className={classes.centered}>
             <Button
               color="primary"
               onClick={checkApi}
@@ -317,17 +298,15 @@ export default function FormDialog(props) {
           </div>
           {
             Object.keys(serverInfo).length > 0
-              ?
-                <ServerSummary raw = { serverInfo } />
-              :
-                null
+              ? <ServerSummary raw={serverInfo} />
+              : null
           }
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose} color="primary">
             Cancel
           </Button>
-          <Button disabled = { Object.keys(serverInfo).length > 0 ? false : true } onClick={addServerInfoToUserDb} color="primary">
+          <Button disabled={!(Object.keys(serverInfo).length > 0)} onClick={addServerInfoToUserDb} color="primary">
             Add Server
           </Button>
         </DialogActions>

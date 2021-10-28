@@ -20,12 +20,11 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function ServerStatus({ serverStatus }) {
-  
   const classes = useStyles();
 
   return (
     serverStatus !== ''
-      ?
+      ? (
         <div className={classes.root}>
           <Alert className={serverStatus === 'failure' ? classes.showing : classes.hidden} variant="filled" severity="error">
             The server was unable to verify your credentials.
@@ -43,7 +42,7 @@ export default function ServerStatus({ serverStatus }) {
             Failure to connect to the given server!
           </Alert>
         </div>
-      :
-      null
+      )
+      : null
   );
 }
