@@ -178,23 +178,21 @@ export default function FormDialog(props) {
     updatedUser.apiinfo.push(serverInfo);
 
     // Add the server information to the user's information via userdb call.
-    fetch( fc.sending.userdb_addapi, {
-    method: 'POST',
-    body: JSON.stringify(updatedUser['apiinfo'][updatedUser['apiinfo'].length - 1]),
-    headers: {
-        "Authorization": `JWT ${localStorage.getItem('token')}`,
-        "Content-type": "application/json; charset=UTF-8"
-    }
-    }).then(res => res.json().then(data => ({
-        data: data,
-        status: res.status
-    })).then(res => {
-        
-        // Did the request go ok or not?
-        if(res.status === 201) {
-
-          // Update the local storage with the new information.
-          localStorage.setItem('user', JSON.stringify(res.data));
+    fetch(fc.sending.userdb_addapi, {
+      method: 'POST',
+      body: JSON.stringify(updatedUser.apiinfo[updatedUser.apiinfo.length - 1]),
+      headers: {
+        Authorization: `JWT ${localStorage.getItem('token')}`,
+        'Content-type': 'application/json; charset=UTF-8'
+      }
+    }).then((res) => res.json().then((data) => ({
+      data,
+      status: res.status
+    })).then((result) => {
+      // Did the request go ok or not?
+      if (result.status === 201) {
+        // Update the local storage with the new information.
+        localStorage.setItem('user', JSON.stringify(result.data));
 
         // The server was added, so update the state.
         setServerAdded(true);
@@ -213,26 +211,18 @@ export default function FormDialog(props) {
 
   // Set state variables.
   const setInput = (event, which) => {
-		
-		// Cases
-    if(which === 'public_hostname') {
-
+    // Cases
+    if (which === 'public_hostname') {
       // Change the hostname.
-			setHostname(event.target.value);
-
-    } else if(which == 'token') {
-			
-			// Change token.
-			setToken(event.target.value);
-
-    } else if(which == 'email') {
-        
+      setHostname(event.target.value);
+    } else if (which === 'token') {
+      // Change token.
+      setToken(event.target.value);
+    } else if (which === 'email') {
       // Change the email.
       setEmail(event.target.value);
-    
     }
-
-  }
+  };
 
   return (
     <div>
@@ -297,6 +287,7 @@ export default function FormDialog(props) {
             <Button
               color="primary"
               variant="contained"
+              onClick={newApiAccount}
             >
               Request New Token
             </Button>
