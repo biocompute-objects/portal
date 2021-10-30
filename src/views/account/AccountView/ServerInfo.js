@@ -214,7 +214,6 @@ const EnhancedTableToolbar = (props) => {
           // the updated server list.
           setServerAdded(true);
           setSelected(false);
-          // TODO: Need to clear what is checked here, not sure how to do that yet
         } else {
           // Display whatever the server said.
           console.log('Failed to remove the API server because: ', result.data.detail);
