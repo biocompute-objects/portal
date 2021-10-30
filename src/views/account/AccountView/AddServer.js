@@ -115,8 +115,8 @@ export default function FormDialog(props) {
     fetch(`${hostname}/users/add_api`, { // This causes a 405 error in the API Server
       method: 'POST',
       body: JSON.stringify({
-        token,
-        email
+        'token': token,
+        'email': email
       }),
       headers: {
         Authorization: `TOKEN ${localStorage.getItem('token')}`,
@@ -178,6 +178,8 @@ export default function FormDialog(props) {
     updatedUser.apiinfo.push(serverInfo);
 
     // Add the server information to the user's information via userdb call.
+    // TODO: This should probably be serverInfo below instead of the updatedUser directly
+    //      accessed.  Just easier to read.
     fetch(fc.sending.userdb_addapi, {
       method: 'POST',
       body: JSON.stringify(updatedUser.apiinfo[updatedUser.apiinfo.length - 1]),
@@ -198,7 +200,7 @@ export default function FormDialog(props) {
         setServerAdded(true);
 
         // UX thing, give a little time before closing the dialog.
-        setTimeout(handleClose, 1500);
+        setTimeout(handleClose, 250);
         setServerInfo('');
       } else {
 

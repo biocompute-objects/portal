@@ -35,9 +35,13 @@ import Chip from '@material-ui/core/Chip';
 
 // Get the parent context.
 // Source: https://www.pluralsight.com/guides/how-to-use-react-context-to-share-data-between-components
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
+import Alert from '@material-ui/lab/Alert';
 import Permissions from './Permissions';
 import { ParentContext } from './index';
+import VerifyDelete from './VerifyDelete.js';
+import ServerStatus from './ServerStatus';
+import { FetchContext } from '../../../App';
 
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -139,6 +143,7 @@ EnhancedTableHead.propTypes = {
   order: PropTypes.oneOf(['asc', 'desc']).isRequired,
   orderBy: PropTypes.string.isRequired,
   rowCount: PropTypes.number.isRequired,
+  selectedRows: PropTypes.array.isRequired
 };
 
 const useToolbarStyles = makeStyles((theme) => ({
@@ -163,7 +168,60 @@ const useToolbarStyles = makeStyles((theme) => ({
 
 const EnhancedTableToolbar = (props) => {
   const classes = useToolbarStyles();
-  const { numSelected } = props;
+  const fc = useContext(FetchContext);
+  const { numSelected, selectedRows } = props;
+  const { setServerAdded, setSelected } = useContext(ParentContext);
+  // const { numSelected, selectedRows } = useContext(parentState);
+
+  const testDelete = (event, rows) => {
+    console.log('Delete button pressed for rows: ', rows);
+    // Delete the rows here from the DB; might want to do an alert
+    // TODO: Should update to better Alert
+    const userResponse = window.confirm('Are you sure you want to delete these rows?');
+    if (userResponse) {
+      // selectedRows.forEach((x, i) => {
+
+      // console.log('Token: ', localStorage.getItem('token'));
+      // // Pull the server info straight off the state variable,
+      // // then add to UserDB.
+      // const updatedUser = JSON.parse(localStorage.getItem('user'));
+      // TODO: Remove from local storage?
+      // Might not have to do that since we re-set with the response from
+      // the server.
+      // updatedUser.apiinfo.push(serverInfo);
+      // updatedUser.apiinfo
+
+
+      // Add the server information to the user's information via userdb call.
+      fetch(fc.sending.userdb_removeapi, {
+        method: 'DELETE',
+        body: JSON.stringify({ 'selected_rows': selectedRows }),
+        headers: {
+          Authorization: `JWT ${localStorage.getItem('token')}`,
+          'Content-type': 'application/json; charset=UTF-8'
+        }
+      }).then((res) => res.json().then((data) => ({
+        data,
+        status: res.status
+      })).then((result) => {
+        // Check if the deletion was successful.
+        if (result.status === 200) {
+          // Update the local storage with the new information.
+          localStorage.setItem('user', JSON.stringify(result.data));
+
+          // The server was removed, so update the state.
+          // This will allow the background to update with
+          // the updated server list.
+          setServerAdded(true);
+          setSelected(false);
+          // TODO: Need to clear what is checked here, not sure how to do that yet
+        } else {
+          // Display whatever the server said.
+          console.log('Failed to remove the API server because: ', result.data.detail);
+        }
+      }));
+    }
+  };
 
   return (
     <Toolbar
@@ -185,7 +243,10 @@ const EnhancedTableToolbar = (props) => {
 
       {numSelected > 0 ? (
         <Tooltip title="Delete">
-          <IconButton aria-label="delete">
+          <IconButton
+            onClick={(e) => testDelete(e, selectedRows)}
+            aria-label="delete"
+          >
             <DeleteIcon />
           </IconButton>
         </Tooltip>
@@ -202,6 +263,7 @@ const EnhancedTableToolbar = (props) => {
 
 EnhancedTableToolbar.propTypes = {
   numSelected: PropTypes.number.isRequired,
+  selectedRows: PropTypes.array.isRequired
 };
 
 const useStyles = makeStyles((theme) => ({
@@ -252,6 +314,7 @@ export default function EnhancedTable({ onClickOpen }) {
   const [selected, setSelected] = React.useState([]);
   const [permissions, setPermissions] = React.useState([]);
   // const [updatedUser, setUpdatedUser] = React.useState(false);
+  // const [selectedForChange, setSelectedForChange] = React.useState([]);
 
   // All user information.
   // const [rows, setRows] = React.useState([
@@ -315,6 +378,8 @@ export default function EnhancedTable({ onClickOpen }) {
   };
 
   const handleClick = (event, name) => {
+    // TODO: Not sure this really doing anything - doesn't seem like the
+    //      selected actually registers here for whatever reason.
     const selectedIndex = selected.indexOf(name);
     let newSelected = [];
 
@@ -331,6 +396,7 @@ export default function EnhancedTable({ onClickOpen }) {
       );
     }
 
+    // setSelectedForChange(newSelected);
     setSelected(newSelected);
   };
 
@@ -339,7 +405,11 @@ export default function EnhancedTable({ onClickOpen }) {
   return (
     <div className={classes.root}>
       <Paper className={classes.paper}>
-        <EnhancedTableToolbar numSelected={selected.length} />
+        <EnhancedTableToolbar
+          numSelected={selected.length}
+          selectedRows={selected}
+        />
+        {/*<VerifyDelete rows={selected} />*/}
         <TableContainer>
           <Table
             className={classes.table}
@@ -356,6 +426,7 @@ export default function EnhancedTable({ onClickOpen }) {
               onSelectAllClick={handleSelectAllClick}
               onRequestSort={handleRequestSort}
               rowCount={rows.length}
+              selectedRows={selected}
             />
             <TableBody>
               {stableSort(rows, getComparator(order, orderBy))
