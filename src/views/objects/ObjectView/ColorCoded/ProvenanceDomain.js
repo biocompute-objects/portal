@@ -158,15 +158,14 @@ export default function ProvenanceDomain({ items }) {
   tempArray.unshift('name', 'contribution');
   contributorKeys = tempArray;
 
-  console.log('review', items.review)
+  console.log('review 161', items.review)
 
   var review = items.review;
-  
   var reviewItems = [];
-  
-  items.review.map(item => {
-    var reviews = [];
-    console.log('review 169', item);
+  var reviews = [];
+  var reviewKeys = ['status','name','affiliation','reviewer_comment','date'];
+
+  items.review.map(review => {
     var reviewObject = ({
 		'status': '',
 		'reviewer_comment': '',
@@ -177,14 +176,20 @@ export default function ProvenanceDomain({ items }) {
 		'contribution': [],
 		'orcid': ''
     });
-    console.log('review 169', item)
+    console.log('review 169', typeof(reviewObject))
     contributorKeys.map(contitem => {
-      if(contitem in item.reviewer) {
-        console.log('review 173', contitem);
-		reviewObject[contitem] = item.reviewer[contitem]
+      if (contitem in review.reviewer) {
+        reviewObject[contitem] = review.reviewer[contitem]
+      } else {
+        reviewObject[contitem] = '';
       };
-      console.log('review 175', reviewObject );
-    })
+    });
+	for (const [key, value] of Object.entries(review)) {
+	  if (key in reviewObject) {
+		reviewObject[key] = value;
+	  }
+	};
+	reviews.push(reviewObject)
   })
 
   // An array to hold all the contributors.
@@ -305,26 +310,26 @@ export default function ProvenanceDomain({ items }) {
           </StyledCell>
        </TableRow>
         <TableRow>
-          {
-            contributorKeys.map(item => (
-                <StyledCell>{processKey(item)}</StyledCell>
-              )
+        {
+          reviewKeys.map(item => (
+              <StyledCell>{processKey(item)}</StyledCell>
             )
-          }
-        </TableRow>
-          {
-            review.map(item => (
-	          <TableRow>{console.log('review 285', item.reviewer)}
-	            {
-	              contributorKeys.map(subitem => (
-	                <StyledCell>{item[subitem]}</StyledCell>
-	                )
-	              )
-	            }
-	          </TableRow>
+          )
+        }
+        </TableRow>{console.log('review 285', reviewKeys)}
+      {
+        reviews.map(item => (
+          <TableRow>
+            {
+              reviewKeys.map(subitem => (
+                <StyledCell>{item[subitem]}</StyledCell>
+                )
               )
-            )
-          }
+            }
+          </TableRow>
+          )
+        )
+      }
       </TableBody>
     </Table>
   );
