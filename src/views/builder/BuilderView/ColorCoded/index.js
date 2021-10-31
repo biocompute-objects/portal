@@ -178,7 +178,26 @@ const ColorCoded = ({ complianceCheck, setComplianceCheck, objectContents, setOb
   // and kick back up everything.
   useEffect(() => {
 
-    setObjectContents({"object_id": meObjectId,"spec_version":"IEEE", "eTag": meEtag, "provenance_domain":{"name": pdName,"version": pdVersion,"created": pdCreated,"modified": pdModifed,"contributors": pdContributors,"license": pdLicense},"usability_domain": ud,"description_domain":{"keywords": ddKeywords,"pipeline_steps": ddPipelineSteps},"execution_domain":{"script": edScript,"script_driver": edScriptDriver,"software_prerequisites": edSoftwarePrerequisites,"external_data_endpoints": edExternalDataEndpoints,"environment_variables": edEnvironmentVariables},"io_domain":{"input_subdomain": iodInputSubdomain,"output_subdomain": iodOutputSubdomain},"parametric_domain": pad,"error_domain": errd,"extension_domain": exd})
+    setObjectContents(
+      {
+        "object_id": meObjectId,
+        "spec_version":"IEEE",
+        "eTag": meEtag,
+        "provenance_domain":{
+          "name": pdName,
+          "version": pdVersion,
+          "created": pdCreated,
+          "modified": pdModifed,
+          "contributors": pdContributors,
+          "license": pdLicense
+        },
+        "usability_domain": ud,
+        "description_domain":{"keywords": ddKeywords,"pipeline_steps": ddPipelineSteps},
+        "execution_domain":{"script": edScript,"script_driver": edScriptDriver,"software_prerequisites": edSoftwarePrerequisites,"external_data_endpoints": edExternalDataEndpoints,"environment_variables": edEnvironmentVariables},
+        "io_domain":{"input_subdomain": iodInputSubdomain,"output_subdomain": iodOutputSubdomain},
+        "parametric_domain": pad,
+        "error_domain": errd,
+        "extension_domain": exd})
 
   }, [pdName, pdVersion, pdLicense, pdDerivedFrom, pdCreated, pdModifed, pdObsoleteAfter, pdEmbargoStartTime, pdEmbargoEndTime, pdReview, pdContributors, ud, ddKeywords, ddPlatform, ddXref, ddPipelineSteps, edScript, edScriptDriver, edSoftwarePrerequisites, edExternalDataEndpoints, edEnvironmentVariables, iodInputSubdomain, iodOutputSubdomain, pad, errd, exd]);
  
