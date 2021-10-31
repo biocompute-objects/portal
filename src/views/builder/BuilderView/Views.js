@@ -1,3 +1,5 @@
+// src/views/builder/BuilderView/Views.js 
+
 // Source: https://material-ui.com/components/tabs/
 
 import React, { useContext, useEffect, useState } from 'react';
@@ -8,7 +10,7 @@ import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
-
+import PermissionTools from '../../../components/PermissionTools';
 // Dummy redirecting after draft object creation.
 // See https://www.codegrepper.com/code-examples/javascript/useHistory+is+not+exported+form+react-router-dom
 import { useNavigate } from 'react-router-dom';
@@ -20,9 +22,11 @@ import InsertDriveFileIcon from '@material-ui/icons/InsertDriveFile';
 
 // Color-coded view
 import ColorCoded from './ColorCoded'
-
 // Raw view
 import Raw from './Raw'
+// publish
+// import publish from './Publish'
+import SaveDraft from './SaveDraft.js'
 
 // Fetch context.
 import { FetchContext } from '../../../App';
@@ -96,7 +100,7 @@ export default function Views({ downloadDraft, setDownloadDraft, saveDraft, setS
   // Define a variable for switching views within
   // the component (as opposed to getting the value)
   // from the parent).
-  const [componentView, setComponentView] = React.useState(0);
+  const [componentView, setComponentView] = useState(0);
 
   const handleChange = (event, newValue) => {
     setComponentView(newValue);
@@ -113,36 +117,44 @@ export default function Views({ downloadDraft, setDownloadDraft, saveDraft, setS
   }, [saveDraft])
 
   return (
-    loading
-      ?
-        <div className = { classes.loading }>
-          <Typography variant = 'h1'>
-            Loading...
-          </Typography>
-        </div>
-      :
         objectFound
           ?
             <div className={classes.root}>
               <AppBar position="static">
                 <Tabs value={componentView} onChange={handleChange} aria-label="simple tabs example">
                   <Tab icon={<OpacityIcon />} label="Color-Coded" {...a11yProps(0)} />
-                  <Tab icon={<InsertDriveFileIcon />} label="Raw" {...a11yProps(1)} />
-                </Tabs>
+                  <Tab icon={<AccountTreeIcon />} label="Raw JSON" {...a11yProps(1)} />
+                  <Tab icon={<InsertDriveFileIcon />} label="Save Draft" {...a11yProps(2)} />
+              </Tabs>
               </AppBar>
-              {/* <Typography>
-                Object ID: {objectId}
-              </Typography> */}
               <TabPanel value={componentView} index={0}>
-                <ColorCoded downloadDraft={componentView === 0 ? downloadDraft : null} setDownloadDraft={setDownloadDraft} saveDraft={saveDraft} setSaveDraft={setSaveDraft} publish={publish} setPublish={setPublish} complianceCheck={complianceCheck} objectContents={objectContents} setObjectContents={setObjectContents} />
+                <ColorCoded 
+	  			  downloadDraft={componentView === 0 ? downloadDraft : null}
+				  setDownloadDraft={setDownloadDraft}
+				  saveDraft={saveDraft}
+				  setSaveDraft={setSaveDraft}
+				  publish={publish}
+				  setPublish={setPublish}
+				  complianceCheck={complianceCheck}
+				  objectContents={objectContents}
+				  setObjectContents={setObjectContents} />
               </TabPanel>
               <TabPanel value={componentView} index={1}>
-                {/* <Raw downloadDraft={componentView === 1 ? downloadDraft : null} setDownloadDraft={setDownloadDraft} saveDraft={saveDraft} setSaveDraft={setSaveDraft} publish={publish} setPublish={setPublish} complianceCheck={complianceCheck} contents={objectInfo} /> */}
+                <Raw /> 
+              </TabPanel>
+              <TabPanel value={componentView} index={2}>
+                <PermissionTools        />
+                <SaveDraft downloadDraft={componentView === 2 ? downloadDraft : null} setDownloadDraft={setDownloadDraft} saveDraft={saveDraft} setSaveDraft={setSaveDraft} publish={publish} setPublish={setPublish} complianceCheck={complianceCheck} contents={objectContents} /> 
               </TabPanel>
             </div>
           :
           <div className={classes.root}>
-            <rD />
+            <AppBar position="static">
+              <Tabs value={componentView} onChange={handleChange} aria-label="simple tabs example">
+                <Tab icon={<OpacityIcon />} label="Color-Coded" {...a11yProps(0)} />
+                <Tab icon={<InsertDriveFileIcon />} label="Raw" {...a11yProps(1)} />
+              </Tabs>
+            </AppBar>
             <Typography>
               There was a problem with the request, see output below.
             </Typography>

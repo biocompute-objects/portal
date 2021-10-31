@@ -1,3 +1,4 @@
+// src/views/account/AccountView/Permissions.js
 // Source: https://material-ui.com/components/cards/#simple-card
 
 import React from 'react';
@@ -31,7 +32,7 @@ export default function Permissions({ permissionSet }) {
         {
           Object.keys(permissionSet).map(perm => (
             <Typography variant="body2" component="p">
-              {perm + ' - (' + (permissionSet[perm]).join(', ') + ')'}
+              {perm }
             </Typography>
           ))
         }

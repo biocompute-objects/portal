@@ -96,6 +96,26 @@ export default function DescriptionDomain({ items }) {
                 <StyledCell>{item.step_number}</StyledCell>
                 <StyledCell>{item.name}</StyledCell>
                 <StyledCell>{item.description}</StyledCell>
+	            {/*<StyledCell>   need to insirt a conditional render here
+	            <Accordion>
+	              <AccordionSummary
+	                expandIcon={<ExpandMoreIcon />}
+	                aria-controls="panel1a-content"
+	                id="panel1a-header"
+	              >
+	                <Typography>Show Prerequisite</Typography>
+	                </AccordionSummary>
+	                <AccordionDetails>{console.log('item.prerequisite', item.prerequisite)}
+	                  <List>
+	                    {item.prerequisite.map(subitem => (
+	                     <LinkerInList color={ 'blackLink' } uri={ subitem.uri.uri} />
+	                        )
+	                      )
+	                    }
+	                  </List>
+	                </AccordionDetails>
+	              </Accordion>
+	            </StyledCell>*/}
                 <StyledCell>
                   <Accordion>
                     <AccordionSummary
@@ -109,7 +129,7 @@ export default function DescriptionDomain({ items }) {
                       <List>
                         {
                               item.input_list.map(subitem => (
-                                <LinkerInList color={ 'blackLink' } uri={ subitem.uri.uri } />
+                                <LinkerInList color={ 'blackLink' } uri={ subitem.uri } />
                             )
                           )
                         }
@@ -119,18 +139,17 @@ export default function DescriptionDomain({ items }) {
                 </StyledCell>
                 <StyledCell>
                 <Accordion>
-                    <AccordionSummary
-                      expandIcon={<ExpandMoreIcon />}
-                      aria-controls="panel1a-content"
-                      id="panel1a-header"
-                    >
+                  <AccordionSummary
+                    expandIcon={<ExpandMoreIcon />}
+                    aria-controls="panel1a-content"
+                    id="panel1a-header"
+                  >
                     <Typography>Show Outputs</Typography>
                     </AccordionSummary>
                     <AccordionDetails>
                       <List>
-                        {
-                              item.output_list.map(subitem => (
-                                <LinkerInList color={ 'blackLink' } uri={ subitem.uri.uri } />
+                        {item.output_list.map(subitem => (
+                         <LinkerInList color={ 'blackLink' } uri={ subitem.uri} />
                             )
                           )
                         }

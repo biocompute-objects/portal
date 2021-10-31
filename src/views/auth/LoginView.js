@@ -1,6 +1,6 @@
 // src/views/auth/LoginView.js
 
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
 import * as Yup from 'yup';
 import { Formik } from 'formik';
@@ -19,6 +19,7 @@ import Page from 'src/components/Page';
 // Fetch context.
 import Alert from '@material-ui/lab/Alert';
 import { FetchContext } from '../../App';
+import UserdbTokenAuth from '../../components/API/UserdbTokenAuth.js';
 
 // Registration error
 // Source: https://material-ui.com/components/alert/#simple-alerts
@@ -47,7 +48,8 @@ const LoginView = () => {
 
   // State
   const [loginError, setLoginError] = useState(false);
-
+  const [login, setLogin] = useState(false);
+  
   return (
     <Page
       className={classes.root}
@@ -63,7 +65,8 @@ const LoginView = () => {
           <Formik
             initialValues={{
               username: '',
-              password: ''
+              password: '',
+              url: fc.sending.userdb_tokenauth,
             }}
             validationSchema={Yup.object().shape({
               username: Yup.string().max(255).required('User Name is required'),
@@ -71,28 +74,8 @@ const LoginView = () => {
             })}
             onSubmit={(values) => {
               // Determine whether or not our login was legitimate.
-              fetch(fc.sending.userdb_tokenauth, {
-                method: 'POST',
-                headers: {
-                  'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                  username: values.username,
-                  password: values.password
-                })
-              })
-                .then((res) => res.json()).then((json) => {
-                  if (typeof (json.user) !== 'undefined') {
-                    // Set the user information.
-                    localStorage.setItem('token', json.token);
-                    localStorage.setItem('user', JSON.stringify(json.user));
-
-                    navigate('/dashboard', { replace: true });
-                  } else {
-                    // Bad login.
-                    setLoginError(true);
-                  }
-                });
+              console.log("values", values)
+              UserdbTokenAuth(values);
             }}
           >
             {({

@@ -17,7 +17,9 @@ import Page from 'src/components/Page';
 // Fetch context.
 import Alert from '@material-ui/lab/Alert';
 import { FetchContext } from '../../App';
-
+import UserdbNewAccount from '../../components/API/UserdbNewAccount.js';
+import ApiNewAccount from '../../components/API/ApiNewAccount.js';
+import { useNavigate } from 'react-router-dom';
 // Registration error
 // Source: https://material-ui.com/components/alert/#simple-alerts
 
@@ -38,7 +40,8 @@ const useStyles = makeStyles((theme) => ({
 
 const RegisterView = () => {
   const classes = useStyles();
-
+  const navigate = useNavigate();
+  
   // Fetch context.
   const fc = useContext(FetchContext);
 
@@ -54,42 +57,6 @@ const RegisterView = () => {
   // Source: https://stackoverflow.com/a/60535658
   const formRef = useRef();
 
-  useEffect(() => {
-    // Re-direct to the home page.
-    if (registrationSuccess === true) {
-      // No more error message.
-      setRegistrationError(false);
-
-      // Wait a couple seconds.
-      // Source: https://reactgo.com/settimeout-in-react-hooks/
-      // setTimeout(() => {
-      //   navigate('/login', { replace: true });
-      // }, 3000);
-
-      // Send a request to the default local server to create
-      // an account with the given email.
-
-      // The request is based upon whether or not we're asking
-      // the API to write back to userdb.
-
-      // TODO: put in logic for somewhere in App.js?
-
-      fetch(fc.sending.bcoapi_accounts_new, {
-        method: 'POST',
-        body: JSON.stringify({
-          email: formRef.current.values.email,
-          hostname: fc.sending.userdb_addapi,
-          token: responseToken
-        }),
-        headers: {
-          'Content-type': 'application/json; charset=UTF-8'
-        }
-      }).then((response) => response.json()).then((data) => {
-        console.log(data);
-      });
-    }
-  }, [registrationSuccess]);
-
   // Proper way to do a fetch.
   // Source: https://stackoverflow.com/a/37555432
 
@@ -101,7 +68,7 @@ const RegisterView = () => {
       <Box
         display="flex"
         flexDirection="column"
-        height="100%"
+        height="flex"
         justifyContent="center"
       >
         <Container maxWidth="sm">
@@ -109,9 +76,12 @@ const RegisterView = () => {
             initialValues={{
               username: '',
               password: '',
+              confirmPassword: '',
               firstName: '',
               lastName: '',
-              email: ''
+              email: '',
+              apiurl: fc.sending.bcoapi_accounts_new,
+              userurl: fc.sending.userdb_users,
             }}
             innerRef={formRef}
             validationSchema={Yup.object().shape({
@@ -125,47 +95,21 @@ const RegisterView = () => {
                 .min(8, 'Password is too short - should be 8 chars minimum.')
                 .matches(/(?=.*[0-9])/, 'Password must contain a number.')
                 .max(255)
-                .required('Password is required')
+                .required('Password is required'),
+              confirmPassword: Yup.string()
+                .oneOf([Yup.ref('password'), null], 'Passwords must match')
+                
             })}
             onSubmit={(values) => {
-              fetch(fc.sending.userdb_users, {
-                method: 'POST',
-                headers: {
-                  'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                  username: values.username,
-                  password: values.password,
-                  firstname: values.firstName,
-                  lastname: values.lastName,
-                  email: values.email
-                })
-              }).then((res) => res.json().then((data) => ({
-                data,
-                status: res.status
-              })).then((res) => {
-              // Did the request go ok or not?
-                if (res.status === 409) {
-                // Show the error message.
-                  setRegistrationError(true);
-                } else if (res.status === 201) {
-                // Set the state variable to the response token.
-                  setResponseToken(res.data.token);
-
-                  // Show the success message for a couple of seconds.
-                  setRegistrationSuccess(true);
+                UserdbNewAccount(values)
+                if (localStorage.getItem('tokenAPI')) {
+                  console.log("getting API account now")
+                  ApiNewAccount(values)
+                  navigate('/login', { replace: true });
                 }
-              }));
             }}
           >
-            {({
-              errors,
-              handleBlur,
-              handleChange,
-              handleSubmit,
-              touched,
-              values
-            }) => (
+            {({errors, handleBlur, handleChange, handleSubmit, touched, values }) => (
               <form onSubmit={handleSubmit}>
                 <Box mb={3}>
                   <Typography
@@ -174,13 +118,6 @@ const RegisterView = () => {
                   >
                     Create a new Portal account
                   </Typography>
-                  {/* <Typography
-                    color="textSecondary"
-                    gutterBottom
-                    variant="body2"
-                  >
-                    Use your email to create new account
-                  </Typography> */}
                 </Box>
                 <TextField
                   error={Boolean(touched.firstName && errors.firstName)}
@@ -242,6 +179,19 @@ const RegisterView = () => {
                   onChange={handleChange}
                   type="password"
                   value={values.password}
+                  variant="outlined"
+                />
+                <TextField
+                  error={Boolean(touched.confirmPassword && errors.confirmPassword)}
+                  fullWidth
+                  helperText={touched.confirmPassword && errors.confirmPassword}
+                  label="Confirm Password"
+                  margin="normal"
+                  name="confirmPassword"
+                  onBlur={handleBlur}
+                  onChange={handleChange}
+                  type="password"
+                  value={values.confirmPassword}
                   variant="outlined"
                 />
                 <Box

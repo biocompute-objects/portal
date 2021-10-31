@@ -55,10 +55,11 @@ const useStyles = makeStyles((theme) => ({
     background: '#98c1d9'
   },
   parametricDomain: {
-    background: '#ee6c4d'
+    background: '#ee6c4d',
+    color: 'white'
   },
   provenanceDomain: {
-    background: '#172a3a'
+    background: '#284964'
   },
   usabilityDomain: {
     background: '#004346'
@@ -72,16 +73,6 @@ const ColorCoded = ({ complianceCheck, setComplianceCheck, objectContents, setOb
 
   console.log('RENDER CHECK: ', objectContents)
   const classes = useStyles();
-
-  // TODO: not necessary with re-factor code?
-
-  // Set fake data for missing domains.
-  // ['provenance_domain', 'usability_domain', 'description_domain', 'execution_domain', 'io_domain', 'parametric_domain', 'error_domain', 'extension_domain'].map(item => {
-  //     if(!(item in contents)) {
-  //       contents[item] = '';
-  //     }
-  //   }
-  // )
 
   // Compliance-checking functions
   const checkBlank = (value) => {
@@ -158,7 +149,7 @@ const ColorCoded = ({ complianceCheck, setComplianceCheck, objectContents, setOb
   // Note that meta attributes have no setters as they
   // are set in the parent.
   const renderList = [ 
-    { complianceCheck, meObjectId, meEtag, rerender, setRerender },
+    {/* complianceCheck, meObjectId, meEtag, rerender, setRerender */},
     { complianceCheck, checkBlank, pdName, pdVersion, pdLicense, pdDerivedFrom, pdCreated, pdModifed, pdObsoleteAfter, pdEmbargoStartTime, pdEmbargoEndTime, pdReview, pdContributors, rerender, setRerender, setPdName, setPdVersion, setPdLicense, setPdDerivedFrom, setPdCreated, setPdModified, setPdObsoleteAfter, setPdEmbargoStartTime, setPdEmbargoEndTime, setPdReview, setPdContributors }, 
     { complianceCheck, checkBlank, ud, setUd },
     { complianceCheck, checkBlank, iodInputSubdomain, iodOutputSubdomain, setIodInputSubdomain, setIodOutputSubdomain, rerender, setRerender },
@@ -172,35 +163,53 @@ const ColorCoded = ({ complianceCheck, setComplianceCheck, objectContents, setOb
   const compList = [ Meta, ProvenanceDomain, UsabilityDomain, IoDomain, ExecutionDomain, DescriptionDomain, ParametricDomain, ErrorDomain, ExtensionDomain ];
   const classNames = [ 'meta', 'provenanceDomain', 'usabilityDomain', 'ioDomain', 'executionDomain', 'descriptionDomain', 'parametricDomain', 'errorDomain', 'extensionDomain' ];
 
+
   // Listeners
 
   // Listen for ANY change to the object,
   // and kick back up everything.
   useEffect(() => {
 
-    setObjectContents(
-      {
+
+    setObjectContents({
         "object_id": meObjectId,
-        "spec_version":"IEEE",
-        "eTag": meEtag,
+        "spec_version":"IEEE", "eTag": meEtag, 
         "provenance_domain":{
-          "name": pdName,
-          "version": pdVersion,
-          "created": pdCreated,
-          "modified": pdModifed,
-          "contributors": pdContributors,
-          "license": pdLicense
+            "name": pdName,
+            "version": pdVersion,
+            "created": pdCreated,
+            "modified": new Date(),
+            "review": pdReview,
+            "contributors": pdContributors,
+            "license": pdLicense
         },
         "usability_domain": ud,
-        "description_domain":{"keywords": ddKeywords,"pipeline_steps": ddPipelineSteps},
-        "execution_domain":{"script": edScript,"script_driver": edScriptDriver,"software_prerequisites": edSoftwarePrerequisites,"external_data_endpoints": edExternalDataEndpoints,"environment_variables": edEnvironmentVariables},
-        "io_domain":{"input_subdomain": iodInputSubdomain,"output_subdomain": iodOutputSubdomain},
+        "description_domain":{
+            "keywords": ddKeywords,
+            "pipeline_steps": ddPipelineSteps
+        },
+        "execution_domain":{
+            "script": edScript,
+            "script_driver": edScriptDriver,
+            "software_prerequisites": edSoftwarePrerequisites,
+            "external_data_endpoints": edExternalDataEndpoints,
+            "environment_variables": edEnvironmentVariables
+        },
+        "io_domain":{
+            "input_subdomain": iodInputSubdomain,
+            "output_subdomain": iodOutputSubdomain
+        },
         "parametric_domain": pad,
         "error_domain": errd,
-        "extension_domain": exd})
+        "extension_domain": exd
+    })
 
   }, [pdName, pdVersion, pdLicense, pdDerivedFrom, pdCreated, pdModifed, pdObsoleteAfter, pdEmbargoStartTime, pdEmbargoEndTime, pdReview, pdContributors, ud, ddKeywords, ddPlatform, ddXref, ddPipelineSteps, edScript, edScriptDriver, edSoftwarePrerequisites, edExternalDataEndpoints, edEnvironmentVariables, iodInputSubdomain, iodOutputSubdomain, pad, errd, exd]);
- 
+
+  console.log('setObjectContents', objectContents.provenance_domain.review)
+
+  localStorage.setItem('bco', JSON.stringify(objectContents));
+
   return (
     <Container maxWidth={false}>
       <Grid
@@ -211,12 +220,7 @@ const ColorCoded = ({ complianceCheck, setComplianceCheck, objectContents, setOb
         {
           compList.map((Component, index) => {
               return(
-                <Grid
-                  item
-                  lg={12}
-                  md={12}
-                  xs={12}
-                >
+                <Grid item lg={12} md={12} xs={12}>
                   <Card className={classes[classNames[index]]}>
                     <Component items={renderList[index]} cF={cF} />
                   </Card>

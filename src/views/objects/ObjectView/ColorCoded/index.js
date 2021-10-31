@@ -1,3 +1,5 @@
+// src/views/objects/ObjectView/ColorCoded/index.js
+
 import React, { useContext } from 'react';
 import {
   Container,

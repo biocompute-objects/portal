@@ -14,6 +14,7 @@ import RegisterView from 'src/views/auth/RegisterView';
 import ValidatorView from 'src/views/validator/ValidatorView';
 import Community from 'src/views/community/Community';
 import Resources from 'src/views/resources/Resources';
+import Permissions from 'src/views/permissions/PermissionView';
 
 // Routing rules are given at https://github.com/snd/url-pattern
 
@@ -38,7 +39,8 @@ const routes = () => {
         },
         { path: 'resources', element: <Resources /> },
         { path: 'community', element: <Community /> },
-        { path: 'validator', element: <ValidatorView /> }
+        { path: 'validator', element: <ValidatorView /> },
+        { path: 'permissions', element: <Permissions />}
       ]
     },
     {
@@ -52,7 +54,7 @@ const routes = () => {
       path: '/',
       element: <MainLayout />,
       children: [
-        { path: '', element: <HomeView /> }
+        { path: '', element: <MainLayout /> }
       ]
     },
     {
