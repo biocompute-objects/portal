@@ -1,9 +1,9 @@
 // src/views/builder/BuilderView/index.js
 
 import React, { 
-	createContext, 
-	useEffect, 
-	useState } 
+    createContext, 
+    useEffect, 
+    useState } 
 from 'react';
 
 // Rendering URL parameters.
@@ -116,38 +116,54 @@ export default function BuilderView() {
     if (splitUp[splitUp.length - 1] == '') {
       // NEW draft
       // Set the object contents to template values.
-      const blankBco = {
+      var date = new Date();
+      var dateString = date.toString()
+      const blankBco = 
+	{
         object_id: '',
         spec_version: 'IEEE',
         etag: '',
         provenance_domain: {
           name: '', 
-			version: '', 
-			created: new Date(), 
-			modified: new Date(), 
-			contributors: [
-				{ 
-					contribution: ['createdBy'], 
-					name: ''
-			}],
-			license: ''
+            version: '', 
+            created: dateString, 
+            modified: dateString, 
+            contributors: [
+                { 
+                    contribution: ['createdBy'], 
+                    name: ''
+            }],
+            license: ''
         },
         usability_domain: [''],
         description_domain: {
           keywords: [''],
-          pipeline_steps: [{
-            step_number: 0, name: '', description: '', input_list: [{ uri: { uri: '' } }], output_list: [{ uri: { uri: '' } }]
-          }]
+          pipeline_steps: [
+            {
+              step_number: 0,
+              name: '',
+              description: '',
+              prerequisite: [{ name: '', uri: { uri: '' } }],
+              input_list: [{ uri: '' }],
+              output_list: [{ uri: '' }]
+            }
+          ]
         },
         execution_domain: {
-          script: [{ uri: { uri: '' } }], script_driver: '', software_prerequisites: [{ name: '', version: '', uri: { uri: '' } }], external_data_endpoints: [{ name: '', url: '' }], environment_variables: {}
+          script: [{ uri: { uri: '' } }],
+          script_driver: '',
+          software_prerequisites: [{ name: '', version: '', uri: { uri: '' } }],
+          external_data_endpoints: [{ name: '', url: '' }],
+          environment_variables: {}
         },
-        io_domain: { input_subdomain: [{ uri: { uri: '' } }], output_subdomain: [{ mediatype: '', uri: { uri: '' } }] },
+        io_domain: {
+          input_subdomain: [{ uri: { uri: '' } }],
+          output_subdomain: [{ mediatype: '', uri: { uri: '' } }]
+        },
         parametric_domain: [{ param: '', value: '', step: '' }]
       }
-	  console.log('blank BCO', blankBco);
       setObjectContents(blankBco);
-	  localStorage.setItem('bco', JSON.stringify(blankBco))
+      localStorage.setItem('bco', JSON.stringify(blankBco))
       setObjectFound(true);
     } else {
       // EXISTING draft
@@ -163,13 +179,12 @@ export default function BuilderView() {
 
       // BAD fix, should have apiinfo stored as object...
       let foundToken = '';
-	  let foundGroups= [];
+      let foundGroups= [];
 
       JSON.parse(localStorage.getItem('user')).apiinfo.map((item) => {
         if (item.public_hostname === hostname) {
           foundToken = item.token;
-		  foundGroups = item['other_info']['permissions']['groups'];
-		  console.log("item: ",item['other_info']['permissions']['groups']);
+          foundGroups = item['other_info']['permissions']['groups'];
         }
       });
 

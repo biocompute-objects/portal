@@ -149,12 +149,20 @@ const ColorCoded = ({ complianceCheck, setComplianceCheck, objectContents, setOb
   // Note that meta attributes have no setters as they
   // are set in the parent.
   const renderList = [ 
-    { complianceCheck, meObjectId, meEtag, rerender, setRerender },
-    { complianceCheck, checkBlank, ddKeywords, ddPlatform, ddXref, ddPipelineSteps, rerender, setDdKeywords, setDdPlatform, setDdXref, setDdPipelineSteps, setRerender }
+    {/* complianceCheck, meObjectId, meEtag, rerender, setRerender */},
+    { complianceCheck, checkBlank, pdName, pdVersion, pdLicense, pdDerivedFrom, pdCreated, pdModifed, pdObsoleteAfter, pdEmbargoStartTime, pdEmbargoEndTime, pdReview, pdContributors, rerender, setRerender, setPdName, setPdVersion, setPdLicense, setPdDerivedFrom, setPdCreated, setPdModified, setPdObsoleteAfter, setPdEmbargoStartTime, setPdEmbargoEndTime, setPdReview, setPdContributors }, 
+    { complianceCheck, checkBlank, ud, setUd },
+    { complianceCheck, checkBlank, iodInputSubdomain, iodOutputSubdomain, setIodInputSubdomain, setIodOutputSubdomain, rerender, setRerender },
+    { complianceCheck, checkBlank, edScript, edScriptDriver, edSoftwarePrerequisites, edExternalDataEndpoints, edEnvironmentVariables, rerender, setEdScript, setEdScriptDriver, setEdSoftwarePrerequisites, setEdExternalDataEndpoints, setEdEnvironmentVariables, setRerender },
+    { complianceCheck, checkBlank, ddKeywords, ddPlatform, ddXref, ddPipelineSteps, rerender, setDdKeywords, setDdPlatform, setDdXref, setDdPipelineSteps, setRerender },
+    { complianceCheck, checkBlank, pad, rerender, setPad, setRerender },
+    { complianceCheck, checkBlank, errd, setErrd }, 
+    { complianceCheck, checkBlank, exd, setExd }
   ];
 
-  const compList = [ Meta, DescriptionDomain ];
-  const classNames = [ 'meta', 'descriptionDomain' ];
+  const compList = [ Meta, ProvenanceDomain, UsabilityDomain, IoDomain, ExecutionDomain, DescriptionDomain, ParametricDomain, ErrorDomain, ExtensionDomain ];
+  const classNames = [ 'meta', 'provenanceDomain', 'usabilityDomain', 'ioDomain', 'executionDomain', 'descriptionDomain', 'parametricDomain', 'errorDomain', 'extensionDomain' ];
+
 
   // Listeners
 
@@ -163,37 +171,37 @@ const ColorCoded = ({ complianceCheck, setComplianceCheck, objectContents, setOb
   useEffect(() => {
 
     setObjectContents({
-		"object_id": meObjectId,
-		"spec_version":"IEEE", "eTag": meEtag, 
-		"provenance_domain":{
-			"name": pdName,
-			"version": pdVersion,
-			"created": pdCreated,
-			"modified": new Date(),
-			"review": pdReview,
-			"contributors": pdContributors,
-			"license": pdLicense
-		},
-		"usability_domain": ud,
-		"description_domain":{
-			"keywords": ddKeywords,
-			"pipeline_steps": ddPipelineSteps
-		},
-		"execution_domain":{
-			"script": edScript,
-			"script_driver": edScriptDriver,
-			"software_prerequisites": edSoftwarePrerequisites,
-			"external_data_endpoints": edExternalDataEndpoints,
-			"environment_variables": edEnvironmentVariables
-		},
-		"io_domain":{
-			"input_subdomain": iodInputSubdomain,
-			"output_subdomain": iodOutputSubdomain
-		},
-		"parametric_domain": pad,
-		"error_domain": errd,
-		"extension_domain": exd
-	})
+        "object_id": meObjectId,
+        "spec_version":"IEEE", "eTag": meEtag, 
+        "provenance_domain":{
+            "name": pdName,
+            "version": pdVersion,
+            "created": pdCreated,
+            "modified": new Date(),
+            "review": pdReview,
+            "contributors": pdContributors,
+            "license": pdLicense
+        },
+        "usability_domain": ud,
+        "description_domain":{
+            "keywords": ddKeywords,
+            "pipeline_steps": ddPipelineSteps
+        },
+        "execution_domain":{
+            "script": edScript,
+            "script_driver": edScriptDriver,
+            "software_prerequisites": edSoftwarePrerequisites,
+            "external_data_endpoints": edExternalDataEndpoints,
+            "environment_variables": edEnvironmentVariables
+        },
+        "io_domain":{
+            "input_subdomain": iodInputSubdomain,
+            "output_subdomain": iodOutputSubdomain
+        },
+        "parametric_domain": pad,
+        "error_domain": errd,
+        "extension_domain": exd
+    })
 
   }, [pdName, pdVersion, pdLicense, pdDerivedFrom, pdCreated, pdModifed, pdObsoleteAfter, pdEmbargoStartTime, pdEmbargoEndTime, pdReview, pdContributors, ud, ddKeywords, ddPlatform, ddXref, ddPipelineSteps, edScript, edScriptDriver, edSoftwarePrerequisites, edExternalDataEndpoints, edEnvironmentVariables, iodInputSubdomain, iodOutputSubdomain, pad, errd, exd]);
 

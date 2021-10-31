@@ -557,7 +557,7 @@ export default function ProvenanceDomain({ items, cF }) {
             Created
           </StyledCell>
           <StyledCell noGutter>
-            <TextField InputProps={{ className: classes.root }} disabled label={items.pdCreated} fullWidth id="outlined-basic" />
+            <TextField InputProps={{ className: classes.root }} disabled label={items.pdCreated.toString()} fullWidth id="outlined-basic" />
           </StyledCell>
           <StyledCell>
             Modified

@@ -158,6 +158,40 @@ export default function ProvenanceDomain({ items }) {
   tempArray.unshift('name', 'contribution');
   contributorKeys = tempArray;
 
+  console.log('review 161', items.review)
+
+  var review = items.review;
+  var reviewItems = [];
+  var reviews = [];
+  var reviewKeys = ['status','name','affiliation','reviewer_comment','date'];
+
+  items.review.map(review => {
+    var reviewObject = ({
+		'status': '',
+		'reviewer_comment': '',
+		'date': '',
+		'name': '',
+		'affiliation': '',
+		'email': '',
+		'contribution': [],
+		'orcid': ''
+    });
+    console.log('review 169', typeof(reviewObject))
+    contributorKeys.map(contitem => {
+      if (contitem in review.reviewer) {
+        reviewObject[contitem] = review.reviewer[contitem]
+      } else {
+        reviewObject[contitem] = '';
+      };
+    });
+	for (const [key, value] of Object.entries(review)) {
+	  if (key in reviewObject) {
+		reviewObject[key] = value;
+	  }
+	};
+	reviews.push(reviewObject)
+  })
+
   // An array to hold all the contributors.
   var provenanceContributors = [];
 
@@ -241,6 +275,13 @@ export default function ProvenanceDomain({ items }) {
           )
         }
         <TableRow>
+          <StyledCell colSpan="5">
+            <Typography variant="h4">
+              Contributors
+            </Typography>
+          </StyledCell>
+        </TableRow>
+        <TableRow>
         {
           contributorKeys.map(item => (
               <StyledCell>{processKey(item)}</StyledCell>
@@ -250,73 +291,47 @@ export default function ProvenanceDomain({ items }) {
         </TableRow>
         {
           provenanceContributors.map(item => (
-              <TableRow>
-                {
-                  contributorKeys.map(subitem => (
-                      subitem === 'email'
-                        ?
-                          <StyledCell>
-                            {
-                              <HtmlTooltip
-                                interactive
-                                title={
-                                  <React.Fragment>
-                                    <Typography align="center">Profile</Typography>
-                                    <Typography align="center"><img src="/static/Hadley.png" /></Typography>
-                                    <Typography>Hadley King</Typography>
-                                    <Typography>Research Associate</Typography>
-                                    <Typography>Funny guy</Typography>
-                                    <Typography>{item[subitem]}</Typography>
-                                  </React.Fragment>
-                                }
-                              >
-                                <Typography>{item[subitem]}</Typography>
-                              </HtmlTooltip>
-                            }
-                          </StyledCell>
-                        :
-                          <StyledCell>{item[subitem]}</StyledCell>
-                    )
-                  )
-                }
-              </TableRow>
+          <TableRow>
+            {
+              contributorKeys.map(subitem => (
+                <StyledCell>{item[subitem]}</StyledCell>
+                )
+              )
+            }
+          </TableRow>
             )
           )
         }
+       <TableRow>
+          <StyledCell colSpan="5">
+            <Typography variant="h3">
+              Review
+            </Typography>
+          </StyledCell>
+       </TableRow>
+        <TableRow>
+        {
+          reviewKeys.map(item => (
+              <StyledCell>{processKey(item)}</StyledCell>
+            )
+          )
+        }
+        </TableRow>{console.log('review 285', reviewKeys)}
+      {
+        reviews.map(item => (
+          <TableRow>
+            {
+              reviewKeys.map(subitem => (
+                <StyledCell>{item[subitem]}</StyledCell>
+                )
+              )
+            }
+          </TableRow>
+          )
+        )
+      }
       </TableBody>
     </Table>
   );
 
-  /*
-  return (
-    <ul className={classes.listed}>
-      {
-        typeof(items) == 'object'
-          ?
-            Array.isArray(items) == true
-              ?
-                typeof(items[0]) == 'string'
-                  ?
-                    items.map(item => (
-                        <li className={classes.listed}>
-                          {item}
-                        </li>
-                      )
-                    )
-                  :
-                  <RecursiveJson items = {items[0]} />
-              :
-                itemsKeys.map(item => (
-                    <li className={classes.listed}>
-                        {processKey(item)}
-                        {<RecursiveJson items = {items[item]} />}
-                    </li>
-                  )
-                )
-          :
-            <li className={classes.listed}>{items}</li>
-      }
-    </ul>
-  );
-  */
 }

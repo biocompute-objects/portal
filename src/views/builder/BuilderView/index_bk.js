@@ -63,6 +63,10 @@ export default function BuilderView() {
   // Delete the draft after we publish?
   const [deleteDraftPostPublish, setDeleteDraftPostPublish] = useState(true);
 
+  useEffect(() => {
+    console.log('deleteDraftPostPublish: ', deleteDraftPostPublish);
+  }, [deleteDraftPostPublish]);
+
   // Was the initial draft successfuly created OR are we working
   // with a draft that was save previously?
   const [serverLock, setServerLock] = useState(false);
@@ -106,150 +110,6 @@ export default function BuilderView() {
     });
   };
 
-  // ----- INITIAL RENDERING ----- //
-
-  // Initial rendering.
-  useEffect(() => {
-    // See if we're dealing with a new or existing draft.
-    // TODO: fix '/' re-directs in routes.js.
-    const splitUp = parsePath.split('builder');
-
-    if (splitUp[splitUp.length - 1] == '') {
-      // NEW draft
-	  console.log('NEW draft', objectContents)
-      // Set the object contents to template values.
-      setObjectContents({
-        object_id: '',
-        spec_version: 'IEEE',
-        etag: '',
-        provenance_domain: {
-          name: '', version: '', created: '', modified: '', contributors: [{ contribution: ['createdBy'], name: '' }], license: ''
-        },
-        usability_domain: [''],
-        description_domain: {
-          keywords: [''],
-          pipeline_steps: [{
-            step_number: 0, name: '', description: '', input_list: [{ uri: { uri: '' } }], output_list: [{ uri: { uri: '' } }]
-          }]
-        },
-        execution_domain: {
-          script: [{ uri: { uri: '' } }], script_driver: '', software_prerequisites: [{ name: '', version: '', uri: { uri: '' } }], external_data_endpoints: [{ name: '', url: '' }], environment_variables: {}
-        },
-        io_domain: { input_subdomain: [{ uri: { uri: '' } }], output_subdomain: [{ mediatype: '', uri: { uri: '' } }] },
-        parametric_domain: [{ param: '', value: '', step: '' }]
-      });
-	  console.log('objectContents', objectContents)
-      // No longer loading.
-      setToolsLoading(false);
-      setLoading(false);
-	  localStorage.setItem('bco', JSON.stringify({
-        object_id: '',
-        spec_version: 'IEEE',
-        etag: '',
-        provenance_domain: {
-          name: '', version: '', created: '', modified: '', contributors: [{ contribution: ['createdBy'], name: '' }], license: ''
-        },
-        usability_domain: [''],
-        description_domain: {
-          keywords: [''],
-          pipeline_steps: [{
-            step_number: 0, name: '', description: '', input_list: [{ uri: { uri: '' } }], output_list: [{ uri: { uri: '' } }]
-          }]
-        },
-        execution_domain: {
-          script: [{ uri: { uri: '' } }], script_driver: '', software_prerequisites: [{ name: '', version: '', uri: { uri: '' } }], external_data_endpoints: [{ name: '', url: '' }], environment_variables: {}
-        },
-        io_domain: { input_subdomain: [{ uri: { uri: '' } }], output_subdomain: [{ mediatype: '', uri: { uri: '' } }] },
-        parametric_domain: [{ param: '', value: '', step: '' }]
-      }))
-
-      // The object was "found".
-      setObjectFound(true);
-    } else {
-      // EXISTING draft
-
-      // Take everything after the builder section.
-      const splitAgain = splitUp[1].split('/');
-
-      // Get the hostname and object ID.
-      const hostname = `${splitAgain[1]}://${splitAgain[2]}`;
-      const oI = `${hostname}/${splitAgain.slice(3, splitAgain.length)}`;
-
-      // Now look for a token associated with the hostname.
-
-      // BAD fix, should have apiinfo stored as object...
-      let foundToken = '';
-	  let foundGroups= [];
-
-      JSON.parse(localStorage.getItem('user')).apiinfo.map((item) => {
-        if (item.public_hostname === hostname) {
-          foundToken = item.token;
-		  foundGroups = item['other_info']['permissions']['groups'];
-		  console.log("item: ",item['other_info']['permissions']['groups']);
-        }
-      });
-
-      console.log('hostname: ', hostname);
-      console.log('oI: ', oI);
-      console.log('foundToken: ', foundToken);
-
-      // Ask the server for the contents.
-      fetch(oI, {
-        method: 'GET',
-        headers: {
-          Authorization: `Token ${foundToken}`,
-          'Content-type': 'application/json; charset=UTF-8'
-        }
-      }).then((res) => res.json().then((data) => ({
-        data,
-        status: res.status
-      })).then((res) => {
-        // Did the request go ok or not?
-        if (res.status === 200) {
-          console.log('Server return contents: ', foundToken);
-
-          // Parse the results.
-          // const parsed = JSON.parse(res.data)[0];
-
-          // Set the object information.
-          setObjectContents(res.data);
-          localStorage.setItem('bco', JSON.stringify(res.data))
-          // Set the draft saving location.
-          setReceivedDefault(res.data.object_id);
-
-          // Lock the savable server based on the information
-          // associated with the draft.
-          setServerLock(true);
-
-          setDraftSavingLocation({
-            hostname: hostname,
-            group: foundGroups,
-          });
-
-          // setLoading and setObjectFound MUST be within
-          // the response section of this fetch so as to
-          // not be fired before the response is done.
-
-          // TODO: improve error checking here to check for
-          // an invalid object ID.
-
-          // Who created it?
-          setObjectOwner(foundToken);
-
-          // Get the permissions.
-          setObjectId(oI);
-
-          // No longer loading.
-          setToolsLoading(false);
-          setLoading(false);
-
-          // The object was found.
-          setObjectFound(true);
-        }
-      }));
-    }
-  }, []);
-
   // ----- SAVING ----- //
 
   // Define the possible actions on the page.
@@ -280,14 +140,13 @@ export default function BuilderView() {
       // then make the call based on that.
       if (objectId === '') {
         // Call the API.
-        fetch(`${draftSavingLocation.hostname}/api/objects/drafts/create/`, {
+        fetch(`${draftSavingLocation.hostname}/api/objects/create/`, {
           method: 'POST',
           body: JSON.stringify({
-            POST_api_objects_draft_create: [
+            POST_create_new_object: [
               {
                 contents: objectContents,
                 owner_group: draftSavingLocation.group,
-                prefix: 'BCO',
                 schema: 'IEEE',
                 state: 'DRAFT',
                 table: draftSavingLocation.group.replace('ers', '')
@@ -323,7 +182,6 @@ export default function BuilderView() {
             const helper = { ...objectContents };
             helper.object_id = res.data[0].object_id;
             setObjectContents(helper);
-            localStorage.setItem('bco', JSON.stringify(objectContents))
 
             // Set the state.
             setObjectId(res.data[0].object_id);
@@ -338,7 +196,7 @@ export default function BuilderView() {
         }));
       } else {
         // Call the API.
-        fetch(`${draftSavingLocation.hostname}/api/drafts/objects/create/`, {
+        fetch(`${draftSavingLocation.hostname}/api/objects/create/`, {
           method: 'POST',
           body: JSON.stringify({
             POST_create_new_object: [
@@ -348,6 +206,7 @@ export default function BuilderView() {
                 owner_group: draftSavingLocation.group,
                 schema: 'IEEE',
                 state: 'DRAFT',
+                table: draftSavingLocation.group.replace('ers', '')
               }
             ]
           }),
@@ -511,6 +370,150 @@ export default function BuilderView() {
 
   }, [deleteDraft]);
 
+  // ----- INITIAL RENDERING ----- //
+
+  // Initial rendering.
+  useEffect(() => {
+    // See if we're dealing with a new or existing draft.
+    // TODO: fix '/' re-directs in routes.js.
+    const splitUp = parsePath.split('builder');
+
+    if (splitUp[splitUp.length - 1] == '') {
+      // NEW draft
+
+      // Set the object contents to template values.
+      setObjectContents(
+        {
+          object_id: '',
+          spec_version: 'IEEE',
+          etag: '',
+          provenance_domain: {
+            name: '',
+            version: '',
+            created: '',
+            modified: '',
+            contributors: [{ contribution: ['createdBy'], name: '' }],
+            license: ''
+          },
+          usability_domain: [''],
+          description_domain: {
+            keywords: [''],
+            pipeline_steps: [
+              {
+                step_number: 0,
+                name: '',
+                description: '',
+                prerequisite: [{ name: '', uri: { uri: '' } }],
+                input_list: [{ uri: '' }],
+                output_list: [{ uri: '' }]
+              }
+            ]
+          },
+          execution_domain: {
+            script: [{ uri: { uri: '' } }],
+            script_driver: '',
+            software_prerequisites: [{ name: '', version: '', uri: { uri: '' } }],
+            external_data_endpoints: [{ name: '', url: '' }],
+            environment_variables: {}
+          },
+          io_domain: {
+            input_subdomain: [{ uri: { uri: '' } }],
+            output_subdomain: [{ mediatype: '', uri: { uri: '' } }]
+          },
+          parametric_domain: [{ param: '', value: '', step: '' }]
+        }
+      );
+
+      // No longer loading.
+      setToolsLoading(false);
+      setLoading(false);
+
+      // The object was "found".
+      setObjectFound(true);
+    } else {
+      // EXISTING draft
+
+      // Take everything after the builder section.
+      const splitAgain = splitUp[1].split('/');
+
+      // Get the hostname and object ID.
+      const hostname = `${splitAgain[1]}://${splitAgain[2]}`;
+      const oI = `${hostname}/${splitAgain.slice(3, splitAgain.length)}`;
+
+      // Now look for a token associated with the hostname.
+
+      // BAD fix, should have apiinfo stored as object...
+      let foundToken = '';
+	  let foundGroups= [];
+      JSON.parse(localStorage.getItem('user')).apiinfo.map((item) => {
+        if (item.public_hostname === hostname) {
+          foundToken = item.token;
+		  foundGroups = item['other_info']['permissions']['groups'];
+		  console.log("item: ",item['other_info']['permissions']['groups']);
+        }
+      });
+
+      console.log('hostname: ', hostname);
+      console.log('oI: ', oI);
+      console.log('foundToken: ', foundToken);
+
+      // Ask the server for the contents.
+      fetch(oI, {
+        method: 'GET',
+        headers: {
+          Authorization: `Token ${foundToken}`,
+          'Content-type': 'application/json; charset=UTF-8'
+        }
+      }).then((res) => res.json().then((data) => ({
+        data,
+        status: res.status
+      })).then((res) => {
+        // Did the request go ok or not?
+        if (res.status === 200) {
+          console.log('Server return contents: ', JSON.parse(res.data)[0]);
+
+          // Parse the results.
+          const parsed = JSON.parse(res.data)[0];
+
+          // Set the object information.
+          setObjectContents(parsed.fields.contents);
+
+          // Set the draft saving location.
+          setReceivedDefault(`${parsed.fields.public_hostname} - ${parsed.fields.human_readable_hostname} - (${parsed.fields.owner_group})`);
+
+          // Lock the savable server based on the information
+          // associated with the draft.
+          setServerLock(true);
+
+          setDraftSavingLocation({
+            hostname: parsed.fields.public_hostname,
+            group: parsed.fields.owner_group
+          });
+
+          // setLoading and setObjectFound MUST be within
+          // the response section of this fetch so as to
+          // not be fired before the response is done.
+
+          // TODO: improve error checking here to check for
+          // an invalid object ID.
+
+          // Who created it?
+          setObjectOwner(`${parsed.fields.public_hostname} - ${parsed.fields.human_readable_hostname} (${parsed.fields.owner_group})`);
+
+          // Get the permissions.
+          setObjectId(oI);
+
+          // No longer loading.
+          setToolsLoading(false);
+          setLoading(false);
+
+          // The object was found.
+          setObjectFound(true);
+        }
+      }));
+    }
+  }, []);
+
   // ----- Listeners ----- //
 
   // None.
@@ -519,23 +522,18 @@ export default function BuilderView() {
   }, [draftSavingLocation]);
 
   return (
-    <DeepContext.Provider value={{ objectOwner }}>
-      <div>
-        <Views
-          downloadDraft={downloadDraft}
-          setDownloadDraft={setDownloadDraft}
-          saveDraft={saveDraft}
-          setSaveDraft={setSaveDraft}
-          objectContents={objectContents}
-          setObjectContents={setObjectContents}
-          publish={publish}
-          setPublish={setPublish}
-          complianceCheck={complianceCheck}
-          objectId={objectId}
-          loading={loading}
-          objectFound={objectFound}
-        />
-      </div>
-    </DeepContext.Provider>
+    toolsLoading === true
+      ? null
+      : (
+        <DeepContext.Provider value={{ objectOwner }}>
+          <div>
+
+            <Tools objectIdDerivatives={objectIdDerivatives} setDraftSavingLocation={setDraftSavingLocation} setPublishSavingLocation={setPublishSavingLocation} setDownloadDraft={setDownloadDraft} setSaveDraft={setSaveDraft} setPublish={setPublish} complianceCheck={complianceCheck} setComplianceCheck={setComplianceCheck} objectId={objectId} publishedObjectId={publishedObjectId} setObjectId={setObjectId} serverLock={serverLock} publishMessage={publishMessage} receivedDefault={receivedDefault} setDeleteDraftPostPublish={setDeleteDraftPostPublish} />
+
+            <Views downloadDraft={downloadDraft} setDownloadDraft={setDownloadDraft} saveDraft={saveDraft} setSaveDraft={setSaveDraft} objectContents={objectContents} setObjectContents={setObjectContents} publish={publish} setPublish={setPublish} complianceCheck={complianceCheck} objectId={objectId} loading={loading} objectFound={objectFound} />
+
+          </div>
+        </DeepContext.Provider>
+      )
   );
 }

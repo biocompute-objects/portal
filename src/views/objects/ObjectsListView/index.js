@@ -53,55 +53,92 @@ const ObjectsListView = () => {
     return {name, public_hostname, contents, last_update, object_class, object_id, owner_group, owner_user, prefix, schema, state};
   }; 
 
-  useEffect(() => {
-    setLoading(true);
-	let result = getObjectsListing()
-	console.log('result', result)
-  }, []);
-
-  useEffect(() => {
-  }, [loading]);
   // Row data
   var rowData = [];
 
-  const getObjectsListing = async () => {
-		console.log('ApiInfo33', ApiInfo);
-		ApiInfo.forEach((item) => {
-			RetrieveObjectsFromToken( item,  )
-			let tokenContents = JSON.parse(localStorage.getItem('tokenContents'))
-			console.log('tokenContents', tokenContents)
-			tokenContents.forEach(d_item => {
-		//
-          // The provenance domain name may not be defined.
-	          try {
-	            d_item['name'] = d_item['contents']['provenance_domain']['name'];
-	          } catch(TypeError) {
-			  d_item['name'] = 'N/A';
-	          }
+  const getObjectsListing = () => {
 
-	          rowData.push(
-	            createData(
-	              d_item['name'],
-	              item['public_hostname'],
-		      d_item['contents'],
-		      d_item['last_update'],
-		      d_item['object_class'],
-		      d_item['object_id'],
-		      d_item['owner_group'],
-		      d_item['owner_user'],
-		      d_item['prefix'],
-		      d_item['schema'],
-		      d_item['state'],
-	            )
-	          );
-	        });
-		console.log('tokenContents cleared', rowData);
-	});
-	// We're no longer loading.
-    setRows(rowData);
-    setLoading(false);
-	// localStorage.removeItem('tokenContents')
-};
+    // First get the API info.
+    let ApiInfo = JSON.parse(localStorage.getItem('user'));
+
+    // If there is no user info stored, assume we're the anonymous user.
+    if (ApiInfo === null) {
+
+      // Use the anon token, which is publicly available.
+      ApiInfo = fc.sending.anon_api_info;
+
+    } else {
+
+      // There was a user.
+      ApiInfo = ApiInfo.apiinfo;
+
+    }
+    
+    console.log(ApiInfo);
+
+    // Get the info for each API.
+    ApiInfo.forEach((item) => {
+
+      // Call the API using the server information
+      // associated with the user.
+      fetch(`${item['public_hostname']}/api/objects/token/`, {
+        method: 'POST',
+        body: JSON.stringify({
+          'POST_api_objects_token': {}
+        }),
+        headers: {
+          Authorization: `Token ${item.token}`,
+          'Content-type': 'application/json; charset=UTF-8'
+        }
+      }).then((response) => response.json()).then((data) => {
+
+        console.log('data: ', data);
+        
+        data.map(d_item => {
+          
+          // The provenance domain name may not be defined.
+          try {
+            d_item['name'] = d_item['contents']['provenance_domain']['name'];
+          } catch(TypeError) {
+            d_item['name'] = 'N/A'
+          }
+
+          rowData.push(
+            createData(
+              d_item['name'],
+              item['public_hostname'],
+              d_item['contents'],
+              d_item['last_update'],
+              d_item['object_class'],
+              d_item['object_id'],
+              d_item['owner_group'],
+              d_item['owner_user'],
+              d_item['prefix'],
+              d_item['schema'],
+              d_item['state'],
+            )
+          );
+      });
+
+        // We're no longer loading.
+        setRows(rowData);
+        setLoading(false);
+
+      });
+
+    });
+
+  };
+
+  useEffect(() => {
+    setLoading(true);
+  }, []);
+
+  useEffect(() => {
+    getObjectsListing();
+  }, [loading]);
+
+
   return (
     <Page
       className={classes.root}

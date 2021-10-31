@@ -39,7 +39,6 @@ import { useContext, useState } from 'react';
 import Alert from '@material-ui/lab/Alert';
 import Permissions from './Permissions';
 import { ParentContext } from './index';
-import VerifyDelete from './VerifyDelete.js';
 import ServerStatus from './ServerStatus';
 import { FetchContext } from '../../../App';
 
