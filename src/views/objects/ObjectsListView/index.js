@@ -66,7 +66,6 @@ const ObjectsListView = () => {
 
       // Use the anon token, which is publicly available.
       ApiInfo = fc.sending.anon_api_info;
-
     } else {
 
       // There was a user.

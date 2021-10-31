@@ -170,6 +170,7 @@ const ColorCoded = ({ complianceCheck, setComplianceCheck, objectContents, setOb
   // and kick back up everything.
   useEffect(() => {
 
+
     setObjectContents({
         "object_id": meObjectId,
         "spec_version":"IEEE", "eTag": meEtag, 

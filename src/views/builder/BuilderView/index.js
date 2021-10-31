@@ -206,7 +206,6 @@ export default function BuilderView() {
         // Did the request go ok or not?
         if (res.status === 200) {
           console.log('Server return contents: ', foundToken);
-
           // Parse the results.
           // const parsed = JSON.parse(res.data)[0];
 
@@ -215,7 +214,6 @@ export default function BuilderView() {
           localStorage.setItem('bco', JSON.stringify(res.data))
           // Set the draft saving location.
           setReceivedDefault(res.data.object_id);
-
           // Lock the savable server based on the information
           // associated with the draft.
           setServerLock(true);
@@ -234,7 +232,6 @@ export default function BuilderView() {
 
           // Who created it?
           setObjectOwner(foundToken);
-
           // Get the permissions.
           setObjectId(oI);
 
@@ -250,7 +247,6 @@ export default function BuilderView() {
   }, []);
 
   // ----- Listeners ----- //
-
   return (
     <DeepContext.Provider value={{ objectOwner }}>
       <div>

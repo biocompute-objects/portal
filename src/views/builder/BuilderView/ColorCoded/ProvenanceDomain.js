@@ -173,7 +173,32 @@ export default function ProvenanceDomain({ items, cF }) {
           // Name, Version, and License also depend on it.
           
         }
-
+        // This section is causing the page to break. Return to it later
+        // for(var reviewName = 0; i < items.pdReview.length; reviewName++) {
+        //
+        //   // Name
+        //   if(items.pdReview[reviewName].reviewer.name === "") {
+        //
+        //     // No name.
+        //     setMissingReviewName(true);
+        //
+        //     // Header
+        //     setMissingReview(true);
+        //
+        //     // Set the OR flag.
+        //     orFlag = true;
+        //
+        //     break;
+        //
+        //   } else {
+        //     setMissingReviewName(false);
+        //   }
+        //
+        //   // Can't rely on orFlag here because fields like
+        //   // Name, Version, and License also depend on it.
+        //
+        // }
+        
         for(var reviewCont = 0; reviewCont < items.pdReview.length; reviewCont++) {
           
           // Contribution

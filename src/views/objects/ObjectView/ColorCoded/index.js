@@ -100,18 +100,6 @@ const ColorCoded = ({ contents }) => {
     "spec_version": contents.spec_version,
     "etag": contents.etag
   }
-  // const renderList = [ meta, contents.provenance_domain, contents.usability_domain, contents.description_domain, contents.execution_domain, contents.io_domain, contents.parametric_domain, contents.error_domain ];
-  // const compList = [ Meta, ProvenanceDomain, UsabilityDomain, DescriptionDomain, ExecutionDomain, IoDomain, ParametricDomain, ErrorDomain ];
-  // const classNames = [ 'meta', 'provenanceDomain', 'usabilityDomain', 'descriptionDomain', 'executionDomain', 'ioDomain', 'parametricDomain', 'errorDomain' ];
-
-  // Set fake data for missing (optional) domains.
-  // ['provenance_domain', 'usability_domain', 'description_domain', 'execution_domain', 'io_domain', 'parametric_domain', 'error_domain', 'extension_domain'].map(item => {
-  //     if(!(item in contents)) {
-  //       contents[item] = '';
-  //     }
-  //   }
-  // )
-  // Couldn't get the map above to work?
   if(!('error_domain' in contents)) {
     contents['error_domain'] = '';
   }
