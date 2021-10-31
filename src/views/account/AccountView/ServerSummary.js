@@ -13,44 +13,43 @@ const useStyles = makeStyles({
 });
 
 export default function ServerSummary({ raw }) {
-
   const classes = useStyles();
 
   return (
     <Card className={classes.root} variant="outlined">
       <CardContent>
-        <Typography variant = 'h2'>
+        <Typography variant="h2">
           Hostname
         </Typography>
-        <Typography variant = 'h4'>
+        <Typography variant="h4">
           {raw.hostname}
         </Typography>
         <br />
-        <Typography variant = 'h2'>
+        <Typography variant="h2">
           Human-readable Hostname
         </Typography>
-        <Typography variant = 'h4'>
+        <Typography variant="h4">
           {raw.human_readable_hostname}
         </Typography>
         <br />
-        <Typography variant = 'h2'>
+        <Typography variant="h2">
           Public hostname
         </Typography>
-        <Typography variant = 'h4'>
+        <Typography variant="h4">
           {raw.public_hostname}
         </Typography>
         <br />
-        <Typography variant = 'h2'>
+        <Typography variant="h2">
           Username
         </Typography>
-        <Typography variant = 'h4'>
+        <Typography variant="h4">
           {raw.username}
         </Typography>
         <br />
-        <Typography variant = 'h2'>
+        <Typography variant="h2">
           Token
         </Typography>
-        <Typography variant = 'h4'>
+        <Typography variant="h4">
           {raw.token}
         </Typography>
       </CardContent>

@@ -18,9 +18,10 @@ export const FetchContext = createContext();
 function App() {
   const routing = useRoutes(routes());
 
-  /* 
-  * Define hostnames here. 
+  /*
+  * Define hostnames here.
   */
+  // TODO: This is assuming a host at 8000 and 8080 - should probably be set more dynamically
   const hostnames = {
     local: {
       bcoapi_accounts_new: 'http://127.0.0.1:8000/api/accounts/new/',
@@ -30,6 +31,7 @@ function App() {
       bcoapi_objects_read: 'http://127.0.0.1:8000/api/objects/read/',
       bcoapi_objects_view: 'http://127.0.0.1:8000/api/objects/view/',
       userdb_addapi: 'http://127.0.0.1:8080/users/add_api/',
+      userdb_removeapi: 'http://127.0.0.1:8080/users/remove_api/',
       userdb_users: 'http://127.0.0.1:8080/users/list/',
       update_user: 'http://127.0.0.1:8080/users/update_user/',
       userdb_tokenauth: 'http://127.0.0.1:8080/users/token-auth/',
@@ -48,6 +50,7 @@ function App() {
       bcoapi_objects_read: 'https://dev.portal.aws.biochemistry.gwu.edu/api/objects/read/',
       bcoapi_objects_view: 'https://dev.portal.aws.biochemistry.gwu.edu/api/objects/view/',
       userdb_addapi: 'https://dev.portal.aws.biochemistry.gwu.edu/users/add_api/',
+      userdb_removeapi: 'https://dev.portal.aws.biochemistry.gwu.edu/users/remove_api/',
       userdb_users: 'https://dev.portal.aws.biochemistry.gwu.edu/users/list/',
       update_user: 'http://dev.portal.aws.biochemistry.gwu.edu/users/update_user/',
       userdb_tokenauth: 'https://dev.portal.aws.biochemistry.gwu.edu/users/token-auth/',
@@ -66,6 +69,7 @@ function App() {
       bcoapi_objects_read: 'https://beta.portal.aws.biochemistry.gwu.edu/api/objects/read/',
       bcoapi_objects_view: 'https://beta.portal.aws.biochemistry.gwu.edu/api/objects/view/',
       userdb_addapi: 'https://beta.portal.aws.biochemistry.gwu.edu/users/add_api/',
+      userdb_removeapi: 'https://beta.portal.aws.biochemistry.gwu.edu/users/remove_api/',
       userdb_users: 'https://beta.portal.aws.biochemistry.gwu.edu/users/list/',
       update_user: 'https://beta.portal.aws.biochemistry.gwu.edu/users/update_user/',
       userdb_tokenauth: 'https://beta.portal.aws.biochemistry.gwu.edu/users/token-auth/',
@@ -84,6 +88,7 @@ function App() {
       bcoapi_objects_read: 'https://test.https://biocomputeobject.org/api/objects/read/',
       bcoapi_objects_view: 'https://test.https://biocomputeobject.org/api/objects/view/',
       userdb_addapi: 'https://test.https://biocomputeobject.org/users/add_api/',
+      userdb_removeapi: 'https://test.https://biocomputeobject.org/users/remove_api/',
       userdb_users: 'https://test.https://biocomputeobject.org/users/list/',
       update_user: 'https://test.https://biocomputeobject.org/users/update_user/',
       userdb_tokenauth: 'https://test.https://biocomputeobject.org/users/token-auth/',
@@ -102,6 +107,7 @@ function App() {
       bcoapi_objects_read: 'https://https://biocomputeobject.org/api/objects/read/',
       bcoapi_objects_view: 'https://https://biocomputeobject.org/api/objects/view/',
       userdb_addapi: 'https://https://biocomputeobject.org/users/add_api/',
+      userdb_removeapi: 'https://https://biocomputeobject.org/users/remove_api/',
       userdb_users: 'https://https://biocomputeobject.org/users/list/',
       update_user: 'https://https://biocomputeobject.org/users/update_user/',
       userdb_tokenauth: 'https://https://biocomputeobject.org/users/token-auth/',
