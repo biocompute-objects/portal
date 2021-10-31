@@ -57,7 +57,7 @@ export default function DescriptionDomain({
   compCheck, checkBlank, items, cF
 }) {
   const classes = useStyles();
-
+  
   // State for showing missing sections.
   const [missingDescriptionDomain, setMissingDescriptionDomain] = useState(true);
   const [missingKeywords, setMissingKeywords] = useState(false);
@@ -79,6 +79,7 @@ export default function DescriptionDomain({
   const [missingStepsOutputUri, setMissingStepsOutputUri] = useState(false);
 
   useEffect(() => {
+
     console.log('dummy', items);
     // Create an OR flag.
     let orFlag = false;
@@ -314,9 +315,11 @@ export default function DescriptionDomain({
         break;
       } else {
         // We have an input list, but do we have URIs?
+
         for (var j = 0; j < items.ddPipelineSteps[i].input_list.length; j++) {
           if (items.ddPipelineSteps[i].input_list[j].uri === '') {
             // No URI.
+			console.log('ddPipelineSteps', items.ddPipelineSteps[i].input_list[j]['uri'])
             setMissingStepsInputUri(true);
 
             // Header
@@ -348,6 +351,7 @@ export default function DescriptionDomain({
         break;
       } else {
         // We have an output list, but do we have URIs?
+
         for (var j = 0; j < items.ddPipelineSteps[i].output_list.length; j++) {
           if (items.ddPipelineSteps[i].output_list[j].uri === '') {
             // No URI.
@@ -841,6 +845,7 @@ export default function DescriptionDomain({
                     <List className={classes.fullWidthList}>
                       {console.log('ddPipelineSteps 849', item.prerequisite, item)}
                       {
+
                         item.prerequisite !== undefined
                           ? (
                             item.prerequisite.map((subitem, subindex) => (
@@ -880,6 +885,7 @@ export default function DescriptionDomain({
                               }
                               </>
                             ))
+
                           )
 
                           : (<ListItem />)
@@ -910,6 +916,7 @@ export default function DescriptionDomain({
                         item.input_list.map((subitem, subindex) => (
                           <>
                             <ListItem>
+
                               <TextField InputProps={{ className: classes.root }} label="Filename" fullWidth variant="outlined" value={cF(subitem.filename)} onChange={(e) => setListInput(e, index, 'input_list', subindex, 'filename')} />
                             </ListItem>
                             <ListItem>
