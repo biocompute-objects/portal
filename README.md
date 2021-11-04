@@ -27,3 +27,20 @@ The git folder (application) that contains all of the user information for the p
 
 1. python3 manage.py runserver 8000
 
+## Containerization
+
+The web portal can be containerized for easier development and deployment.
+
+### Building in a container with docker
+
+You can build the container by running the build command:
+
+`docker build -t bco_portal .`
+
+### Running the container with docker
+
+You can run the container via docker through the following command:
+
+`docker run --network host --rm -t bco_portal`
+
+This will set the portal to be available at `localhost:3000` on the host machine.
