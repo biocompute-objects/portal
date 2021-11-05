@@ -14,7 +14,7 @@ COPY jsconfig.json .
 COPY public public
 COPY docs docs
 
-RUN npm install --legacy-peer-deps
+RUN npm install --quiet --legacy-peer-deps
 #RUN npm audit fix --legacy-peer-deps
 
 CMD ["npm", "run", "start"]
