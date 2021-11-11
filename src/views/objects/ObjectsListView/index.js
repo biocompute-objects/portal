@@ -7,10 +7,10 @@ import {
 } from '@material-ui/core';
 import Page from 'src/components/Page';
 import Typography from '@material-ui/core/Typography';
+import Async from 'react-async';
 import Results from './Results';
 // import Toolbar from '../../../components/ObjectsListViewToolbar.js';
-import RetrieveObjectsFromToken from '../../../components/API/RetrieveObjectsFromToken.js'
-import Async from 'react-async';
+import RetrieveObjectsFromToken from '../../../components/API/RetrieveObjectsFromToken.js';
 
 // Fetch context.
 import { FetchContext } from '../../../App';
@@ -25,7 +25,6 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const ObjectsListView = () => {
-
   const classes = useStyles();
 
   //  Fetch context.
@@ -35,98 +34,89 @@ const ObjectsListView = () => {
   const [loading, setLoading] = useState(true);
   // const [tokenContents, setTokenContents] = useState();
   const [rows, setRows] = useState();
-  // First get the API info.
-  var ApiInfo = {}
-  var thing = {}
-  const user = JSON.parse(localStorage.getItem('user'));
-  // If there is no user info stored, assume we're the anonymous user.
-  if (user === null) {
-    // Use the anon token, which is publicly available.
-    ApiInfo = fc.sending.anon_api_info;
-  } else {
-    // There was a user.
-    ApiInfo = user.apiinfo;
+
+  // this function creates the row items. Use this later to add the select columns ability
+  function createData(name, public_hostname, contents, last_update, object_class, object_id, owner_group, owner_user, prefix, schema, state) {
+    return {
+      name, public_hostname, contents, last_update, object_class, object_id, owner_group, owner_user, prefix, schema, state
+    };
   }
 
-	// this function creates the row items. Use this later to add the select columns ability
-  function createData(name, public_hostname, contents, last_update, object_class, object_id, owner_group, owner_user, prefix, schema, state) {
-    return {name, public_hostname, contents, last_update, object_class, object_id, owner_group, owner_user, prefix, schema, state};
-  }; 
-
   // Row data
-  var rowData = [];
+  const rowData = [];
+
+  const getObjs = function getObjects(item) {
+    return fetch(`${item.public_hostname}/api/objects/token/`, {
+      method: 'POST',
+      body: JSON.stringify({
+        POST_api_objects_token: {}
+      }),
+      headers: {
+        Authorization: `Token ${item.token}`,
+        'Content-type': 'application/json; charset=UTF-8'
+      }
+    }).then((response) => {
+      return [item.public_hostname, response.json()];
+    });
+  };
 
   const getObjectsListing = () => {
-
     // First get the API info.
     let ApiInfo = JSON.parse(localStorage.getItem('user'));
-
     // If there is no user info stored, assume we're the anonymous user.
     if (ApiInfo === null) {
-
       // Use the anon token, which is publicly available.
       ApiInfo = fc.sending.anon_api_info;
     } else {
-
       // There was a user.
       ApiInfo = ApiInfo.apiinfo;
-
     }
-    
-    console.log(ApiInfo);
 
+    // console.log(ApiInfo);
     // Get the info for each API.
-    ApiInfo.forEach((item) => {
-
-      // Call the API using the server information
-      // associated with the user.
-      fetch(`${item['public_hostname']}/api/objects/token/`, {
-        method: 'POST',
-        body: JSON.stringify({
-          'POST_api_objects_token': {}
-        }),
-        headers: {
-          Authorization: `Token ${item.token}`,
-          'Content-type': 'application/json; charset=UTF-8'
+    const results = Promise.all(ApiInfo.map(getObjs));
+    results.then((data) => {
+      console.log('Output ', data);
+      // data.forEach((d) => {
+      const promises = data.map((apiAndPromise) => {
+        // The provenance domain name may not be defined.
+        if (apiAndPromise.length !== 2) {
+          console.log("ERROR: This shouldn't ever be hit.");
         }
-      }).then((response) => response.json()).then((data) => {
+        const apiServer = apiAndPromise[0];
+        return apiAndPromise[1].then((dItems) => {
+          dItems.forEach((dItem) => {
+            try {
+              dItem.name = dItem.contents.provenance_domain.name;
+            } catch (TypeError) {
+              dItem.name = 'N/A';
+            }
 
-        console.log('data: ', data);
-        
-        data.map(d_item => {
-          
-          // The provenance domain name may not be defined.
-          try {
-            d_item['name'] = d_item['contents']['provenance_domain']['name'];
-          } catch(TypeError) {
-            d_item['name'] = 'N/A'
-          }
-
-          rowData.push(
-            createData(
-              d_item['name'],
-              item['public_hostname'],
-              d_item['contents'],
-              d_item['last_update'],
-              d_item['object_class'],
-              d_item['object_id'],
-              d_item['owner_group'],
-              d_item['owner_user'],
-              d_item['prefix'],
-              d_item['schema'],
-              d_item['state'],
-            )
-          );
+            rowData.push(
+              createData(
+                dItem.name,
+                apiServer,
+                dItem.contents,
+                dItem.last_update,
+                dItem.object_class,
+                dItem.object_id,
+                dItem.owner_group,
+                dItem.owner_user,
+                dItem.prefix,
+                dItem.schema,
+                dItem.state,
+              )
+            );
+          });
+        });
       });
-
-        // We're no longer loading.
+      // We should have all of the promises for the various servers now
+      // wait for them all to finish and then populate the table.
+      Promise.all(promises).then((r) => {
         setRows(rowData);
         setLoading(false);
-
       });
-
     });
-
   };
 
   useEffect(() => {
@@ -136,7 +126,6 @@ const ObjectsListView = () => {
   useEffect(() => {
     getObjectsListing();
   }, [loading]);
-
 
   return (
     <Page
