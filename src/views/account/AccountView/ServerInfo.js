@@ -212,7 +212,7 @@ const EnhancedTableToolbar = (props) => {
           // This will allow the background to update with
           // the updated server list.
           setServerAdded(true);
-          setSelected(false);
+          // setSelected(false);
         } else {
           // Display whatever the server said.
           console.log('Failed to remove the API server because: ', result.data.detail);

@@ -34,6 +34,18 @@ const ObjectsListView = () => {
   const [loading, setLoading] = useState(true);
   // const [tokenContents, setTokenContents] = useState();
   const [rows, setRows] = useState();
+  // First get the API info.
+  let ApiInfo = {};
+  const thing = {};
+  const user = JSON.parse(localStorage.getItem('user'));
+  // If there is no user info stored, assume we're the anonymous user.
+  if (user === null) {
+    // Use the anon token, which is publicly available.
+    ApiInfo = fc.sending.anon_api_info;
+  } else {
+    // There was a user.
+    ApiInfo = user.apiinfo;
+  }
 
   // this function creates the row items. Use this later to add the select columns ability
   function createData(name, public_hostname, contents, last_update, object_class, object_id, owner_group, owner_user, prefix, schema, state) {
@@ -71,7 +83,6 @@ const ObjectsListView = () => {
       // There was a user.
       ApiInfo = ApiInfo.apiinfo;
     }
-
     // console.log(ApiInfo);
     // Get the info for each API.
     const results = Promise.all(ApiInfo.map(getObjs));
