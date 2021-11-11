@@ -13,7 +13,6 @@ import { useContext } from 'react';
 import { ParentContext } from './index';
 
 export default function ShowCredentials(props) {
-
   // Use the parent context.
   // Source: https://stackoverflow.com/questions/58936042/pass-context-between-siblings-using-context-in-react
   const { showing, setShowing } = useContext(ParentContext);
@@ -30,112 +29,89 @@ export default function ShowCredentials(props) {
 
   // If all fields are provided, allow the submission to go through.
   useEffect(() => {
-
-    if(hostname !== '' && username !== '' && password !== '' && apikey !== '') {
+    if (hostname !== '' && username !== '' && password !== '' && apikey !== '') {
       setFieldsFilled(true);
     } else {
       setFieldsFilled(false);
     }
+  }, [hostname, username, password, apikey]);
 
-  }, [hostname, username, password, apikey])
-  
   const handleClose = () => {
     setShowing(false);
-    //props.newServer('asdfas');
+    // props.newServer('asdfas');
   };
 
   // Set state with new values in text fields.
-  
 
   // Check if the server and the given key are valid.
   const checkApi = () => {
-    
     // Fetch to the server to verify a valid account.
     fetch(hostname, {
       method: 'POST',
       body: JSON.stringify({
-        POST_get_key_permissions: [ 
+        POST_get_key_permissions: [
           {
-            apikey: apikey
+            apikey
           }
         ]
       }),
       headers: {
-        "Content-type": "application/json; charset=UTF-8"
+        'Content-type': 'application/json; charset=UTF-8'
       }
-      }).then(response=>response.json()).then(data=>{
-                
-        // Was the request a success?
-        const requestStatus = data.POST_get_key_permissions[0].request_code;
+    }).then((response) => response.json()).then((data) => {
+      // Was the request a success?
+      const requestStatus = data.POST_get_key_permissions[0].request_code;
 
-        if(requestStatus === '200') {
+      if (requestStatus === '200') {
+        // Update the message.
+        setRequestStatus('success');
 
-          // Update the message.
-          setRequestStatus('success');
+        // Get the relevant information from the API.
+        console.log(data.POST_get_key_permissions[0]);
 
-          // Get the relevant information from the API.
-          console.log(data.POST_get_key_permissions[0]);
+        // Add the permissions to the user's information via userdb call.
+        fetch('http://127.0.0.1:8080/core/add_api/', {
+          method: 'POST',
+          body: JSON.stringify({
+            api_hostname: hostname,
+            api_human_readable: 'some readable name',
+            api_key: apikey
+          }),
+          headers: {
+            Authorization: `JWT ${localStorage.getItem('token')}`,
+            'Content-type': 'application/json; charset=UTF-8'
+          }
+        }).then((response) => response.json()).then((data) => {
+          console.log(data);
+          // Update the local storage with the new information.
+          localStorage.setItem('user', JSON.stringify(data));
 
-          // Add the permissions to the user's information via userdb call.
-          fetch('http://127.0.0.1:8080/core/add_api/', {
-              method: 'POST',
-              body: JSON.stringify({
-                  api_hostname: hostname,
-                  api_human_readable: "some readable name",
-                  api_key: apikey
-              }),
-              headers: {
-                  Authorization: `JWT ${localStorage.getItem('token')}`,
-                  "Content-type": "application/json; charset=UTF-8"
-              }
-              }).then(response=>response.json()).then(data=>{
-                
-                console.log(data);
-                // Update the local storage with the new information.
-                localStorage.setItem('user', JSON.stringify(data));
-
-                // UX thing, give a little time before closing the dialog.
-                setTimeout(handleClose, 2500);
-              
-          })
-          
-        } else if(requestStatus === '404') {
-
-          // Update the message.
-          setRequestStatus('failure');
-
-        }
-        
-    })
-
-  }
+          // UX thing, give a little time before closing the dialog.
+          setTimeout(handleClose, 2500);
+        });
+      } else if (requestStatus === '404') {
+        // Update the message.
+        setRequestStatus('failure');
+      }
+    });
+  };
 
   const setInput = (event, which) => {
-		
-		// Cases
-    if(which === 'hostname') {
-
+    // Cases
+    if (which === 'hostname') {
       // Change the hostname.
-			setHostname(event.target.value);
-
-    } else if(which == 'username') {
-			
-			// Change the API key.
-			setUsername(event.target.value);
-
-    } else if(which == 'password') {
-        
+      setHostname(event.target.value);
+    } else if (which == 'username') {
+      // Change the API key.
+      setUsername(event.target.value);
+    } else if (which == 'password') {
       // Change the API key.
       setPassword(event.target.value);
-    
-    } else if(which == 'apikey') {
-			
-			// Change the API key.
-			setApikey(event.target.value);
-
+    } else if (which == 'apikey') {
+      // Change the API key.
+      setApikey(event.target.value);
     }
-
-  }
+  };
 
   return (
     <div>
@@ -183,7 +159,7 @@ export default function ShowCredentials(props) {
           <Button onClick={handleClose} color="primary">
             Cancel
           </Button>
-          <Button disabled = {!fieldsFilled} onClick={checkApi} color="primary">
+          <Button disabled={!fieldsFilled} onClick={checkApi} color="primary">
             Add Server
           </Button>
         </DialogActions>
