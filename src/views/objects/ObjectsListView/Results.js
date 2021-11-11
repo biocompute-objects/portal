@@ -370,5 +370,5 @@ export default function Results({ rowInfo }) {
 }
 
 Results.propTypes = {
-  rowInfo: PropTypes.object.isRequired,
+  rowInfo: PropTypes.array.isRequired,
 };
