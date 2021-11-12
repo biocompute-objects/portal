@@ -25,6 +25,7 @@ function App() {
   const hostnames = {
     local: {
       bcoapi_accounts_new: 'http://127.0.0.1:8000/api/accounts/new/',
+      // TODO: this v is not listed in the URLS for the bco API
       bcoapi_description_permissions: 'http://127.0.0.1:8000/api/description/permissions/',
       bcoapi_objects_create: 'http://127.0.0.1:8000/api/objects/create/',
       bcoapi_objects_list: 'http://127.0.0.1:8000/api/objects/token/',

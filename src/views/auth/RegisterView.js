@@ -16,10 +16,10 @@ import Page from 'src/components/Page';
 
 // Fetch context.
 import Alert from '@material-ui/lab/Alert';
+import { useNavigate } from 'react-router-dom';
 import { FetchContext } from '../../App';
 import UserdbNewAccount from '../../components/API/UserdbNewAccount.js';
 import ApiNewAccount from '../../components/API/ApiNewAccount.js';
-import { useNavigate } from 'react-router-dom';
 // Registration error
 // Source: https://material-ui.com/components/alert/#simple-alerts
 
@@ -41,7 +41,7 @@ const useStyles = makeStyles((theme) => ({
 const RegisterView = () => {
   const classes = useStyles();
   const navigate = useNavigate();
-  
+
   // Fetch context.
   const fc = useContext(FetchContext);
 
@@ -98,18 +98,22 @@ const RegisterView = () => {
                 .required('Password is required'),
               confirmPassword: Yup.string()
                 .oneOf([Yup.ref('password'), null], 'Passwords must match')
-                
+
             })}
             onSubmit={(values) => {
-                UserdbNewAccount(values)
-                if (localStorage.getItem('tokenAPI')) {
-                  console.log("getting API account now")
-                  ApiNewAccount(values)
-                  navigate('/login', { replace: true });
-                }
+              // NOTE: This will set the Token generated in local storage
+              //        maybe should return here too
+              UserdbNewAccount(values);
+              if (localStorage.getItem('tokenAPI')) {
+                console.log('getting API account now');
+                ApiNewAccount(values);
+                navigate('/login', { replace: true });
+              }
             }}
           >
-            {({errors, handleBlur, handleChange, handleSubmit, touched, values }) => (
+            {({
+              errors, handleBlur, handleChange, handleSubmit, touched, values
+            }) => (
               <form onSubmit={handleSubmit}>
                 <Box mb={3}>
                   <Typography
@@ -222,9 +226,9 @@ const RegisterView = () => {
                   </Typography> */}
                 </Box>
                 {Boolean(touched.policy && errors.policy) && (
-                  <FormHelperText error>
-                    {errors.policy}
-                  </FormHelperText>
+                <FormHelperText error>
+                  {errors.policy}
+                </FormHelperText>
                 )}
                 <Box my={2}>
                   <div className={classes.alertSpec}>
