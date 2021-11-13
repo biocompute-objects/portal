@@ -10,7 +10,7 @@ export default function ModifyDraftObject( ) {
   JSON.parse(localStorage.getItem('user')).apiinfo.forEach((item) => {
     userToken = item.token;
   });
-  console.log('bco', localStorage.getItem('bco'))
+  console.log('bco', userToken, localStorage.getItem('bco'))
   fetch("http://localhost:8000/api/objects/drafts/modify/", {
     method: 'POST',
     body: JSON.stringify({

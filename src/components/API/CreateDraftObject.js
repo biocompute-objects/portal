@@ -1,25 +1,31 @@
-// /src/components/Api/ModifyDraftObject.js 
+// /src/components/Api/ModifyDraftObject.js
 
-/* Modifies a draft object using the current user's token and an object's 
+/* Modifies a draft object using the current user's token and an object's
 draft id */
 
-export default function CreateDraftObject( ) {
-  let obectContents = JSON.parse(localStorage.getItem('bco'));
-  let userToken = localStorage.getItem('token');
+export default function CreateDraftObject(url) {
+  const obectContents = JSON.parse(localStorage.getItem('bco'));
+  let userToken = '';
+  let userGroup = '';
 
   JSON.parse(localStorage.getItem('user')).apiinfo.forEach((item) => {
-    userToken = item.token;
+    if (url === item.public_hostname) {
+      userToken = item.token;
+      userGroup = item.username;
+    }
   });
-  console.log('bco', localStorage.getItem('bco'))
-  fetch("http://localhost:8000/api/objects/drafts/modify/", {
+  console.log('save bco 13', url, userGroup, userToken, localStorage.getItem('bco'));
+  fetch(`${url}/api/objects/drafts/create/`, {
     method: 'POST',
     body: JSON.stringify({
-        POST_api_objects_drafts_modify: [
-        	{
-        		contents:   obectContents,
-				object_id: obectContents['object_id']
-        	}
-        ]
+      POST_api_objects_draft_create: [
+        {
+          contents: obectContents,
+          prefix: 'BCO',
+          schema: 'IEEE',
+          owner_group: 'bco_drafter'
+        }
+      ]
     }),
     headers: {
       Authorization: `Token ${userToken}`,
@@ -28,11 +34,10 @@ export default function CreateDraftObject( ) {
   })
     .then((response) => {
       if (response.status === 200) {
-
-        console.log('POST_api_objects_drafts_modify: Success!');
-          localStorage.removeItem('bco');
-        } else {
-          console.log('POST_api_objects_drafts_modify: FAILED!');
-        };
-      });
+        console.log('POST_api_objects_drafts_modify: Success!', response);
+        localStorage.removeItem('bco');
+      } else {
+        console.log('POST_api_objects_drafts_modify: FAILED!');
+      }
+    });
 }
