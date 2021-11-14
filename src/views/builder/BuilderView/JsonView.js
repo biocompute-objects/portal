@@ -47,7 +47,7 @@ const StyledCell = withStyles({
 })(TableCell);
 
 // Pass an object and whether or not its keys are properties.
-export default function SaveDraft() {
+export default function JsonView() {
   const contents = JSON.parse(localStorage.getItem('bco'));
   console.log('typeof(contents): ', typeof (contents));
   const classes = useStyles();
@@ -76,6 +76,7 @@ export default function SaveDraft() {
               multiline
               rows={18}
               value={rawContents}
+              onChange={console.log('changed')} // onChange={(e) => items.setPdLicense(e.target.value)}  
               variant="outlined"
             />
           </StyledCell>

@@ -68,7 +68,7 @@ export default function BuilderView() {
   const [parsePath, setParsePath] = useState(useLocation().pathname);
 
   // All of the relevant things associated with an object ID.
-  const [objectIdDerivatives, setObjectIdDerivatives] = useState({});
+  const [objectInformation, setObjectInformation] = useState({});
 
   // Who owns it?
   const [objectOwner, setObjectOwner] = useState('');
@@ -151,18 +151,22 @@ export default function BuilderView() {
       // BAD fix, should have apiinfo stored as object...
       let foundToken = '';
       let foundGroups = [];
+      let objectStuff = {};
 
       JSON.parse(localStorage.getItem('user')).apiinfo.map((item) => {
         if (item.public_hostname === hostname) {
           foundToken = item.token;
           foundGroups = item.other_info.permissions.groups;
+          objectStuff = ({
+            object_id: oI,
+            token: item.token,
+            groups: item.other_info.permissions.groups,
+            owner: item.username,
+            hostname: item.public_hostname
+          });
+          setObjectInformation(objectStuff);
         }
       });
-
-      console.log('curretnDraft hostname: ', hostname);
-      console.log('curretnDraft oI: ', oI);
-      console.log('curretnDraft foundToken: ', foundToken);
-      console.log('curretnDraft foundGroups: ', foundGroups);
 
       // Ask the server for the contents.
       fetch(oI, {
@@ -224,6 +228,7 @@ export default function BuilderView() {
       <div>
         <PermissionTools
           newDraft={newDraft}
+          objectInformation={objectInformation}
           setDownloadDraft={setDownloadDraft}
           saveDraft={saveDraft}
           setSaveDraft={setSaveDraft}

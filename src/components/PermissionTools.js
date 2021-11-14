@@ -40,7 +40,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function PermissionTools({
-  objectIdDerivatives, setDraftSavingLocation, newDraft, setPublishSavingLocation, setDownloadDraft, setSaveDraft, setPublish, publishedObjectId, publishMessage, receivedDefault, serverLock, setDeleteDraftPostPublish
+  objectIdDerivatives, setDraftSavingLocation, newDraft, objectInformation, setPublishSavingLocation, setDownloadDraft, setSaveDraft, setPublish, publishedObjectId, publishMessage, receivedDefault, serverLock, setDeleteDraftPostPublish
 }) {
   // State
   const [saveDraftTo, setSaveDraftTo] = useState('');
@@ -67,7 +67,7 @@ export default function PermissionTools({
   // Define the actions for each click.
   function clickActions(which) {
     if (which === 'saveDraft') {
-      ModifyDraftObject(saveDraftTo);
+      ModifyDraftObject(objectInformation);
     } else if (which === 'createDraft') {
       console.log('permission bco 103', receivedDefault, saveDraftTo);
       CreateDraftObject(saveDraftTo);
@@ -82,7 +82,7 @@ export default function PermissionTools({
       // setDeletingDraft(true);
     }
   }
-
+  console.log('objectInformation', objectInformation)
   // ----- LISTENERS ----- //
 
   // Listen for a change in save location

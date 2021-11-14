@@ -13,19 +13,19 @@ import TextField from '@material-ui/core/TextField';
 
 // Section cell and other styling
 const useStyles = makeStyles((theme) => ({
-    root: {
-      '& .MuiTextField-root': {
-        margin: theme.spacing(1),
-        width: '25ch',
-      },
-      color: 'white'
+  root: {
+    '& .MuiTextField-root': {
+      margin: theme.spacing(1),
+      width: '25ch',
     },
-    header: {
-      color: 'white'
-    },
-    missingHeader: {
-      color: 'red'
-    }
+    color: 'white'
+  },
+  header: {
+    color: 'white'
+  },
+  missingHeader: {
+    color: 'red'
+  }
 }));
 
 // Cell styling
@@ -40,7 +40,6 @@ const StyledCell = withStyles({
 
 // Pass an object and whether or not its keys are properties.
 export default function UsabilityDomain({ items, cF }) {
-  
   const classes = useStyles();
 
   // State for showing missing sections.
@@ -49,7 +48,7 @@ export default function UsabilityDomain({ items, cF }) {
   // TODO: For some reason didn't work with [items.ud]
 
   useEffect(() => {
-    if(items.ud[0] === "") {
+    if (items.ud[0] === '') {
       setMissingUsabilityDomain(true);
     } else {
       setMissingUsabilityDomain(false);
@@ -60,16 +59,13 @@ export default function UsabilityDomain({ items, cF }) {
   // ---------
   // items: JSON object (Usability Domain)
 
-
   // ----- Meta Information ----- //
 
-  
   // None.
-
 
   // ----- Usability ----- //
 
-  return(
+  return (
     <Table size="small">
       <TableHead>
         <TableRow>
@@ -83,10 +79,10 @@ export default function UsabilityDomain({ items, cF }) {
       <TableBody>
         <TableRow>
           <StyledCell>
-            <TextField 
+            <TextField
               InputProps={{ className: classes.root }}
               color="primary"
-              error={cF(items.ud[0]) === "" ? true : false} 
+              error={cF(items.ud[0]) === ''}
               defaultValue={cF(items.ud)}
               fullWidth
               id="outlined-multiline-static"
