@@ -103,12 +103,14 @@ const RegisterView = () => {
             onSubmit={(values) => {
               // NOTE: This will set the Token generated in local storage
               //        maybe should return here too
-              UserdbNewAccount(values);
-              if (localStorage.getItem('tokenAPI')) {
-                console.log('getting API account now');
-                ApiNewAccount(values);
-                navigate('/login', { replace: true });
-              }
+              UserdbNewAccount(values).then(response => {
+                if (localStorage.getItem('tokenAPI')) {
+                  console.log('getting API account now');
+                  ApiNewAccount(values).then(response => {
+                    navigate('/login', { replace: true });
+                  });
+                }
+              });
             }}
           >
             {({

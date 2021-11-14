@@ -8,7 +8,7 @@ export default function ApiNewAccount(values) {
   const responseToken = JSON.parse(localStorage.getItem('tokenAPI'));
 
   console.log('received for API', responseToken);
-  fetch(values.apiurl, {
+  return fetch(values.apiurl, {
     method: 'POST',
     body: JSON.stringify({
       email: values.email,
@@ -29,7 +29,7 @@ export default function ApiNewAccount(values) {
       // TODO: This needs to be fleshed out to get all errors and deal with them
       window.alert(`Something went wrong. Most likely that username already exists. ${error}`);
       console.log('error', error);
-      return error;
+      // return error;
     });
 
 }
