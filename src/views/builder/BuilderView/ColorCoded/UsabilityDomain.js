@@ -11,6 +11,9 @@ import TableRow from '@material-ui/core/TableRow';
 // Multiline Input
 import TextField from '@material-ui/core/TextField';
 
+import Button from '@material-ui/core/Button';
+import HelpIcon from '@material-ui/icons/Help';
+
 // Section cell and other styling
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -18,10 +21,10 @@ const useStyles = makeStyles((theme) => ({
       margin: theme.spacing(1),
       width: '25ch',
     },
-    color: 'white'
+    color: 'black'
   },
   header: {
-    color: 'white'
+    color: 'black'
   },
   missingHeader: {
     color: 'red'
@@ -31,7 +34,7 @@ const useStyles = makeStyles((theme) => ({
 // Cell styling
 const StyledCell = withStyles({
   root: {
-    color: 'white'
+    color: 'black'
   },
   bordered: {
     border: '1px solid black'
@@ -70,9 +73,17 @@ export default function UsabilityDomain({ items, cF }) {
       <TableHead>
         <TableRow>
           <TableCell>
-            <Typography className={missingUsabilityDomain ? classes.missingHeader : classes.header} variant="h1">
-              Usability Domain
-            </Typography>
+            <Button
+              variant="contained"
+              color="D5D8DC"
+              fullWidth
+              onClick={() => window.open('https://docs.biocomputeobject.org/usability-domain/')}
+            >
+              <Typography className={missingUsabilityDomain ? classes.missingHeader : classes.header} variant="h1">
+                Usability Domain &nbsp;
+                <HelpIcon />
+              </Typography>
+            </Button>
           </TableCell>
         </TableRow>
       </TableHead>

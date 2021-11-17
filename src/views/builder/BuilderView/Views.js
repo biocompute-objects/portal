@@ -101,7 +101,7 @@ export default function Views({
   // Define a variable for switching views within
   // the component (as opposed to getting the value)
   // from the parent).
-  const [componentView, setComponentView] = useState(2);
+  const [componentView, setComponentView] = useState(0);
 
   const handleChange = (event, newValue) => {
     setComponentView(newValue);

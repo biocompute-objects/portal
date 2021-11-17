@@ -14,7 +14,8 @@ import Button from '@material-ui/core/Button';
 
 import CreateDraftObject from './API/CreateDraftObject';
 import ModifyDraftObject from './API/ModifyDraftObject';
-
+import PublishDraftObject from './API/PublishDraftObject';
+import ValidateSchema from './ValidateSchema';
 // Servers
 import ServerList from '../utils/ServerList';
 import { FetchContext } from '../App';
@@ -40,7 +41,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function PermissionTools({
-  objectIdDerivatives, setDraftSavingLocation, newDraft, objectInformation, setPublishSavingLocation, setDownloadDraft, setSaveDraft, setPublish, publishedObjectId, publishMessage, receivedDefault, serverLock, setDeleteDraftPostPublish
+  objectIdDerivatives, setDraftSavingLocation, contents, publish, newDraft, objectInformation, setPublishSavingLocation, setDownloadDraft, setSaveDraft, setPublish, publishedObjectId, publishMessage, receivedDefault, serverLock, setDeleteDraftPostPublish
 }) {
   // State
   const [saveDraftTo, setSaveDraftTo] = useState('');
@@ -69,11 +70,13 @@ export default function PermissionTools({
     if (which === 'saveDraft') {
       ModifyDraftObject(objectInformation);
     } else if (which === 'createDraft') {
-      console.log('permission bco 103', receivedDefault, saveDraftTo);
       CreateDraftObject(saveDraftTo);
+    } else if (which === 'validateDraft') {
+      // From parent: Index.
+      ValidateSchema(contents, setPublish, publish);
     } else if (which === 'publishDraft') {
       // From parent.
-      setOpen(true);
+      PublishDraftObject(objectInformation);
     } else if (which === 'downloadDraft') {
       // From parent.
       setDownloadDraft(1);
@@ -82,7 +85,7 @@ export default function PermissionTools({
       // setDeletingDraft(true);
     }
   }
-  console.log('objectInformation', objectInformation)
+  console.log('objectInformation', objectInformation);
   // ----- LISTENERS ----- //
 
   // Listen for a change in save location
@@ -145,19 +148,68 @@ export default function PermissionTools({
         >
           <Typography
             className={classes.heading}
-            variant="h2"
+            variant="h1"
           >
-            Sharing and Publishing (click to expand)
+            Saving and Publishing (click to expand)
 
           </Typography>
         </AccordionSummary>
         <AccordionDetails>
           <Grid container spacing={3}>
-            <Grid item lg={12} md={12} xs={12}>
+            <Grid item lg={6} md={6} sm={6} xs={12}>
               <Card>
                 <CardContent>
-                  <Typography gutterBottom variant="h1">
-                    Saving and Publishing
+                  <Typography gutterBottom variant="h2">
+                    Instructions
+                  </Typography>
+                  <Typography variant="h4">1) Select BCODB to save draft to</Typography>
+                  <Typography gutterBottom>
+                    Select a specific BCODB (server) to save your draft to when CREATING a draft.
+                  </Typography>
+                  <Typography gutterBottom variant="h4">
+                    2)  CREATE NEW DRAFT
+                  </Typography>
+                  <Typography gutterBottom>
+                    This button will be available once a BCODB is selected for DRAFT creation.
+                  </Typography>
+                  <Typography gutterBottom variant="h4">
+                    3) SAVE CURRENT DRAFT
+                  </Typography>
+                  <Typography gutterBottom>
+                    This button will be available if you are working on a DRAFT currently in a BCODB.
+                  </Typography>
+                  <Typography gutterBottom variant="h4">
+                    4) VALIDATE DRAFT
+                  </Typography>
+                  <Typography gutterBottom>
+                    This function will validate the current DRAFT against the IEEE-2791-2020 schema.
+                  </Typography>
+                  <Typography gutterBottom variant="h4">
+                    5) PUBLISH DRAFT
+                  </Typography>
+                  <Typography gutterBottom>
+                    A DRAFT can not be published until it has passed validation.
+                  </Typography>
+                  <Typography gutterBottom variant="h4">
+                    6)  DOWN LOAD DRAFT
+                  </Typography>
+                  <Typography gutterBottom>
+                    This will downlaod a JSON of the current DRAFT
+                  </Typography>
+                  <Typography gutterBottom variant="h4">
+                    7)  DELETE DRAFT
+                  </Typography>
+                  <Typography gutterBottom>
+                    This function has not been implemented yet.
+                  </Typography>
+                </CardContent>
+              </Card>
+            </Grid>
+            <Grid item lg={6} md={6} sm={6} xs={12}>
+              <Card>
+                <CardContent>
+                  <Typography gutterBottom variant="h2">
+                    Functions
                   </Typography>
                   <ServerList
                     disabledValue={(newDraft === false)}
@@ -195,12 +247,16 @@ export default function PermissionTools({
                   <Typography>
                 &nbsp;
                   </Typography>
-                  <ServerList
-                    disabledValue={!serverLock}
-                    options={userInfo === null ? null : userInfo.apiinfo}
-                    setter={setSavePublishTo}
-                    type="publish"
-                  />
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    disableElevation
+                    disabled={publish === false}
+                    fullWidth
+                    onClick={() => clickActions('publishDraft')}
+                  >
+                    PUBLISH DRAFT
+                  </Button>
                   <Typography>
             &nbsp;
                   </Typography>
@@ -208,13 +264,12 @@ export default function PermissionTools({
                     variant="contained"
                     color="primary"
                     disableElevation
-                    disabled={savePublishTo === ''}
+                    // disabled={savePublishTo === ''}
                     fullWidth
-                    onClick={() => clickActions('publishDraft')}
+                    onClick={() => clickActions('validateDraft')}
                   >
-                    PUBLISH DRAFT
+                    Validate DRAFT
                   </Button>
-
                   <Typography>
             &nbsp;
                   </Typography>

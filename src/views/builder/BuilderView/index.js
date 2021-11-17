@@ -41,7 +41,7 @@ export default function BuilderView() {
   const [saveDraft, setSaveDraft] = useState(0);
 
   // For publishing.
-  const [publish, setPublish] = useState(0);
+  const [publish, setPublish] = useState(false);
 
   // Was publishing successful?
   const [publishMessage, setPublishMessage] = useState({});
@@ -89,16 +89,15 @@ export default function BuilderView() {
       setNewDraft(true);
       // Set the object contents to template values.
       const date = new Date();
-      const dateString = date.toString();
       const blankBco = {
         object_id: '',
-        spec_version: 'IEEE',
+        spec_version: '"https://w3id.org/ieee/ieee-2791-schema/2791object.json"',
         etag: '',
         provenance_domain: {
           name: '',
           version: '',
-          created: dateString,
-          modified: dateString,
+          created: date.toISOString(),
+          modified: date.toISOString(),
           contributors: [
             {
               contribution: ['createdBy'],

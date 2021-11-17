@@ -79,8 +79,8 @@ export default function ServerList({
             <TextField
               {...params}
               label={type === 'draft'
-                ? 'Select server to save draft to.'
-                : 'Select server to publish draft to.'}
+                ? 'Select BCODB to save draft to.'
+                : 'Select BCODB to publish draft to.'}
             />
           )}
         />

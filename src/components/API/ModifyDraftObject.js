@@ -25,9 +25,10 @@ export default function ModifyDraftObject(objectInformation) {
     .then((response) => {
       if (response.status === 200) {
         console.log('POST_api_objects_drafts_modify: Success!');
-        localStorage.removeItem('bco');
+        alert('POST_api_objects_drafts_modify: Success!');
       } else {
         console.log('POST_api_objects_drafts_modify: FAILED!');
+        alert('POST_api_objects_drafts_modify: FAILED!');
       }
     });
 }

@@ -33,45 +33,39 @@ const useStyles = makeStyles((theme) => ({
     marginBottom: '100px'
   },
   meta: {
-    background: '#74b3ce',
-    color: 'white'
-  },
-  productCard: {
-    height: '100%'
-  },
-  descriptionDomain: {
-    background: '#09bc8a'
-  },
-  errorDomain: {
-    background: '#3d5a80'
-  },
-  executionDomain: {
-    background: '#3d5a80'
-  },
-  extensionDomain: {
-    background: '#293241'
-  },
-  ioDomain: {
-    background: '#98c1d9'
-  },
-  parametricDomain: {
-    background: '#ee6c4d',
-    color: 'white'
+    background: '#74b3ce'
   },
   provenanceDomain: {
-    background: '#284964'
+    background: '#EBEDEF'
   },
   usabilityDomain: {
-    background: '#004346'
+    background: '#FDFEFE'
+  },
+  ioDomain: {
+    background: '#EBEDEF'
+  },
+  executionDomain: {
+    background: '#FDFEFE'
+  },
+  descriptionDomain: {
+    background: '#EBEDEF'
+  },
+  parametricDomain: {
+    background: '#FDFEFE'
+  },
+  errorDomain: {
+    background: '#EBEDEF'
+  },
+  extensionDomain: {
+    background: '#FDFEFE'
   }
 }));
 
-const ColorCoded = ({
+function ColorCoded({
   complianceCheck, setComplianceCheck, objectContents, setObjectContents
-}) => {
+}) {
   // As of 5/13/21, there is no relationship between the color-coded
   // draft view and the raw draft view.
-
   console.log('RENDER CHECK: ', objectContents);
   const classes = useStyles();
 
@@ -85,13 +79,10 @@ const ColorCoded = ({
   /* const checkUri = (value) => {
     need URI regex
   } */
-
   /* const checkDateTime = (value) => {
     need specification on datetime format
   } */
-
   // State
-
   // Meta
   const [meObjectId, setMeObjectId] = useState(objectContents.object_id);
   const [meEtag, setMeEtag] = useState(objectContents.etag);
@@ -146,11 +137,9 @@ const ColorCoded = ({
   // Define the components to render.
   // Source: https://stackoverflow.com/questions/48131100/react-render-array-of-components
   // Source: https://stackoverflow.com/questions/43585840/react-render-dynamic-list-of-components
-
   // Note that meta attributes have no setters as they
   // are set in the parent.
   const renderList = [
-    {/* complianceCheck, meObjectId, meEtag, rerender, setRerender */},
     {
       complianceCheck, checkBlank, pdName, pdVersion, pdLicense, pdDerivedFrom, pdCreated, pdModifed, pdObsoleteAfter, pdEmbargoStartTime, pdEmbargoEndTime, pdReview, pdContributors, rerender, setRerender, setPdName, setPdVersion, setPdLicense, setPdDerivedFrom, setPdCreated, setPdModified, setPdObsoleteAfter, setPdEmbargoStartTime, setPdEmbargoEndTime, setPdReview, setPdContributors
     },
@@ -177,23 +166,23 @@ const ColorCoded = ({
     }
   ];
 
-  const compList = [Meta, ProvenanceDomain, UsabilityDomain, IoDomain, ExecutionDomain, DescriptionDomain, ParametricDomain, ErrorDomain, ExtensionDomain];
-  const classNames = ['meta', 'provenanceDomain', 'usabilityDomain', 'ioDomain', 'executionDomain', 'descriptionDomain', 'parametricDomain', 'errorDomain', 'extensionDomain'];
+  const compList = [ProvenanceDomain, UsabilityDomain, IoDomain, ExecutionDomain, DescriptionDomain, ParametricDomain, ErrorDomain, ExtensionDomain];
+  const classNames = ['provenanceDomain', 'usabilityDomain', 'ioDomain', 'executionDomain', 'descriptionDomain', 'parametricDomain', 'errorDomain', 'extensionDomain'];
 
   // Listeners
-
   // Listen for ANY change to the object,
   // and kick back up everything.
   useEffect(() => {
+    const provModified = new Date();
     setObjectContents({
       object_id: meObjectId,
-      spec_version: 'IEEE',
-      eTag: meEtag,
+      spec_version: 'https://w3id.org/ieee/ieee-2791-schema/2791object.json',
+      etag: meEtag,
       provenance_domain: {
         name: pdName,
         version: pdVersion,
         created: pdCreated,
-        modified: new Date(),
+        modified: provModified.toISOString(),
         review: pdReview,
         contributors: pdContributors,
         license: pdLicense
@@ -231,20 +220,18 @@ const ColorCoded = ({
         container
         spacing={3}
       >
-        {
-          compList.map((Component, index) => {
-            return (
-              <Grid item lg={12} md={12} xs={12}>
-                <Card className={classes[classNames[index]]}>
-                  <Component items={renderList[index]} cF={cF} />
-                </Card>
-              </Grid>
-            );
-          })
-        }
+        {compList.map((Component, index) => {
+          return (
+            <Grid item lg={12} md={12} xs={12}>
+              <Card className={classes[classNames[index]]}>
+                <Component items={renderList[index]} cF={cF} />
+              </Card>
+            </Grid>
+          );
+        })}
       </Grid>
     </Container>
   );
-};
+}
 
 export default ColorCoded;

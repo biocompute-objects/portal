@@ -7,6 +7,7 @@ import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
+import HelpIcon from '@material-ui/icons/Help';
 
 // Inputs
 import TextField from '@material-ui/core/TextField';
@@ -17,20 +18,20 @@ import Button from '@material-ui/core/Button';
 // Section cell styling
 const useStyles = makeStyles((theme) => ({
   header: {
-    color: 'white'
+    color: 'black'
   },
   missingHeader: {
     color: 'red'
   },
   root: {
-    color: 'white'
+    color: 'black'
   }
 }));
 
 // Cell styling
 const StyledCell = withStyles({
   root: {
-    color: 'white'
+    color: 'black'
   },
   bordered: {
     border: '1px solid black'
@@ -39,7 +40,6 @@ const StyledCell = withStyles({
 
 // Pass an object and whether or not its keys are properties.
 export default function ExecutionDomain({ items, cF }) {
-  
   const classes = useStyles();
 
   // State for showing missing sections.
@@ -56,26 +56,22 @@ export default function ExecutionDomain({ items, cF }) {
   const [missingScriptUri, setMissingScriptUri] = useState(false);
 
   useEffect(() => {
-    
     // Create an OR flag.
-    var orFlag = false;
+    let orFlag = false;
 
     // Script driver
-    if(items.edScriptDriver === "") {
-      
+    if (items.edScriptDriver === '') {
       // No script driver.
       setMissingScriptDriver(true);
-      
+
       // Set the OR flag.
       orFlag = true;
-
     } else {
       setMissingScriptDriver(false);
     }
 
     // Software prerequisites
-    if(items.edSoftwarePrerequisites.length === 0) {
-
+    if (items.edSoftwarePrerequisites.length === 0) {
       // No software prerequisites.
       setMissingSoftwarePrerequisites(true);
 
@@ -86,9 +82,7 @@ export default function ExecutionDomain({ items, cF }) {
 
       // Set the OR flag.
       orFlag = true;
-
     } else {
-
       // If there are software prerequisites, we have to consider
       // the necessary subfields.
 
@@ -99,11 +93,9 @@ export default function ExecutionDomain({ items, cF }) {
       setMissingSoftwarePrerequisites(false);
 
       // Each one of the prerequisites name.
-      for(var prereqName = 0; prereqName < items.edSoftwarePrerequisites.length; prereqName++) {
-
+      for (let prereqName = 0; prereqName < items.edSoftwarePrerequisites.length; prereqName++) {
         // Name
-        if(items.edSoftwarePrerequisites[prereqName].name === "") {
-          
+        if (items.edSoftwarePrerequisites[prereqName].name === '') {
           // No name.
           setMissingSoftwarePrerequisitesName(true);
 
@@ -114,19 +106,15 @@ export default function ExecutionDomain({ items, cF }) {
           orFlag = true;
 
           break;
-
         } else {
           setMissingSoftwarePrerequisites(false);
         }
-        
       }
 
       // Each one of the prerequisites version.
-      for(var prereqVersion = 0; prereqVersion < items.edSoftwarePrerequisites.length; prereqVersion++) {
-
+      for (let prereqVersion = 0; prereqVersion < items.edSoftwarePrerequisites.length; prereqVersion++) {
         // Version
-        if(items.edSoftwarePrerequisites[prereqVersion].version === "") {
-          
+        if (items.edSoftwarePrerequisites[prereqVersion].version === '') {
           // No version.
           setMissingSoftwarePrerequisitesVersion(true);
 
@@ -137,19 +125,15 @@ export default function ExecutionDomain({ items, cF }) {
           orFlag = true;
 
           break;
-
         } else {
           setMissingSoftwarePrerequisites(false);
         }
-        
       }
 
       // Each one of the prerequisites URI.
-      for(var prereqURI = 0; prereqURI < items.edSoftwarePrerequisites.length; prereqURI++) {
-
+      for (let prereqURI = 0; prereqURI < items.edSoftwarePrerequisites.length; prereqURI++) {
         // URI
-        if(items.edSoftwarePrerequisites[prereqURI].uri.uri === "") {
-          
+        if (items.edSoftwarePrerequisites[prereqURI].uri.uri === '') {
           // No URI.
           setMissingSoftwarePrerequisitesUri(true);
 
@@ -160,18 +144,14 @@ export default function ExecutionDomain({ items, cF }) {
           orFlag = true;
 
           break;
-
         } else {
           setMissingSoftwarePrerequisites(false);
         }
-        
       }
-      
     }
 
     // External data endpoints
-    if(items.edExternalDataEndpoints.length === 0) {
-
+    if (items.edExternalDataEndpoints.length === 0) {
       // No external data endpoints.
       setMissingExternalDataEndpoints(true);
 
@@ -181,9 +161,7 @@ export default function ExecutionDomain({ items, cF }) {
 
       // Set the OR flag.
       orFlag = true;
-
     } else {
-
       // If there are external data endpoints, we have to consider
       // the necessary subfields.
 
@@ -194,11 +172,9 @@ export default function ExecutionDomain({ items, cF }) {
       setMissingExternalDataEndpoints(false);
 
       // Each one of the endpoints.
-      for(var i = 0; i < items.edExternalDataEndpoints.length; i++) {
-
+      for (let i = 0; i < items.edExternalDataEndpoints.length; i++) {
         // Name
-        if(items.edExternalDataEndpoints[i].name === "") {
-          
+        if (items.edExternalDataEndpoints[i].name === '') {
           // No name.
           setMissingExternalDataEndpointsName(true);
 
@@ -209,19 +185,15 @@ export default function ExecutionDomain({ items, cF }) {
           orFlag = true;
 
           break;
-
         } else {
           setMissingExternalDataEndpoints(false);
         }
-        
       }
 
       // Each one of the endpoints.
-      for(var edURL = 0; edURL < items.edExternalDataEndpoints.length; edURL++) {
-
+      for (let edURL = 0; edURL < items.edExternalDataEndpoints.length; edURL++) {
         // Name
-        if(items.edExternalDataEndpoints[edURL].url === "") {
-          
+        if (items.edExternalDataEndpoints[edURL].url === '') {
           // No URL.
           setMissingExternalDataEndpointsUrl(true);
 
@@ -232,18 +204,14 @@ export default function ExecutionDomain({ items, cF }) {
           orFlag = true;
 
           break;
-
         } else {
           setMissingExternalDataEndpoints(false);
         }
-        
       }
-      
     }
 
     // Script
-    if(items.edScript.length === 0) {
-
+    if (items.edScript.length === 0) {
       // No script.
       setMissingScript(true);
 
@@ -253,9 +221,7 @@ export default function ExecutionDomain({ items, cF }) {
 
       // Set the OR flag.
       orFlag = true;
-
     } else {
-
       // If there is a script, we have to consider
       // the necessary subfields.
 
@@ -266,11 +232,9 @@ export default function ExecutionDomain({ items, cF }) {
       setMissingScript(false);
 
       // Each one of the scripts.
-      for(var edScript = 0; edScript < items.edScript.length; edScript++) {
-
+      for (let edScript = 0; edScript < items.edScript.length; edScript++) {
         // Name
-        if(items.edScript[edScript].uri.uri === "") {
-          
+        if (items.edScript[edScript].uri.uri === '') {
           // No URI.
           setMissingScriptUri(true);
 
@@ -281,20 +245,16 @@ export default function ExecutionDomain({ items, cF }) {
           orFlag = true;
 
           break;
-
         } else {
           setMissingScript(false);
         }
-        
       }
-      
     }
 
     // Was one OR the other missing in the pipeline input/output?
-    if(orFlag) {
+    if (orFlag) {
       setMissingExecutionDomain(true);
     } else {
-
       // All required fields are ok.
       setMissingSoftwarePrerequisitesName(false);
       setMissingSoftwarePrerequisitesVersion(false);
@@ -305,359 +265,336 @@ export default function ExecutionDomain({ items, cF }) {
       setMissingSoftwarePrerequisites(false);
       setMissingExternalDataEndpoints(false);
       setMissingScript(false);
-      
+
       setMissingExecutionDomain(false);
-
     }
-
   }, [items]);
 
   // Set an input value
 
   // There were problems with value/defaultValue,
-  // so I opted to put in a custom handler based 
+  // so I opted to put in a custom handler based
   // on the response at https://github.com/facebook/react/issues/8053#issuecomment-255555133
 
   // See also https://stackoverflow.com/questions/42807901/react-input-element-value-vs-default-value
   const setInput = (event, i, inputName, which) => {
-    
     // Get the state variable.
-    var dummy = items[which];
+    const dummy = items[which];
 
     // TODO: Put in date-time logic...
-		
-		// Cases
-    if(which === 'edSoftwarePrerequisites') {
 
+    // Cases
+    if (which === 'edSoftwarePrerequisites') {
       // Special rule for URI.
-      if(inputName === 'uri' || inputName === 'filename' || inputName === 'access_time' || inputName === 'sha1_checksum') {
-        dummy[i]['uri'][inputName] = event.target.value;
+      if (inputName === 'uri' || inputName === 'filename' || inputName === 'access_time' || inputName === 'sha1_checksum') {
+        dummy[i].uri[inputName] = event.target.value;
       } else {
         dummy[i][inputName] = event.target.value;
       }
-      
+
       // Update the state.
       items.setEdSoftwarePrerequisites(dummy);
-
-    } else if(which === 'edExternalDataEndpoints') {
-      
+    } else if (which === 'edExternalDataEndpoints') {
       // Change the value at the given index.
       dummy[i][inputName] = event.target.value;
-      
+
       // Update the state.
       items.setEdExternalDataEndpoints(dummy);
-
-    } else if(which === 'edScript') {
-
+    } else if (which === 'edScript') {
       // Only possible to set on the URI key.
-      dummy[i]['uri'][inputName] = event.target.value;
+      dummy[i].uri[inputName] = event.target.value;
 
       // Update the state.
       items.setEdScript(dummy);
-
     }
 
     // Needed to re-render the page.
-    items.setRerender(items.rerender+1);
+    items.setRerender(items.rerender + 1);
+  };
 
-  }
-  
   // Add a row
   const addRows = (which) => {
-
     // Get the state variable.
-    var dummy = items[which];
+    const dummy = items[which];
 
     // Cases
-    if(which === 'edSoftwarePrerequisites') {
-      
+    if (which === 'edSoftwarePrerequisites') {
       // Push the new row.
       dummy.push({
-        "name": "",
-        "version": "",
-        "uri": {
-          "uri": ""
+        name: '',
+        version: '',
+        uri: {
+          uri: ''
         }
       });
 
       // Update the state.
       items.setEdSoftwarePrerequisites(dummy);
-
-    } else if(which === 'edExternalDataEndpoints') {
-			
-			// Push the new row.
+    } else if (which === 'edExternalDataEndpoints') {
+      // Push the new row.
       dummy.push({
-        "name": "",
-        "url": ""
+        name: '',
+        url: ''
       });
 
       // Update the state.
       items.setEdExternalDataEndpoints(dummy);
-
-    } else if(which === 'edScript') {
-
+    } else if (which === 'edScript') {
       // Push the new row.
       dummy.push({
-        "uri": {
-          "uri": ""
+        uri: {
+          uri: ''
         }
       });
 
       // Update the state.
       items.setEdScript(dummy);
-
     }
 
     // Needed to re-render the page.
-    items.setRerender(items.rerender+1)
-
-  }
+    items.setRerender(items.rerender + 1);
+  };
 
   // Remove a row
   const removeRows = (which, i) => {
-
     // Get the state variable.
-    var dummy = items[which];
+    const dummy = items[which];
 
     // Remove the index.
     dummy.splice(i, 1);
 
     // Cases
-    if(which === 'edSoftwarePrerequisites') {
-      
+    if (which === 'edSoftwarePrerequisites') {
       // Update the state.
       items.setEdSoftwarePrerequisites(dummy);
-      
-    } else if(which === 'edExternalDataEndpoints') {
-
+    } else if (which === 'edExternalDataEndpoints') {
       // Update the state.
       items.setEdExternalDataEndpoints(dummy);
-
-    } else if(which === 'edScript') {
-
+    } else if (which === 'edScript') {
       // Update the state.
       items.setEdScript(dummy);
-
     }
-    
-    // Needed to re-render the page.
-    items.setRerender(items.rerender+1)
 
-  }
+    // Needed to re-render the page.
+    items.setRerender(items.rerender + 1);
+  };
 
   // Arguments
   // ---------
   // items: JSON object (Execution Domain)
 
-
   // ----- Meta Information ----- //
-  
 
   // ----- None ----- //
 
-  return(
+  return (
     <Table size="small">
-    <TableHead className={classes.tabled}>
-      <TableRow>
-        <StyledCell>
-          <Typography className={missingExecutionDomain ? classes.missingHeader : classes.header} variant="h1">
-            Execution Domain
-          </Typography>
-        </StyledCell>
-      </TableRow>
-    </TableHead>
-    <TableBody>
-      <TableRow>
-        <StyledCell>
-          <Typography className={missingScriptDriver ? classes.missingHeader : classes.header} variant="h3">
-            Script Driver
-          </Typography>
-        </StyledCell>
-        <StyledCell colSpan="6">
-          <TextField InputProps={{ className: classes.root }} error={missingScriptDriver ? true : false} fullWidth id="outlined-basic" value={cF(items.edScriptDriver)} onChange={(e) => items.setEdScriptDriver(e.target.value)} variant="outlined" />
-        </StyledCell>
-      </TableRow>
-      <TableRow>
-        <StyledCell colSpan="7">
-          <Typography className={missingSoftwarePrerequisites ? classes.missingHeader : classes.header} variant="h3">
-            Software Prerequisites
-          </Typography>
-        </StyledCell>
-      </TableRow>
-      <TableRow>
-        <StyledCell>
-          <Typography className={missingSoftwarePrerequisitesName ? classes.missingHeader : classes.header}>
-            Name
-          </Typography>
-        </StyledCell>
-        <StyledCell>
-          <Typography className={missingSoftwarePrerequisitesVersion ? classes.missingHeader : classes.header}>
-            Version
-          </Typography>
-        </StyledCell>
-        <StyledCell>
-          <Typography>
-            Filename
-          </Typography>
-        </StyledCell>
-        <StyledCell>
-          <Typography className={missingSoftwarePrerequisitesUri ? classes.missingHeader : classes.header}>
-            URI
-          </Typography>
-        </StyledCell>
-        <StyledCell>
-          <Typography>
-            Access Time
-          </Typography>
-        </StyledCell>
-        <StyledCell colSpan="2">
-          <Typography>
-            SHA1 Checksum
-          </Typography>
-        </StyledCell>
-      </TableRow>
-      {
+      <TableHead className={classes.tabled}>
+        <TableRow>
+          <StyledCell colSpan="12">
+            <Button
+              variant="contained"
+              color="D5D8DC"
+              fullWidth
+              onClick={() => window.open('https://docs.biocomputeobject.org/execution-domain/')}
+            >
+              <Typography className={missingExecutionDomain ? classes.missingHeader : classes.header} variant="h1">
+                Execution Domain &nbsp;
+                <HelpIcon />
+              </Typography>
+            </Button>
+          </StyledCell>
+        </TableRow>
+      </TableHead>
+      <TableBody>
+        <TableRow>
+          <StyledCell>
+            <Typography className={missingScriptDriver ? classes.missingHeader : classes.header} variant="h3">
+              Script Driver
+            </Typography>
+          </StyledCell>
+          <StyledCell colSpan="6">
+            <TextField InputProps={{ className: classes.root }} error={!!missingScriptDriver} fullWidth id="outlined-basic" value={cF(items.edScriptDriver)} onChange={(e) => items.setEdScriptDriver(e.target.value)} variant="outlined" />
+          </StyledCell>
+        </TableRow>
+        <TableRow>
+          <StyledCell colSpan="7">
+            <Typography className={missingSoftwarePrerequisites ? classes.missingHeader : classes.header} variant="h3">
+              Software Prerequisites
+            </Typography>
+          </StyledCell>
+        </TableRow>
+        <TableRow>
+          <StyledCell>
+            <Typography className={missingSoftwarePrerequisitesName ? classes.missingHeader : classes.header}>
+              Name
+            </Typography>
+          </StyledCell>
+          <StyledCell>
+            <Typography className={missingSoftwarePrerequisitesVersion ? classes.missingHeader : classes.header}>
+              Version
+            </Typography>
+          </StyledCell>
+          <StyledCell>
+            <Typography>
+              Filename
+            </Typography>
+          </StyledCell>
+          <StyledCell>
+            <Typography className={missingSoftwarePrerequisitesUri ? classes.missingHeader : classes.header}>
+              URI
+            </Typography>
+          </StyledCell>
+          <StyledCell>
+            <Typography>
+              Access Time
+            </Typography>
+          </StyledCell>
+          <StyledCell colSpan="2">
+            <Typography>
+              SHA1 Checksum
+            </Typography>
+          </StyledCell>
+        </TableRow>
+        {
         items.edSoftwarePrerequisites.map((item, index) => (
-            <TableRow>
-              <StyledCell>
-                <TextField InputProps={{ className: classes.root }} value={cF(item.name)} variant="outlined" onChange={(e) => setInput(e, index, 'name', 'edSoftwarePrerequisites')} />
-              </StyledCell>
-              <StyledCell>
-                <TextField InputProps={{ className: classes.root }} value={cF(item.version)} variant="outlined" onChange={(e) => setInput(e, index, 'version', 'edSoftwarePrerequisites')} />
-              </StyledCell>
-              <StyledCell>
-                <TextField InputProps={{ className: classes.root }} value={cF(item.uri.filename)} variant="outlined" onChange={(e) => setInput(e, index, 'filename', 'edSoftwarePrerequisites')} />
-              </StyledCell>
-              <StyledCell>
-                <TextField InputProps={{ className: classes.root }} error={cF(item.uri.uri) === "" ? true : false} value={cF(item.uri.uri)} variant="outlined" onChange={(e) => setInput(e, index, 'uri', 'edSoftwarePrerequisites')} />
-              </StyledCell>
-              <StyledCell>
-                <TextField InputProps={{ className: classes.root }} label={"YYYY-MM-DDTHH:MM:SS+HH:MM"} fullWidth id="outlined-basic" value={cF(item.uri.access_time)} onChange={(e) => setInput(e, index, 'access_time', 'edSoftwarePrerequisites')} variant="outlined" />
-              </StyledCell>
-              <StyledCell>
-                <TextField InputProps={{ className: classes.root }} value={cF(item.uri.sha1_checksum)} variant="outlined" onChange={(e) => setInput(e, index, 'sha1_checksum', 'edSoftwarePrerequisites')} fullWidth />
-              </StyledCell>
-              <StyledCell>
-                <Button variant="contained" color="primary" disableElevation fullWidth onClick={() => removeRows('edSoftwarePrerequisites', index)}>
-                  Remove
-                </Button>
-              </StyledCell>
-            </TableRow>
-          )
-        )
+          <TableRow>
+            <StyledCell>
+              <TextField InputProps={{ className: classes.root }} value={cF(item.name)} variant="outlined" onChange={(e) => setInput(e, index, 'name', 'edSoftwarePrerequisites')} />
+            </StyledCell>
+            <StyledCell>
+              <TextField InputProps={{ className: classes.root }} value={cF(item.version)} variant="outlined" onChange={(e) => setInput(e, index, 'version', 'edSoftwarePrerequisites')} />
+            </StyledCell>
+            <StyledCell>
+              <TextField InputProps={{ className: classes.root }} value={cF(item.uri.filename)} variant="outlined" onChange={(e) => setInput(e, index, 'filename', 'edSoftwarePrerequisites')} />
+            </StyledCell>
+            <StyledCell>
+              <TextField InputProps={{ className: classes.root }} error={cF(item.uri.uri) === ''} value={cF(item.uri.uri)} variant="outlined" onChange={(e) => setInput(e, index, 'uri', 'edSoftwarePrerequisites')} />
+            </StyledCell>
+            <StyledCell>
+              <TextField InputProps={{ className: classes.root }} label="YYYY-MM-DDTHH:MM:SS+HH:MM" fullWidth id="outlined-basic" value={cF(item.uri.access_time)} onChange={(e) => setInput(e, index, 'access_time', 'edSoftwarePrerequisites')} variant="outlined" />
+            </StyledCell>
+            <StyledCell>
+              <TextField InputProps={{ className: classes.root }} value={cF(item.uri.sha1_checksum)} variant="outlined" onChange={(e) => setInput(e, index, 'sha1_checksum', 'edSoftwarePrerequisites')} fullWidth />
+            </StyledCell>
+            <StyledCell>
+              <Button variant="contained" color="primary" disableElevation fullWidth onClick={() => removeRows('edSoftwarePrerequisites', index)}>
+                Remove
+              </Button>
+            </StyledCell>
+          </TableRow>
+        ))
       }
-      <TableRow>
-        <StyledCell colSpan="6">
-          <Button variant="contained" color="primary" disableElevation fullWidth onClick={() => addRows('edSoftwarePrerequisites')}>
-            Add Software Prerequisite
-          </Button>
-        </StyledCell>
-      </TableRow>
-      <TableRow>
-        <StyledCell colSpan="7">
-          <Typography className={missingExternalDataEndpoints ? classes.missingHeader : classes.header} variant="h3">
-            External Data Endpoints
-          </Typography>
-        </StyledCell>
-      </TableRow>
-      <TableRow>
-        <StyledCell colSpan="3">
-          <Typography className={missingExternalDataEndpointsName ? classes.missingHeader : classes.header}>
-            Name
-          </Typography>
-        </StyledCell>
-        <StyledCell colSpan="4">
-          <Typography className={missingExternalDataEndpointsUrl ? classes.missingHeader : classes.header}>
-            URL
-          </Typography>
-        </StyledCell>
-      </TableRow>
-      {
+        <TableRow>
+          <StyledCell colSpan="6">
+            <Button variant="contained" color="primary" disableElevation fullWidth onClick={() => addRows('edSoftwarePrerequisites')}>
+              Add Software Prerequisite
+            </Button>
+          </StyledCell>
+        </TableRow>
+        <TableRow>
+          <StyledCell colSpan="7">
+            <Typography className={missingExternalDataEndpoints ? classes.missingHeader : classes.header} variant="h3">
+              External Data Endpoints
+            </Typography>
+          </StyledCell>
+        </TableRow>
+        <TableRow>
+          <StyledCell colSpan="3">
+            <Typography className={missingExternalDataEndpointsName ? classes.missingHeader : classes.header}>
+              Name
+            </Typography>
+          </StyledCell>
+          <StyledCell colSpan="4">
+            <Typography className={missingExternalDataEndpointsUrl ? classes.missingHeader : classes.header}>
+              URL
+            </Typography>
+          </StyledCell>
+        </TableRow>
+        {
         items.edExternalDataEndpoints.map((item, index) => (
-            <TableRow>
-              <StyledCell colSpan="3">
-                <TextField InputProps={{ className: classes.root }} error={cF(item.name) === "" ? true : false} fullWidth value={cF(item.name)} variant="outlined" onChange={(e) => setInput(e, index, 'name', 'edExternalDataEndpoints')} />
-              </StyledCell>
-              <StyledCell colSpan="3">
-                <TextField InputProps={{ className: classes.root }} error={cF(item.url) === "" ? true : false} fullWidth value={cF(item.url)} variant="outlined" onChange={(e) => setInput(e, index, 'url', 'edExternalDataEndpoints')} />
-              </StyledCell>
-              <StyledCell>
-                <Button variant="contained" color="primary" disableElevation fullWidth onClick={() => removeRows('edExternalDataEndpoints', index)}>
-                  Remove
-                </Button>
-              </StyledCell>
-            </TableRow>
-          )
-        )
+          <TableRow>
+            <StyledCell colSpan="3">
+              <TextField InputProps={{ className: classes.root }} error={cF(item.name) === ''} fullWidth value={cF(item.name)} variant="outlined" onChange={(e) => setInput(e, index, 'name', 'edExternalDataEndpoints')} />
+            </StyledCell>
+            <StyledCell colSpan="3">
+              <TextField InputProps={{ className: classes.root }} error={cF(item.url) === ''} fullWidth value={cF(item.url)} variant="outlined" onChange={(e) => setInput(e, index, 'url', 'edExternalDataEndpoints')} />
+            </StyledCell>
+            <StyledCell>
+              <Button variant="contained" color="primary" disableElevation fullWidth onClick={() => removeRows('edExternalDataEndpoints', index)}>
+                Remove
+              </Button>
+            </StyledCell>
+          </TableRow>
+        ))
       }
-      <TableRow>
-        <StyledCell colSpan="6">
-          <Button variant="contained" color="primary" disableElevation fullWidth onClick={() => addRows('edExternalDataEndpoints')}>
-            Add External Data Endpoint
-          </Button>
-        </StyledCell>
-      </TableRow>
-      <TableRow>
-        <StyledCell colSpan="7">
-          <Typography className={missingScript ? classes.missingHeader : classes.header} variant="h3">
-            Script
-          </Typography>
-        </StyledCell>
-      </TableRow>
-      <TableRow>
-        <StyledCell colSpan="2">
-          <Typography>
-            Filename
-          </Typography>
-        </StyledCell>
-        <StyledCell colSpan="2">
-          <Typography className={missingScriptUri ? classes.missingHeader : classes.header}>
-            URI
-          </Typography>
-        </StyledCell>
-        <StyledCell>
-          <Typography>
-            Access Time
-          </Typography>
-        </StyledCell>
-        <StyledCell colSpan="2">
-          <Typography>
-            SHA1 Checksum
-          </Typography>
-        </StyledCell>
-      </TableRow>
-      {
+        <TableRow>
+          <StyledCell colSpan="6">
+            <Button variant="contained" color="primary" disableElevation fullWidth onClick={() => addRows('edExternalDataEndpoints')}>
+              Add External Data Endpoint
+            </Button>
+          </StyledCell>
+        </TableRow>
+        <TableRow>
+          <StyledCell colSpan="7">
+            <Typography className={missingScript ? classes.missingHeader : classes.header} variant="h3">
+              Script
+            </Typography>
+          </StyledCell>
+        </TableRow>
+        <TableRow>
+          <StyledCell colSpan="2">
+            <Typography>
+              Filename
+            </Typography>
+          </StyledCell>
+          <StyledCell colSpan="2">
+            <Typography className={missingScriptUri ? classes.missingHeader : classes.header}>
+              URI
+            </Typography>
+          </StyledCell>
+          <StyledCell>
+            <Typography>
+              Access Time
+            </Typography>
+          </StyledCell>
+          <StyledCell colSpan="2">
+            <Typography>
+              SHA1 Checksum
+            </Typography>
+          </StyledCell>
+        </TableRow>
+        {
         items.edScript.map((item, index) => (
-            <TableRow>
-              <StyledCell colSpan="2">
-                <TextField InputProps={{ className: classes.root }} fullWidth value={cF(item.uri.filename)} variant="outlined" onChange={(e) => setInput(e, index, 'filename', 'edScript')} />
-              </StyledCell>
-              <StyledCell colSpan="2">
-                <TextField InputProps={{ className: classes.root }} error={cF(item.uri.uri) === "" ? true : false} fullWidth value={cF(item.uri.uri)} variant="outlined" onChange={(e) => setInput(e, index, 'uri', 'edScript')} />
-              </StyledCell>
-              <StyledCell>
-                <TextField InputProps={{ className: classes.root }} label={"YYYY-MM-DDTHH:MM:SS+HH:MM"} fullWidth id="outlined-basic" value={cF(item.uri.access_time)} onChange={(e) => setInput(e, index, 'access_time', 'edScript')} variant="outlined" />
-              </StyledCell>
-              <StyledCell>
-                <TextField InputProps={{ className: classes.root }} value={cF(item.uri.sha1_checksum)} variant="outlined" onChange={(e) => setInput(e, index, 'sha1_checksum', 'edScript')} fullWidth />
-              </StyledCell>
-              <StyledCell>
-                <Button variant="contained" color="primary" disableElevation fullWidth onClick={() => removeRows('edScript', index)}>
-                  Remove
-                </Button>
-              </StyledCell>
-            </TableRow>
-          )
-        )
+          <TableRow>
+            <StyledCell colSpan="2">
+              <TextField InputProps={{ className: classes.root }} fullWidth value={cF(item.uri.filename)} variant="outlined" onChange={(e) => setInput(e, index, 'filename', 'edScript')} />
+            </StyledCell>
+            <StyledCell colSpan="2">
+              <TextField InputProps={{ className: classes.root }} error={cF(item.uri.uri) === ''} fullWidth value={cF(item.uri.uri)} variant="outlined" onChange={(e) => setInput(e, index, 'uri', 'edScript')} />
+            </StyledCell>
+            <StyledCell>
+              <TextField InputProps={{ className: classes.root }} label="YYYY-MM-DDTHH:MM:SS+HH:MM" fullWidth id="outlined-basic" value={cF(item.uri.access_time)} onChange={(e) => setInput(e, index, 'access_time', 'edScript')} variant="outlined" />
+            </StyledCell>
+            <StyledCell>
+              <TextField InputProps={{ className: classes.root }} value={cF(item.uri.sha1_checksum)} variant="outlined" onChange={(e) => setInput(e, index, 'sha1_checksum', 'edScript')} fullWidth />
+            </StyledCell>
+            <StyledCell>
+              <Button variant="contained" color="primary" disableElevation fullWidth onClick={() => removeRows('edScript', index)}>
+                Remove
+              </Button>
+            </StyledCell>
+          </TableRow>
+        ))
       }
-      <TableRow>
-        <StyledCell colSpan="6">
-          <Button variant="contained" color="primary" disableElevation fullWidth onClick={() => addRows('edScript')}>
-            Add Script
-          </Button>
-        </StyledCell>
-      </TableRow>
-    </TableBody>
-  </Table>
+        <TableRow>
+          <StyledCell colSpan="6">
+            <Button variant="contained" color="primary" disableElevation fullWidth onClick={() => addRows('edScript')}>
+              Add Script
+            </Button>
+          </StyledCell>
+        </TableRow>
+      </TableBody>
+    </Table>
   );
 }

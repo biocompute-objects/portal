@@ -7,6 +7,7 @@ import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
+import HelpIcon from '@material-ui/icons/Help';
 
 // For input_list and output_list.
 import Accordion from '@material-ui/core/Accordion';
@@ -57,7 +58,7 @@ export default function DescriptionDomain({
   compCheck, checkBlank, items, cF
 }) {
   const classes = useStyles();
-  
+
   // State for showing missing sections.
   const [missingDescriptionDomain, setMissingDescriptionDomain] = useState(true);
   const [missingKeywords, setMissingKeywords] = useState(false);
@@ -79,7 +80,6 @@ export default function DescriptionDomain({
   const [missingStepsOutputUri, setMissingStepsOutputUri] = useState(false);
 
   useEffect(() => {
-
     console.log('dummy', items);
     // Create an OR flag.
     let orFlag = false;
@@ -319,7 +319,7 @@ export default function DescriptionDomain({
         for (var j = 0; j < items.ddPipelineSteps[i].input_list.length; j++) {
           if (items.ddPipelineSteps[i].input_list[j].uri === '') {
             // No URI.
-			console.log('ddPipelineSteps', items.ddPipelineSteps[i].input_list[j]['uri'])
+            console.log('ddPipelineSteps', items.ddPipelineSteps[i].input_list[j].uri);
             setMissingStepsInputUri(true);
 
             // Header
@@ -644,10 +644,18 @@ export default function DescriptionDomain({
     <Table size="small">
       <TableHead className={classes.tabled}>
         <TableRow>
-          <StyledCell colSpan="5">
-            <Typography className={missingDescriptionDomain ? classes.missingHeader : classes.header} variant="h1">
-              Description Domain
-            </Typography>
+          <StyledCell colSpan="12">
+            <Button
+              variant="contained"
+              color="D5D8DC"
+              fullWidth
+              onClick={() => window.open('https://docs.biocomputeobject.org/description-domain/')}
+            >
+              <Typography className={missingDescriptionDomain ? classes.missingHeader : classes.header} variant="h1">
+                Description Domain &nbsp;
+                <HelpIcon />
+              </Typography>
+            </Button>
           </StyledCell>
         </TableRow>
       </TableHead>

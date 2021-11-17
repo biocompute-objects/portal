@@ -35,9 +35,10 @@ export default function CreateDraftObject(url) {
     .then((response) => {
       if (response.status === 200) {
         console.log('POST_api_objects_drafts_modify: Success!', response);
-        localStorage.removeItem('bco');
+        alert('POST_api_objects_drafts_modify: Success!', response);
       } else {
         console.log('POST_api_objects_drafts_modify: FAILED!');
+        alert('POST_api_objects_drafts_modify: FAILED!');
       }
     });
 }
