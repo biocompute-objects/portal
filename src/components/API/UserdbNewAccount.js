@@ -30,10 +30,11 @@ export default function UserdbNewAccount(values) {
     data,
     status: res.status
   })).then((res_) => {
+    alert('Portal Account created! Do not forget to activate your BCODB account')
     localStorage.setItem('tokenAPI', JSON.stringify(res_.data.token));
     // Show the success message for a couple of seconds.
   }).catch((error) => {
-    alert(`Something went wrong. Most likely that username already exists.${error}`);
+    alert(`Something went wrong.${error}`);
     console.log('error', error);
     // return error;
   }));

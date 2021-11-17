@@ -22,12 +22,12 @@ export default function ApiNewAccount(values) {
     .then((response) => response.json())
     .then((data) => {
       console.log(data);
-      // alert(data.message + ' Token: ' + data.token);
+      alert('BCODB says: ' + data.message + ' Token: ' + data.token);
       localStorage.removeItem('tokenAPI');
     })
     .catch((error) => {
       // TODO: This needs to be fleshed out to get all errors and deal with them
-      window.alert(`Something went wrong. Most likely that username already exists. ${error}`);
+      alert(`Something went wrong. Most likely that username already exists. ${error}`);
       console.log('error', error);
       // return error;
     });

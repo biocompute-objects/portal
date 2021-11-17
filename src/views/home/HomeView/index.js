@@ -2,7 +2,7 @@
 
 import React from 'react';
 import {
-  Box, Container, Grid, makeStyles
+  Box, Container, Grid, makeStyles, Typography
 } from '@material-ui/core';
 import Page from 'src/components/Page';
 import Builder from './Builder';
@@ -11,6 +11,7 @@ import About from './About';
 import BioComputeResources from './BioComputeResources';
 import Hive from './Hive';
 import Community from './Community';
+import FdaBar from './FdaBar'
 import NewsBar from './NewsBar';
 import Galaxy from './Galaxy';
 
@@ -70,6 +71,10 @@ const HomeView = () => {
             </Container>
           </Grid>
           <Grid item xs={false} sm={4} lg={3} xl={2}>
+            <Typography variant={"h3"}>
+              News and Events
+            </Typography>
+            <FdaBar />
             <NewsBar />
           </Grid>
         </Grid>
