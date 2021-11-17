@@ -1,8 +1,8 @@
-// src/views/builder/BuilderView/Views.js 
+// src/views/builder/BuilderView/Views.js
 
 // Source: https://material-ui.com/components/tabs/
 
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
@@ -10,7 +10,6 @@ import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
-import PermissionTools from '../../../components/PermissionTools';
 // Dummy redirecting after draft object creation.
 // See https://www.codegrepper.com/code-examples/javascript/useHistory+is+not+exported+form+react-router-dom
 import { useNavigate } from 'react-router-dom';
@@ -21,22 +20,24 @@ import AccountTreeIcon from '@material-ui/icons/AccountTree';
 import InsertDriveFileIcon from '@material-ui/icons/InsertDriveFile';
 
 // Color-coded view
-import ColorCoded from './ColorCoded'
+import ColorCoded from './ColorCoded';
 // Raw view
-import Raw from './Raw'
+import Raw from './Raw';
 // publish
 // import publish from './Publish'
-import SaveDraft from './SaveDraft.js'
+import JsonView from './JsonView';
 
 // Fetch context.
 import { FetchContext } from '../../../App';
 
 // Context
 // Source: https://www.digitalocean.com/community/tutorials/react-usecontext
-//import { DisplayContext } from '../../../layouts/ObjectViewLayout/index';
+// import { DisplayContext } from '../../../layouts/ObjectViewLayout/index';
 
 function TabPanel(props) {
-  const { children, value, index, ...other } = props;
+  const {
+    children, value, index, ...other
+  } = props;
 
   return (
     <div
@@ -80,23 +81,23 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Views({ downloadDraft, setDownloadDraft, saveDraft, setSaveDraft, publish, setPublish, complianceCheck, objectId, objectContents, setObjectContents, loading, objectFound }) {
-  
+export default function Views({
+  downloadDraft, setDownloadDraft, newDraft, saveDraft, setSaveDraft, publish, setPublish, complianceCheck, objectId, objectContents, setObjectContents, loading, objectFound
+}) {
   // console.log('%%%%%%%%')
   // console.log(complianceCheck)
-  // console.log(objectId)
+  // console.log('newDraft', newDraft)
   // console.log('##########')
-  
   const classes = useStyles();
 
   useEffect(() => {
-    console.log('loading: ', loading)
+    console.log('loading: ', loading);
   }, [loading]);
 
   useEffect(() => {
-    console.log('objectFound: ', objectFound)
+    console.log('objectFound: ', objectFound);
   }, [objectFound]);
-  
+
   // Define a variable for switching views within
   // the component (as opposed to getting the value)
   // from the parent).
@@ -113,54 +114,56 @@ export default function Views({ downloadDraft, setDownloadDraft, saveDraft, setS
 
   // Listen to see if we're saving.
   useEffect(() => {
-    console.log('Saving!!!!!!')
-  }, [saveDraft])
+    console.log('Saving!!!!!!');
+  }, [saveDraft]);
 
   return (
-        objectFound
-          ?
-            <div className={classes.root}>
-              <AppBar position="static">
-                <Tabs value={componentView} onChange={handleChange} aria-label="simple tabs example">
-                  <Tab icon={<OpacityIcon />} label="Color-Coded" {...a11yProps(0)} />
-                  <Tab icon={<AccountTreeIcon />} label="Raw JSON" {...a11yProps(1)} />
-                  <Tab icon={<InsertDriveFileIcon />} label="Save Draft" {...a11yProps(2)} />
-              </Tabs>
-              </AppBar>
-              <TabPanel value={componentView} index={0}>
-                <ColorCoded 
-	  			  downloadDraft={componentView === 0 ? downloadDraft : null}
-				  setDownloadDraft={setDownloadDraft}
-				  saveDraft={saveDraft}
-				  setSaveDraft={setSaveDraft}
-				  publish={publish}
-				  setPublish={setPublish}
-				  complianceCheck={complianceCheck}
-				  objectContents={objectContents}
-				  setObjectContents={setObjectContents} />
-              </TabPanel>
-              <TabPanel value={componentView} index={1}>
-                <Raw /> 
-              </TabPanel>
-              <TabPanel value={componentView} index={2}>
-                <PermissionTools        />
-                <SaveDraft downloadDraft={componentView === 2 ? downloadDraft : null} setDownloadDraft={setDownloadDraft} saveDraft={saveDraft} setSaveDraft={setSaveDraft} publish={publish} setPublish={setPublish} complianceCheck={complianceCheck} contents={objectContents} /> 
-              </TabPanel>
-            </div>
-          :
-          <div className={classes.root}>
-            <AppBar position="static">
-              <Tabs value={componentView} onChange={handleChange} aria-label="simple tabs example">
-                <Tab icon={<OpacityIcon />} label="Color-Coded" {...a11yProps(0)} />
-                <Tab icon={<InsertDriveFileIcon />} label="Raw" {...a11yProps(1)} />
-              </Tabs>
-            </AppBar>
-            <Typography>
-              There was a problem with the request, see output below.
-            </Typography>
-            <Typography>
-              Server http://127.0.0.1 says: 'We had a problem!'
-            </Typography>
-          </div>
+    objectFound
+      ? (
+        <div className={classes.root}>
+          <AppBar position="static">
+            <Tabs value={componentView} onChange={handleChange} aria-label="simple tabs example">
+              <Tab icon={<OpacityIcon />} label="Color-Coded" {...a11yProps(0)} />
+              <Tab icon={<AccountTreeIcon />} label="Tree View JSON" {...a11yProps(1)} />
+              <Tab icon={<InsertDriveFileIcon />} label="Raw JSON View" {...a11yProps(2)} />
+            </Tabs>
+          </AppBar>
+          <TabPanel value={componentView} index={0}>
+            <ColorCoded
+              downloadDraft={componentView === 0 ? downloadDraft : null}
+              setDownloadDraft={setDownloadDraft}
+              saveDraft={saveDraft}
+              setSaveDraft={setSaveDraft}
+              publish={publish}
+              setPublish={setPublish}
+              complianceCheck={complianceCheck}
+              objectContents={objectContents}
+              setObjectContents={setObjectContents}
+            />
+          </TabPanel>
+          <TabPanel value={componentView} index={1}>
+            <Raw />
+          </TabPanel>
+          <TabPanel value={componentView} index={2}>
+            <JsonView />
+          </TabPanel>
+        </div>
+      )
+      : (
+        <div className={classes.root}>
+          <AppBar position="static">
+            <Tabs value={componentView} onChange={handleChange} aria-label="simple tabs example">
+              <Tab icon={<OpacityIcon />} label="Color-Coded" {...a11yProps(0)} />
+              <Tab icon={<InsertDriveFileIcon />} label="Raw" {...a11yProps(1)} />
+            </Tabs>
+          </AppBar>
+          <Typography>
+            There was a problem with the request, see output below.
+          </Typography>
+          <Typography>
+            Server http://127.0.0.1 says: 'We had a problem!'
+          </Typography>
+        </div>
+      )
   );
 }

@@ -64,7 +64,7 @@ export default function FormDialog() {
         serverAdded = true;
       }
     });
-    console.log('Token ', `TOKEN ${token}`, )
+    console.log('Token ', `TOKEN ${token}`);
     if (serverAdded === false) { // Was the hostname already added?
       fetch(`${hostname}/api/accounts/describe/`, { // Fetch to the server with the given token, if available.
         method: 'POST',

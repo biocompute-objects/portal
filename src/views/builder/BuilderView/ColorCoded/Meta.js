@@ -87,7 +87,7 @@ export default function Meta({ items }) {
             </Typography>
           </StyledCell>
           <StyledCell>
-            <Linker color={ 'whiteLink' } uri={ 'https://opensource.ieee.org/2791-object/ieee-2791-schema/' } />
+            <Linker color={ 'blackLink' } uri={ 'https://opensource.ieee.org/2791-object/ieee-2791-schema/' } />
           </StyledCell>
         </TableRow>
         <TableRow>

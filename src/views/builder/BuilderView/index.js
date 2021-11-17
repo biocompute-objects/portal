@@ -1,16 +1,13 @@
 // src/views/builder/BuilderView/index.js
 
-import React, { 
-    createContext, 
-    useEffect, 
-    useState } 
-from 'react';
+import React, { createContext, useState, useEffect } from 'react';
 
 // Rendering URL parameters.
 // Source: https://stackoverflow.com/a/60312798
 import { useLocation } from 'react-router-dom';
 
 import Views from './Views';
+import PermissionTools from '../../../components/PermissionTools';
 
 // This is the parent for the object views.
 
@@ -44,7 +41,7 @@ export default function BuilderView() {
   const [saveDraft, setSaveDraft] = useState(0);
 
   // For publishing.
-  const [publish, setPublish] = useState(0);
+  const [publish, setPublish] = useState(false);
 
   // Was publishing successful?
   const [publishMessage, setPublishMessage] = useState({});
@@ -65,13 +62,13 @@ export default function BuilderView() {
   // Was the initial draft successfuly created OR are we working
   // with a draft that was save previously?
   const [serverLock, setServerLock] = useState(false);
-
+  const [newDraft, setNewDraft] = useState(null);
   // For some reason had to have this in a state variable.
   const [objectId, setObjectId] = useState('');
   const [parsePath, setParsePath] = useState(useLocation().pathname);
 
   // All of the relevant things associated with an object ID.
-  const [objectIdDerivatives, setObjectIdDerivatives] = useState({});
+  const [objectInformation, setObjectInformation] = useState({});
 
   // Who owns it?
   const [objectOwner, setObjectOwner] = useState('');
@@ -82,58 +79,31 @@ export default function BuilderView() {
   // A provided default for the server to save the draft to.
   const [receivedDefault, setReceivedDefault] = useState(null);
 
-  // ----- ACTIONS ----- //
-
-  // ----- HELPER FUNCTIONS ----- //
-
-  // Get usable information from the object ID.
-  const extractObjectInfo = (oI) => {
-    // Set the derivative variables.
-    const splitHelper = oI.split('/');
-
-    // A little bit of extra work for the hostname.
-    let hostHelper = splitHelper.slice(0, 3);
-    hostHelper.splice(1, 1);
-    hostHelper[0] += '/';
-    hostHelper = hostHelper.join('/');
-
-    return ({
-      rawName: oI,
-      hostname: hostHelper,
-      objectIdentifier: splitHelper.slice(splitHelper.length - 1, splitHelper.length)[0],
-      table: splitHelper.slice(splitHelper.length - 1, splitHelper.length)[0].split('_').slice(0, 2).join('_').toLowerCase()
-    });
-  };
-
-  // ----- INITIAL RENDERING ----- //
-
   // Initial rendering.
   useEffect(() => {
     // See if we're dealing with a new or existing draft.
     // TODO: fix '/' re-directs in routes.js.
     const splitUp = parsePath.split('builder');
 
-    if (splitUp[splitUp.length - 1] == '') {
-      // NEW draft
+    if (splitUp[splitUp.length - 1] === '') {
+      setNewDraft(true);
       // Set the object contents to template values.
-      var date = new Date();
-      var dateString = date.toString()
-      const blankBco = 
-	{
+      const date = new Date();
+      const blankBco = {
         object_id: '',
-        spec_version: 'IEEE',
+        spec_version: '"https://w3id.org/ieee/ieee-2791-schema/2791object.json"',
         etag: '',
         provenance_domain: {
-          name: '', 
-            version: '', 
-            created: dateString, 
-            modified: dateString, 
-            contributors: [
-                { 
-                    contribution: ['createdBy'], 
-                    name: ''
+          name: '',
+          version: '',
+          created: date.toISOString(),
+          modified: date.toISOString(),
+          contributors: [
+            {
+              contribution: ['createdBy'],
+              name: ''
             }],
-            license: ''
+          license: ''
         },
         usability_domain: [''],
         description_domain: {
@@ -161,13 +131,13 @@ export default function BuilderView() {
           output_subdomain: [{ mediatype: '', uri: { uri: '' } }]
         },
         parametric_domain: [{ param: '', value: '', step: '' }]
-      }
+      };
       setObjectContents(blankBco);
-      localStorage.setItem('bco', JSON.stringify(blankBco))
+      localStorage.setItem('bco', JSON.stringify(blankBco));
       setObjectFound(true);
     } else {
       // EXISTING draft
-
+      setNewDraft(false);
       // Take everything after the builder section.
       const splitAgain = splitUp[1].split('/');
 
@@ -179,18 +149,23 @@ export default function BuilderView() {
 
       // BAD fix, should have apiinfo stored as object...
       let foundToken = '';
-      let foundGroups= [];
+      let foundGroups = [];
+      let objectStuff = {};
 
       JSON.parse(localStorage.getItem('user')).apiinfo.map((item) => {
         if (item.public_hostname === hostname) {
           foundToken = item.token;
-          foundGroups = item['other_info']['permissions']['groups'];
+          foundGroups = item.other_info.permissions.groups;
+          objectStuff = ({
+            object_id: oI,
+            token: item.token,
+            groups: item.other_info.permissions.groups,
+            owner: item.username,
+            hostname: item.public_hostname
+          });
+          setObjectInformation(objectStuff);
         }
       });
-
-      console.log('hostname: ', hostname);
-      console.log('oI: ', oI);
-      console.log('foundToken: ', foundToken);
 
       // Ask the server for the contents.
       fetch(oI, {
@@ -202,24 +177,24 @@ export default function BuilderView() {
       }).then((res) => res.json().then((data) => ({
         data,
         status: res.status
-      })).then((res) => {
+      })).then((response) => {
         // Did the request go ok or not?
-        if (res.status === 200) {
+        if (response.status === 200) {
           console.log('Server return contents: ', foundToken);
           // Parse the results.
           // const parsed = JSON.parse(res.data)[0];
 
           // Set the object information.
-          setObjectContents(res.data);
-          localStorage.setItem('bco', JSON.stringify(res.data))
+          setObjectContents(response.data);
+          localStorage.setItem('bco', JSON.stringify(response.data));
           // Set the draft saving location.
-          setReceivedDefault(res.data.object_id);
+          setReceivedDefault(response.data.object_id);
           // Lock the savable server based on the information
           // associated with the draft.
           setServerLock(true);
 
           setDraftSavingLocation({
-            hostname: hostname,
+            hostname,
             group: foundGroups,
           });
 
@@ -250,8 +225,18 @@ export default function BuilderView() {
   return (
     <DeepContext.Provider value={{ objectOwner }}>
       <div>
+        <PermissionTools
+          newDraft={newDraft}
+          objectInformation={objectInformation}
+          setDownloadDraft={setDownloadDraft}
+          saveDraft={saveDraft}
+          setSaveDraft={setSaveDraft}
+          publish={publish}
+          setPublish={setPublish}
+          complianceCheck={complianceCheck}
+          contents={objectContents}
+        />
         <Views
-
           objectContents={objectContents}
           setObjectContents={setObjectContents}
           complianceCheck={complianceCheck}

@@ -7,6 +7,8 @@ import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
+import HelpIcon from '@material-ui/icons/Help';
+import Button from '@material-ui/core/Button';
 
 // Multiline Input
 import TextField from '@material-ui/core/TextField';
@@ -17,14 +19,14 @@ const useStyles = makeStyles((theme) => ({
       margin: theme.spacing(1),
       width: '25ch',
     },
-    color: 'white'
+    color: 'black'
   },
 }));
 
 // Cell styling
 const StyledCell = withStyles({
   root: {
-    color: 'white'
+    color: 'black'
   },
   bordered: {
     border: '1px solid black'
@@ -33,41 +35,32 @@ const StyledCell = withStyles({
 
 // Pass an object and whether or not its keys are properties.
 export default function ErrorDomain({ items, cF }) {
-  
   const inputClasses = useStyles();
   const classes = withStyles();
 
-  // No state required to check for missing section because
-  // error domain is optional in IEEE 2791.
-
-  // Arguments
-  // ---------
-  // items: JSON object (Error Domain)
-
-
-  // ----- Meta Information ----- //
-
-  
-  // None.
-
-
-  // ----- Error ----- //
-
-  return(
+  return (
     <Table size="small">
       <TableHead className={classes.tabled}>
         <TableRow>
           <StyledCell colSpan="5">
-            <Typography variant="h3">
-              Error Domain
-            </Typography>
+            <Button
+              variant="contained"
+              color="D5D8DC"
+              fullWidth
+              onClick={() => window.open('https://docs.biocomputeobject.org/error-domain/')}
+            >
+              <Typography variant="h3">
+                Error Domain &nbsp;
+                <HelpIcon />
+              </Typography>
+            </Button>
           </StyledCell>
         </TableRow>
       </TableHead>
       <TableBody>
         <TableRow>
           <StyledCell>
-            <TextField 
+            <TextField
               InputProps={{ className: inputClasses.root }}
               color="primary"
               defaultValue={JSON.stringify(cF(items.errd), null, 4)}
