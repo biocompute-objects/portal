@@ -38,7 +38,7 @@ const routes = () => {
           element: <Navigate to="https://docs.biocomputeobject.org/" />
         },
         { path: 'resources', element: <Resources /> },
-        { path: 'community', element: <Community /> },
+        {/* path: 'community', element: <Community /> */},
         { path: 'validator', element: <ValidatorView /> },
         { path: 'permissions', element: <Permissions />}
       ]

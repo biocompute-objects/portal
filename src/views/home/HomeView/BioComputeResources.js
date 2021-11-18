@@ -39,7 +39,7 @@ export default function BioComputeResources() {
       <CardActionArea component={RouterLink} to="/resources">
         <CardContent className={classes.linkCard}>
           <Typography className={classes.title}>
-            Cloud-based tools for working with BioCompute
+            Cloud-based tools for BioCompute
           </Typography>
           <Typography>
             See our resources page for additional tools and services.

@@ -1,4 +1,4 @@
-// src/views/home/HomeView/Specification.js
+// src/views/home/HomeView/FdaBox.js
 
 import React from 'react';
 import {
@@ -17,7 +17,6 @@ const useStyles = makeStyles({
     transform: 'scale(0.8)',
   },
   linkCard: {
-    minHeight: '300px',
     minWidth: 275,
     textAlign: 'center'
   },

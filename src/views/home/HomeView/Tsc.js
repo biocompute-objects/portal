@@ -1,4 +1,4 @@
-// src/views/home/HomeView/Media.js
+// src/views/home/HomeView/Tsc.js
 
 import React from 'react';
 import {
@@ -9,6 +9,8 @@ import {
   Typography
 } from '@material-ui/core';
 import { Link as RouterLink } from 'react-router-dom';
+
+import logo from 'src/images/logo.png';
 
 const useStyles = makeStyles({
   bullet: {
@@ -32,23 +34,22 @@ const useStyles = makeStyles({
   },
 });
 
-export default function Media() {
+export default function Tsc() {
   const classes = useStyles();
 
   return (
     <Card className={classes.linkCard}>
-      <CardActionArea component={RouterLink} to="/community">
+      <CardActionArea href='https://docs.google.com/document/d/1io5OBfsdEif_nWX-TmA22fz7gayHR1MsEwv2vI_QGBY' target="_blank">
         <CardContent className={classes.linkCard}>
           <Typography className={classes.title}>
-            BioCompute Community
+            <img src={logo} height={30} alt="BCO logo" />
+            BCO TSC
           </Typography>
-          <Typography>
-            <br />
-            Technical Steering Committee
-            <br />
-            BioCompute Organization
-            <br />
-            BioCompute Leadership
+          <Typography className={classes.bullet}>
+            The Technical Steering Committee of the BioCompute Partnership
+            (TSC) is a body of experienced professionals with BioCompute standard subject
+            matter expertise. See here for the Meeting notes and agenda for all past and
+            the upcomming meetings.
           </Typography>
         </CardContent>
       </CardActionArea>

@@ -10,8 +10,8 @@ import Specification from './Specification';
 import About from './About';
 import BioComputeResources from './BioComputeResources';
 import Hive from './Hive';
-import Community from './Community';
-import FdaBar from './FdaBar'
+import Tsc from './Tsc';
+import FdaBox from './FdaBox'
 import NewsBar from './NewsBar';
 import Galaxy from './Galaxy';
 
@@ -47,7 +47,7 @@ const HomeView = () => {
                   <Specification />
                 </Grid>
                 <Grid item xs={12} sm={6} lg={4} xl={4}>
-                  <Community />
+                  <Tsc />
                 </Grid>
               </Grid>
             </Container>
@@ -71,11 +71,13 @@ const HomeView = () => {
             </Container>
           </Grid>
           <Grid item xs={false} sm={4} lg={3} xl={2}>
-            <Typography variant={"h3"}>
-              News and Events
-            </Typography>
-            <FdaBar />
-            <NewsBar />
+            <Box className={classes.whiteBackground}>
+              <Typography align="center" variant={"h3"}>
+                News and Events
+              </Typography>
+              <FdaBox />
+              <NewsBar />
+            </Box>
           </Grid>
         </Grid>
       </Container>

@@ -33,7 +33,12 @@ const useStyles = makeStyles({
 
 export default function TechnicalSteeringCommittee() {
   const classes = useStyles();
+  const openInNewTab = (url) => {
+    const newWindow = window.open(url, '_blank', 'noopener,noreferrer');
+    if (newWindow) newWindow.opener = null;
+  };
 
+  const notes = 'https://docs.google.com/document/d/1io5OBfsdEif_nWX-TmA22fz7gayHR1MsEwv2vI_QGBY';
   return (
     <Card className={classes.linkCard} elevation={0}>
       <CardContent>

@@ -28,11 +28,11 @@ const itemsAuth = [
     icon: UserIcon,
     title: 'Resources'
   },
-  {
-    href: '/community',
-    icon: UserIcon,
-    title: 'Community'
-  },
+  // {
+  //   href: '/community',
+  //   icon: UserIcon,
+  //   title: 'Community'
+  // },
   {
     href: '/builder',
     icon: UserIcon,
@@ -56,11 +56,11 @@ const itemsNoAuth = [
     icon: UserIcon,
     title: 'Resources'
   },
-  {
-    href: '/community',
-    icon: UserIcon,
-    title: 'Community'
-  },
+  // {
+  //   href: '/community',
+  //   icon: UserIcon,
+  //   title: 'Community'
+  // },
   {
     href: '/builder',
     icon: UserIcon,
