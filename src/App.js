@@ -82,40 +82,40 @@ function App() {
       ]
     },
     test: {
-      bcoapi_accounts_new: 'https://test.https://biocomputeobject.org/api/accounts/new/',
-      bcoapi_description_permissions: 'https://test.https://biocomputeobject.org/api/description/permissions/',
-      bcoapi_objects_create: 'https://test.https://biocomputeobject.org/api/objects/create/',
-      bcoapi_objects_list: 'https://test.https://biocomputeobject.org/api/objects/token/',
-      bcoapi_objects_read: 'https://test.https://biocomputeobject.org/api/objects/read/',
-      bcoapi_objects_view: 'https://test.https://biocomputeobject.org/api/objects/view/',
-      userdb_addapi: 'https://test.https://biocomputeobject.org/users/add_api/',
-      userdb_removeapi: 'https://test.https://biocomputeobject.org/users/remove_api/',
-      userdb_users: 'https://test.https://biocomputeobject.org/users/list/',
-      update_user: 'https://test.https://biocomputeobject.org/users/update_user/',
-      userdb_tokenauth: 'https://test.https://biocomputeobject.org/users/token-auth/',
+      bcoapi_accounts_new: 'https://test.portal.biochemistry.gwu.edu/api/accounts/new/',
+      bcoapi_description_permissions: 'https://test.portal.biochemistry.gwu.edu/api/description/permissions/',
+      bcoapi_objects_create: 'https://test.portal.biochemistry.gwu.edu/api/objects/create/',
+      bcoapi_objects_list: 'https://test.portal.biochemistry.gwu.edu/api/objects/token/',
+      bcoapi_objects_read: 'https://test.portal.biochemistry.gwu.edu/api/objects/read/',
+      bcoapi_objects_view: 'https://test.portal.biochemistry.gwu.edu/api/objects/view/',
+      userdb_addapi: 'https://test.portal.biochemistry.gwu.edu/users/add_api/',
+      userdb_removeapi: 'https://test.portal.biochemistry.gwu.edu/users/remove_api/',
+      userdb_users: 'https://test.portal.biochemistry.gwu.edu/users/list/',
+      update_user: 'https://test.portal.biochemistry.gwu.edu/users/update_user/',
+      userdb_tokenauth: 'https://test.portal.biochemistry.gwu.edu/users/token-auth/',
       anon_api_info: [
         {
-          token: 'f8e583d6b4c44c901ade8092994a1f6ceb892c0d',
-          public_hostname: 'https://test.https://biocomputeobject.org'
+          token: '627626823549f787c3ec763ff687169206626149',
+          public_hostname: 'https://test.portal.biochemistry.gwu.edu'
         }
       ]
     },
     production: {
-      bcoapi_accounts_new: 'https://https://biocomputeobject.org/api/accounts/new/',
-      bcoapi_description_permissions: 'https://https://biocomputeobject.org/api/description/permissions/',
-      bcoapi_objects_create: 'https://https://biocomputeobject.org/api/objects/create/',
-      bcoapi_objects_list: 'https://https://biocomputeobject.org/api/objects/token/',
-      bcoapi_objects_read: 'https://https://biocomputeobject.org/api/objects/read/',
-      bcoapi_objects_view: 'https://https://biocomputeobject.org/api/objects/view/',
-      userdb_addapi: 'https://https://biocomputeobject.org/users/add_api/',
-      userdb_removeapi: 'https://https://biocomputeobject.org/users/remove_api/',
-      userdb_users: 'https://https://biocomputeobject.org/users/list/',
-      update_user: 'https://https://biocomputeobject.org/users/update_user/',
-      userdb_tokenauth: 'https://https://biocomputeobject.org/users/token-auth/',
+      bcoapi_accounts_new: 'https://biocomputeobject.org/api/accounts/new/',
+      bcoapi_description_permissions: 'https://biocomputeobject.org/api/description/permissions/',
+      bcoapi_objects_create: 'https://biocomputeobject.org/api/objects/create/',
+      bcoapi_objects_list: 'https://biocomputeobject.org/api/objects/token/',
+      bcoapi_objects_read: 'https://biocomputeobject.org/api/objects/read/',
+      bcoapi_objects_view: 'https://biocomputeobject.org/api/objects/view/',
+      userdb_addapi: 'https://biocomputeobject.org/users/add_api/',
+      userdb_removeapi: 'https://biocomputeobject.org/users/remove_api/',
+      userdb_users: 'https://biocomputeobject.org/users/list/',
+      update_user: 'https://biocomputeobject.org/users/update_user/',
+      userdb_tokenauth: 'https://biocomputeobject.org/users/token-auth/',
       anon_api_info: [
         {
-          token: '!hGNijCIZrBxPGRvUuLgNt7RJwLBsMW6bGve8cjbR',
-          public_hostname: 'https://https://biocomputeobject.org'
+          token: 'b196023f46cdc919d064b0d9f210154d9a7a5b2e',
+          public_hostname: 'https://biocomputeobject.org'
         }
       ]
     }
