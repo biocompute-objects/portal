@@ -19,7 +19,7 @@ import Page from 'src/components/Page';
 // Fetch context.
 import Alert from '@material-ui/lab/Alert';
 import { FetchContext } from '../../App';
-import UserdbTokenAuth from '../../components/API/UserdbTokenAuth.js';
+import UserdbTokenAuth from '../../components/API/UserdbTokenAuth';
 
 // Registration error
 // Source: https://material-ui.com/components/alert/#simple-alerts
@@ -41,7 +41,6 @@ const useStyles = makeStyles((theme) => ({
 
 const LoginView = () => {
   const classes = useStyles();
-  const navigate = useNavigate();
 
   // Fetch context.
   const fc = useContext(FetchContext);
@@ -49,7 +48,7 @@ const LoginView = () => {
   // State
   const [loginError, setLoginError] = useState(false);
   const [login, setLogin] = useState(false);
-  
+
   return (
     <Page
       className={classes.root}
@@ -74,7 +73,7 @@ const LoginView = () => {
             })}
             onSubmit={(values) => {
               // Determine whether or not our login was legitimate.
-              console.log("values", values)
+              console.log('values', values);
               UserdbTokenAuth(values);
             }}
           >

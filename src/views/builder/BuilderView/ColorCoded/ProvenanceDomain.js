@@ -92,7 +92,7 @@ export default function ProvenanceDomain({ items, cF }) {
     }
 
     // Version (note the regex check)
-    const versionRegex = new RegExp('^[1-9]+\\.[1-9]+[0-9]*$');
+    const versionRegex = new RegExp('^[0-9]+\\.[0-9]+[0-9]*$');
 
     if (items.pdVersion === '' || !(versionRegex.test(items.pdVersion))) {
       // No version.
@@ -157,31 +157,6 @@ export default function ProvenanceDomain({ items, cF }) {
           // Can't rely on orFlag here because fields like
           // Name, Version, and License also depend on it.
         }
-        // This section is causing the page to break. Return to it later
-        // for(var reviewName = 0; i < items.pdReview.length; reviewName++) {
-        //
-        //   // Name
-        //   if(items.pdReview[reviewName].reviewer.name === "") {
-        //
-        //     // No name.
-        //     setMissingReviewName(true);
-        //
-        //     // Header
-        //     setMissingReview(true);
-        //
-        //     // Set the OR flag.
-        //     orFlag = true;
-        //
-        //     break;
-        //
-        //   } else {
-        //     setMissingReviewName(false);
-        //   }
-        //
-        //   // Can't rely on orFlag here because fields like
-        //   // Name, Version, and License also depend on it.
-        //
-        // }
 
         for (let reviewCont = 0; reviewCont < items.pdReview.length; reviewCont++) {
           // Contribution
@@ -304,9 +279,9 @@ export default function ProvenanceDomain({ items, cF }) {
 
     // REGEX patterns that are allowed.
     const patternZero = new RegExp('^$');
-    const patternOne = new RegExp('^[1-9]+$');
-    const patternTwo = new RegExp('^[1-9]+\\.$');
-    const patternThree = new RegExp('^[1-9]+\\.[1-9]+[0-9]*$');
+    const patternOne = new RegExp('^[0-9]+$');
+    const patternTwo = new RegExp('^[0-9]+\\.$');
+    const patternThree = new RegExp('^[0-9]+\\.[0-9]+[0-9]*$');
 
     if (patternZero.test(onlyNumsPeriods)) {
       items.setPdVersion(onlyNumsPeriods);

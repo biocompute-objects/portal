@@ -9,7 +9,7 @@ import {
 import Card from '@material-ui/core/Card';
 
 // Rendering dynamic JSON.
-import Meta from './Meta';
+import HelpBar from './HelpBar';
 import DescriptionDomain from './DescriptionDomain';
 import ErrorDomain from './ErrorDomain';
 import ExecutionDomain from './ExecutionDomain';
@@ -31,9 +31,6 @@ const useStyles = makeStyles((theme) => ({
   },
   margined: {
     marginBottom: '100px'
-  },
-  meta: {
-    background: '#74b3ce'
   },
   provenanceDomain: {
     background: '#EBEDEF'
@@ -220,6 +217,11 @@ function ColorCoded({
         container
         spacing={3}
       >
+        <Grid item lg={12} md={12} xs={12}>
+          <Card>
+             <HelpBar />
+          </Card>
+        </Grid>
         {compList.map((Component, index) => {
           return (
             <Grid item lg={12} md={12} xs={12}>

@@ -441,18 +441,11 @@ export default function DescriptionDomain({
 
     if (listtype === 'ids') {
       dummy = items.ddXref;
-    } else {
-      dummy = items.ddPipelineSteps;
-    }
-
-    // Special rule for URI.
-
-    dummy[i][listtype][j][inputName] = event.target.value;
-
-    // Update the state.
-    if (listtype === 'ids') {
+      dummy[i][listtype][j] = event.target.value;
       items.setDdXref(dummy);
     } else {
+      dummy = items.ddPipelineSteps;
+      dummy[i][listtype][j][inputName] = event.target.value;
       items.setDdPipelineSteps(dummy);
     }
 
@@ -623,23 +616,6 @@ export default function DescriptionDomain({
     items.setRerender(items.rerender + 1);
   };
 
-  // Arguments
-  // ---------
-  // items: JSON object (Description Domain)
-
-  // ----- Meta Information ----- //
-
-  // Keywords
-
-  // Collapse the keywords to a string.
-  // const keywords = items.keywords.join(', ');
-
-  // ----- Processing ----- //
-
-  // None.
-
-  // ----- Description ----- //
-
   return (
     <Table size="small">
       <TableHead className={classes.tabled}>
@@ -738,22 +714,22 @@ export default function DescriptionDomain({
                             <TextField InputProps={{ className: classes.root }} error={cF(subitem) === ''} label="ID" fullWidth variant="outlined" value={cF(subitem)} onChange={(e) => setListInput(e, index, 'ids', subindex, 'id')} />
                           </ListItem>
                           {
-                                        subindex !== item.ids.length - 1
-                                          ? (
-                                            <ListItem>
-                                              <Button variant="contained" color="primary" disableElevation fullWidth onClick={() => removeListRows(index, subindex, 'ids')}>
-                                                Remove
-                                              </Button>
-                                            </ListItem>
-                                          )
-                                          : (
-                                            <ListItem divider>
-                                              <Button variant="contained" color="primary" disableElevation fullWidth onClick={() => removeListRows(index, subindex, 'ids')}>
-                                                Remove
-                                              </Button>
-                                            </ListItem>
-                                          )
-                                    }
+                            subindex !== item.ids.length - 1
+                              ? (
+                                <ListItem>
+                                  <Button variant="contained" color="primary" disableElevation fullWidth onClick={() => removeListRows(index, subindex, 'ids')}>
+                                    Remove
+                                  </Button>
+                                </ListItem>
+                              )
+                              : (
+                                <ListItem divider>
+                                  <Button variant="contained" color="primary" disableElevation fullWidth onClick={() => removeListRows(index, subindex, 'ids')}>
+                                    Remove
+                                  </Button>
+                                </ListItem>
+                              )
+                            }
                         </>
                       ))}
                       <ListItem>
