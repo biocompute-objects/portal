@@ -26,7 +26,7 @@ export default function PublishDraftObject(objectInformation) {
     .then((response) => {
       if (response.status === 200) {
         console.log('POST_api_objects_drafts_publish: Success!', response);
-        alert('POST_api_objects_drafts_publish: Success!');
+        alert('Object published successfully! Please visit BioCompute Objects page for your draft');
       } else {
         console.log('POST_api_objects_drafts_publish: FAILED!');
         alert('POST_api_objects_drafts_publish: FAILED!');

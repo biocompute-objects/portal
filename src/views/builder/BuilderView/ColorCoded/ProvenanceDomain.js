@@ -324,7 +324,7 @@ export default function ProvenanceDomain({ items, cF }) {
         dummy[i][inputName] = event.target.value;
       } else if (inputName === 'status') {
         // Change the value at the given index.
-        dummy[i][inputName] = [event.target.value];
+        dummy[i][inputName] = event.target.value;
       } else {
         // Need to split up the sub-key.
         const splitUp = inputName.split('.');

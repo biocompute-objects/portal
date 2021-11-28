@@ -21,10 +21,7 @@ import InsertDriveFileIcon from '@material-ui/icons/InsertDriveFile';
 
 // Color-coded view
 import ColorCoded from './ColorCoded';
-// Raw view
-import Raw from './Raw';
-// publish
-// import publish from './Publish'
+import TreeView from './TreeView';
 import JsonView from './JsonView';
 
 // Fetch context.
@@ -142,7 +139,7 @@ export default function Views({
             />
           </TabPanel>
           <TabPanel value={componentView} index={1}>
-            <Raw />
+            <TreeView />
           </TabPanel>
           <TabPanel value={componentView} index={2}>
             <JsonView />

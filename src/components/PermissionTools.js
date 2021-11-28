@@ -40,9 +40,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function PermissionTools({
-  objectIdDerivatives, setDraftSavingLocation, contents, publish, newDraft, objectInformation, setPublishSavingLocation, setDownloadDraft, setSaveDraft, setPublish, publishedObjectId, publishMessage, receivedDefault, serverLock, setDeleteDraftPostPublish
-}) {
+export default function PermissionTools({ contents, publish, newDraft, objectInformation, setPublish, publishedObjectId, receivedDefault, serverLock }) {
   // State
   const [saveDraftTo, setSaveDraftTo] = useState('');
   const [savePublishTo, setSavePublishTo] = useState('');
@@ -78,8 +76,15 @@ export default function PermissionTools({
       // From parent.
       PublishDraftObject(objectInformation);
     } else if (which === 'downloadDraft') {
-      // From parent.
-      setDownloadDraft(1);
+      let bco = localStorage.getItem("bco");
+      const blob = new Blob([bco],{type:'application/json'});
+      const href = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = href;
+      link.download = "draftBCO.json";
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
     } else if (which === 'deleteDraft') {
       // From parent.
       // setDeletingDraft(true);

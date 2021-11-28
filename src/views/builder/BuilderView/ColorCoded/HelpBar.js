@@ -7,14 +7,7 @@ import {
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
-import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
-
-// Inputs
-import TextField from '@material-ui/core/TextField';
-
-// For links.
-import Linker from './components/Linker';
 
 // Cell styling
 const StyledCell = withStyles({
@@ -44,8 +37,8 @@ export default function HelpBar({ items }) {
             </Typography>
           </StyledCell>
           <StyledCell>
-            <Typography style={{ color: 'yellow' }} variant="h3">
-              Yellow Boxes are Reccomended Fields
+            <Typography style={{ color: '#D7BC1E' }} variant="h3">
+              Yellow Boxes are Recommended Fields
             </Typography>
           </StyledCell>
           <StyledCell>

@@ -30,7 +30,7 @@ export default function UserdbNewAccount(values) {
     data,
     status: res.status
   })).then((res_) => {
-    alert('Portal Account created! Do not forget to activate your BCODB account')
+    alert('Portal Account created! Do not forget to activate your BCDODB account via the activation email sent from object.biocompute@gmail.com')
     localStorage.setItem('tokenAPI', JSON.stringify(res_.data.token));
     // Show the success message for a couple of seconds.
   }).catch((error) => {

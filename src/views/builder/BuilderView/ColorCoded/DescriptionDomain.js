@@ -35,7 +35,7 @@ const useStyles = makeStyles((theme) => ({
     color: 'red'
   },
   missingHeaderOptional: {
-    color: 'yellow'
+    color: '#D7BC1E'
   },
   root: {
     color: 'black'

@@ -25,7 +25,7 @@ export default function ModifyDraftObject(objectInformation) {
     .then((response) => {
       if (response.status === 200) {
         console.log('POST_api_objects_drafts_modify: Success!');
-        alert('POST_api_objects_drafts_modify: Success!');
+        alert('New draft created successfully! Please visit BioCompute Objects page for your draft');
       } else {
         console.log('POST_api_objects_drafts_modify: FAILED!');
         alert('POST_api_objects_drafts_modify: FAILED!');
