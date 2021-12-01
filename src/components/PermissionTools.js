@@ -256,7 +256,7 @@ export default function PermissionTools({ contents, publish, newDraft, objectInf
                     variant="contained"
                     color="primary"
                     disableElevation
-                    disabled={publish === false}
+                    disabled={newDraft === true} //publish === false}
                     fullWidth
                     onClick={() => clickActions('publishDraft')}
                   >
