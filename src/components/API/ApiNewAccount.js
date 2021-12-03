@@ -26,7 +26,7 @@ export default function ApiNewAccount(values) {
         return response.json()
           .then((data) => {
             console.log('data', data);
-            alert('BCODB says: ' + data.message + ' Token: ' + data.token);
+            alert('BCODB says: ' + data.message);
           });
       }
     })
