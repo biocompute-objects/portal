@@ -26,16 +26,22 @@ export default function UserdbNewAccount(values) {
         orcid: ''
       }
     })
-  }).then((res) => res.json().then((data) => ({
-    data,
-    status: res.status
-  })).then((res_) => {
-    alert('Portal Account created! Do not forget to activate your BCDODB account via the activation email sent from object.biocompute@gmail.com')
-    localStorage.setItem('tokenAPI', JSON.stringify(res_.data.token));
-    // Show the success message for a couple of seconds.
-  }).catch((error) => {
-    alert(`Something went wrong.${error}`);
-    console.log('error', error);
+  })
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error(response.status);
+      } else {
+        return response.json()
+          .then((data) => {
+            console.log('data', data);
+            localStorage.setItem('tokenAPI', JSON.stringify(data.token));
+            alert('Portal Account created! Do not forget to activate your BCDODB account via the activation email sent from object.biocompute@gmail.com');
+          });
+      }
+    })
+    .catch((error) => {
+      alert(`Something went wrong. ${error}`);
+      console.log('error', error);
     // return error;
-  }));
+    });
 }

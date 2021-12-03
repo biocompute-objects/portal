@@ -20,9 +20,6 @@ import ValidateSchema from './ValidateSchema';
 import ServerList from '../utils/ServerList';
 import { FetchContext } from '../App';
 
-// Confirm publishing
-import PublishDialog from '../utils/PublishDialog';
-
 // Rendering URL parameters.
 // Source: https://stackoverflow.com/a/60312798
 
@@ -76,12 +73,12 @@ export default function PermissionTools({ contents, publish, newDraft, objectInf
       // From parent.
       PublishDraftObject(objectInformation);
     } else if (which === 'downloadDraft') {
-      let bco = localStorage.getItem("bco");
+      const bco = localStorage.getItem("bco");
       const blob = new Blob([bco],{type:'application/json'});
       const href = URL.createObjectURL(blob);
       const link = document.createElement('a');
       link.href = href;
-      link.download = "draftBCO.json";
+      link.download = 'draftBCO.json';
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
@@ -91,28 +88,6 @@ export default function PermissionTools({ contents, publish, newDraft, objectInf
     }
   }
   console.log('objectInformation', objectInformation);
-  // ----- LISTENERS ----- //
-
-  // Listen for a change in save location
-  // to change the server lock.
-  // useEffect(() => {
-  // UN-parse the saving location information.
-  // The saving location information has to
-  // be a string for the selects to not complain.
-
-  // Prevent assignment on first render...
-  // TODO: better way to do this?
-  //   if (saveDraftTo !== '') {
-  //     setDraftSavingLocation(
-
-  //       {
-  //         hostname: saveDraftTo.split(' - ')[0],
-  //         group: saveDraftTo.split(' - ')[1]
-  //       }
-
-  //     );
-  //   }
-  // }, [saveDraftTo, setDraftSavingLocation]);
 
   // Re-direct after publishing.
   // Source: https://stackoverflow.com/a/58536772/5029459

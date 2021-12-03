@@ -1,4 +1,4 @@
-// /src/components/API/ApiNewAccount.js 
+// /src/components/API/ApiNewAccount.js
 
 /* submits form for new account on UserDb */
 
@@ -19,17 +19,21 @@ export default function ApiNewAccount(values) {
       'Content-type': 'application/json; charset=UTF-8'
     }
   })
-    .then((response) => response.json())
-    .then((data) => {
-      console.log(data);
-      alert('BCODB says: ' + data.message + ' Token: ' + data.token);
-      localStorage.removeItem('tokenAPI');
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error(response.status);
+      } else {
+        return response.json()
+          .then((data) => {
+            console.log('data', data);
+            alert('BCODB says: ' + data.message + ' Token: ' + data.token);
+          });
+      }
     })
     .catch((error) => {
       // TODO: This needs to be fleshed out to get all errors and deal with them
-      alert(`Something went wrong. Most likely that username already exists. ${error}`);
+      alert(`Something went wrong. ${error}`);
       console.log('error', error);
       // return error;
     });
-
 }

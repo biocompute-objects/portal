@@ -83,7 +83,7 @@ export default function Views({
 }) {
   // console.log('%%%%%%%%')
   // console.log(complianceCheck)
-  // console.log('newDraft', newDraft)
+  console.log('newDraft', newDraft)
   // console.log('##########')
   const classes = useStyles();
 
