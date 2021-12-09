@@ -155,10 +155,10 @@ export default function Views({
             </Tabs>
           </AppBar>
           <Typography>
-            There was a problem with the request, see output below.
+            Loading......
           </Typography>
           <Typography>
-            Server http://127.0.0.1 says: 'We had a problem!'
+            'We are loading...'
           </Typography>
         </div>
       )
