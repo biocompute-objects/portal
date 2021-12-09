@@ -2,8 +2,6 @@
 
 /* submits form for new account on UserDb */
 
-import Alert from '@material-ui/lab/Alert';
-
 export default function ApiNewAccount(values) {
   const responseToken = JSON.parse(localStorage.getItem('tokenAPI'));
 
@@ -26,7 +24,7 @@ export default function ApiNewAccount(values) {
         return response.json()
           .then((data) => {
             console.log('data', data);
-            alert('BCODB says: ' + data.message);
+            alert(`BCODB says: ${data.message}`);
           });
       }
     })

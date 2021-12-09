@@ -1,7 +1,7 @@
 // src/views/auth/LoginView.js
 
-import React, { useContext, useState, useEffect } from 'react';
-import { Link as RouterLink, useNavigate } from 'react-router-dom';
+import React, { useContext, useState } from 'react';
+import { Link as RouterLink } from 'react-router-dom';
 import * as Yup from 'yup';
 import { Formik } from 'formik';
 import {
@@ -47,19 +47,11 @@ const LoginView = () => {
 
   // State
   const [loginError, setLoginError] = useState(false);
-  const [login, setLogin] = useState(false);
 
   return (
-    <Page
-      className={classes.root}
-      title="Login"
-    >
+    <Page className={classes.root} title="Login" >
       <Box
-        display="flex"
-        flexDirection="column"
-        height="100%"
-        justifyContent="center"
-      >
+        display="flex" flexDirection="column" height="100%" justifyContent="center" >
         <Container maxWidth="sm">
           <Formik
             initialValues={{
@@ -77,45 +69,19 @@ const LoginView = () => {
               UserdbTokenAuth(values);
             }}
           >
-            {({
-              errors,
-              handleBlur,
-              handleChange,
-              handleSubmit,
-              //              isSubmitting,
-              touched,
-              values
-            }) => (
+            {({errors, handleBlur, handleChange, handleSubmit, touched, values}) => (
               <form onSubmit={handleSubmit}>
                 <Box mb={3}>
-                  <Typography
-                    color="textPrimary"
-                    variant="h2"
-                  >
+                  <Typography color="textPrimary" variant="h2" >
                     Sign in
                   </Typography>
-                  <Typography
-                    color="textSecondary"
-                    gutterBottom
-                    variant="body2"
-                  >
+                  <Typography color="textSecondary" gutterBottom variant="body2">
                     Sign in using your Portal credentials.
                   </Typography>
                 </Box>
-                <Grid
-                  container
-                  spacing={3}
-                >
-                  <Grid
-                    item
-                    xs={12}
-                    md={6}
-                  />
-                  <Grid
-                    item
-                    xs={12}
-                    md={6}
-                  />
+                <Grid container spacing={3}>
+                  <Grid item xs={12} md={6} />
+                  <Grid item xs={12} md={6} />
                 </Grid>
                 <TextField
                   error={Boolean(touched.username && errors.username)}
@@ -149,27 +115,14 @@ const LoginView = () => {
                   </div>
                 </Box>
                 <Box my={2}>
-                  <Button
-                    color="primary"
-                    fullWidth
-                    size="large"
-                    type="submit"
-                    variant="contained"
-                  >
+                  <Button color="primary" fullWidth size="large" type="submit" variant="contained">
                     Sign in
                   </Button>
                 </Box>
-                <Typography
-                  color="textSecondary"
-                  variant="body1"
-                >
+                <Typography color="textSecondary" variant="body1" >
                   Don&apos;t have an account?
                   {' '}
-                  <Link
-                    component={RouterLink}
-                    to="/register"
-                    variant="h6"
-                  >
+                  <Link component={RouterLink} to="/register" variant="h6">
                     Sign up
                   </Link>
                 </Typography>
