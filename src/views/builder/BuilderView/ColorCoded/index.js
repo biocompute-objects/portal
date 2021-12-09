@@ -138,7 +138,7 @@ function ColorCoded({
   // are set in the parent.
   const renderList = [
     {
-      complianceCheck, checkBlank, pdName, pdVersion, pdLicense, pdDerivedFrom, pdCreated, pdModifed, pdObsoleteAfter, pdEmbargoStartTime, pdEmbargoEndTime, pdReview, pdContributors, rerender, setRerender, setPdName, setPdVersion, setPdLicense, setPdDerivedFrom, setPdCreated, setPdModified, setPdObsoleteAfter, setPdEmbargoStartTime, setPdEmbargoEndTime, setPdReview, setPdContributors
+      complianceCheck, checkBlank, exd, setExd
     },
     {
       complianceCheck, checkBlank, ud, setUd
@@ -159,12 +159,12 @@ function ColorCoded({
       complianceCheck, checkBlank, errd, setErrd
     },
     {
-      complianceCheck, checkBlank, exd, setExd
+      complianceCheck, checkBlank, pdName, pdVersion, pdLicense, pdDerivedFrom, pdCreated, pdModifed, pdObsoleteAfter, pdEmbargoStartTime, pdEmbargoEndTime, pdReview, pdContributors, rerender, setRerender, setPdName, setPdVersion, setPdLicense, setPdDerivedFrom, setPdCreated, setPdModified, setPdObsoleteAfter, setPdEmbargoStartTime, setPdEmbargoEndTime, setPdReview, setPdContributors
     }
   ];
 
-  const compList = [ProvenanceDomain, UsabilityDomain, IoDomain, ExecutionDomain, DescriptionDomain, ParametricDomain, ErrorDomain, ExtensionDomain];
-  const classNames = ['provenanceDomain', 'usabilityDomain', 'ioDomain', 'executionDomain', 'descriptionDomain', 'parametricDomain', 'errorDomain', 'extensionDomain'];
+  const compList = [ExtensionDomain, UsabilityDomain, IoDomain, ExecutionDomain, DescriptionDomain, ParametricDomain, ErrorDomain, ProvenanceDomain];
+  const classNames = ['extensionDomain', 'usabilityDomain', 'ioDomain', 'executionDomain', 'descriptionDomain', 'parametricDomain', 'errorDomain', 'extensionDomain'];
 
   // Listeners
   // Listen for ANY change to the object,
@@ -206,8 +206,6 @@ function ColorCoded({
     });
   }, [pdName, pdVersion, pdLicense, pdDerivedFrom, pdCreated, pdModifed, pdObsoleteAfter, pdEmbargoStartTime, pdEmbargoEndTime, pdReview, pdContributors, ud, ddKeywords, ddPlatform, ddXref, ddPipelineSteps, edScript, edScriptDriver, edSoftwarePrerequisites, edExternalDataEndpoints, edEnvironmentVariables, iodInputSubdomain, iodOutputSubdomain, pad, errd, exd]);
 
-  console.log('setObjectContents', objectContents.provenance_domain.review);
-
   localStorage.setItem('bco', JSON.stringify(objectContents));
 
   return (
@@ -219,7 +217,7 @@ function ColorCoded({
       >
         <Grid item lg={12} md={12} xs={12}>
           <Card>
-             <HelpBar />
+            <HelpBar />
           </Card>
         </Grid>
         {compList.map((Component, index) => {
