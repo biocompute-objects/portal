@@ -87,11 +87,6 @@ export default function FormDialog() {
 
   // Ask for a new account.
   const newApiAccount = () => {
-    // Ask the server for a new account.
-    // TODO: This seems to be using a hard coded database instead of the database that the
-    //      target server might be using.  Doesn't look like the target host is being queried
-    //      I think fc.sending.userdb_addapi should be swapped with hostname + /users/add_api ?
-    // fetch(fc.sending.userdb_addapi, {
     fetch(`${hostname}/users/add_api`, { // This causes a 405 error in the API Server
       method: 'POST',
       body: JSON.stringify({
@@ -222,19 +217,15 @@ export default function FormDialog() {
             </Typography>
             <Typography variant="h3">
               The returned server information is based on the token you provide.
-              If you have previously received a token from this server,
-              provide it below when requesting the server information.
-              Otherwise, if you leave the token field blank,
-              the server will automatically use a public token when requesting the server
-              information.
+              You must have already received a token from this server.
             </Typography>
             <Typography>
               <br />
             </Typography>
-            <Typography variant="h3">
+            {/* <Typography variant="h3">
               To request a new, non-public token for the host, enter a hostname and an e-Mail
               and click on &#34;Request New Token&#34;.
-            </Typography>
+            </Typography> */}
           </DialogContentText>
           <TextField
             autoFocus
@@ -271,13 +262,13 @@ export default function FormDialog() {
               Verify Account Information
             </Button>
             &nbsp;
-            <Button
+            {/* <Button
               color="primary"
               variant="contained"
               onClick={newApiAccount}
             >
               Request New Token
-            </Button>
+            </Button> */}
           </div>
           {
             Object.keys(serverInfo).length > 0

@@ -35,11 +35,9 @@ import Chip from '@material-ui/core/Chip';
 
 // Get the parent context.
 // Source: https://www.pluralsight.com/guides/how-to-use-react-context-to-share-data-between-components
-import { useContext, useState } from 'react';
-import Alert from '@material-ui/lab/Alert';
+import { useContext } from 'react';
 import Permissions from './Permissions';
 import { ParentContext } from './index';
-import ServerStatus from './ServerStatus';
 import { FetchContext } from '../../../App';
 
 function descendingComparator(a, b, orderBy) {
@@ -190,11 +188,10 @@ const EnhancedTableToolbar = (props) => {
       // updatedUser.apiinfo.push(serverInfo);
       // updatedUser.apiinfo
 
-
       // Add the server information to the user's information via userdb call.
       fetch(fc.sending.userdb_removeapi, {
         method: 'DELETE',
-        body: JSON.stringify({ 'selected_rows': selectedRows }),
+        body: JSON.stringify({ selected_rows: selectedRows }),
         headers: {
           Authorization: `JWT ${localStorage.getItem('token')}`,
           'Content-type': 'application/json; charset=UTF-8'
@@ -311,14 +308,6 @@ export default function EnhancedTable({ onClickOpen }) {
   const [orderBy, setOrderBy] = React.useState('servername');
   const [selected, setSelected] = React.useState([]);
   const [permissions, setPermissions] = React.useState([]);
-  // const [updatedUser, setUpdatedUser] = React.useState(false);
-  // const [selectedForChange, setSelectedForChange] = React.useState([]);
-
-  // All user information.
-  // const [rows, setRows] = React.useState([
-  //   createData('NIH', '23.423.13.45', 'carmstrong', 'Read, Write', 'Active'),
-  //   createData('FDA', '3.33.41.435', 'carmstrong', 'Read', 'Inactive')
-  // ]);
   const [rows, setRows] = React.useState([]);
 
   // Set the parent context setters.
@@ -329,10 +318,13 @@ export default function EnhancedTable({ onClickOpen }) {
   useEffect(() => {
     // Define an array to hold the permissions.
     const perms = [];
-
-    // Get the permissions.
     setPermissions(JSON.parse(localStorage.getItem('user')).apiinfo);
-    console.log('apiinfo: ', permissions);
+    // Get the permissions.
+    if (permissions.length > 0) {
+      console.log('apiinfo: ', permissions.length);
+    } else {
+      console.log('apiinfo: ', permissions.length);
+    }
     permissions.forEach((perm) => {
       perms.push(
         createData(
@@ -348,7 +340,6 @@ export default function EnhancedTable({ onClickOpen }) {
 
     // Update the server info.
     setRows(perms);
-    console.log('rows:', rows);
 
     // The server added flag is no longer necessary.
     setServerAdded(false);
@@ -407,7 +398,7 @@ export default function EnhancedTable({ onClickOpen }) {
           numSelected={selected.length}
           selectedRows={selected}
         />
-        {/*<VerifyDelete rows={selected} />*/}
+        {/* <VerifyDelete rows={selected} /> */}
         <TableContainer>
           <Table
             className={classes.table}

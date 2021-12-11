@@ -20,6 +20,7 @@ export default function UserdbTokenAuth(values) {
         return response.json()
           .then((data) => {
             localStorage.setItem('token', data.token);
+            console.log('data', data)
             localStorage.setItem('user', JSON.stringify(data.user));
             window.location.href = '/';
           });
