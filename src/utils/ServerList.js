@@ -35,7 +35,6 @@ export default function ServerList({
         userlist: userList,
         username: userName
       });
-      console.log('processed 41', processed);
     });
   }
 

@@ -4,7 +4,6 @@
 
 export default function TokenVerify(isLoggedIn, setIsLoggedIn, sending) {
   const jwtToken = localStorage.getItem('token');
-  console.log('token', jwtToken);
   fetch(sending.userdb_tokenverify, {
     method: 'POST',
     headers: {

@@ -179,6 +179,7 @@ function ColorCoded({
         name: pdName,
         version: pdVersion,
         created: pdCreated,
+        derived_from: pdDerivedFrom,
         modified: provModified.toISOString(),
         review: pdReview,
         contributors: pdContributors,
@@ -204,9 +205,11 @@ function ColorCoded({
       error_domain: errd,
       extension_domain: exd
     });
-  }, [pdName, pdVersion, pdLicense, pdDerivedFrom, pdCreated, pdModifed, pdObsoleteAfter, pdEmbargoStartTime, pdEmbargoEndTime, pdReview, pdContributors, ud, ddKeywords, ddPlatform, ddXref, ddPipelineSteps, edScript, edScriptDriver, edSoftwarePrerequisites, edExternalDataEndpoints, edEnvironmentVariables, iodInputSubdomain, iodOutputSubdomain, pad, errd, exd]);
-
-  console.log('setObjectContents', objectContents.provenance_domain.review);
+  }, [pdName, pdVersion, pdLicense, pdDerivedFrom, pdCreated, pdModifed,
+    pdObsoleteAfter, pdEmbargoStartTime, pdEmbargoEndTime, pdReview,
+    pdContributors, ud, ddKeywords, ddPlatform, ddXref, ddPipelineSteps,
+    edScript, edScriptDriver, edSoftwarePrerequisites, edExternalDataEndpoints,
+    edEnvironmentVariables, iodInputSubdomain, iodOutputSubdomain, pad, errd, exd]);
 
   localStorage.setItem('bco', JSON.stringify(objectContents));
 

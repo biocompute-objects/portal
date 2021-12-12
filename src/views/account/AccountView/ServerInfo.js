@@ -1,6 +1,6 @@
 // src/views/account/AccountView/ServerInfo.js
 
-import React, { useEffect } from 'react';
+import React, { useEffect, useContext } from 'react';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import { lighten, makeStyles } from '@material-ui/core/styles';
@@ -35,7 +35,6 @@ import Chip from '@material-ui/core/Chip';
 
 // Get the parent context.
 // Source: https://www.pluralsight.com/guides/how-to-use-react-context-to-share-data-between-components
-import { useContext } from 'react';
 import Permissions from './Permissions';
 import { ParentContext } from './index';
 import { FetchContext } from '../../../App';
@@ -168,27 +167,10 @@ const EnhancedTableToolbar = (props) => {
   const fc = useContext(FetchContext);
   const { numSelected, selectedRows } = props;
   const { setServerAdded, setSelected } = useContext(ParentContext);
-  // const { numSelected, selectedRows } = useContext(parentState);
 
   const testDelete = (event, rows) => {
-    console.log('Delete button pressed for rows: ', rows);
-    // Delete the rows here from the DB; might want to do an alert
-    // TODO: Should update to better Alert
     const userResponse = window.confirm('Are you sure you want to delete these rows?');
     if (userResponse) {
-      // selectedRows.forEach((x, i) => {
-
-      // console.log('Token: ', localStorage.getItem('token'));
-      // // Pull the server info straight off the state variable,
-      // // then add to UserDB.
-      // const updatedUser = JSON.parse(localStorage.getItem('user'));
-      // TODO: Remove from local storage?
-      // Might not have to do that since we re-set with the response from
-      // the server.
-      // updatedUser.apiinfo.push(serverInfo);
-      // updatedUser.apiinfo
-
-      // Add the server information to the user's information via userdb call.
       fetch(fc.sending.userdb_removeapi, {
         method: 'DELETE',
         body: JSON.stringify({ selected_rows: selectedRows }),
@@ -204,12 +186,7 @@ const EnhancedTableToolbar = (props) => {
         if (result.status === 200) {
           // Update the local storage with the new information.
           localStorage.setItem('user', JSON.stringify(result.data));
-
-          // The server was removed, so update the state.
-          // This will allow the background to update with
-          // the updated server list.
           setServerAdded(true);
-          // setSelected(false);
         } else {
           // Display whatever the server said.
           console.log('Failed to remove the API server because: ', result.data.detail);
@@ -300,7 +277,7 @@ function createData(servername, hostname, token, permissions, status) {
   };
 }
 
-export default function EnhancedTable({ onClickOpen }) {
+export default function EnhancedTable() {
   const classes = useStyles();
 
   // State
@@ -320,11 +297,6 @@ export default function EnhancedTable({ onClickOpen }) {
     const perms = [];
     setPermissions(JSON.parse(localStorage.getItem('user')).apiinfo);
     // Get the permissions.
-    if (permissions.length > 0) {
-      console.log('apiinfo: ', permissions.length);
-    } else {
-      console.log('apiinfo: ', permissions.length);
-    }
     permissions.forEach((perm) => {
       perms.push(
         createData(
@@ -335,7 +307,6 @@ export default function EnhancedTable({ onClickOpen }) {
           'Active'
         )
       );
-      console.log('permissions: ', perm);
     });
 
     // Update the server info.

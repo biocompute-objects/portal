@@ -10,7 +10,6 @@ import Typography from '@material-ui/core/Typography';
 import Async from 'react-async';
 import Results from './Results';
 // import Toolbar from '../../../components/ObjectsListViewToolbar.js';
-import RetrieveObjectsFromToken from '../../../components/API/RetrieveObjectsFromToken.js';
 
 // Fetch context.
 import { FetchContext } from '../../../App';
@@ -75,7 +74,7 @@ const ObjectsListView = () => {
       }
     })
       .catch((error) => {
-        alert(`${item.public_hostname} says: Something went wrong. ${error}`);
+        alert(`${item.public_hostname} says: ${error}`);
         return [item.public_hostname];
       });
   };
