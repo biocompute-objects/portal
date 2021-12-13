@@ -81,16 +81,16 @@ const ObjectsListView = () => {
 
   const getObjectsListing = () => {
     // First get the API info.
-    let ApiInfo = JSON.parse(localStorage.getItem('user'));
+    const userInfo = JSON.parse(localStorage.getItem('user'));
     // If there is no user info stored, assume we're the anonymous user.
-    if (ApiInfo === null) {
+    if ((userInfo === null) || (userInfo.apiinfo.length === 0)) {
       // Use the anon token, which is publicly available.
       ApiInfo = fc.sending.anon_api_info;
     } else {
       // There was a user.
-      ApiInfo = ApiInfo.apiinfo;
+      ApiInfo = userInfo.apiinfo;
     }
-    // console.log(ApiInfo);
+    console.log('ApiInfo', ApiInfo);
     // Get the info for each API.
     const results = Promise.all(ApiInfo.map(getObjs));
     results.then((data) => {
