@@ -37,10 +37,6 @@ const Profile = ({ className, ...rest }) => {
 
   // const [isPublic, setIsPublic] = useState(false);
   let publicSetting = false;
-  if ('public' in userInfo.profile) {
-    publicSetting = userInfo.profile.public;
-  }
-
   const [isPublic, setIsPublic] = useState(publicSetting);
 
   if (userProfile === undefined || userProfile === null) {
@@ -50,6 +46,8 @@ const Profile = ({ className, ...rest }) => {
       orcid: '',
       public: false,
     });
+  } else if ('public' in userInfo.profile) {
+    publicSetting = userInfo.profile.public;
   }
 
   const [values, setValues] = useState({
