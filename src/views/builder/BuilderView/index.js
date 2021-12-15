@@ -1,13 +1,9 @@
 // src/views/builder/BuilderView/index.js
 
 import React, { createContext, useState, useEffect } from 'react';
-
-// Rendering URL parameters.
-// Source: https://stackoverflow.com/a/60312798
 import { useLocation } from 'react-router-dom';
-
+import PermissionTools from 'src/components/PermissionTools';
 import Views from './Views';
-import PermissionTools from '../../../components/PermissionTools';
 
 // This is the parent for the object views.
 

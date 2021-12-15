@@ -8,7 +8,8 @@ import {
 } from '@material-ui/core';
 import Card from '@material-ui/core/Card';
 
-// Rendering dynamic JSON.
+// Checking for field value existence
+import cF from 'src/utils/cF';
 import HelpBar from './HelpBar';
 import DescriptionDomain from './DescriptionDomain';
 import ErrorDomain from './ErrorDomain';
@@ -18,9 +19,6 @@ import IoDomain from './IoDomain';
 import ParametricDomain from './ParametricDomain';
 import ProvenanceDomain from './ProvenanceDomain';
 import UsabilityDomain from './UsabilityDomain';
-
-// Checking for field value existence
-import cF from '../../../../utils/cF';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -222,7 +220,7 @@ function ColorCoded({
       >
         <Grid item lg={12} md={12} xs={12}>
           <Card>
-             <HelpBar />
+            <HelpBar />
           </Card>
         </Grid>
         {compList.map((Component, index) => {
