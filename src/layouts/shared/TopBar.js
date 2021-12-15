@@ -1,6 +1,6 @@
 // src/layouts/shared/TopBar.js
 
-import React from 'react';
+import React, { useContext } from 'react';
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
@@ -14,6 +14,7 @@ import {
 } from '@material-ui/core';
 import MenuIcon from '@material-ui/icons/Menu';
 import Logo from 'src/components/Logo';
+import { FetchContext } from '../../App';
 
 import {
   User as UserIcon,
@@ -109,16 +110,12 @@ const useStyles = makeStyles((theme) => ({
 
 function TopBar(props, { className, onMobileNavOpen, ...rest }) {
   const navigate = useNavigate();
-
+  const fc = useContext(FetchContext);
   function Logout() {
     localStorage.clear();
     navigate('/login', { replace: true });
   }
 
-  let isLoggedIn = false;
-  if (localStorage.getItem('token')) {
-    isLoggedIn = true;
-  }
   const classes = useStyles();
 
   const loggedOutBar = (
@@ -181,14 +178,13 @@ function TopBar(props, { className, onMobileNavOpen, ...rest }) {
       </Hidden>
     </Toolbar>
   );
-
   return (
     <AppBar
       className={clsx(classes.root, className)}
       elevation={0}
       {...rest}
     >
-      {isLoggedIn ? loggedInBar : loggedOutBar}
+      {(fc.isLoggedIn === true) ? loggedInBar : loggedOutBar}
     </AppBar>
   );
 }

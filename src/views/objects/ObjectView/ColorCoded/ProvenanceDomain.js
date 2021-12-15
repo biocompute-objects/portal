@@ -1,3 +1,4 @@
+/* eslint-disable no-restricted-syntax */
 import React from 'react';
 import {
   withStyles, Typography
@@ -149,13 +150,7 @@ export default function ProvenanceDomain({ items }) {
   const reviews = [];
   const reviewKeys = ['status', 'name', 'affiliation', 'reviewer_comment', 'date'];
 
-  if (!items.review) {
-    const review = false;
-    console.log('review 151', review);
-  } else {
-    const { review } = items;
-    console.log('review 154', review);
-
+  if (items.review) {
     items.review.map((review) => {
       const reviewObject = ({
         status: '',
@@ -167,7 +162,6 @@ export default function ProvenanceDomain({ items }) {
         contribution: [],
         orcid: ''
       });
-      console.log('review 169', typeof (reviewObject));
       contributorKeys.map((contitem) => {
         if (contitem in review.reviewer) {
           reviewObject[contitem] = review.reviewer[contitem];
@@ -175,10 +169,11 @@ export default function ProvenanceDomain({ items }) {
           reviewObject[contitem] = '';
         }
       });
+
       for (const [key, value] of Object.entries(review)) {
-	      if (key in reviewObject) {
+        if (key in reviewObject) {
           reviewObject[key] = value;
-	      }
+        }
       }
       reviews.push(reviewObject);
     });
@@ -294,7 +289,6 @@ export default function ProvenanceDomain({ items }) {
           ))
         }
         </TableRow>
-        {console.log('review 285', reviewKeys)}
         {
         reviews.map((item) => (
           <TableRow>

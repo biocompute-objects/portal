@@ -18,20 +18,21 @@ export default function ApiNewAccount(values) {
     }
   })
     .then((response) => {
-      if (!response.ok) {
-        throw new Error(response.status);
-      } else {
+      if (response.ok) {
         return response.json()
           .then((data) => {
             console.log('data', data);
             alert(`BCODB says: ${data.message}`);
           });
       }
+      if (response.status === 409) {
+        alert(`${values.apiurl} says: Account has already been requested.`);
+      } else {
+        throw new Error(response.status);
+      }
     })
     .catch((error) => {
-      // TODO: This needs to be fleshed out to get all errors and deal with them
-      alert(`Something went wrong. ${error}`);
+      alert(`${values.apiurl} says: Something went wrong. ${error}`);
       console.log('error', error);
-      // return error;
     });
 }

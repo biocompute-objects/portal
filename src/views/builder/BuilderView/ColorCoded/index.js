@@ -8,7 +8,8 @@ import {
 } from '@material-ui/core';
 import Card from '@material-ui/core/Card';
 
-// Rendering dynamic JSON.
+// Checking for field value existence
+import cF from 'src/utils/cF';
 import HelpBar from './HelpBar';
 import DescriptionDomain from './DescriptionDomain';
 import ErrorDomain from './ErrorDomain';
@@ -18,9 +19,6 @@ import IoDomain from './IoDomain';
 import ParametricDomain from './ParametricDomain';
 import ProvenanceDomain from './ProvenanceDomain';
 import UsabilityDomain from './UsabilityDomain';
-
-// Checking for field value existence
-import cF from '../../../../utils/cF';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -179,6 +177,7 @@ function ColorCoded({
         name: pdName,
         version: pdVersion,
         created: pdCreated,
+        derived_from: pdDerivedFrom,
         modified: provModified.toISOString(),
         review: pdReview,
         contributors: pdContributors,
@@ -204,7 +203,11 @@ function ColorCoded({
       error_domain: errd,
       extension_domain: exd
     });
-  }, [pdName, pdVersion, pdLicense, pdDerivedFrom, pdCreated, pdModifed, pdObsoleteAfter, pdEmbargoStartTime, pdEmbargoEndTime, pdReview, pdContributors, ud, ddKeywords, ddPlatform, ddXref, ddPipelineSteps, edScript, edScriptDriver, edSoftwarePrerequisites, edExternalDataEndpoints, edEnvironmentVariables, iodInputSubdomain, iodOutputSubdomain, pad, errd, exd]);
+  }, [pdName, pdVersion, pdLicense, pdDerivedFrom, pdCreated, pdModifed,
+    pdObsoleteAfter, pdEmbargoStartTime, pdEmbargoEndTime, pdReview,
+    pdContributors, ud, ddKeywords, ddPlatform, ddXref, ddPipelineSteps,
+    edScript, edScriptDriver, edSoftwarePrerequisites, edExternalDataEndpoints,
+    edEnvironmentVariables, iodInputSubdomain, iodOutputSubdomain, pad, errd, exd]);
 
   localStorage.setItem('bco', JSON.stringify(objectContents));
 

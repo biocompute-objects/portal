@@ -12,7 +12,7 @@ import ObjectView from 'src/views/objects/ObjectView';
 import ObjectViewLayout from 'src/layouts/ObjectViewLayout';
 import RegisterView from 'src/views/auth/RegisterView';
 import Resources from 'src/views/resources/Resources';
-
+import ResetPassword from './views/auth/ResetPassword';
 // Routing rules are given at https://github.com/snd/url-pattern
 
 const routes = () => {
@@ -65,7 +65,8 @@ const routes = () => {
       element: <MainLayout />,
       children: [
         { path: 'login', element: <LoginView /> },
-        { path: 'register', element: <RegisterView /> }
+        { path: 'register', element: <RegisterView /> },
+        { path: 'reset', element: <ResetPassword /> }
       ]
     },
     {

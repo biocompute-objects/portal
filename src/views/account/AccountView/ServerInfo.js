@@ -1,6 +1,6 @@
 // src/views/account/AccountView/ServerInfo.js
 
-import React, { useEffect } from 'react';
+import React, { useEffect, useContext } from 'react';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import { lighten, makeStyles } from '@material-ui/core/styles';
@@ -35,11 +35,8 @@ import Chip from '@material-ui/core/Chip';
 
 // Get the parent context.
 // Source: https://www.pluralsight.com/guides/how-to-use-react-context-to-share-data-between-components
-import { useContext, useState } from 'react';
-import Alert from '@material-ui/lab/Alert';
 import Permissions from './Permissions';
 import { ParentContext } from './index';
-import ServerStatus from './ServerStatus';
 import { FetchContext } from '../../../App';
 
 function descendingComparator(a, b, orderBy) {
@@ -170,31 +167,13 @@ const EnhancedTableToolbar = (props) => {
   const fc = useContext(FetchContext);
   const { numSelected, selectedRows } = props;
   const { setServerAdded, setSelected } = useContext(ParentContext);
-  // const { numSelected, selectedRows } = useContext(parentState);
 
   const testDelete = (event, rows) => {
-    console.log('Delete button pressed for rows: ', rows);
-    // Delete the rows here from the DB; might want to do an alert
-    // TODO: Should update to better Alert
     const userResponse = window.confirm('Are you sure you want to delete these rows?');
     if (userResponse) {
-      // selectedRows.forEach((x, i) => {
-
-      // console.log('Token: ', localStorage.getItem('token'));
-      // // Pull the server info straight off the state variable,
-      // // then add to UserDB.
-      // const updatedUser = JSON.parse(localStorage.getItem('user'));
-      // TODO: Remove from local storage?
-      // Might not have to do that since we re-set with the response from
-      // the server.
-      // updatedUser.apiinfo.push(serverInfo);
-      // updatedUser.apiinfo
-
-
-      // Add the server information to the user's information via userdb call.
       fetch(fc.sending.userdb_removeapi, {
         method: 'DELETE',
-        body: JSON.stringify({ 'selected_rows': selectedRows }),
+        body: JSON.stringify({ selected_rows: selectedRows }),
         headers: {
           Authorization: `JWT ${localStorage.getItem('token')}`,
           'Content-type': 'application/json; charset=UTF-8'
@@ -207,12 +186,7 @@ const EnhancedTableToolbar = (props) => {
         if (result.status === 200) {
           // Update the local storage with the new information.
           localStorage.setItem('user', JSON.stringify(result.data));
-
-          // The server was removed, so update the state.
-          // This will allow the background to update with
-          // the updated server list.
           setServerAdded(true);
-          // setSelected(false);
         } else {
           // Display whatever the server said.
           console.log('Failed to remove the API server because: ', result.data.detail);
@@ -303,7 +277,7 @@ function createData(servername, hostname, token, permissions, status) {
   };
 }
 
-export default function EnhancedTable({ onClickOpen }) {
+export default function EnhancedTable() {
   const classes = useStyles();
 
   // State
@@ -311,14 +285,6 @@ export default function EnhancedTable({ onClickOpen }) {
   const [orderBy, setOrderBy] = React.useState('servername');
   const [selected, setSelected] = React.useState([]);
   const [permissions, setPermissions] = React.useState([]);
-  // const [updatedUser, setUpdatedUser] = React.useState(false);
-  // const [selectedForChange, setSelectedForChange] = React.useState([]);
-
-  // All user information.
-  // const [rows, setRows] = React.useState([
-  //   createData('NIH', '23.423.13.45', 'carmstrong', 'Read, Write', 'Active'),
-  //   createData('FDA', '3.33.41.435', 'carmstrong', 'Read', 'Inactive')
-  // ]);
   const [rows, setRows] = React.useState([]);
 
   // Set the parent context setters.
@@ -329,10 +295,8 @@ export default function EnhancedTable({ onClickOpen }) {
   useEffect(() => {
     // Define an array to hold the permissions.
     const perms = [];
-
-    // Get the permissions.
     setPermissions(JSON.parse(localStorage.getItem('user')).apiinfo);
-    console.log('apiinfo: ', permissions);
+    // Get the permissions.
     permissions.forEach((perm) => {
       perms.push(
         createData(
@@ -343,12 +307,10 @@ export default function EnhancedTable({ onClickOpen }) {
           'Active'
         )
       );
-      console.log('permissions: ', perm);
     });
 
     // Update the server info.
     setRows(perms);
-    console.log('rows:', rows);
 
     // The server added flag is no longer necessary.
     setServerAdded(false);
@@ -407,7 +369,7 @@ export default function EnhancedTable({ onClickOpen }) {
           numSelected={selected.length}
           selectedRows={selected}
         />
-        {/*<VerifyDelete rows={selected} />*/}
+        {/* <VerifyDelete rows={selected} /> */}
         <TableContainer>
           <Table
             className={classes.table}

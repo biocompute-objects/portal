@@ -75,7 +75,6 @@ const useStyles = makeStyles((theme) => ({
 const ColorCoded = ({ contents }) => {
   // contents is the actual object information.
   // Set the right sub-key.
-  console.log('CONTENTS:', contents);
 
   // Use the parent context.
   // Source: https://www.digitalocean.com/community/tutorials/react-usecontext
@@ -103,25 +102,36 @@ const ColorCoded = ({ contents }) => {
   if (!('error_domain' in contents)) {
     contents.error_domain = '';
   }
-  if (!('extension_domain' in contents)) {
-    contents.extension_domain = '';
+
+  if (!('parametricDomain' in contents)) {
+    contents.parametricDomain = '';
   }
 
   if (!('extension_domain' in contents)) {
     contents.extension_domain = '';
   }
 
-  const renderList = [meta, contents.provenance_domain, contents.usability_domain, contents.description_domain, contents.execution_domain, contents.io_domain, contents.parametric_domain, contents.error_domain, contents.extension_domain];
-  const compList = [Meta, ProvenanceDomain, UsabilityDomain, DescriptionDomain, ExecutionDomain, IoDomain, ParametricDomain, ErrorDomain, ExtensionDomain];
-  const classNames = ['meta', 'provenanceDomain', 'usabilityDomain', 'descriptionDomain', 'executionDomain', 'ioDomain', 'parametricDomain', 'errorDomain', 'extensionDomain'];
+  const renderList = [
+    meta,
+    contents.provenance_domain,
+    contents.usability_domain,
+    contents.description_domain,
+    contents.execution_domain,
+    contents.io_domain,
+    contents.parametric_domain,
+    contents.error_domain,
+    contents.extension_domain];
+
+  const compList = [Meta,
+    ProvenanceDomain, UsabilityDomain, DescriptionDomain, ExecutionDomain,
+    IoDomain, ParametricDomain, ErrorDomain, ExtensionDomain];
+
+  const classNames = ['meta', 'provenanceDomain', 'usabilityDomain', 'descriptionDomain',
+    'executionDomain', 'ioDomain', 'parametricDomain', 'errorDomain', 'extensionDomain'];
 
   return (
     <Container maxWidth={false}>
-      <Grid
-        className={classes.margined}
-        container
-        spacing={3}
-      >
+      <Grid className={classes.margined} container spacing={3}>
         {
           compList.map((Component, index) => {
             return (

@@ -37,7 +37,9 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function PermissionTools({ contents, publish, newDraft, objectInformation, setPublish, publishedObjectId, receivedDefault, serverLock }) {
+export default function PermissionTools({ 
+  contents, publish, newDraft, objectInformation, setPublish, publishedObjectId, 
+  receivedDefault, serverLock }) {
   // State
   const [saveDraftTo, setSaveDraftTo] = useState('');
   const [savePublishTo, setSavePublishTo] = useState('');
@@ -88,18 +90,6 @@ export default function PermissionTools({ contents, publish, newDraft, objectInf
     }
   }
   console.log('objectInformation', objectInformation);
-
-  // Re-direct after publishing.
-  // Source: https://stackoverflow.com/a/58536772/5029459
-  const [redirect, setRedirect] = useState(false);
-
-  useEffect(() => {
-    if (redirect === true) {
-      // Crappy but works.
-      // Source: https://stackoverflow.com/a/64928405/5029459
-      window.location.href = publishedObjectId;
-    }
-  }, [redirect]);
 
   // ----- INITIAL RENDER ----- //
 

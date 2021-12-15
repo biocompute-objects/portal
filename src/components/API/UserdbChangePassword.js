@@ -1,17 +1,21 @@
-// /src/components/API/UserdbTokenAuth.js
+// /src/components/API/UserdbChangePassword.js
 
 /* Returns a JSON Web Token that can be used for authenticated requests. */
 
-export default function UserdbTokenAuth(values) {
-  fetch(values.url, {
-    method: 'POST',
+export default function UserdbChangePassword(values) {
+  fetch(`${values.userdb}change_password/`, {
+    method: 'PUT',
     headers: {
       'Content-Type': 'application/json'
     },
     body: JSON.stringify({
-      username: values.username,
-      password: values.password
-    })
+      old_password: values.old_password,
+      new_password: values.new_password,
+    }),
+    headers: {
+      Authorization: `JWT ${localStorage.getItem('token')}`,
+      'Content-Type': 'application/json'
+    },
   })
     .then((response) => {
       if (!response.ok) {
@@ -19,16 +23,14 @@ export default function UserdbTokenAuth(values) {
       } else {
         return response.json()
           .then((data) => {
-            localStorage.setItem('token', data.token);
-            console.log('data', data)
-            localStorage.setItem('user', JSON.stringify(data.user));
-            window.location.href = '/';
+            alert('Your password has been updated.');
+            console.log('data', );
           });
       }
     })
     .catch((error) => {
       // TODO: This needs to be fleshed out to get all errors and deal with them
-      alert(`Unable to log in with provided credentials. ${error}`);
+      alert(`The provided OLD PASSWORD was not correct. ${error}`);
       console.log('error', error);
       // return error;
     });

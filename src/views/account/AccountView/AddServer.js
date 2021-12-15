@@ -64,22 +64,32 @@ export default function FormDialog() {
         serverAdded = true;
       }
     });
-    console.log('Token ', `TOKEN ${token}`);
     if (serverAdded === false) { // Was the hostname already added?
-      fetch(`${hostname}/api/accounts/describe/`, { // Fetch to the server with the given token, if available.
+      fetch(`${hostname}/api/accounts/describe/`, {
         method: 'POST',
         headers: {
           Authorization: `TOKEN ${token}`,
           'Content-type': 'application/json; charset=UTF-8'
         } // Instead of using status directly, we'll check for a necessary key
-      }).then((response) => response.json()).then((data) => {
-        if (data.public_hostname !== 'undefined') { // Was the request a success or not?
-          setRequestStatus('information_fetched'); // Update the message.
-          setServerInfo(data); // Save the server information.
+      }).then((response) => {
+        if (!response.ok) {
+          throw new Error(response.status);
         } else {
-          setRequestStatus('failure_to_connect'); // There was an issue, so alert the user.
+          return response.json()
+            .then((data) => {
+              if (data.public_hostname !== 'undefined') {
+                setRequestStatus('information_fetched');
+                setServerInfo(data);
+              } else {
+                setRequestStatus('failure_to_connect');
+              }
+            });
         }
-      });
+      })
+        .catch((error) => {
+          setRequestStatus('failure_to_connect');
+          alert(`POST_api_objects_drafts_modify: FAILED! ${error}`);
+        });
     } else {
       setRequestStatus('already_added'); // Indicate the error.
     }
@@ -87,11 +97,6 @@ export default function FormDialog() {
 
   // Ask for a new account.
   const newApiAccount = () => {
-    // Ask the server for a new account.
-    // TODO: This seems to be using a hard coded database instead of the database that the
-    //      target server might be using.  Doesn't look like the target host is being queried
-    //      I think fc.sending.userdb_addapi should be swapped with hostname + /users/add_api ?
-    // fetch(fc.sending.userdb_addapi, {
     fetch(`${hostname}/users/add_api`, { // This causes a 405 error in the API Server
       method: 'POST',
       body: JSON.stringify({
@@ -155,7 +160,6 @@ export default function FormDialog() {
     // then add to UserDB.
     const updatedUser = JSON.parse(localStorage.getItem('user'));
     updatedUser.apiinfo.push(serverInfo);
-    console.log('updatedUser', updatedUser.apiinfo)
     // Add the server information to the user's information via userdb call.
     // TODO: This should probably be serverInfo below instead of the updatedUser directly
     //      accessed.  Just easier to read.
@@ -222,19 +226,15 @@ export default function FormDialog() {
             </Typography>
             <Typography variant="h3">
               The returned server information is based on the token you provide.
-              If you have previously received a token from this server,
-              provide it below when requesting the server information.
-              Otherwise, if you leave the token field blank,
-              the server will automatically use a public token when requesting the server
-              information.
+              You must have already received a token from this server.
             </Typography>
             <Typography>
               <br />
             </Typography>
-            <Typography variant="h3">
+            {/* <Typography variant="h3">
               To request a new, non-public token for the host, enter a hostname and an e-Mail
               and click on &#34;Request New Token&#34;.
-            </Typography>
+            </Typography> */}
           </DialogContentText>
           <TextField
             autoFocus
@@ -263,7 +263,7 @@ export default function FormDialog() {
           <ServerStatus serverStatus={requestStatus} />
           <div className={classes.centered}>
             <Button
-              disabled={!(token.length > 0 && hostname.length > 0)} 
+              disabled={!(token.length > 0 && hostname.length > 0)}
               color="primary"
               onClick={checkApi}
               variant="contained"
@@ -271,13 +271,13 @@ export default function FormDialog() {
               Verify Account Information
             </Button>
             &nbsp;
-            <Button
+            {/* <Button
               color="primary"
               variant="contained"
               onClick={newApiAccount}
             >
               Request New Token
-            </Button>
+            </Button> */}
           </div>
           {
             Object.keys(serverInfo).length > 0
@@ -290,8 +290,10 @@ export default function FormDialog() {
             Cancel
           </Button>
           <Button
-            disabled={!(Object.keys(serverInfo).length > 0)} 
-            onClick={addServerInfoToUserDb} color="primary">
+            disabled={!(Object.keys(serverInfo).length > 0)}
+            onClick={addServerInfoToUserDb}
+            color="primary"
+          >
             Add Server
           </Button>
         </DialogActions>

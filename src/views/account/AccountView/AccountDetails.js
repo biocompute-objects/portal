@@ -18,9 +18,9 @@ const useStyles = makeStyles(() => ({
 }));
 
 const AccountDetails = ({ className, ...rest }) => {
-  var userInfo = JSON.parse(localStorage.getItem('user'))
+  const userInfo = JSON.parse(localStorage.getItem('user'));
   const classes = useStyles();
-  
+
   const [values, setValues] = useState({
     firstName: userInfo.first_name,
     lastName: userInfo.last_name,
@@ -31,42 +31,35 @@ const AccountDetails = ({ className, ...rest }) => {
     password: userInfo.password,
     username: userInfo.username,
     profile: {
-        affiliation: userInfo.affiliation,
-        orcid: userInfo.orcid,
-		public: userInfo.public
-    	
+      affiliation: userInfo.affiliation,
+      orcid: userInfo.orcid,
+      public: userInfo.public
+
     }
   });
-	// pass state to local storage for safe keeping
+  // pass state to local storage for safe keeping
   useEffect(() => {
-	  localStorage.setItem('user', JSON.stringify(values))
-  })
-	// Handler for form entery. 
+    localStorage.setItem('user', JSON.stringify(values));
+  });
+  // Handler for form entery.
   const handleChange = (event) => {
     setValues({
       ...values,
       [event.target.name]: event.target.value
-    })
+    });
   };
-console.log(values)
+  console.log(values);
   return (
     <form
       autoComplete="off"
       noValidate
       className={clsx(classes.root, className)}
       {...rest}
-      >
+    >
       <Card elevation={0}>
         <CardContent>
-          <Grid
-            container
-            spacing={3}
-          >
-            <Grid
-              item
-              md={4}
-              xs={6}
-            >
+          <Grid container spacing={3}>
+            <Grid item md={4} xs={6}>
               <TextField
                 fullWidth
                 label="First name"
@@ -134,15 +127,8 @@ console.log(values)
             </Grid>
           </Grid>
         </CardContent>
-        <Box
-          display="flex"
-          justifyContent="center"
-          p={2}
-        >
-          <Button
-            color="primary"
-            variant="contained"
-          >
+        <Box display="flex" justifyContent="center" p={2}>
+          <Button color="primary" variant="contained">
             Save details
           </Button>
         </Box>

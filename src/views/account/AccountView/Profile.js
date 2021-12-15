@@ -3,11 +3,7 @@
 import React, { useState, useContext } from 'react';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
-import { Formik } from 'formik';
 import {
-  Accordion,
-  AccordionDetails,
-  AccordionSummary,
   Box,
   Button,
   Card,
@@ -17,8 +13,7 @@ import {
   Typography,
   makeStyles
 } from '@material-ui/core';
-import Select from 'react-select';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+
 import { FetchContext } from '../../../App';
 import UserdbUpdateAccount from '../../../components/API/UserdbUpdateAccount.js';
 
@@ -34,7 +29,6 @@ const useStyles = makeStyles(() => ({
 }));
 
 const userInfo = JSON.parse(localStorage.getItem('user'));
-console.log('userInfo1', userInfo);
 
 const Profile = ({ className, ...rest }) => {
   const fc = useContext(FetchContext);
@@ -43,20 +37,7 @@ const Profile = ({ className, ...rest }) => {
 
   // const [isPublic, setIsPublic] = useState(false);
   let publicSetting = false;
-  if ('public' in userInfo.profile) {
-    publicSetting = userInfo.profile.public;
-  }
-
   const [isPublic, setIsPublic] = useState(publicSetting);
-
-  // function setPublic(event) {
-  //   const value = event.target.checked;
-  //
-  //   setIsPublic(value);
-  //   userInfo.profile.public = value;
-  //   handleChange(event);
-  // }
-
 
   if (userProfile === undefined || userProfile === null) {
     console.log('userInfo.profile === null');
@@ -65,9 +46,8 @@ const Profile = ({ className, ...rest }) => {
       orcid: '',
       public: false,
     });
-    console.log('userProfile', userProfile);
-  } else {
-    console.log('NOTuserProfile', userProfile);
+  } else if ('public' in userInfo.profile) {
+    publicSetting = userInfo.profile.public;
   }
 
   const [values, setValues] = useState({
@@ -119,13 +99,10 @@ const Profile = ({ className, ...rest }) => {
   };
 
   const handleSubmit = (event) => {
-    alert(`A name was submitted: ${values}`);
     UserdbUpdateAccount(values);
     event.preventDefault();
   };
 
-  console.log('values', values);
-  console.log('userInfo', userInfo);
   return (
 
     <Card className={clsx(classes.root, className)} {...rest}>
