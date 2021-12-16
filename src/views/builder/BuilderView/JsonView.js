@@ -47,18 +47,14 @@ const StyledCell = withStyles({
 })(TableCell);
 
 // Pass an object and whether or not its keys are properties.
-export default function JsonView(items) {
+export default function JsonView() {
   const contents = JSON.parse(localStorage.getItem('bco'));
+  console.log('typeof(contents): ', typeof (contents));
   const classes = useStyles();
 
-  const rawContents = JSON.stringify(items.objectContents, null, 4);
+  const rawContents = JSON.stringify(contents, null, 4);
   const [jsonErrors, setJsonErrors] = useState('');
-  const setInput = (value,) => {
-    let holder = {};
-    holder = JSON.parse(value);
-    items.setObjectContents(holder);
-    console.log('working?', value, holder);
-  };
+
   return (
     <Table size="small">
       <TableHead className={classes.tabled}>
@@ -79,8 +75,8 @@ export default function JsonView(items) {
               id="outlined-multiline-static"
               multiline
               rows={18}
-              defaultValue={rawContents}
-              onChange={(e) => setInput(e)}
+              value={rawContents}
+              onChange={console.log('changed')} // onChange={(e) => items.setPdLicense(e.target.value)}  
               variant="outlined"
             />
           </StyledCell>

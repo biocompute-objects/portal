@@ -46,19 +46,20 @@ const StyledCell = withStyles({
 })(TableCell);
 
 // Pass an object and whether or not its keys are properties.
-export default function Raw(items) {
+export default function Raw({ }) {
   // As of 5/13/21, there is no relationship between the color-coded
   // draft view and the raw draft view.
-  const [contents, setContents] = useState(items.objectContents);
+  const [contents, setContents] = useState(JSON.parse(localStorage.getItem('bco')));
+  console.log('typeof(contents): ', typeof (contents), contents);
   const classes = useStyles();
   const [jsonErrors, setJsonErrors] = useState('');
+  // Fetch context.
+  const fc = useContext(FetchContext);
 
   const { onAdd, onEdit, onDelete } = useState();
   const handleChange = (event) => {
-    console.log(items);
-    console.log('event.updated_src', event.updated_src);
+    console.log('event.updated_src', JSON.stringify(event.updated_src));
     localStorage.setItem('bco', JSON.stringify(event.updated_src));
-    items.setObjectContents(event.updated_src);
   };
 
   return (

@@ -89,6 +89,7 @@ export default function PermissionTools({
       // setDeletingDraft(true);
     }
   }
+  console.log('objectInformation', objectInformation);
 
   // ----- INITIAL RENDER ----- //
 
@@ -97,6 +98,7 @@ export default function PermissionTools({
   useEffect(() => {
     // Logged in and has servers?
     const userInfoCheck = JSON.parse(localStorage.getItem('user'));
+    console.log('userInfoCheck: ', userInfoCheck);
 
     if (userInfoCheck !== null) {
       if (userInfoCheck.apiinfo.length > 0) {

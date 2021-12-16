@@ -11,6 +11,7 @@ import HelpIcon from '@material-ui/icons/Help';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import Card from '@material-ui/core/Card';
+import Form from '@rjsf/core';
 import Linker from './components/Linker';
 
 // Multiline Input
@@ -38,63 +39,33 @@ const StyledCell = withStyles({
 // Pass an object and whether or not its keys are properties.
 export default function ExtensionDomain({ items }) {
   const classes = withStyles();
+  const schemaList = [];
+  const [schema, setSchema] = useState([]);
 
   const submitSchema = (value) => {
     console.log('schema', value);
   };
-  const setInput = (value, i) => {
-    const holder = items.exd;
-    holder[i] = JSON.parse(value);
-    items.setExd(holder);
-    console.log('working?', items.exd[i]);
-  };
-
-  const addRows = () => {
-    console.log('add Rows', items);
+  useEffect(() => {
     if (!items.exd) {
-      const holder = [];
-      holder.push({
-        extension_schema: ''
-      });
-      items.setExd(holder);
+      console.log('No Extension');
     } else {
-      const holder = items.exd;
-      holder.push({
-        extension_schema: ''
-      })
-      items.setExd(holder);
+      for (let extensionIndex = 0; extensionIndex < items.exd.length; extensionIndex++) {
+        const schemaURL = items.exd[extensionIndex].extension_schema;
+        console.log('Extension schema', schema);
+        fetch(schemaURL)
+          .then((response) => response.json())
+          .then((jsonData) => {
+            schemaList.push(jsonData);
+          })
+          .catch((error) => {
+          // handle your errors here
+            console.error(error);
+          });
+      }
+      setSchema(schemaList);
     }
-    items.setRerender(items.rerender + 1);
-  };
-
-  const removeRows = (which) => {
-    const holder = items.exd;
-    holder.splice(which, 1);
-    items.setExd(holder);
-    items.setRerender(items.rerender + 1);
-  };
-  // useEffect(() => {
-  //   if (!items.exd) {
-  //     console.log('No Extension');
-  //   } else {
-  //     for (let extensionIndex = 0; extensionIndex < items.exd.length; extensionIndex++) {
-  //       const schemaURL = items.exd[extensionIndex].extension_schema;
-  //       console.log('Extension schema', schema);
-  //       fetch(schemaURL)
-  //         .then((response) => response.json())
-  //         .then((jsonData) => {
-  //           schemaList.push(jsonData);
-  //           console.log(jsonData);
-  //         })
-  //         .catch((error) => {
-  //         // handle your errors here
-  //           console.error(error);
-  //         });
-  //     }
-  //     setSchema(schemaList);
-  //   }
-  // }, [items.exd]);
-
+  }, [items]);
+  console.log('schema 69', schema);
   return (
     <Table size="small">
       <TableHead className={classes.tabled}>
@@ -118,50 +89,49 @@ export default function ExtensionDomain({ items }) {
         {(!items.exd)
           ? (<TableRow>{console.log('no items.exd')}</TableRow>)
           : (
-            items.exd.map((item, index) => {
-              return (
-                <Card>
-                  <TableRow>
-                    <StyledCell>
-                      <Typography variant="h3">
-                        Extension Schema
-                      </Typography>
-                    </StyledCell>
-                    <StyledCell>
-                      <Linker color="blackLink" uri={item.extension_schema} />
-                    </StyledCell>
-                  </TableRow>
-                  <TableRow>
-                    <StyledCell colspan={6}>
-                      <TextField
-                        color="primary"
-                        fullWidth
-                        name="extension_domain"
-                        id="outlined-multiline-static"
-                        multiline
-                        rows={6}
-                        defaultValue={JSON.stringify(item, null, 4)}
-                        onChange={(e) => setInput(e.target.value, index)} // onChange={console.log('changed')}
-                        variant="outlined"
-                      />
-                    </StyledCell>
-                    <StyledCell>
-                      <Button variant="contained" color="primary" disableElevation fullWidth onClick={() => removeRows(index)}>
-                        Remove
-                      </Button>
-                    </StyledCell>
-                  </TableRow>
-                </Card>
-              );
-            })
+            items.exd.map((item, index) => (
+              <Card>
+                <TableRow>
+                  <StyledCell>
+                    <Typography variant="h3">
+                      Extension Schema
+                    </Typography>
+                  </StyledCell>
+                  <StyledCell>
+                    <Linker color="blackLink" uri={item.extension_schema} />
+                  </StyledCell>
+                </TableRow>
+                <TableRow>
+                  {(!schema)
+                    ? <StyledCell />
+                    : (
+                      <StyledCell colspan={6}>
+                        {console.log('schema 108', schema, schema.index)}
+                        <TextField value={schema} />
+                      </StyledCell>
+                    )}
+                </TableRow>
+              </Card>
+            ))
           )}
         <TableRow />
         <Card>
-          <TableRow>
-            <Button variant="contained" color="primary" disableElevation fullWidth onClick={() => addRows()}>
-              Add Extension Schema
+          <StyledCell>
+            <TextField
+              label="Extension Schema"
+              margin="normal"
+              name="Extension Schema"
+              onChange={(e) => setSchema(e.target.value)}
+              type="schema"
+              value={schema}
+              variant="outlined"
+            />
+          </StyledCell>
+          <StyledCell>
+            <Button variant="contained" color="primary" disableElevation fullWidth onClick={() => submitSchema(schema)}>
+              <Typography> Add Extension Schema </Typography>
             </Button>
-          </TableRow>
+          </StyledCell>
         </Card>
       </TableBody>
     </Table>

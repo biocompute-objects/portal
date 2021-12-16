@@ -23,19 +23,12 @@ export default function ModifyDraftObject(objectInformation) {
     }
   })
     .then((response) => {
-      if (!response.ok) {
-        throw new Error(response.status);
+      if (response.status === 200) {
+        console.log('POST_api_objects_drafts_modify: Success!');
+        alert(`${objectInformation.owner} has saved ${objectInformation.object_id} successfully!`);
       } else {
-        return response.json()
-          .then((data) => {
-            localStorage.removeItem('bco');
-            console.log('POST_api_objects_drafts_modify: Success!');
-            alert(`${objectInformation.owner} has saved ${objectInformation.object_id} successfully!`);
-          });
+        console.log('POST_api_objects_drafts_modify: FAILED!');
+        alert('POST_api_objects_drafts_modify: FAILED!');
       }
-    })
-    .catch((error) => {
-      console.log(`error: ${error}`);
-      alert(`Save Draft FAILED! ${error}`);
     });
 }
