@@ -109,7 +109,6 @@ export default function BuilderView() {
               step_number: 0,
               name: '',
               description: '',
-              prerequisite: [{ name: '', uri: { uri: '' } }],
               input_list: [{ uri: '' }],
               output_list: [{ uri: '' }]
             }

@@ -90,11 +90,9 @@ const ObjectsListView = () => {
       // There was a user.
       ApiInfo = userInfo.apiinfo;
     }
-    console.log('ApiInfo', ApiInfo);
     // Get the info for each API.
     const results = Promise.all(ApiInfo.map(getObjs));
     results.then((data) => {
-      console.log('Output ', data);
       // data.forEach((d) => {
       const promises = data.map((apiAndPromise) => {
         // The provenance domain name may not be defined.
