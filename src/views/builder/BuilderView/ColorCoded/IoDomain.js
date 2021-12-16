@@ -393,7 +393,7 @@ export default function IoDomain({ items, cF }) {
         </TableRow>
         <TableRow>
           <StyledCell>
-            <Typography className={missingOutputSubdomainMediatype ? classes.missingHeader : classes.header} variant="h3">
+            <Typography className={missingOutputSubdomainMediatype ? classes.missingHeader : classes.header}>
               Media Type
             </Typography>
           </StyledCell>

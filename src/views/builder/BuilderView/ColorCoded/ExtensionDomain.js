@@ -106,7 +106,7 @@ export default function ExtensionDomain({ items }) {
               fullWidth
               onClick={() => window.open('https://docs.biocomputeobject.org/bco-domains/')}
             >
-              <Typography variant="h3">
+              <Typography variant="h1">
                 Extension Domain&nbsp;
                 <HelpIcon />
               </Typography>

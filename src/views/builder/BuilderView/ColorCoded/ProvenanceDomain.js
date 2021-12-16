@@ -1,3 +1,5 @@
+/* eslint-disable max-len */
+/* eslint-disable react/prop-types */
 import React, { useEffect, useState } from 'react';
 import {
   makeStyles, withStyles, Typography
@@ -81,7 +83,13 @@ export default function ProvenanceDomain({ items, cF }) {
     let orFlag = false;
 
     // Name
-    if (items.pdName === '') {
+    if (!items.pdName) {
+      // No name. Object doesn't exist.
+      setMissingName(true);
+
+      // Set the OR flag.
+      orFlag = true;
+    } else if (items.pdName === '') {
       // No name.
       setMissingName(true);
 
@@ -185,7 +193,17 @@ export default function ProvenanceDomain({ items, cF }) {
     // our state is compared only to the relevant field.
 
     // Contributors are required
-    if (items.pdContributors.length === 0) {
+    if (!items.pdContributors) {
+      // No contributors.
+      setMissingContributors(true);
+
+      // No sub-fields.
+      setMissingContributorsName(true);
+      setMissingContributorsContribution(true);
+
+      // Set the OR flag.
+      orFlag = true;
+    } else if (items.pdContributors.length === 0) {
       // No contributors.
       setMissingContributors(true);
 
@@ -486,7 +504,7 @@ export default function ProvenanceDomain({ items, cF }) {
             Created
           </StyledCell>
           <StyledCell noGutter>
-            <TextField InputProps={{ className: classes.root }} disabled label={items.pdCreated.toString()} fullWidth id="outlined-basic" />
+            <TextField InputProps={{ className: classes.root }} disabled label={items.pdCreated} fullWidth id="outlined-basic" />
           </StyledCell>
           <StyledCell>
             Modified
