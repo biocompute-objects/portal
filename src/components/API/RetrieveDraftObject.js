@@ -3,7 +3,7 @@
 /* Retrievs a draft object using the current user's token and an object's 
 draft id */
 
-export default function RetrieveDraftObject(objectId) {
+export default function RetrieveDraftObject(objectId, setObjectContents) {
   let objectContents = '';
   let userToken = '';
 
@@ -11,7 +11,7 @@ export default function RetrieveDraftObject(objectId) {
     userToken = item.token;
   });
 
-  fetch(objectId, {
+  fetch(`DRAFT/${objectId}`, {
     method: 'GET',
     headers: {
       Authorization: `Token ${userToken}`,
@@ -25,7 +25,7 @@ export default function RetrieveDraftObject(objectId) {
       }))
       .then((response) => {
         if (response.status === 200) {
-          objectContents = response.data;
+          setObjectContents(response.data);
           console.log('Server return contents33: ', objectContents);
           localStorage.setItem('bco', JSON.stringify(objectContents));
         }

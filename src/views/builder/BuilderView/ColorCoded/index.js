@@ -11,8 +11,10 @@ import {
 } from '@material-ui/core';
 import Card from '@material-ui/core/Card';
 
-// Rendering dynamic JSON.
+// Checking for field value existence
+import cF from 'src/utils/cF';
 import HelpBar from './HelpBar';
+import Meta from './Meta';
 import DescriptionDomain from './DescriptionDomain';
 import ErrorDomain from './ErrorDomain';
 import ExecutionDomain from './ExecutionDomain';
@@ -21,9 +23,6 @@ import IoDomain from './IoDomain';
 import ParametricDomain from './ParametricDomain';
 import ProvenanceDomain from './ProvenanceDomain';
 import UsabilityDomain from './UsabilityDomain';
-
-// Checking for field value existence
-import cF from '../../../../utils/cF';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -34,6 +33,9 @@ const useStyles = makeStyles((theme) => ({
   },
   margined: {
     marginBottom: '100px'
+  },
+  meta: {
+    background: '#FDFEFE'
   },
   provenanceDomain: {
     background: '#EBEDEF'
@@ -66,7 +68,6 @@ function ColorCoded({
 }) {
   // As of 5/13/21, there is no relationship between the color-coded
   // draft view and the raw draft view.
-  console.log('RENDER CHECK: ', objectContents);
   const classes = useStyles();
 
   // Compliance-checking functions
@@ -75,14 +76,6 @@ function ColorCoded({
       return 1;
     }
   };
-
-  /* const checkUri = (value) => {
-    need URI regex
-  } */
-  /* const checkDateTime = (value) => {
-    need specification on datetime format
-  } */
-  // State
   // Meta
   const [meObjectId, setMeObjectId] = useState(objectContents.object_id ? objectContents.object_id : '');
   const [meEtag, setMeEtag] = useState(objectContents.etag ? objectContents.etag : '');
@@ -147,6 +140,9 @@ function ColorCoded({
   // are set in the parent.
   const renderList = [
     {
+      complianceCheck, meObjectId, meEtag, setMeEtag, rerender, setRerender, objectContents
+    },
+    {
       complianceCheck, checkBlank, pdName, pdVersion, pdLicense, pdDerivedFrom, pdCreated, pdModifed, pdObsoleteAfter, pdEmbargoStartTime, pdEmbargoEndTime, pdReview, pdContributors, rerender, setRerender, setPdName, setPdVersion, setPdLicense, setPdDerivedFrom, setPdCreated, setPdModified, setPdObsoleteAfter, setPdEmbargoStartTime, setPdEmbargoEndTime, setPdReview, setPdContributors
     },
     {
@@ -168,12 +164,12 @@ function ColorCoded({
       complianceCheck, checkBlank, errd, setErrd
     },
     {
-      complianceCheck, checkBlank, exd, setExd
+      complianceCheck, checkBlank, exd, setExd, setRerender
     }
   ];
 
-  const compList = [ProvenanceDomain, UsabilityDomain, IoDomain, ExecutionDomain, DescriptionDomain, ParametricDomain, ErrorDomain, ExtensionDomain];
-  const classNames = ['provenanceDomain', 'usabilityDomain', 'ioDomain', 'executionDomain', 'descriptionDomain', 'parametricDomain', 'errorDomain', 'extensionDomain'];
+  const compList = [Meta, ProvenanceDomain, UsabilityDomain, IoDomain, ExecutionDomain, DescriptionDomain, ParametricDomain, ErrorDomain, ExtensionDomain];
+  const classNames = ['meta', 'provenanceDomain', 'usabilityDomain', 'ioDomain', 'executionDomain', 'descriptionDomain', 'parametricDomain', 'errorDomain', 'extensionDomain'];
 
   // Listeners
   // Listen for ANY change to the object,
@@ -214,13 +210,12 @@ function ColorCoded({
       error_domain: errd,
       extension_domain: exd
     });
-  }, [pdName, pdVersion, pdLicense, pdDerivedFrom, pdCreated, pdModifed,
+    localStorage.setItem('bco', JSON.stringify(objectContents));
+  }, [meEtag, pdName, pdVersion, pdLicense, pdDerivedFrom, pdCreated, pdModifed,
     pdObsoleteAfter, pdEmbargoStartTime, pdEmbargoEndTime, pdReview,
     pdContributors, ud, ddKeywords, ddPlatform, ddXref, ddPipelineSteps,
     edScript, edScriptDriver, edSoftwarePrerequisites, edExternalDataEndpoints,
     edEnvironmentVariables, iodInputSubdomain, iodOutputSubdomain, pad, errd, exd]);
-
-  localStorage.setItem('bco', JSON.stringify(objectContents));
 
   return (
     <Container maxWidth={false}>
@@ -231,14 +226,14 @@ function ColorCoded({
       >
         <Grid item lg={12} md={12} xs={12}>
           <Card>
-             <HelpBar />
+            <HelpBar />
           </Card>
         </Grid>
         {compList.map((Component, index) => {
           return (
             <Grid item lg={12} md={12} xs={12}>
               <Card className={classes[classNames[index]]}>
-                <Component items={renderList[index]} cF={cF} />
+                <Component items={renderList[index]} key={index.toString()} cF={cF} />
               </Card>
             </Grid>
           );

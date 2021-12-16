@@ -78,6 +78,11 @@ const LoginView = () => {
                   <Typography color="textSecondary" gutterBottom variant="body2">
                     Sign in using your Portal credentials.
                   </Typography>
+                  <Typography color="textSecondary" variant="body1" >
+                    <Link component={RouterLink} to="/reset" variant="h6">
+                      Forgot Password? Reset it here.
+                    </Link>
+                  </Typography>
                 </Box>
                 <Grid container spacing={3}>
                   <Grid item xs={12} md={6} />
