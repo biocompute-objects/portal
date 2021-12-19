@@ -49,9 +49,7 @@ export default function Meta({ items }) {
     let etag = hash(hashContents);
     items.setMeEtag(etag);
     items.setRerender(items.rerender + 1);
-    console.log('items 1', items.meEtag);
-    console.log('items 2', etag);
-    console.log('items 3', items.objectContents);
+
   };
   return (
     <Table size="small">
