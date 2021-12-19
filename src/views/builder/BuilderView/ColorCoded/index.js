@@ -79,7 +79,7 @@ function ColorCoded({
   // Meta
   const [meObjectId, setMeObjectId] = useState(objectContents.object_id ? objectContents.object_id : '');
   const [meEtag, setMeEtag] = useState(objectContents.etag ? objectContents.etag : '');
-  const [specVersion, setSpecVersion] = useState(objectContents.spec_version ? objectContents.spec_version : '"https://w3id.org/ieee/ieee-2791-schema/2791object.json"')
+  const [specVersion, setSpecVersion] = useState(objectContents.spec_version ? objectContents.spec_version : 'https://w3id.org/ieee/ieee-2791-schema/2791object.json');
 
   // Provenance domain
   const [provenanceDomain, setProvenanceDomain] = useState(objectContents.provenance_domain ? objectContents.provenance_domain : {});
@@ -210,6 +210,7 @@ function ColorCoded({
       error_domain: errd,
       extension_domain: exd
     });
+    console.log('ITEMS 213', objectContents);
     localStorage.setItem('bco', JSON.stringify(objectContents));
   }, [meEtag, pdName, pdVersion, pdLicense, pdDerivedFrom, pdCreated, pdModifed,
     pdObsoleteAfter, pdEmbargoStartTime, pdEmbargoEndTime, pdReview,

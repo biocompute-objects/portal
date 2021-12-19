@@ -1,6 +1,6 @@
 // src/views/builder/BuilderView/JsonView.js
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   makeStyles, withStyles, Typography
 } from '@material-ui/core';
@@ -48,16 +48,25 @@ const StyledCell = withStyles({
 
 // Pass an object and whether or not its keys are properties.
 export default function JsonView(items) {
-  const contents = JSON.parse(localStorage.getItem('bco'));
+  console.log('ITEM CHECK: ', items);
+
   const classes = useStyles();
 
   const rawContents = JSON.stringify(items.objectContents, null, 4);
   const [jsonErrors, setJsonErrors] = useState('');
-  const setInput = (value,) => {
-    let holder = {};
-    holder = JSON.parse(value);
-    items.setObjectContents(holder);
-    console.log('working?', value, holder);
+  const [error, setError] = useState();
+
+  const setInput = (value) => {
+    try {
+      let holder = {};
+      console.log('working?', value.target.value, holder);
+      holder = JSON.parse(value.target.value);
+      items.setObjectContents(holder);
+      console.log('working?', holder);
+    } catch {
+      setJsonErrors(error);
+      console.log('error', error);
+    }
   };
   return (
     <Table size="small">
@@ -71,6 +80,15 @@ export default function JsonView(items) {
         </TableRow>
       </TableHead>
       <TableBody>
+      <TableRow>
+          <Card className={classes.root}>
+            <CardContent>
+              <Typography className={jsonErrors !== '' ? classes.errors : classes.pass} variant="h5" component="h2">
+                { ReactHtmlParser(jsonErrors) }
+              </Typography>
+            </CardContent>
+          </Card>
+        </TableRow>
         <TableRow>
           <StyledCell>
             <TextField
@@ -84,15 +102,6 @@ export default function JsonView(items) {
               variant="outlined"
             />
           </StyledCell>
-        </TableRow>
-        <TableRow>
-          <Card className={classes.root}>
-            <CardContent>
-              <Typography className={jsonErrors !== '' ? classes.errors : classes.pass} variant="h5" component="h2">
-                { ReactHtmlParser(jsonErrors) }
-              </Typography>
-            </CardContent>
-          </Card>
         </TableRow>
       </TableBody>
     </Table>
