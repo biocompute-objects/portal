@@ -75,7 +75,7 @@ export default function UsabilityDomain({ items, cF }) {
           <TableCell>
             <Button
               variant="contained"
-              color="D5D8DC"
+              // color="D5D8DC"
               fullWidth
               onClick={() => window.open('https://docs.biocomputeobject.org/usability-domain/')}
             >
