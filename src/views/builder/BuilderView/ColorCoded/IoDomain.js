@@ -312,7 +312,7 @@ export default function IoDomain({ items, cF }) {
           <StyledCell colSpan="6">
             <Button
               variant="contained"
-              color="D5D8DC"
+              // color="D5D8DC"
               fullWidth
               onClick={() => window.open('https://docs.biocomputeobject.org/io-domain/')}
             >
