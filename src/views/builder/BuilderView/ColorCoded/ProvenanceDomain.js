@@ -456,19 +456,19 @@ export default function ProvenanceDomain({ items, cF }) {
           <TableCell className={missingName ? classes.missingHeader : classes.header}>
             Name
           </TableCell>
-          <StyledCell colSpan="3" noGutter>
+          <StyledCell colSpan="3">
             <TextField InputProps={{ className: classes.root }} error={!!missingName} fullWidth id="outlined-basic" value={cF(items.pdName)} onChange={(e) => items.setPdName(e.target.value)} variant="outlined" />
           </StyledCell>
           <TableCell className={missingVersion ? classes.missingHeader : classes.header}>
             Version
           </TableCell>
-          <StyledCell noGutter>
+          <StyledCell>
             <TextField InputProps={{ className: classes.root }} error={!!missingVersion} fullWidth id="outlined-basic" value={cF(items.pdVersion)} onChange={(e) => checkSemanticVersioning(e.target.value)} variant="outlined" />
           </StyledCell>
           <TableCell className={missingLicense ? classes.missingHeader : classes.header}>
             License
           </TableCell>
-          <StyledCell colSpan="4" noGutter>
+          <StyledCell colSpan="4">
             <TextField InputProps={{ className: classes.root }} error={!!missingLicense} fullWidth id="outlined-basic" value={cF(items.pdLicense)} onChange={(e) => items.setPdLicense(e.target.value)} variant="outlined" />
           </StyledCell>
         </TableRow>
@@ -476,7 +476,7 @@ export default function ProvenanceDomain({ items, cF }) {
           <StyledCell>
             Derived From
           </StyledCell>
-          <StyledCell colSpan="10" noGutter>
+          <StyledCell colSpan="10">
             <TextField InputProps={{ className: classes.root }} fullWidth id="outlined-basic" value={cF(items.pdDerivedFrom)} onChange={(e) => items.setPdDerivedFrom(e.target.value)} variant="outlined" />
           </StyledCell>
         </TableRow>
@@ -485,19 +485,19 @@ export default function ProvenanceDomain({ items, cF }) {
           <StyledCell>
             Created
           </StyledCell>
-          <StyledCell noGutter>
+          <StyledCell>
             <TextField InputProps={{ className: classes.root }} disabled label={items.pdCreated.toString()} fullWidth id="outlined-basic" />
           </StyledCell>
           <StyledCell>
             Modified
           </StyledCell>
-          <StyledCell noGutter>
+          <StyledCell>
             <TextField InputProps={{ className: classes.root }} disabled label={items.pdModifed} fullWidth id="outlined-basic" />
           </StyledCell>
           <StyledCell>
             Obsolete After
           </StyledCell>
-          <StyledCell noGutter>
+          <StyledCell>
             <TextField InputProps={{ className: classes.root }} label="YYYY-MM-DDTHH:MM:SS+HH:MM" fullWidth id="outlined-basic" value={cF(items.pdObsoleteAfter)} onChange={(e) => items.setPdObsoleteAfter(e.target.value)} variant="outlined" />
           </StyledCell>
         </TableRow>
@@ -512,13 +512,13 @@ export default function ProvenanceDomain({ items, cF }) {
           <StyledCell>
             Start Time
           </StyledCell>
-          <StyledCell noGutter>
+          <StyledCell>
             <TextField InputProps={{ className: classes.root }} label="YYYY-MM-DDTHH:MM:SS+HH:MM" fullWidth id="outlined-basic" value={cF(items.pdEmbargoStartTime)} onChange={(e) => items.setPdEmbargoStartTime(e.target.value)} variant="outlined" />
           </StyledCell>
           <StyledCell>
             Embargo End Time
           </StyledCell>
-          <StyledCell noGutter>
+          <StyledCell>
             <TextField InputProps={{ className: classes.root }} label="YYYY-MM-DDTHH:MM:SS+HH:MM" fullWidth id="outlined-basic" value={cF(items.pdEmbargoEndTime)} onChange={(e) => items.setPdEmbargoEndTime(e.target.value)} variant="outlined" />
           </StyledCell>
           <StyledCell />
