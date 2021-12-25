@@ -439,7 +439,7 @@ export default function ProvenanceDomain({ items, cF }) {
           <StyledCell colSpan="12">
             <Button
               variant="contained"
-              color="D5D8DC"
+              // color="D5D8DC"
               fullWidth
               onClick={() => window.open('https://docs.biocomputeobject.org/provenance-domain/')}
             >
