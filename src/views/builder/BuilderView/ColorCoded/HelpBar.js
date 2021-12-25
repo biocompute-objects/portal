@@ -11,16 +11,16 @@ import TableRow from '@material-ui/core/TableRow';
 
 // Cell styling
 const StyledCell = withStyles({
-  bordered: {
-    border: '2px solid black'
-  },
-  missingHeader: {
-    color: 'red',
-    text: 'red'
-  },
-  missingHeaderOptional: {
-    color: 'yellow'
-  },
+  // bordered: {
+  //   border: '2px solid black'
+  // },
+  // missingHeader: {
+  //   color: 'red',
+  //   text: 'red'
+  // },
+  // missingHeaderOptional: {
+  //   color: 'yellow'
+  // },
 })(TableCell);
 
 // Pass an object and whether or not its keys are properties.
