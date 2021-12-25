@@ -612,7 +612,7 @@ export default function DescriptionDomain({
           <StyledCell colSpan="12">
             <Button
               variant="contained"
-              color="D5D8DC"
+              // color="D5D8DC"
               fullWidth
               onClick={() => window.open('https://docs.biocomputeobject.org/description-domain/')}
             >
@@ -677,7 +677,7 @@ export default function DescriptionDomain({
         {
         cF(items.ddXref) !== ''
           ? items.ddXref.map((item, index) => (
-            <TableRow key={index}>
+            <TableRow key={index.toString()}>
               <StyledCell>
                 <TextField InputProps={{ className: classes.root }} error={cF(item.namespace) === ''} fullWidth variant="outlined" value={cF(item.namespace)} onChange={(e) => setInput(e, index, 'namespace', 'ddXref')} />
               </StyledCell>
@@ -782,7 +782,7 @@ export default function DescriptionDomain({
         {
         items.ddPipelineSteps.map((item, index) => (
           <>
-            <TableRow key={index}>
+            <TableRow key={index.toString()}>
               <TableCell className={classes.stepNumber} rowSpan="2">
                 <TextField InputProps={{ className: classes.root }} variant="outlined" value={index + 1} />
                 {compCheck}
