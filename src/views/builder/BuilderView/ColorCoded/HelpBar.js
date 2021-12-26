@@ -11,16 +11,16 @@ import TableRow from '@material-ui/core/TableRow';
 
 // Cell styling
 const StyledCell = withStyles({
-  bordered: {
-    border: '2px solid black'
-  },
-  missingHeader: {
-    color: 'red',
-    text: 'red'
-  },
-  missingHeaderOptional: {
-    color: 'yellow'
-  },
+  // bordered: {
+  //   border: '2px solid black'
+  // },
+  // missingHeader: {
+  //   color: 'red',
+  //   text: 'red'
+  // },
+  // missingHeaderOptional: {
+  //   color: 'yellow'
+  // },
 })(TableCell);
 
 // Pass an object and whether or not its keys are properties.
@@ -32,17 +32,17 @@ export default function HelpBar({ items }) {
       <TableBody>
         <TableRow>
           <StyledCell className={classes.missingHeader}>
-            <Typography style={{ color: 'red' }} variant="h3">
+            <Typography component="span" style={{ color: 'red' }} variant="h3">
               Red Boxes are Required Fields
             </Typography>
           </StyledCell>
           <StyledCell>
-            <Typography style={{ color: '#D7BC1E' }} variant="h3">
+            <Typography component="span" style={{ color: '#D7BC1E' }} variant="h3">
               Yellow Boxes are Recommended Fields
             </Typography>
           </StyledCell>
           <StyledCell>
-            <Typography variant="h3">
+            <Typography component="span" variant="h3">
               Plain Boxes are Optional Fields
             </Typography>
           </StyledCell>

@@ -312,7 +312,7 @@ export default function IoDomain({ items, cF }) {
           <StyledCell colSpan="6">
             <Button
               variant="contained"
-              color="D5D8DC"
+              // color="D5D8DC"
               fullWidth
               onClick={() => window.open('https://docs.biocomputeobject.org/io-domain/')}
             >
@@ -356,7 +356,7 @@ export default function IoDomain({ items, cF }) {
         </TableRow>
         {
         items.iodInputSubdomain.map((item, index) => (
-          <TableRow>
+          <TableRow key={index.toString()}>
             <StyledCell>
               <TextField InputProps={{ className: classes.root }} value={cF(item.uri.filename)} variant="outlined" onChange={(e) => setInputInput(e, index, 'filename')} />
             </StyledCell>
@@ -420,7 +420,7 @@ export default function IoDomain({ items, cF }) {
         </TableRow>
         {
         items.iodOutputSubdomain.map((item, index) => (
-          <TableRow>
+          <TableRow key={index.toString()}>
             <StyledCell>
               <TextField InputProps={{ className: classes.root }} error={cF(item.mediatype) === ''} value={cF(item.mediatype)} variant="outlined" onChange={(e) => setInputOutput(e, index, 'mediatype', true)} />
             </StyledCell>

@@ -1,7 +1,7 @@
 // src/layouts/shared/TopBar.js
 
 import React, { useContext } from 'react';
-import { Link as RouterLink, useNavigate } from 'react-router-dom';
+import { NavLink as RouterLink, useNavigate } from 'react-router-dom';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import {
@@ -161,7 +161,7 @@ function TopBar(props, { className, onMobileNavOpen, ...rest }) {
         ))}
       </Hidden>
       <Button
-        activeClassName={classes.active}
+        // activeClassName={classes.active}
         className={classes.button}
         color="inherit"
         onClick={Logout}
