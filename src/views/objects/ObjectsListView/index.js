@@ -7,7 +7,7 @@ import {
 } from '@material-ui/core';
 import Page from 'src/components/Page';
 import Typography from '@material-ui/core/Typography';
-import Async from 'react-async';
+// import Async from 'react-async';
 import Results from './Results';
 // import Toolbar from '../../../components/ObjectsListViewToolbar.js';
 
