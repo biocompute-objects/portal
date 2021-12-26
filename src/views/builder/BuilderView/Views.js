@@ -12,7 +12,7 @@ import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
 // Dummy redirecting after draft object creation.
 // See https://www.codegrepper.com/code-examples/javascript/useHistory+is+not+exported+form+react-router-dom
-import { useNavigate } from 'react-router-dom';
+// import { useNavigate } from 'react-router-dom';
 
 // Tab icons
 import OpacityIcon from '@material-ui/icons/Opacity';
@@ -25,7 +25,7 @@ import TreeView from './TreeView';
 import JsonView from './JsonView';
 
 // Fetch context.
-import { FetchContext } from '../../../App';
+// import { FetchContext } from '../../../App';
 
 // Context
 // Source: https://www.digitalocean.com/community/tutorials/react-usecontext
