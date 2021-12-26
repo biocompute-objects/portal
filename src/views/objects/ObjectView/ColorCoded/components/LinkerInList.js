@@ -22,7 +22,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 // Pass an object and whether or not its keys are properties.
-export default function LinkerInList({ uri, color }) {  
+export default function LinkerInList({ uri, color }) {
 
   const svgClasses = useStyles();
 
@@ -42,9 +42,9 @@ export default function LinkerInList({ uri, color }) {
 
 
   return(
-    <ListItem button component="a" href={uri} target="_blank">
+    <ListItem button component="a" href={uri} target="_blank" key={uri}>
     	<ListItemText primary={
-					<React.Fragment>
+					<React.Fragment key={uri}>
 						{uri} <OpenInNewIcon className={svgClasses.translated} />
 					</React.Fragment>
 				} />

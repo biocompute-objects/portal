@@ -41,9 +41,9 @@ const StyledCell = withStyles({
   root: {
     color: 'black'
   },
-  bordered: {
-    border: '1px solid black'
-  }
+  // bordered: {
+  //   border: '1px solid black'
+  // }
 })(TableCell);
 
 // Pass an object and whether or not its keys are properties.
@@ -60,7 +60,7 @@ export default function JsonView() {
       <TableHead className={classes.tabled}>
         <TableRow>
           <StyledCell colSpan="5">
-            <Typography variant="h3">
+            <Typography component="span" variant="h3">
               Raw JSON
             </Typography>
           </StyledCell>

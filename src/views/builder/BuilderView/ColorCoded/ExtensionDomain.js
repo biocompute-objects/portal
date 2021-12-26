@@ -55,7 +55,7 @@ export default function ExtensionDomain({ items }) {
           <StyledCell colSpan="5">
             <Button
               variant="contained"
-              color="D5D8DC"
+              // color="D5D8DC"
               fullWidth
               onClick={() => window.open('https://docs.biocomputeobject.org/bco-domains/')}
             >

@@ -225,9 +225,9 @@ function ColorCoded({
         </Grid>
         {compList.map((Component, index) => {
           return (
-            <Grid item lg={12} md={12} xs={12}>
-              <Card className={classes[classNames[index]]}>
-                <Component items={renderList[index]} cF={cF} />
+            <Grid key={index.toString()} item lg={12} md={12} xs={12}>
+              <Card className={classes[classNames[index]]} key={index.toString() + '_Card'}>
+                <Component items={renderList[index]} cF={cF} key={index.toString() + '_Component'} />
               </Card>
             </Grid>
           );
