@@ -41,9 +41,9 @@ const StyledCell = withStyles({
   root: {
     color: 'black'
   },
-  bordered: {
-    border: '1px solid black'
-  }
+  // bordered: {
+  //   border: '1px solid black'
+  // }
 })(TableCell);
 
 // Pass an object and whether or not its keys are properties.

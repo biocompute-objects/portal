@@ -28,7 +28,7 @@ export default function LinkerInList({ uri, color }) {
 
   // Arguments
   // ---------
-  // url (string): Link URL
+  // uri (string): Link URL
   // color (string): Link color
 
 
@@ -42,7 +42,7 @@ export default function LinkerInList({ uri, color }) {
 
 
   return(
-    <ListItem button component="a" href={uri} target="_blank">
+    <ListItem button component="a" href={uri} target="_blank" key={uri}>
     	<ListItemText primary={
 					<React.Fragment>
 						{uri} <OpenInNewIcon className={svgClasses.translated} />

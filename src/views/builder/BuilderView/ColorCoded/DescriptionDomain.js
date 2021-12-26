@@ -627,7 +627,7 @@ export default function DescriptionDomain({
       <TableBody>
         <TableRow>
           <TableCell>
-            <Typography className={missingKeywords ? classes.missingHeader : classes.header} variant="h3">
+            <Typography key="typography1" className={missingKeywords ? classes.missingHeader : classes.header} variant="h3">
               Keywords
             </Typography>
           </TableCell>
@@ -696,23 +696,23 @@ export default function DescriptionDomain({
                     </Typography>
                   </AccordionSummary>
                   <AccordionDetails>
-                    <List className={classes.fullWidthList}>
+                    <List className={classes.fullWidthList} key={'ID_List'}>
                       {item.ids.map((subitem, subindex) => (
                         <>
-                          <ListItem>
+                          <ListItem key={subindex.toString() + '_ID'}>
                             <TextField InputProps={{ className: classes.root }} error={cF(subitem) === ''} label="ID" fullWidth variant="outlined" value={cF(subitem)} onChange={(e) => setListInput(e, index, 'ids', subindex, 'id')} />
                           </ListItem>
                           {
                             subindex !== item.ids.length - 1
                               ? (
-                                <ListItem>
+                                <ListItem key={subindex.toString()}>
                                   <Button variant="contained" color="primary" disableElevation fullWidth onClick={() => removeListRows(index, subindex, 'ids')}>
                                     Remove
                                   </Button>
                                 </ListItem>
                               )
                               : (
-                                <ListItem divider>
+                                <ListItem divider key={subindex.toString()}>
                                   <Button variant="contained" color="primary" disableElevation fullWidth onClick={() => removeListRows(index, subindex, 'ids')}>
                                     Remove
                                   </Button>
@@ -721,7 +721,7 @@ export default function DescriptionDomain({
                             }
                         </>
                       ))}
-                      <ListItem>
+                      <ListItem key={index.toString()}>
                         <Button variant="contained" color="primary" disableElevation fullWidth onClick={() => addListRows(index, 'ids')}>
                           Add ID
                         </Button>
@@ -782,7 +782,7 @@ export default function DescriptionDomain({
         {
         items.ddPipelineSteps.map((item, index) => (
           <>
-            <TableRow key={index.toString()}>
+            <TableRow>
               <TableCell className={classes.stepNumber} rowSpan="2">
                 <TextField InputProps={{ className: classes.root }} variant="outlined" value={index + 1} />
                 {compCheck}
@@ -802,7 +802,7 @@ export default function DescriptionDomain({
                 </Button>
               </StyledCell>
             </TableRow>
-            <TableRow key={index}>
+            <TableRow>
               <StyledCell>
                 <Accordion>
                   <AccordionSummary
@@ -822,32 +822,32 @@ export default function DescriptionDomain({
                           ? (
                             item.prerequisite.map((subitem, subindex) => (
                               <>
-                                <ListItem>
+                                <ListItem key={`${subindex.toString()}_Name`}>
                                   <TextField InputProps={{ className: classes.root }} label="Name" fullWidth variant="outlined" value={cF(subitem.name)} onChange={(e) => setPrerequisiteInput(e, index, 'prerequisite', subindex, 'name')} />
                                 </ListItem>
-                                <ListItem>
+                                <ListItem key={`${subindex.toString()}_Filename`}>
                                   <TextField InputProps={{ className: classes.root }} label="Filename" fullWidth variant="outlined" value={cF(subitem.uri.filename)} onChange={(e) => setPrerequisiteInput(e, index, 'prerequisite', subindex, 'filename')} />
                                 </ListItem>
-                                <ListItem>
+                                <ListItem key={`${subindex.toString()}_Uri`}>
                                   <TextField InputProps={{ className: classes.root }} error={cF(subitem.uri.uri) === ''} label="URI" fullWidth variant="outlined" value={cF(subitem.uri.uri)} onChange={(e) => setPrerequisiteInput(e, index, 'prerequisite', subindex, 'uri')} />
                                 </ListItem>
-                                <ListItem>
+                                <ListItem key={`${subindex.toString()}_AccessTime`}>
                                   <TextField InputProps={{ className: classes.root }} label="Access Time" fullWidth variant="outlined" value={cF(subitem.uri.access_time)} onChange={(e) => setPrerequisiteInput(e, index, 'prerequisite', subindex, 'access_time')} />
                                 </ListItem>
-                                <ListItem>
+                                <ListItem key={`${subindex.toString()}_SHA1Checksum`}>
                                   <TextField InputProps={{ className: classes.root }} label="SHA1 Checksum" fullWidth variant="outlined" value={cF(subitem.uri.sha1_checksum)} onChange={(e) => setPrerequisiteInput(e, index, 'prerequisite', subindex, 'sha1_checksum')} />
                                 </ListItem>
                                 {
                                 subindex !== item.prerequisite.length - 1
                                   ? (
-                                    <ListItem>
+                                    <ListItem key={subindex.toString()}>
                                       <Button variant="contained" color="primary" disableElevation fullWidth onClick={() => removeListRows(index, subindex, 'prerequisite')}>
                                         Remove
                                       </Button>
                                     </ListItem>
                                   )
                                   : (
-                                    <ListItem divider>
+                                    <ListItem divider key={subindex.toString()}>
                                       <Button variant="contained" color="primary" disableElevation fullWidth onClick={() => removeListRows(index, subindex, 'prerequisite')}>
                                         Remove
                                       </Button>
@@ -861,7 +861,7 @@ export default function DescriptionDomain({
 
                           : (<ListItem />)
                     }
-                      <ListItem>
+                      <ListItem key={index.toString()}>
                         <Button variant="contained" color="primary" disableElevation fullWidth onClick={() => addListRows(index, 'prerequisite')}>
                           Add Prerequisite
                         </Button>
@@ -886,30 +886,29 @@ export default function DescriptionDomain({
                       {
                         item.input_list.map((subitem, subindex) => (
                           <>
-                            <ListItem>
-
+                            <ListItem key={`${subindex.toString()}_Filename`}>
                               <TextField InputProps={{ className: classes.root }} label="Filename" fullWidth variant="outlined" value={cF(subitem.filename)} onChange={(e) => setListInput(e, index, 'input_list', subindex, 'filename')} />
                             </ListItem>
-                            <ListItem>
+                            <ListItem key={`${subindex.toString()}_Uri`}>
                               <TextField InputProps={{ className: classes.root }} error={cF(subitem.uri) === ''} label="URI" fullWidth variant="outlined" value={cF(subitem.uri)} onChange={(e) => setListInput(e, index, 'input_list', subindex, 'uri')} />
                             </ListItem>
-                            <ListItem>
+                            <ListItem key={`${subindex.toString()}_AccessTime`}>
                               <TextField InputProps={{ className: classes.root }} label="Access Time" fullWidth variant="outlined" value={cF(subitem.access_time)} onChange={(e) => setListInput(e, index, 'input_list', subindex, 'access_time')} />
                             </ListItem>
-                            <ListItem>
+                            <ListItem key={`${subindex.toString()}_SHA1Checksum`}>
                               <TextField InputProps={{ className: classes.root }} label="SHA1 Checksum" fullWidth variant="outlined" value={cF(subitem.sha1_checksum)} onChange={(e) => setListInput(e, index, 'input_list', subindex, 'sha1_checksum')} />
                             </ListItem>
                             {
                               subindex !== item.input_list.length - 1
                                 ? (
-                                  <ListItem>
+                                  <ListItem key={subindex.toString()}>
                                     <Button variant="contained" color="primary" disableElevation fullWidth onClick={() => removeListRows(index, subindex, 'input_list')}>
                                       Remove
                                     </Button>
                                   </ListItem>
                                 )
                                 : (
-                                  <ListItem divider>
+                                  <ListItem divider key={subindex.toString()}>
                                     <Button variant="contained" color="primary" disableElevation fullWidth onClick={() => removeListRows(index, subindex, 'input_list')}>
                                       Remove
                                     </Button>
@@ -919,7 +918,7 @@ export default function DescriptionDomain({
                           </>
                         ))
                       }
-                      <ListItem>
+                      <ListItem key={index.toString()}>
                         <Button variant="contained" color="primary" disableElevation fullWidth onClick={() => addListRows(index, 'input_list')}>
                           Add Input
                         </Button>
@@ -944,29 +943,29 @@ export default function DescriptionDomain({
                       {
                         item.output_list.map((subitem, subindex) => (
                           <>
-                            <ListItem>
+                            <ListItem key={`${subindex.toString()}_Filename`}>
                               <TextField InputProps={{ className: classes.root }} label="Filename" fullWidth variant="outlined" value={cF(subitem.filename)} onChange={(e) => setListInput(e, index, 'output_list', subindex, 'filename')} />
                             </ListItem>
-                            <ListItem>
+                            <ListItem key={`${subindex.toString()}_Uri`}>
                               <TextField InputProps={{ className: classes.root }} error={cF(subitem.uri) === ''} label="URI" fullWidth variant="outlined" value={cF(subitem.uri)} onChange={(e) => setListInput(e, index, 'output_list', subindex, 'uri')} />
                             </ListItem>
-                            <ListItem>
+                            <ListItem key={`${subindex.toString()}_AccessTime`}>
                               <TextField InputProps={{ className: classes.root }} label="Access Time" fullWidth variant="outlined" value={cF(subitem.access_time)} onChange={(e) => setListInput(e, index, 'output_list', subindex, 'access_time')} />
                             </ListItem>
-                            <ListItem>
+                            <ListItem key={`${subindex.toString()}_SHA1Checksum`}>
                               <TextField InputProps={{ className: classes.root }} label="SHA1 Checksum" fullWidth variant="outlined" value={cF(subitem.sha1_checksum)} onChange={(e) => setListInput(e, index, 'output_list', subindex, 'sha1_checksum')} />
                             </ListItem>
                             {
                               subindex !== item.output_list.length - 1
                                 ? (
-                                  <ListItem>
+                                  <ListItem key={subindex.toString()}>
                                     <Button variant="contained" color="primary" disableElevation fullWidth onClick={() => removeListRows(index, subindex, 'output_list')}>
                                       Remove
                                     </Button>
                                   </ListItem>
                                 )
                                 : (
-                                  <ListItem divider>
+                                  <ListItem divider key={subindex.toString()}>
                                     <Button variant="contained" color="primary" disableElevation fullWidth onClick={() => removeListRows(index, subindex, 'output_list')}>
                                       Remove
                                     </Button>
@@ -976,7 +975,7 @@ export default function DescriptionDomain({
                           </>
                         ))
                       }
-                      <ListItem>
+                      <ListItem key={index.toString()}>
                         <Button variant="contained" color="primary" disableElevation fullWidth onClick={() => addListRows(index, 'output_list')}>
                           Add Output
                         </Button>
