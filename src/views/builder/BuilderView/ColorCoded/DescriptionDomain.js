@@ -782,7 +782,7 @@ export default function DescriptionDomain({
         {
         items.ddPipelineSteps.map((item, index) => (
           <>
-            <TableRow>
+            <TableRow key={index.toString() + '_Pipeline1'}>
               <TableCell className={classes.stepNumber} rowSpan="2">
                 <TextField InputProps={{ className: classes.root }} variant="outlined" value={index + 1} />
                 {compCheck}
@@ -802,7 +802,7 @@ export default function DescriptionDomain({
                 </Button>
               </StyledCell>
             </TableRow>
-            <TableRow>
+            <TableRow key={index.toString() + '_Pipeline2'}>
               <StyledCell>
                 <Accordion>
                   <AccordionSummary
