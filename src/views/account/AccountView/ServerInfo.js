@@ -314,7 +314,7 @@ export default function EnhancedTable() {
 
     // The server added flag is no longer necessary.
     setServerAdded(false);
-  }, [serverAdded]);
+  }, [serverAdded, permissions, setServerAdded]);
 
   // Create a function to add a new server row to the table.
   // Source: https://webomnizz.com/change-parent-component-state-from-child-using-hooks-in-react/
