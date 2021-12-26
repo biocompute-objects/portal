@@ -99,7 +99,7 @@ export default function ParametricDomain({ items, cF }) {
       }
 
       // Each one of the parameters.
-      for (var i = 0; i < items.pad.length; i++) {
+      for (i = 0; i < items.pad.length; i++) {
         // Step
         if (items.pad[i].param === '') {
           // No parameter.
@@ -120,7 +120,7 @@ export default function ParametricDomain({ items, cF }) {
       }
 
       // Each one of the values.
-      for (var i = 0; i < items.pad.length; i++) {
+      for (i = 0; i < items.pad.length; i++) {
         // Step
         if (items.pad[i].value === '') {
           // No step.
