@@ -1,7 +1,7 @@
 // src/views/builder/BuilderView/index.js
 
 import React, { createContext, useState, useEffect } from 'react';
-import PropTypes from 'prop-types';
+// import PropTypes from 'prop-types';
 
 import { useLocation } from 'react-router-dom';
 import PermissionTools from 'src/components/PermissionTools';

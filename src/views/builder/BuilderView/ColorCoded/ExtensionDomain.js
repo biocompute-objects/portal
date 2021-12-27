@@ -36,13 +36,13 @@ const StyledCell = withStyles({
   }
 })(TableCell);
 
-// Pass an object and whether or not its keys are properties.
+// Pass an object and whether its keys are properties.
 export default function ExtensionDomain({ items }) {
   const classes = withStyles();
 
-  const submitSchema = (value) => {
-    console.log('schema', value);
-  };
+  // const submitSchema = (value) => {
+  //   console.log('schema', value);
+  // };
   const setInput = (value, i) => {
     const holder = items.exd;
     holder[i] = JSON.parse(value);

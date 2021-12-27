@@ -79,7 +79,7 @@ const processKey = (ikey) => {
   return (returnable);
 };
 
-// Pass an object and whether or not its keys are properties.
+// Pass an object and whether its keys are properties.
 export default function ProvenanceDomain({ items }) {
   const classes = withStyles();
 
