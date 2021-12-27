@@ -39,7 +39,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function PermissionTools({ 
   contents, publish, newDraft, objectInformation, setPublish, publishedObjectId, 
-  receivedDefault, serverLock }) {
+  receivedDefault, serverLock, setMeEtagSet, meEtagSet }) {
   // State
   const [saveDraftTo, setSaveDraftTo] = useState('');
   const [savePublishTo, setSavePublishTo] = useState('');
@@ -70,7 +70,7 @@ export default function PermissionTools({
       CreateDraftObject(saveDraftTo);
     } else if (which === 'validateDraft') {
       // From parent: Index.
-      ValidateSchema(contents, setPublish, publish);
+      ValidateSchema(contents, setPublish, publish, setMeEtagSet, meEtagSet);
     } else if (which === 'publishDraft') {
       // From parent.
       PublishDraftObject(objectInformation);

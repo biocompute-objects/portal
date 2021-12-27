@@ -63,8 +63,12 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
+// Set the context.
+// Source: https://stackoverflow.com/questions/58936042/pass-context-between-siblings-using-context-in-react
+export const ColorCodedContext = React.createContext();
+
 function ColorCoded({
-  complianceCheck, setComplianceCheck, objectContents, setObjectContents
+  complianceCheck, setComplianceCheck, objectContents, setObjectContents, setMeEtagSet, meEtagSet
 }) {
   // As of 5/13/21, there is no relationship between the color-coded
   // draft view and the raw draft view.
@@ -106,7 +110,9 @@ function ColorCoded({
   const [ddKeywords, setDdKeywords] = useState(descriptionDomain.keywords ? descriptionDomain.keywords : ['']);
   const [ddPlatform, setDdPlatform] = useState(descriptionDomain.platform);
   const [ddXref, setDdXref] = useState(descriptionDomain.xref);
-  const [ddPipelineSteps, setDdPipelineSteps] = useState(descriptionDomain.pipeline_steps ? descriptionDomain.pipeline_steps : [{step_number: 0, name: '', description: '', prerequisite: [{ name: '', uri: { uri: '' } }], input_list: [{ uri: '' }], output_list: [{ uri: '' }]}]);
+  const [ddPipelineSteps, setDdPipelineSteps] = useState(descriptionDomain.pipeline_steps ? descriptionDomain.pipeline_steps : [{
+    step_number: 0, name: '', description: '', prerequisite: [{ name: '', uri: { uri: '' } }], input_list: [{ uri: '' }], output_list: [{ uri: '' }]
+  }]);
 
   // Execution domain
   const [executionDomain, setExecutionDomain] = useState(objectContents.execution_domain ? objectContents.execution_domain : {});
@@ -141,7 +147,7 @@ function ColorCoded({
   // are set in the parent.
   const renderList = [
     {
-      complianceCheck, meObjectId, meEtag, setMeEtag, rerender, setRerender, objectContents
+      complianceCheck, meObjectId, meEtagSet, setMeEtagSet, meEtag, setMeEtag, rerender, setRerender, objectContents
     },
     {
       complianceCheck, checkBlank, pdName, pdVersion, pdLicense, pdDerivedFrom, pdCreated, pdModifed, pdObsoleteAfter, pdEmbargoStartTime, pdEmbargoEndTime, pdReview, pdContributors, rerender, setRerender, setPdName, setPdVersion, setPdLicense, setPdDerivedFrom, setPdCreated, setPdModified, setPdObsoleteAfter, setPdEmbargoStartTime, setPdEmbargoEndTime, setPdReview, setPdContributors
@@ -221,28 +227,33 @@ function ColorCoded({
   // localStorage.setItem('bco', JSON.stringify(objectContents));
 
   return (
-    <Container maxWidth={false}>
-      <Grid
-        className={classes.margined}
-        container
-        spacing={3}
-      >
-        <Grid item lg={12} md={12} xs={12}>
-          <Card>
-            <HelpBar />
-          </Card>
+    <ColorCodedContext.Provider value={{
+      meEtagSet, setMeEtagSet
+    }}
+    >
+      <Container maxWidth={false}>
+        <Grid
+          className={classes.margined}
+          container
+          spacing={3}
+        >
+          <Grid item lg={12} md={12} xs={12}>
+            <Card>
+              <HelpBar />
+            </Card>
+          </Grid>
+          {compList.map((Component, index) => {
+            return (
+              <Grid key={index.toString()} item lg={12} md={12} xs={12}>
+                <Card className={classes[classNames[index]]} key={`${index.toString()}_Card`}>
+                  <Component items={renderList[index]} cF={cF} key={`${index.toString()}_Component`} />
+                </Card>
+              </Grid>
+            );
+          })}
         </Grid>
-        {compList.map((Component, index) => {
-          return (
-            <Grid key={index.toString()} item lg={12} md={12} xs={12}>
-              <Card className={classes[classNames[index]]} key={index.toString() + '_Card'}>
-                <Component items={renderList[index]} cF={cF} key={index.toString() + '_Component'} />
-              </Card>
-            </Grid>
-          );
-        })}
-      </Grid>
-    </Container>
+      </Container>
+    </ColorCodedContext.Provider>
   );
 }
 

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import {
   Button, makeStyles, withStyles, Typography
 } from '@material-ui/core';
@@ -9,6 +9,9 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import TextField from '@material-ui/core/TextField';
 import hash from 'object-hash';
+
+// Parent Context
+import { ParentContext } from './index';
 
 // For links.
 import Linker from './components/Linker';
@@ -38,6 +41,8 @@ const useStyles = makeStyles((theme) => ({
 
 // Pass an object and whether its keys are properties.
 export default function Meta({ items }) {
+  // const { meEtagSet, setMeEtagSet } = useContext(ParentContext);
+
   console.log('ITEMS CHECK: ', items);
   const classes = withStyles();
   const svgClasses = useStyles();
@@ -48,11 +53,20 @@ export default function Meta({ items }) {
     delete hashContents.etag;
     const etag = hash(hashContents);
     items.setMeEtag(etag);
+    // items.setMeEtagSet(true);
     items.setRerender(items.rerender + 1);
     console.log('items 1', items.meEtag);
     console.log('items 2', etag);
     console.log('items 3', items.objectContents);
+    items.setMeEtagSet(false);
   };
+
+  useEffect(() => {
+    if (items.meEtagSet) {
+      makeETag();
+      items.setMeEtagSet(false);
+    }
+  }, [items]);
   return (
     <Table size="small">
       <TableHead className={classes.tabled}>
