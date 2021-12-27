@@ -7,7 +7,7 @@ import Table from '@material-ui/core/Table';
 import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
-import RecursiveRows from './RecursiveRows'
+import RecursiveRows from './RecursiveRows';
 
 // Cell styling
 const StyledCell = withStyles({
