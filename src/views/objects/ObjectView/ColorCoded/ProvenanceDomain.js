@@ -56,6 +56,7 @@ const processKey = (ikey) => {
       } else {
         capJoined.push(value.charAt(0).toUpperCase() + value.slice(1));
       }
+      return true;
     });
 
     // Kick it back.
@@ -120,6 +121,7 @@ export default function ProvenanceDomain({ items }) {
   let contributorKeys = [];
   items.contributors.map((item) => {
     contributorKeys.push(Object.keys(item));
+    return true;
   });
 
   // Collapse the array of arrays.
@@ -146,7 +148,7 @@ export default function ProvenanceDomain({ items }) {
   const tempArray = contributorKeys.filter((x) => !['name', 'contribution'].includes(x));
   tempArray.unshift('name', 'contribution');
   contributorKeys = tempArray;
-  const reviewItems = [];
+  // const reviewItems = [];
   const reviews = [];
   const reviewKeys = ['status', 'name', 'affiliation', 'reviewer_comment', 'date'];
 
@@ -168,6 +170,7 @@ export default function ProvenanceDomain({ items }) {
         } else {
           reviewObject[contitem] = '';
         }
+        return true;
       });
 
       for (const [key, value] of Object.entries(review)) {
@@ -176,6 +179,7 @@ export default function ProvenanceDomain({ items }) {
         }
       }
       reviews.push(reviewObject);
+      return true;
     });
   }
 
@@ -183,6 +187,9 @@ export default function ProvenanceDomain({ items }) {
   const provenanceContributors = [];
 
   // Go over each contributor and see what fields they have.
+  // TODO: I think this logic will need to be looked at - doesn't look like it makes a lasting change
+  //       the tempArray variable looks like it is a shadow variable and I don't see where it is changing
+  //       anything else.
   items.contributors.map((item) => {
     // Construct a temporary array to hold the
     // contributor information.
@@ -193,17 +200,17 @@ export default function ProvenanceDomain({ items }) {
       if (subitem in item) {
         // Even if the key exists, the field
         // may be blank, so check for blank fields.
-        let blank_flag = 0;
+        let blankFlag = 0;
         for (const cont of ['', '', [], {}]) {
           if (item[subitem] === cont) {
             tempArray[subitem] = 'None';
-            blank_flag = 1;
+            blankFlag = 1;
             break;
           }
         }
 
         // Was the value blank?
-        if (blank_flag === 0) {
+        if (blankFlag === 0) {
           // For fields that contain lists, we need to
           // join on ','.
           if (Array.isArray(item[subitem]) && typeof (item[subitem][0]) === 'string') {
@@ -215,10 +222,13 @@ export default function ProvenanceDomain({ items }) {
       } else {
         tempArray[subitem] = 'None';
       }
+      // TODO: We're not doing anything with the tempArray within this scope it looks like?
+      return true;
     });
 
     // Add the temp array to provenanceContributors.
     provenanceContributors.push(tempArray);
+    return true;
   });
 
   return (

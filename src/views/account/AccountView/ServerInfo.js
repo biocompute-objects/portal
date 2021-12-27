@@ -166,9 +166,11 @@ const EnhancedTableToolbar = (props) => {
   const classes = useToolbarStyles();
   const fc = useContext(FetchContext);
   const { numSelected, selectedRows } = props;
-  const { setServerAdded, setSelected } = useContext(ParentContext);
+  // const { setServerAdded, setSelected } = useContext(ParentContext);
+  const { setServerAdded } = useContext(ParentContext);
 
-  const testDelete = (event, rows) => {
+  // const testDelete = (event, rows) => {
+  const testDelete = () => {
     const userResponse = window.confirm('Are you sure you want to delete these rows?');
     if (userResponse) {
       fetch(fc.sending.userdb_removeapi, {
