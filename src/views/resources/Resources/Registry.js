@@ -41,11 +41,11 @@ const useStyles = makeStyles({
 export default function Registry() {
   const classes = useStyles();
   const logo = require('src/images/logo.png');
-  const registryLink = 'https://portal.aws.biochemistry.gwu.edu/registry';
+  // const registryLink = 'https://portal.aws.biochemistry.gwu.edu/registry';
 
   return (
-    <Card className={classes.root, classes.supportCard} elevation={5}>
-      <CardActionArea href='https://docs.google.com/document/d/1io5OBfsdEif_nWX-TmA22fz7gayHR1MsEwv2vI_QGBY' target="_blank">
+    <Card className={`${classes.root} ${classes.supportCard}`} elevation={5}>
+      <CardActionArea href="https://docs.google.com/document/d/1io5OBfsdEif_nWX-TmA22fz7gayHR1MsEwv2vI_QGBY" target="_blank">
         <CardContent>
           <Typography className={classes.title}>
             <img src={logo} height={36} alt="BCO logo" />
