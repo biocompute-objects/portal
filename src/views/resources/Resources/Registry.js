@@ -4,14 +4,14 @@ import React from 'react';
 import {
   Card,
   CardActionArea,
-  CardActions,
+  // CardActions,
   CardContent,
   makeStyles,
   Typography
 } from '@material-ui/core';
 
 // Routing to pages
-import { Link as RouterLink } from 'react-router-dom';
+// import { Link as RouterLink } from 'react-router-dom';
 
 const useStyles = makeStyles({
   root: {
