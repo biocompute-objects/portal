@@ -2,14 +2,21 @@
 
 import React, { useEffect } from 'react';
 import {
+  Accordion,
+  AccordionSummary,
+  AccordionDetails,
   Container,
   Grid,
-  makeStyles
+  makeStyles,
+  Typography,
 } from '@material-ui/core';
-import AddServer from './AddServer'
+
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import Page from 'src/components/Page';
+import AddServer from './AddServer';
 import Profile from './Profile';
 import ServerInfo from './ServerInfo';
+import Password from './Password';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -25,7 +32,6 @@ const useStyles = makeStyles((theme) => ({
 export const ParentContext = React.createContext();
 
 const AccountView = () => {
-  
   const classes = useStyles();
 
   // State for the add server and group dialogs.
@@ -37,38 +43,57 @@ const AccountView = () => {
 
   // On page load, load the user's information.
   useEffect(() => {
-
     // "Fake" that a server has been added.
     setServerAdded(true);
-
-  }, [])
+  }, []);
 
   return (
-  <Page className={classes.root} title="Account">
-    <ParentContext.Provider value={{ showing, setShowing, groupShowing, setGroupShowing, serverAdded, setServerAdded }}>
-      <Container maxWidth={false}>
-        <Grid container spacing={5}>
-          <Grid item xs={12} sm={12} lg={12} xl={12}>
-            <Profile />
+    <Page className={classes.root} title="Account">
+      <ParentContext.Provider value={{
+        showing, setShowing, groupShowing, setGroupShowing, serverAdded, setServerAdded
+      }}
+      >
+        <Container maxWidth={false}>
+          <Grid container spacing={5}>
+            <Grid item xs={12} sm={12} lg={12} xl={12}>
+              <Profile />
+            </Grid>
           </Grid>
-        </Grid>
-      </Container>
-      <Container maxWidth={false}>
-        <Grid container spacing={5}>
-          <Grid item xs={12} sm={12} lg={12} xl={12}>
-            <AddServer />
+          <Accordion>
+            <AccordionSummary
+              expandIcon={<ExpandMoreIcon />}
+              aria-controls="panel1a-content"
+              id="panel1a-header"
+            >
+              <Typography className={classes.heading} variant="h3">
+                Change Password (click to expand)
+              </Typography>
+            </AccordionSummary>
+            <AccordionDetails>
+              <Grid container spacing={5}>
+                <Grid item xs={12} sm={12} lg={12} xl={12}>
+                  <Password />
+                </Grid>
+              </Grid>
+            </AccordionDetails>
+          </Accordion>
+        </Container>
+        <Container maxWidth={false}>
+          <Grid container spacing={5}>
+            <Grid item xs={12} sm={12} lg={12} xl={12}>
+              <AddServer />
+            </Grid>
           </Grid>
-        </Grid>
-      </Container>
-      <Container maxWidth={false}>
-        <Grid container spacing={5}>
-          <Grid item xs={12} sm={12} lg={12} xl={12}>
-            <ServerInfo />
+        </Container>
+        <Container maxWidth={false}>
+          <Grid container spacing={5}>
+            <Grid item xs={12} sm={12} lg={12} xl={12}>
+              <ServerInfo />
+            </Grid>
           </Grid>
-        </Grid>
-      </ Container>
-    </ParentContext.Provider>
-  </Page>
+        </Container>
+      </ParentContext.Provider>
+    </Page>
   );
 };
 

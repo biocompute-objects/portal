@@ -222,7 +222,7 @@ export default function ParametricDomain({ items, cF }) {
             <StyledCell colSpan="6">
               <Button
                 variant="contained"
-                color="D5D8DC"
+                // color="D5D8DC"
                 fullWidth
                 onClick={() => window.open('https://docs.biocomputeobject.org/parametric-domain/')}
               >
@@ -258,7 +258,8 @@ export default function ParametricDomain({ items, cF }) {
             )
             : (
               items.pad.map((item, index) => (
-                <TableRow>
+
+                <TableRow key={index.toString()}>
                   <StyledCell>
                     <TextField InputProps={{ className: classes.root }} error={cF(item.step) === ''} value={cF(item.step)} onChange={(e) => setInput(e, index, 'step')} variant="outlined" />
                   </StyledCell>

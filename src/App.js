@@ -25,8 +25,9 @@ function App() {
   // TODO: This is assuming a host at 8000 and 8080 - should probably be set more dynamically
   const hostnames = {
     local: {
+      userdb: 'http://127.0.0.1:8080/users/',
+      bcoapi: 'http://127.0.0.1:8000/api/',
       bcoapi_accounts_new: 'http://127.0.0.1:8000/api/accounts/new/',
-      // TODO: this v is not listed in the URLS for the bco API
       bcoapi_description_permissions: 'http://127.0.0.1:8000/api/description/permissions/',
       bcoapi_objects_create: 'http://127.0.0.1:8000/api/objects/create/',
       bcoapi_objects_list: 'http://127.0.0.1:8000/api/objects/token/',
@@ -46,6 +47,8 @@ function App() {
       ]
     },
     test: {
+      userdb: 'https://test.portal.biochemistry.gwu.edu/users/',
+      bcoapi: 'https://test.portal.biochemistry.gwu.edu/api/',
       bcoapi_accounts_new: 'https://test.portal.biochemistry.gwu.edu/api/accounts/new/',
       bcoapi_description_permissions: 'https://test.portal.biochemistry.gwu.edu/api/description/permissions/',
       bcoapi_objects_create: 'https://test.portal.biochemistry.gwu.edu/api/objects/create/',
@@ -66,6 +69,8 @@ function App() {
       ]
     },
     production: {
+      userdb: 'https://biocomputeobject.org/users/',
+      bcoapi: 'https://biocomputeobject.org/api/',
       bcoapi_accounts_new: 'https://biocomputeobject.org/api/accounts/new/',
       bcoapi_description_permissions: 'https://biocomputeobject.org/api/description/permissions/',
       bcoapi_objects_create: 'https://biocomputeobject.org/api/objects/create/',
