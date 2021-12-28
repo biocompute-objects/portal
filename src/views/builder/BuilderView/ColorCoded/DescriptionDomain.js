@@ -612,7 +612,7 @@ export default function DescriptionDomain({
           <StyledCell colSpan="12">
             <Button
               variant="contained"
-              color="D5D8DC"
+              // color="D5D8DC"
               fullWidth
               onClick={() => window.open('https://docs.biocomputeobject.org/description-domain/')}
             >
@@ -627,7 +627,7 @@ export default function DescriptionDomain({
       <TableBody>
         <TableRow>
           <TableCell>
-            <Typography className={missingKeywords ? classes.missingHeader : classes.header}>
+            <Typography key="typography1" className={missingKeywords ? classes.missingHeader : classes.header} variant="h3">
               Keywords
             </Typography>
           </TableCell>
@@ -677,7 +677,7 @@ export default function DescriptionDomain({
         {
         cF(items.ddXref) !== ''
           ? items.ddXref.map((item, index) => (
-            <TableRow key={index}>
+            <TableRow key={index.toString()}>
               <StyledCell>
                 <TextField InputProps={{ className: classes.root }} error={cF(item.namespace) === ''} fullWidth variant="outlined" value={cF(item.namespace)} onChange={(e) => setInput(e, index, 'namespace', 'ddXref')} />
               </StyledCell>
@@ -696,23 +696,23 @@ export default function DescriptionDomain({
                     </Typography>
                   </AccordionSummary>
                   <AccordionDetails>
-                    <List className={classes.fullWidthList}>
+                    <List className={classes.fullWidthList} key={`${index.toString()}_IDList`}>
                       {item.ids.map((subitem, subindex) => (
                         <>
-                          <ListItem>
+                          <ListItem key={`${index.toString()}_${subindex.toString()}_ID`}>
                             <TextField InputProps={{ className: classes.root }} error={cF(subitem) === ''} label="ID" fullWidth variant="outlined" value={cF(subitem)} onChange={(e) => setListInput(e, index, 'ids', subindex, 'id')} />
                           </ListItem>
                           {
                             subindex !== item.ids.length - 1
                               ? (
-                                <ListItem>
+                                <ListItem key={`${index.toString()}_${subindex.toString()}_Remove`}>
                                   <Button variant="contained" color="primary" disableElevation fullWidth onClick={() => removeListRows(index, subindex, 'ids')}>
                                     Remove
                                   </Button>
                                 </ListItem>
                               )
                               : (
-                                <ListItem divider>
+                                <ListItem divider key={`${index.toString()}_${subindex.toString()}_RemoveDiv`}>
                                   <Button variant="contained" color="primary" disableElevation fullWidth onClick={() => removeListRows(index, subindex, 'ids')}>
                                     Remove
                                   </Button>
@@ -721,7 +721,7 @@ export default function DescriptionDomain({
                             }
                         </>
                       ))}
-                      <ListItem>
+                      <ListItem key={`${index.toString()}_AddID`}>
                         <Button variant="contained" color="primary" disableElevation fullWidth onClick={() => addListRows(index, 'ids')}>
                           Add ID
                         </Button>
@@ -782,7 +782,7 @@ export default function DescriptionDomain({
         {
         items.ddPipelineSteps.map((item, index) => (
           <>
-            <TableRow key={index}>
+            <TableRow key={`${index.toString()}_Pipeline1`}>
               <TableCell className={classes.stepNumber} rowSpan="2">
                 <TextField InputProps={{ className: classes.root }} variant="outlined" value={index + 1} />
                 {compCheck}
@@ -802,7 +802,7 @@ export default function DescriptionDomain({
                 </Button>
               </StyledCell>
             </TableRow>
-            <TableRow key={index}>
+            <TableRow key={`${index.toString()}_Pipeline2`}>
               <StyledCell>
                 <Accordion>
                   <AccordionSummary
@@ -817,51 +817,48 @@ export default function DescriptionDomain({
                   <AccordionDetails>
                     <List className={classes.fullWidthList}>
                       {
-
                         item.prerequisite !== undefined
                           ? (
                             item.prerequisite.map((subitem, subindex) => (
-                              <>
-                                <ListItem>
+                              <React.Fragment key={`${index}_${subindex}_FragmentPrereq`}>
+                                <ListItem key={`${index.toString()}_${subindex.toString()}_Prereq_Name`}>
                                   <TextField InputProps={{ className: classes.root }} label="Name" fullWidth variant="outlined" value={cF(subitem.name)} onChange={(e) => setPrerequisiteInput(e, index, 'prerequisite', subindex, 'name')} />
                                 </ListItem>
-                                <ListItem>
+                                <ListItem key={`${index.toString()}_${subindex.toString()}_Prereq_Filename`}>
                                   <TextField InputProps={{ className: classes.root }} label="Filename" fullWidth variant="outlined" value={cF(subitem.uri.filename)} onChange={(e) => setPrerequisiteInput(e, index, 'prerequisite', subindex, 'filename')} />
                                 </ListItem>
-                                <ListItem>
+                                <ListItem key={`${index.toString()}_${subindex.toString()}_Prereq_Uri`}>
                                   <TextField InputProps={{ className: classes.root }} error={cF(subitem.uri.uri) === ''} label="URI" fullWidth variant="outlined" value={cF(subitem.uri.uri)} onChange={(e) => setPrerequisiteInput(e, index, 'prerequisite', subindex, 'uri')} />
                                 </ListItem>
-                                <ListItem>
+                                <ListItem key={`${index.toString()}_${subindex.toString()}_Prereq_AccessTime`}>
                                   <TextField InputProps={{ className: classes.root }} label="Access Time" fullWidth variant="outlined" value={cF(subitem.uri.access_time)} onChange={(e) => setPrerequisiteInput(e, index, 'prerequisite', subindex, 'access_time')} />
                                 </ListItem>
-                                <ListItem>
+                                <ListItem key={`${index.toString()}_${subindex.toString()}_Prereq_SHA1Checksum`}>
                                   <TextField InputProps={{ className: classes.root }} label="SHA1 Checksum" fullWidth variant="outlined" value={cF(subitem.uri.sha1_checksum)} onChange={(e) => setPrerequisiteInput(e, index, 'prerequisite', subindex, 'sha1_checksum')} />
                                 </ListItem>
                                 {
                                 subindex !== item.prerequisite.length - 1
                                   ? (
-                                    <ListItem>
+                                    <ListItem key={`${index.toString()}_${subindex.toString()}_Prereq_Remove`}>
                                       <Button variant="contained" color="primary" disableElevation fullWidth onClick={() => removeListRows(index, subindex, 'prerequisite')}>
                                         Remove
                                       </Button>
                                     </ListItem>
                                   )
                                   : (
-                                    <ListItem divider>
+                                    <ListItem divider key={`${index.toString()}_${subindex.toString()}_Prereq_Remove_Div`}>
                                       <Button variant="contained" color="primary" disableElevation fullWidth onClick={() => removeListRows(index, subindex, 'prerequisite')}>
                                         Remove
                                       </Button>
                                     </ListItem>
                                   )
                               }
-                              </>
+                              </React.Fragment>
                             ))
-
                           )
-
-                          : (<ListItem />)
+                          : (<ListItem key={`${index.toString()}_Prereq_Empty`} />)
                     }
-                      <ListItem>
+                      <ListItem key={`${index.toString()}_Add_Prerequisite`}>
                         <Button variant="contained" color="primary" disableElevation fullWidth onClick={() => addListRows(index, 'prerequisite')}>
                           Add Prerequisite
                         </Button>
@@ -884,42 +881,44 @@ export default function DescriptionDomain({
                   <AccordionDetails>
                     <List className={classes.fullWidthList}>
                       {
-                        item.input_list.map((subitem, subindex) => (
-                          <>
-                            <ListItem>
-
-                              <TextField InputProps={{ className: classes.root }} label="Filename" fullWidth variant="outlined" value={cF(subitem.filename)} onChange={(e) => setListInput(e, index, 'input_list', subindex, 'filename')} />
-                            </ListItem>
-                            <ListItem>
-                              <TextField InputProps={{ className: classes.root }} error={cF(subitem.uri) === ''} label="URI" fullWidth variant="outlined" value={cF(subitem.uri)} onChange={(e) => setListInput(e, index, 'input_list', subindex, 'uri')} />
-                            </ListItem>
-                            <ListItem>
-                              <TextField InputProps={{ className: classes.root }} label="Access Time" fullWidth variant="outlined" value={cF(subitem.access_time)} onChange={(e) => setListInput(e, index, 'input_list', subindex, 'access_time')} />
-                            </ListItem>
-                            <ListItem>
-                              <TextField InputProps={{ className: classes.root }} label="SHA1 Checksum" fullWidth variant="outlined" value={cF(subitem.sha1_checksum)} onChange={(e) => setListInput(e, index, 'input_list', subindex, 'sha1_checksum')} />
-                            </ListItem>
-                            {
-                              subindex !== item.input_list.length - 1
-                                ? (
-                                  <ListItem>
-                                    <Button variant="contained" color="primary" disableElevation fullWidth onClick={() => removeListRows(index, subindex, 'input_list')}>
-                                      Remove
-                                    </Button>
-                                  </ListItem>
-                                )
-                                : (
-                                  <ListItem divider>
-                                    <Button variant="contained" color="primary" disableElevation fullWidth onClick={() => removeListRows(index, subindex, 'input_list')}>
-                                      Remove
-                                    </Button>
-                                  </ListItem>
-                                )
-                            }
-                          </>
-                        ))
+                        item.input_list !== undefined
+                          ? (
+                            item.input_list.map((subitem, subindex) => (
+                              <React.Fragment key={`${index}_${subindex}_FragmentInput`}>
+                                <ListItem key={`${index.toString()}_${subindex.toString()}_Input_Filename`}>
+                                  <TextField InputProps={{ className: classes.root }} label="Filename" fullWidth variant="outlined" value={cF(subitem.filename)} onChange={(e) => setListInput(e, index, 'input_list', subindex, 'filename')} />
+                                </ListItem>
+                                <ListItem key={`${index.toString()}_${subindex.toString()}_Input_Uri`}>
+                                  <TextField InputProps={{ className: classes.root }} error={cF(subitem.uri) === ''} label="URI" fullWidth variant="outlined" value={cF(subitem.uri)} onChange={(e) => setListInput(e, index, 'input_list', subindex, 'uri')} />
+                                </ListItem>
+                                <ListItem key={`${index.toString()}_${subindex.toString()}_Input_AccessTime`}>
+                                  <TextField InputProps={{ className: classes.root }} label="Access Time" fullWidth variant="outlined" value={cF(subitem.access_time)} onChange={(e) => setListInput(e, index, 'input_list', subindex, 'access_time')} />
+                                </ListItem>
+                                <ListItem key={`${index.toString()}_${subindex.toString()}_Input_SHA1Checksum`}>
+                                  <TextField InputProps={{ className: classes.root }} label="SHA1 Checksum" fullWidth variant="outlined" value={cF(subitem.sha1_checksum)} onChange={(e) => setListInput(e, index, 'input_list', subindex, 'sha1_checksum')} />
+                                </ListItem>
+                                {
+                                subindex !== item.input_list.length - 1
+                                  ? (
+                                    <ListItem key={`${index.toString()}_${subindex.toString()}_Input_Remove`}>
+                                      <Button variant="contained" color="primary" disableElevation fullWidth onClick={() => removeListRows(index, subindex, 'input_list')}>
+                                        Remove
+                                      </Button>
+                                    </ListItem>
+                                  )
+                                  : (
+                                    <ListItem divider key={`${index.toString()}_${subindex.toString()}_Input_Remove_Div`}>
+                                      <Button variant="contained" color="primary" disableElevation fullWidth onClick={() => removeListRows(index, subindex, 'input_list')}>
+                                        Remove
+                                      </Button>
+                                    </ListItem>
+                                  )
+                              }
+                              </React.Fragment>
+                            )))
+                          : (<ListItem key={`${index.toString()}_Input_Empty`} />)
                       }
-                      <ListItem>
+                      <ListItem key={`${index.toString()}_Add_Input`}>
                         <Button variant="contained" color="primary" disableElevation fullWidth onClick={() => addListRows(index, 'input_list')}>
                           Add Input
                         </Button>
@@ -942,41 +941,44 @@ export default function DescriptionDomain({
                   <AccordionDetails>
                     <List className={classes.fullWidthList}>
                       {
-                        item.output_list.map((subitem, subindex) => (
-                          <>
-                            <ListItem>
-                              <TextField InputProps={{ className: classes.root }} label="Filename" fullWidth variant="outlined" value={cF(subitem.filename)} onChange={(e) => setListInput(e, index, 'output_list', subindex, 'filename')} />
-                            </ListItem>
-                            <ListItem>
-                              <TextField InputProps={{ className: classes.root }} error={cF(subitem.uri) === ''} label="URI" fullWidth variant="outlined" value={cF(subitem.uri)} onChange={(e) => setListInput(e, index, 'output_list', subindex, 'uri')} />
-                            </ListItem>
-                            <ListItem>
-                              <TextField InputProps={{ className: classes.root }} label="Access Time" fullWidth variant="outlined" value={cF(subitem.access_time)} onChange={(e) => setListInput(e, index, 'output_list', subindex, 'access_time')} />
-                            </ListItem>
-                            <ListItem>
-                              <TextField InputProps={{ className: classes.root }} label="SHA1 Checksum" fullWidth variant="outlined" value={cF(subitem.sha1_checksum)} onChange={(e) => setListInput(e, index, 'output_list', subindex, 'sha1_checksum')} />
-                            </ListItem>
-                            {
-                              subindex !== item.output_list.length - 1
-                                ? (
-                                  <ListItem>
-                                    <Button variant="contained" color="primary" disableElevation fullWidth onClick={() => removeListRows(index, subindex, 'output_list')}>
-                                      Remove
-                                    </Button>
-                                  </ListItem>
-                                )
-                                : (
-                                  <ListItem divider>
-                                    <Button variant="contained" color="primary" disableElevation fullWidth onClick={() => removeListRows(index, subindex, 'output_list')}>
-                                      Remove
-                                    </Button>
-                                  </ListItem>
-                                )
-                            }
-                          </>
-                        ))
+                        item.output_list !== undefined
+                          ? (
+                            item.output_list.map((subitem, subindex) => (
+                              <React.Fragment key={`${index}_${subindex}_FragmentOutput`}>
+                                <ListItem key={`${index.toString()}_${subindex.toString()}_Output_Filename`}>
+                                  <TextField InputProps={{ className: classes.root }} label="Filename" fullWidth variant="outlined" value={cF(subitem.filename)} onChange={(e) => setListInput(e, index, 'output_list', subindex, 'filename')} />
+                                </ListItem>
+                                <ListItem key={`${index.toString()}_${subindex.toString()}_Output_Uri`}>
+                                  <TextField InputProps={{ className: classes.root }} error={cF(subitem.uri) === ''} label="URI" fullWidth variant="outlined" value={cF(subitem.uri)} onChange={(e) => setListInput(e, index, 'output_list', subindex, 'uri')} />
+                                </ListItem>
+                                <ListItem key={`${index.toString()}_${subindex.toString()}_Output_AccessTime`}>
+                                  <TextField InputProps={{ className: classes.root }} label="Access Time" fullWidth variant="outlined" value={cF(subitem.access_time)} onChange={(e) => setListInput(e, index, 'output_list', subindex, 'access_time')} />
+                                </ListItem>
+                                <ListItem key={`${index.toString()}_${subindex.toString()}_Output_SHA1Checksum`}>
+                                  <TextField InputProps={{ className: classes.root }} label="SHA1 Checksum" fullWidth variant="outlined" value={cF(subitem.sha1_checksum)} onChange={(e) => setListInput(e, index, 'output_list', subindex, 'sha1_checksum')} />
+                                </ListItem>
+                                {
+                                subindex !== item.output_list.length - 1
+                                  ? (
+                                    <ListItem key={`${index.toString()}_${subindex.toString()}_Output_Remove`}>
+                                      <Button variant="contained" color="primary" disableElevation fullWidth onClick={() => removeListRows(index, subindex, 'output_list')}>
+                                        Remove
+                                      </Button>
+                                    </ListItem>
+                                  )
+                                  : (
+                                    <ListItem divider key={`${index.toString()}_${subindex.toString()}_Output_Remove_Div`}>
+                                      <Button variant="contained" color="primary" disableElevation fullWidth onClick={() => removeListRows(index, subindex, 'output_list')}>
+                                        Remove
+                                      </Button>
+                                    </ListItem>
+                                  )
+                              }
+                              </React.Fragment>
+                            )))
+                          : (<ListItem key={`${index.toString()}_Output_Empty`} />)
                       }
-                      <ListItem>
+                      <ListItem key={`${index.toString()}_Add_Output`}>
                         <Button variant="contained" color="primary" disableElevation fullWidth onClick={() => addListRows(index, 'output_list')}>
                           Add Output
                         </Button>
@@ -989,7 +991,7 @@ export default function DescriptionDomain({
             </TableRow>
           </>
         ))
-      }
+        }
         <TableRow>
           <StyledCell colSpan="5">
             <Button variant="contained" color="primary" disableElevation fullWidth onClick={() => addRows('ddPipelineSteps')}>

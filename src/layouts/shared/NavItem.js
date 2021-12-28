@@ -59,7 +59,7 @@ const NavItem = ({
       {...rest}
     >
       <Button
-        activeClassName={classes.active}
+        // activeClassName={classes.active}
         className={classes.button}
         component={RouterLink}
         to={href}

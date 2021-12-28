@@ -46,7 +46,7 @@ function TabPanel(props) {
     >
       {value === index && (
         <Box p={3}>
-          <Typography>{children}</Typography>
+          <Typography component="span">{children}</Typography>
         </Box>
       )}
     </div>
@@ -81,6 +81,7 @@ const useStyles = makeStyles((theme) => ({
 export default function Views({
   downloadDraft, setDownloadDraft, newDraft, saveDraft, setSaveDraft, publish, setPublish, complianceCheck, objectId, objectContents, setObjectContents, loading, objectFound
 }) {
+
   const classes = useStyles();
 
   useEffect(() => {
@@ -128,7 +129,6 @@ export default function Views({
             <TreeView
               objectContents={objectContents}
               setObjectContents={setObjectContents}
-            />
           </TabPanel>
           <TabPanel value={componentView} index={2}>
             <JsonView

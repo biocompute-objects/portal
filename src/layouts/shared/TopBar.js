@@ -161,7 +161,7 @@ function TopBar(props, { className, onMobileNavOpen, ...rest }) {
         ))}
       </Hidden>
       <Button
-        activeClassName={classes.active}
+        // activeClassName={classes.active}
         className={classes.button}
         color="inherit"
         onClick={Logout}

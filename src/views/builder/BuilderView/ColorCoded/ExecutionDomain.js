@@ -394,7 +394,7 @@ export default function ExecutionDomain({ items, cF }) {
           <StyledCell colSpan="12">
             <Button
               variant="contained"
-              color="D5D8DC"
+              // color="D5D8DC"
               fullWidth
               onClick={() => window.open('https://docs.biocomputeobject.org/execution-domain/')}
             >
@@ -458,7 +458,7 @@ export default function ExecutionDomain({ items, cF }) {
         </TableRow>
         {
         items.edSoftwarePrerequisites.map((item, index) => (
-          <TableRow>
+          <TableRow key={index.toString()}>
             <StyledCell>
               <TextField InputProps={{ className: classes.root }} value={cF(item.name)} variant="outlined" onChange={(e) => setInput(e, index, 'name', 'edSoftwarePrerequisites')} />
             </StyledCell>
@@ -513,7 +513,7 @@ export default function ExecutionDomain({ items, cF }) {
         </TableRow>
         {
         items.edExternalDataEndpoints.map((item, index) => (
-          <TableRow>
+          <TableRow key={index.toString()}>
             <StyledCell colSpan="3">
               <TextField InputProps={{ className: classes.root }} error={cF(item.name) === ''} fullWidth value={cF(item.name)} variant="outlined" onChange={(e) => setInput(e, index, 'name', 'edExternalDataEndpoints')} />
             </StyledCell>
@@ -566,7 +566,7 @@ export default function ExecutionDomain({ items, cF }) {
         </TableRow>
         {
         items.edScript.map((item, index) => (
-          <TableRow>
+          <TableRow key={index.toString()}>
             <StyledCell colSpan="2">
               <TextField InputProps={{ className: classes.root }} fullWidth value={cF(item.uri.filename)} variant="outlined" onChange={(e) => setInput(e, index, 'filename', 'edScript')} />
             </StyledCell>

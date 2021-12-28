@@ -210,6 +210,7 @@ function ColorCoded({
       error_domain: errd,
       extension_domain: exd
     });
+
     console.log('ITEMS 213', objectContents);
     localStorage.setItem('bco', JSON.stringify(objectContents));
   }, [meEtag, pdName, pdVersion, pdLicense, pdDerivedFrom, pdCreated, pdModifed,
@@ -232,9 +233,9 @@ function ColorCoded({
         </Grid>
         {compList.map((Component, index) => {
           return (
-            <Grid item lg={12} md={12} xs={12}>
-              <Card className={classes[classNames[index]]}>
-                <Component items={renderList[index]} key={index.toString()} cF={cF} />
+            <Grid key={index.toString()} item lg={12} md={12} xs={12}>
+              <Card className={classes[classNames[index]]} key={index.toString() + '_Card'}>
+                <Component items={renderList[index]} cF={cF} key={index.toString() + '_Component'} />
               </Card>
             </Grid>
           );
