@@ -218,7 +218,6 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function Results({ rowInfo }) {
-
   // Redirects
   // const history = useNavigate();
 
@@ -281,7 +280,6 @@ export default function Results({ rowInfo }) {
   const isSelected = (name) => selected.indexOf(name) !== -1;
 
   const emptyRows = rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
-	console.log('rows', rows)
   return (
     <div className={classes.root}>
       <Paper className={classes.paper}>
@@ -329,19 +327,10 @@ export default function Results({ rowInfo }) {
                         <BcoPreviewPopup bcoLink={row.objectId} />
                       </TableCell> */}
                       <TableCell component="th" id={labelId} scope="row" padding="none">
-                       { <Linker color="blueLink" uri={row.object_id} accessionOnly state={row.state} token={row.objectIdToken} />}
+                        <Linker color="blueLink" uri={row.object_id} accessionOnly state={row.state} token={row.objectIdToken} />
                       </TableCell>
                       <TableCell>{row.name}</TableCell>
                       <TableCell>{row.state}</TableCell>
-
-                      {/* <TableCell>
-                        <Button variant="contained"
-                         color="primary"
-                          disableElevation onClick = {() => deriveFrom(row.objectId)}>
-                          Derive
-                        </Button>
-                      </TableCell> */}
-
                       <TableCell>{row.public_hostname}</TableCell>
                       <TableCell>{row.last_update}</TableCell>
                     </TableRow>

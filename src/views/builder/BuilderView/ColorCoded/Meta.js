@@ -1,15 +1,14 @@
 import React from 'react';
 import {
-  makeStyles, withStyles, Typography
+  Button, makeStyles, withStyles, Typography
 } from '@material-ui/core';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
-
-// Inputs
 import TextField from '@material-ui/core/TextField';
+import hash from "object-hash";
 
 // For links.
 import Linker from './components/Linker';
@@ -17,7 +16,7 @@ import Linker from './components/Linker';
 // Cell styling
 const StyledCell = withStyles({
   root: {
-    color: 'white'
+    color: 'black'
   },
   bordered: {
     border: '1px solid black'
@@ -38,27 +37,21 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 // Pass an object and whether or not its keys are properties.
-export default function Meta({ items }) {  
-  
-  console.log('ITEMS CHECK: ', items)
-  
+export default function Meta({ items }) {
+  console.log('ITEMS CHECK: ', items);
   const classes = withStyles();
   const svgClasses = useStyles();
+  const makeETag = () => {
+    let hashContents = {...items.objectContents};
+    delete hashContents.object_id;
+    delete hashContents.spec_version;
+    delete hashContents.etag;
+    let etag = hash(hashContents);
+    items.setMeEtag(etag);
+    items.setRerender(items.rerender + 1);
 
-  // Arguments
-  // ---------
-  // items: JSON object (Meta Information)
-
-
-  // ----- Meta Information ----- //
-
-  
-  // None.
-
-
-  // ----- Meta ----- //
-
-  return(
+  };
+  return (
     <Table size="small">
       <TableHead className={classes.tabled}>
         <TableRow>
@@ -77,7 +70,7 @@ export default function Meta({ items }) {
             </Typography>
           </StyledCell>
           <StyledCell>
-            <TextField InputProps={{ className: classes.root }} disabled label = {items.meObjectId} fullWidth id="outlined-basic" variant="outlined" />
+            <TextField InputProps={{ className: classes.root }} disabled label={items.meObjectId} fullWidth id="outlined-basic" variant="outlined" />
           </StyledCell>
         </TableRow>
         <TableRow>
@@ -87,7 +80,7 @@ export default function Meta({ items }) {
             </Typography>
           </StyledCell>
           <StyledCell>
-            <Linker color={ 'blackLink' } uri={ 'https://opensource.ieee.org/2791-object/ieee-2791-schema/' } />
+            <Linker color="blackLink" uri="https://opensource.ieee.org/2791-object/ieee-2791-schema/" />
           </StyledCell>
         </TableRow>
         <TableRow>
@@ -97,8 +90,17 @@ export default function Meta({ items }) {
             </Typography>
           </StyledCell>
           <StyledCell>
-            <TextField InputProps={{ className: classes.root }} disabled label = {items.meEtag} fullWidth id="outlined-basic" variant="outlined" />
+            <TextField InputProps={{ className: classes.root }} disabled label={items.meEtag} fullWidth id="outlined-basic" variant="outlined" />
           </StyledCell>
+          <Button 
+            variant="contained"
+            color="primary"
+            disableElevation
+            fullWidth
+            onClick={() => makeETag()}
+          >
+            Generate eTag
+          </Button>
         </TableRow>
       </TableBody>
     </Table>

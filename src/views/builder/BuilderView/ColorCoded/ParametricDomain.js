@@ -237,17 +237,17 @@ export default function ParametricDomain({ items, cF }) {
         <TableBody>
           <TableRow>
             <StyledCell>
-              <Typography className={missingStep ? classes.missingHeader : classes.header} variant="h3">
+              <Typography className={missingStep ? classes.missingHeader : classes.header} >
                 Step
               </Typography>
             </StyledCell>
             <StyledCell>
-              <Typography className={missingParameter ? classes.missingHeader : classes.header} variant="h3">
+              <Typography className={missingParameter ? classes.missingHeader : classes.header} >
                 Parameter
               </Typography>
             </StyledCell>
             <StyledCell colSpan="2">
-              <Typography className={missingValue ? classes.missingHeader : classes.header} variant="h3">
+              <Typography className={missingValue ? classes.missingHeader : classes.header} >
                 Value
               </Typography>
             </StyledCell>
@@ -258,7 +258,6 @@ export default function ParametricDomain({ items, cF }) {
             )
             : (
               items.pad.map((item, index) => (
-
                 <TableRow key={index.toString()}>
                   <StyledCell>
                     <TextField InputProps={{ className: classes.root }} error={cF(item.step) === ''} value={cF(item.step)} onChange={(e) => setInput(e, index, 'step')} variant="outlined" />

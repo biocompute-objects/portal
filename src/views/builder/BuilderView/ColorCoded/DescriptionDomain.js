@@ -635,7 +635,7 @@ export default function DescriptionDomain({
             <TextField InputProps={{ className: classes.root }} error={!!missingKeywords} fullWidth variant="outlined" value={cF(items.ddKeywords)} onChange={(e) => items.setDdKeywords([e.target.value])} />
           </StyledCell>
           <TableCell>
-            <Typography variant="h3">
+            <Typography>
               Platform
             </Typography>
           </TableCell>
@@ -810,7 +810,7 @@ export default function DescriptionDomain({
                     aria-controls="panel1a-content"
                     id="panel1a-header"
                   >
-                    <Typography className={missingStepsOutputUri ? classes.missingHeader : classes.header} variant="h3">
+                    <Typography className={missingStepsOutputUri ? classes.missingHeader : classes.header} >
                       Show Prerequisites
                     </Typography>
                   </AccordionSummary>
@@ -874,7 +874,7 @@ export default function DescriptionDomain({
                     aria-controls="panel1a-content"
                     id="panel1a-header"
                   >
-                    <Typography className={missingStepsInputUri ? classes.missingHeader : classes.header} variant="h3">
+                    <Typography className={missingStepsInputUri ? classes.missingHeader : classes.header} >
                       Show Inputs
                     </Typography>
                   </AccordionSummary>
@@ -934,7 +934,7 @@ export default function DescriptionDomain({
                     aria-controls="panel1a-content"
                     id="panel1a-header"
                   >
-                    <Typography className={missingStepsOutputUri ? classes.missingHeader : classes.header} variant="h3">
+                    <Typography className={missingStepsOutputUri ? classes.missingHeader : classes.header} >
                       Show Outputs
                     </Typography>
                   </AccordionSummary>

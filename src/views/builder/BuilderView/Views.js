@@ -81,10 +81,7 @@ const useStyles = makeStyles((theme) => ({
 export default function Views({
   downloadDraft, setDownloadDraft, newDraft, saveDraft, setSaveDraft, publish, setPublish, complianceCheck, objectId, objectContents, setObjectContents, loading, objectFound
 }) {
-  // console.log('%%%%%%%%')
-  // console.log(complianceCheck)
-  console.log('newDraft', newDraft)
-  // console.log('##########')
+
   const classes = useStyles();
 
   useEffect(() => {
@@ -103,16 +100,6 @@ export default function Views({
   const handleChange = (event, newValue) => {
     setComponentView(newValue);
   };
-
-  // Integers are required for this component,
-  // so typecast the value we got from the radio selector.
-
-  // Use value={Number(view)} to pull from the parent..
-
-  // Listen to see if we're saving.
-  useEffect(() => {
-    console.log('Saving!!!!!!');
-  }, [saveDraft]);
 
   return (
     objectFound
@@ -139,10 +126,15 @@ export default function Views({
             />
           </TabPanel>
           <TabPanel value={componentView} index={1}>
-            <TreeView />
+            <TreeView
+              objectContents={objectContents}
+              setObjectContents={setObjectContents}
           </TabPanel>
           <TabPanel value={componentView} index={2}>
-            <JsonView />
+            <JsonView
+              objectContents={objectContents}
+              setObjectContents={setObjectContents}
+            />
           </TabPanel>
         </div>
       )
