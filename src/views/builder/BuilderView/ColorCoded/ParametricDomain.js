@@ -258,6 +258,7 @@ export default function ParametricDomain({ items, cF }) {
             )
             : (
               items.pad.map((item, index) => (
+
                 <TableRow key={index.toString()}>
                   <StyledCell>
                     <TextField InputProps={{ className: classes.root }} error={cF(item.step) === ''} value={cF(item.step)} onChange={(e) => setInput(e, index, 'step')} variant="outlined" />
