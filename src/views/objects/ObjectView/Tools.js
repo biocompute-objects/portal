@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Accordion from '@material-ui/core/Accordion';
 import AccordionSummary from '@material-ui/core/AccordionSummary';
@@ -8,19 +8,9 @@ import CardContent from '@material-ui/core/CardContent';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import { Grid } from '@material-ui/core';
 import Typography from '@material-ui/core/Typography';
-
-// Search field
-import SearchField from './Tools/SearchField'
-
-// Logic field
-import LogicField from './Tools/LogicField'
-
-// Regex box
-import RegexBox from './Tools/RegexBox'
-
-// Add condition
-import AddCondition from './Tools/AddCondition'
-
+import Button from '@material-ui/core/Button';
+import DeriveDraftObject from 'src/components/API/DeriveDraftObject';
+import ServerList from 'src/utils/ServerList';
 
 const useStyles = makeStyles((theme) => ({
   centered: {
@@ -39,6 +29,14 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Tools() {
   const classes = useStyles();
+  const [saveDraftTo, setSaveDraftTo] = useState('');
+  const userInfoCheck = JSON.parse(localStorage.getItem('user'));
+
+  function clickActions(which) {
+    if (which === 'createDraft') {
+      DeriveDraftObject(saveDraftTo);
+    }
+  }
 
   return (
     <div className={classes.root}>
@@ -51,70 +49,37 @@ export default function Tools() {
           <Typography className={classes.heading}>Object Tools</Typography>
         </AccordionSummary>
         <AccordionDetails>
-          <Grid
-          container
-          spacing={3}
-          >
-          <Grid
-            item
-            lg={7}
-            md={12}
-            xs={12}
-          >
-          <Card>
-            <CardContent>
-              <Typography variant="h3">
-                Search object fields
-              </Typography>
-              <Grid
-                alignItems="center"
-                container
-                direction="row"
-                justify="flex-start"
-                spacing={3}
-              >
-                <Grid
-                  item
-                  lg={4}
-                  md={12}
-                  xs={12}
-                >
-                  <SearchField />
-                </Grid>
-                <Grid
-                  item
-                  lg={2}
-                  md={12}
-                  xs={12}
-                >
-                  <LogicField />
-                </Grid>
-                <Grid
-                  item
-                  lg={4}
-                  md={12}
-                  xs={12}
-                >
-                  <SearchField />
-                </Grid>
-                <Grid
-                  item
-                  lg={1}
-                  md={12}
-                  xs={12}
-                >
-                  <RegexBox />
-                </Grid>
-              </Grid>
-            </CardContent>
-          </Card>
-          <Card>
-            <CardContent className={classes.centered}>
-              <AddCondition />
-            </CardContent>
-          </Card>
+          <Grid container spacing={3}>
+            <Grid item lg={12} md={12} xs={12}>
+              <Card>
+                <CardContent>
+                  <Typography variant="h3">
+                    Derrive New Object Draft from this object
+                  </Typography>
+                  <Grid alignItems="center" container direction="row" justify="flex-start" spacing={3}>
+                    <Grid item lg={12} md={12} xs={12}>
+                      <ServerList
+                        disabledValue={(userInfoCheck === null)}
+                        options={userInfoCheck.apiinfo}
+                        setter={setSaveDraftTo}
+                        type="draft"
+                      />
+                      <Button
+                        variant="contained"
+                        color="secondary"
+                        disableElevation
+                        disabled={(saveDraftTo === '')}
+                        fullWidth
+                        onClick={() => clickActions('createDraft')}
+                      >
+                        CREATE NEW DRAFT
+                      </Button>
+                    </Grid>
+                  </Grid>
+                </CardContent>
+              </Card>
+            </Grid>
           </Grid>
-        </Grid>
         </AccordionDetails>
       </Accordion>
     </div>

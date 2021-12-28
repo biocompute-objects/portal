@@ -1,8 +1,6 @@
-// /src/components/API/ApiNewAccount.js 
+// /src/components/API/ApiNewAccount.js
 
 /* submits form for new account on UserDb */
-
-import Alert from '@material-ui/lab/Alert';
 
 export default function ApiNewAccount(values) {
   const responseToken = JSON.parse(localStorage.getItem('tokenAPI'));
@@ -19,17 +17,22 @@ export default function ApiNewAccount(values) {
       'Content-type': 'application/json; charset=UTF-8'
     }
   })
-    .then((response) => response.json())
-    .then((data) => {
-      console.log(data);
-      // alert(data.message + ' Token: ' + data.token);
-      localStorage.removeItem('tokenAPI');
+    .then((response) => {
+      if (response.ok) {
+        return response.json()
+          .then((data) => {
+            console.log('data', data);
+            alert(`BCODB says: ${data.message}`);
+          });
+      }
+      if (response.status === 409) {
+        alert(`${values.apiurl} says: Account has already been requested.`);
+      } else {
+        throw new Error(response.status);
+      }
     })
     .catch((error) => {
-      // TODO: This needs to be fleshed out to get all errors and deal with them
-      window.alert(`Something went wrong. Most likely that username already exists. ${error}`);
+      alert(`${values.apiurl} says: Something went wrong. ${error}`);
       console.log('error', error);
-      // return error;
     });
-
 }

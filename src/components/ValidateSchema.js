@@ -3,7 +3,6 @@
 /* validates a JSON against a SCHEMA */
 
 import Ajv from 'ajv';
-import { util } from 'prettier';
 import object from '../utils/ieee2791/alt2791object';
 
 const ajv = Ajv();

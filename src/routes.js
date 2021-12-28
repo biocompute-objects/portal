@@ -11,10 +11,7 @@ import ObjectsListView from 'src/views/objects/ObjectsListView';
 import ObjectView from 'src/views/objects/ObjectView';
 import ObjectViewLayout from 'src/layouts/ObjectViewLayout';
 import RegisterView from 'src/views/auth/RegisterView';
-import ValidatorView from 'src/views/validator/ValidatorView';
-import Community from 'src/views/community/Community';
 import Resources from 'src/views/resources/Resources';
-import Permissions from 'src/views/permissions/PermissionView';
 
 // Routing rules are given at https://github.com/snd/url-pattern
 
@@ -38,9 +35,7 @@ const routes = () => {
           element: <Navigate to="https://docs.biocomputeobject.org/" />
         },
         { path: 'resources', element: <Resources /> },
-        { path: 'community', element: <Community /> },
-        { path: 'validator', element: <ValidatorView /> },
-        { path: 'permissions', element: <Permissions />}
+        {/* path: 'community', element: <Community /> */}
       ]
     },
     {

@@ -1,3 +1,4 @@
+/* eslint-disable no-restricted-syntax */
 import React from 'react';
 import {
   withStyles, Typography
@@ -9,10 +10,10 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 
 // For links.
+import Tooltip from '@material-ui/core/Tooltip';
 import Linker from './components/Linker';
 
 // For contact information.
-import Tooltip from '@material-ui/core/Tooltip';
 
 // Cell styling
 const StyledCell = withStyles({
@@ -36,56 +37,49 @@ const HtmlTooltip = withStyles((theme) => ({
 
 // A function to process a key.
 const processKey = (ikey) => {
-  
   // Define the returnable variable.
-  var returnable = '';
-  
+  let returnable = '';
+
   // Split on the underscore, then capitalize.
   const splitUp = ikey.split('_');
 
   // Only process if we have anything.
-  if(splitUp.length > 1) {
-
+  if (splitUp.length > 1) {
     // Join and return.
-    var capJoined = [];
+    const capJoined = [];
 
-    splitUp.map(value => {
-      if(value === 'id') {
-        capJoined.push('ID')
-      } else if(value === 'io') {
-        capJoined.push('IO')
+    splitUp.map((value) => {
+      if (value === 'id') {
+        capJoined.push('ID');
+      } else if (value === 'io') {
+        capJoined.push('IO');
       } else {
         capJoined.push(value.charAt(0).toUpperCase() + value.slice(1));
       }
     });
 
     // Kick it back.
-    returnable = capJoined.join(' ')
-
+    returnable = capJoined.join(' ');
+  } else if (ikey === 'etag') {
+    returnable = 'eTag';
+  } else if (ikey === 'url') {
+    returnable = 'URL';
+  } else if (ikey === 'uri') {
+    returnable = 'URI';
+  } else if (ikey === 'email') {
+    returnable = 'eMail';
+  } else if (ikey === 'orcid') {
+    returnable = 'ORCID';
   } else {
-    if(ikey === 'etag') {
-      returnable = 'eTag';
-    } else if(ikey === 'url') {
-      returnable = 'URL';
-    } else if(ikey === 'uri') {
-      returnable = 'URI'
-    } else if(ikey === 'email') {
-      returnable = 'eMail'
-    } else if(ikey === 'orcid') {
-      returnable = 'ORCID'
-    } else {
-      returnable = ikey.charAt(0).toUpperCase() + ikey.slice(1);
-    }
+    returnable = ikey.charAt(0).toUpperCase() + ikey.slice(1);
   }
 
   // Kick it back.
-  return(returnable)
-
-}
+  return (returnable);
+};
 
 // Pass an object and whether or not its keys are properties.
 export default function ProvenanceDomain({ items }) {
-  
   const classes = withStyles();
 
   // Arguments
@@ -94,56 +88,51 @@ export default function ProvenanceDomain({ items }) {
 
   // The arrays containing the information can be processed here.
 
-
   // ----- Meta Information ----- //
-  
-  
+
   // An array to hold all the meta information.
   const provenanceMeta = {
-    'Name': items.name,
-    'Version': items.version,
-    'License': items.license,
-    'Created': items.created,
-    'Modified': items.modified
-  }
+    Name: items.name,
+    Version: items.version,
+    License: items.license,
+    Created: items.created,
+    Modified: items.modified
+  };
 
   // Define the meta keys.
   const metaKeys = Object.keys(provenanceMeta);
 
   // Try to add optional keys.
   try {
-    metaKeys['Embargo'] = items.embargo;
+    metaKeys.Embargo = items.embargo;
   } finally {
 
     // Leave metaKeys alone if the embargo
     // wasn't there.
-    
+
   }
-  
 
   // ----- Contributors ----- //
-
 
   // Define the *unique* contributor keys.
   // We want the unique keys because not all contributors will
   // have the same keys.
-  var contributorKeys = [];
-  items.contributors.map(item => {
-      contributorKeys.push(Object.keys(item));
-    }
-  );
+  let contributorKeys = [];
+  items.contributors.map((item) => {
+    contributorKeys.push(Object.keys(item));
+  });
 
   // Collapse the array of arrays.
   // Source: https://stackoverflow.com/questions/19191474/how-do-i-collapse-an-array-of-arrays-into-an-array-of-all-the-elements
-  var collapsed = [];
+  let collapsed = [];
   collapsed = (collapsed.concat.apply(collapsed, contributorKeys)).filter(Boolean);
-  
+
   // Unique keys.
   // Source: https://stackoverflow.com/questions/1960473/get-all-unique-values-in-a-javascript-array-remove-duplicates
   function onlyUnique(value, index, self) {
     return self.indexOf(value) === index;
   }
-  
+
   contributorKeys = collapsed.filter(onlyUnique);
 
   // Re-arrange the keys in tempArray for display purposes.
@@ -154,96 +143,85 @@ export default function ProvenanceDomain({ items }) {
   // Source: https://stackoverflow.com/questions/1187518/how-to-get-the-difference-between-two-arrays-in-javascript
 
   // Temp array to help with the rearrangement.
-  var tempArray = contributorKeys.filter(x => !['name', 'contribution'].includes(x));
+  const tempArray = contributorKeys.filter((x) => !['name', 'contribution'].includes(x));
   tempArray.unshift('name', 'contribution');
   contributorKeys = tempArray;
+  const reviewItems = [];
+  const reviews = [];
+  const reviewKeys = ['status', 'name', 'affiliation', 'reviewer_comment', 'date'];
 
-  console.log('review 161', items.review)
+  if (items.review) {
+    items.review.map((review) => {
+      const reviewObject = ({
+        status: '',
+        reviewer_comment: '',
+        date: '',
+        name: '',
+        affiliation: '',
+        email: '',
+        contribution: [],
+        orcid: ''
+      });
+      contributorKeys.map((contitem) => {
+        if (contitem in review.reviewer) {
+          reviewObject[contitem] = review.reviewer[contitem];
+        } else {
+          reviewObject[contitem] = '';
+        }
+      });
 
-  var review = items.review;
-  var reviewItems = [];
-  var reviews = [];
-  var reviewKeys = ['status','name','affiliation','reviewer_comment','date'];
-
-  items.review.map(review => {
-    var reviewObject = ({
-		'status': '',
-		'reviewer_comment': '',
-		'date': '',
-		'name': '',
-		'affiliation': '',
-		'email': '',
-		'contribution': [],
-		'orcid': ''
+      for (const [key, value] of Object.entries(review)) {
+        if (key in reviewObject) {
+          reviewObject[key] = value;
+        }
+      }
+      reviews.push(reviewObject);
     });
-    console.log('review 169', typeof(reviewObject))
-    contributorKeys.map(contitem => {
-      if (contitem in review.reviewer) {
-        reviewObject[contitem] = review.reviewer[contitem]
-      } else {
-        reviewObject[contitem] = '';
-      };
-    });
-	for (const [key, value] of Object.entries(review)) {
-	  if (key in reviewObject) {
-		reviewObject[key] = value;
-	  }
-	};
-	reviews.push(reviewObject)
-  })
+  }
 
   // An array to hold all the contributors.
-  var provenanceContributors = [];
+  const provenanceContributors = [];
 
   // Go over each contributor and see what fields they have.
-  items.contributors.map(item => {
-    
-    // Construct a temporary array to hold the 
+  items.contributors.map((item) => {
+    // Construct a temporary array to hold the
     // contributor information.
-    var tempArray = {};
-    
-    contributorKeys.map(subitem => {
-      
-          // See if the key exists.  If not, just put 'None'.      
-          if(subitem in item) {
-            
-            // Even if the key exists, the field
-            // may be blank, so check for blank fields.
-            var blank_flag = 0;
-            for(var cont of ['', "", [], {}]) {
-              if(item[subitem] === cont) {
-                tempArray[subitem] = 'None';
-                blank_flag = 1;
-                break;
-              }
-            }
+    const tempArray = {};
 
-            // Was the value blank?
-            if(blank_flag === 0){
-              
-              // For fields that contain lists, we need to 
-              // join on ','.
-              if(Array.isArray(item[subitem]) && typeof(item[subitem][0]) === 'string') {
-                tempArray[subitem] = item[subitem].join(', ');
-              } else {
-                tempArray[subitem] = item[subitem];
-              }
-              
-            }
-            
-          } else {
+    contributorKeys.map((subitem) => {
+      // See if the key exists.  If not, just put 'None'.
+      if (subitem in item) {
+        // Even if the key exists, the field
+        // may be blank, so check for blank fields.
+        let blank_flag = 0;
+        for (const cont of ['', '', [], {}]) {
+          if (item[subitem] === cont) {
             tempArray[subitem] = 'None';
+            blank_flag = 1;
+            break;
           }
         }
-      )
+
+        // Was the value blank?
+        if (blank_flag === 0) {
+          // For fields that contain lists, we need to
+          // join on ','.
+          if (Array.isArray(item[subitem]) && typeof (item[subitem][0]) === 'string') {
+            tempArray[subitem] = item[subitem].join(', ');
+          } else {
+            tempArray[subitem] = item[subitem];
+          }
+        }
+      } else {
+        tempArray[subitem] = 'None';
+      }
+    });
 
     // Add the temp array to provenanceContributors.
     provenanceContributors.push(tempArray);
+  });
 
-    }
-  );
-
-  return(
+  return (
     <Table size="small">
       <TableHead className={classes.tabled}>
         <TableRow>
@@ -256,23 +234,20 @@ export default function ProvenanceDomain({ items }) {
       </TableHead>
       <TableBody>
         {
-          metaKeys.map(item => (
-              <TableRow>
-                <StyledCell>
-                  {item}
-                </StyledCell>
-                <StyledCell colSpan="4" noGutter>
-                  {
+          metaKeys.map((item) => (
+            <TableRow>
+              <StyledCell>
+                {item}
+              </StyledCell>
+              <StyledCell colSpan="4" noGutter>
+                {
                     item === 'License'
-                      ?
-                        <Linker color= { 'whiteLink' } uri={ provenanceMeta[item] } />
-                      :
-                        provenanceMeta[item]
+                      ? <Linker color="whiteLink" uri={provenanceMeta[item]} />
+                      : provenanceMeta[item]
                   }
-                </StyledCell>
+              </StyledCell>
             </TableRow>
-            )
-          )
+          ))
         }
         <TableRow>
           <StyledCell colSpan="5">
@@ -282,56 +257,50 @@ export default function ProvenanceDomain({ items }) {
           </StyledCell>
         </TableRow>
         <TableRow>
-        {
-          contributorKeys.map(item => (
-              <StyledCell>{processKey(item)}</StyledCell>
-            )
-          )
+          {
+          contributorKeys.map((item) => (
+            <StyledCell>{processKey(item)}</StyledCell>
+          ))
         }
         </TableRow>
         {
-          provenanceContributors.map(item => (
-          <TableRow>
-            {
-              contributorKeys.map(subitem => (
+          provenanceContributors.map((item) => (
+            <TableRow>
+              {
+              contributorKeys.map((subitem) => (
                 <StyledCell>{item[subitem]}</StyledCell>
-                )
-              )
+              ))
             }
-          </TableRow>
-            )
-          )
+            </TableRow>
+          ))
         }
-       <TableRow>
+        <TableRow>
           <StyledCell colSpan="5">
             <Typography variant="h3">
               Review
             </Typography>
           </StyledCell>
-       </TableRow>
+        </TableRow>
+        {}
         <TableRow>
-        {
-          reviewKeys.map(item => (
-              <StyledCell>{processKey(item)}</StyledCell>
-            )
-          )
+          {
+          reviewKeys.map((item) => (
+            <StyledCell>{processKey(item)}</StyledCell>
+          ))
         }
-        </TableRow>{console.log('review 285', reviewKeys)}
-      {
-        reviews.map(item => (
+        </TableRow>
+        {
+        reviews.map((item) => (
           <TableRow>
             {
-              reviewKeys.map(subitem => (
+              reviewKeys.map((subitem) => (
                 <StyledCell>{item[subitem]}</StyledCell>
-                )
-              )
+              ))
             }
           </TableRow>
-          )
-        )
+        ))
       }
       </TableBody>
     </Table>
   );
-
 }

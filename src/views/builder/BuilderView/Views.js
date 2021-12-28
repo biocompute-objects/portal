@@ -21,10 +21,7 @@ import InsertDriveFileIcon from '@material-ui/icons/InsertDriveFile';
 
 // Color-coded view
 import ColorCoded from './ColorCoded';
-// Raw view
-import Raw from './Raw';
-// publish
-// import publish from './Publish'
+import TreeView from './TreeView';
 import JsonView from './JsonView';
 
 // Fetch context.
@@ -86,7 +83,7 @@ export default function Views({
 }) {
   // console.log('%%%%%%%%')
   // console.log(complianceCheck)
-  // console.log('newDraft', newDraft)
+  console.log('newDraft', newDraft)
   // console.log('##########')
   const classes = useStyles();
 
@@ -142,7 +139,7 @@ export default function Views({
             />
           </TabPanel>
           <TabPanel value={componentView} index={1}>
-            <Raw />
+            <TreeView />
           </TabPanel>
           <TabPanel value={componentView} index={2}>
             <JsonView />
@@ -158,10 +155,10 @@ export default function Views({
             </Tabs>
           </AppBar>
           <Typography>
-            There was a problem with the request, see output below.
+            Loading......
           </Typography>
           <Typography>
-            Server http://127.0.0.1 says: 'We had a problem!'
+            'We are loading...'
           </Typography>
         </div>
       )

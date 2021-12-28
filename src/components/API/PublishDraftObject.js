@@ -24,12 +24,22 @@ export default function PublishDraftObject(objectInformation) {
     }
   })
     .then((response) => {
-      if (response.status === 200) {
-        console.log('POST_api_objects_drafts_publish: Success!', response);
-        alert('POST_api_objects_drafts_publish: Success!');
+      if (!response.ok) {
+        throw new Error(response.status);
       } else {
-        console.log('POST_api_objects_drafts_publish: FAILED!');
-        alert('POST_api_objects_drafts_publish: FAILED!');
+        console.log('POST_api_objects_drafts_publish: Success!', response);
+        return response.json()
+          .then((data) => {
+            const publishedId = data[0].published_id;
+            const publishedObject = publishedId.replace('://', '/');
+            const viewer = window.location.origin + '/objects/view/';
+            window.location.href = `${viewer}${publishedObject}`;
+            alert('Object published successfully! Redirecting to the Object page for you to view');
+          });
       }
+    })
+    .catch((error) => {
+      console.log(`error: ${error}`);
+      alert(`POST_api_objects_drafts_publish: FAILED! ${error}`);
     });
 }

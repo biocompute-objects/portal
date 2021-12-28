@@ -35,7 +35,7 @@ const useStyles = makeStyles((theme) => ({
     color: 'red'
   },
   missingHeaderOptional: {
-    color: 'yellow'
+    color: '#D7BC1E'
   },
   root: {
     color: 'black'
@@ -80,7 +80,6 @@ export default function DescriptionDomain({
   const [missingStepsOutputUri, setMissingStepsOutputUri] = useState(false);
 
   useEffect(() => {
-    console.log('dummy', items);
     // Create an OR flag.
     let orFlag = false;
     // Keywords
@@ -175,7 +174,6 @@ export default function DescriptionDomain({
             for (var j = 0; j < items.ddXref[i].ids.length; j++) {
               // IDs
               if (items.ddXref[i].ids[j] === '') {
-                console.log('here');
                 // No IDs *for this record*.
                 setMissingXrefId(true);
 
@@ -319,7 +317,6 @@ export default function DescriptionDomain({
         for (var j = 0; j < items.ddPipelineSteps[i].input_list.length; j++) {
           if (items.ddPipelineSteps[i].input_list[j].uri === '') {
             // No URI.
-            console.log('ddPipelineSteps', items.ddPipelineSteps[i].input_list[j].uri);
             setMissingStepsInputUri(true);
 
             // Header
@@ -422,11 +419,9 @@ export default function DescriptionDomain({
 
     dummy = items.ddPipelineSteps;
     if (inputName === 'name') {
-      console.log('ddPipelineSteps 423', items.ddPipelineSteps[i]);
       dummy[i][listtype][j][inputName] = event.target.value;
     } else {
       dummy[i][listtype][j].uri[inputName] = event.target.value;
-      console.log('ddPipelineSteps 423', items.ddPipelineSteps[i]);
     }
     // Update the state.
     items.setDdPipelineSteps(dummy);
@@ -441,18 +436,11 @@ export default function DescriptionDomain({
 
     if (listtype === 'ids') {
       dummy = items.ddXref;
-    } else {
-      dummy = items.ddPipelineSteps;
-    }
-
-    // Special rule for URI.
-
-    dummy[i][listtype][j][inputName] = event.target.value;
-
-    // Update the state.
-    if (listtype === 'ids') {
+      dummy[i][listtype][j] = event.target.value;
       items.setDdXref(dummy);
     } else {
+      dummy = items.ddPipelineSteps;
+      dummy[i][listtype][j][inputName] = event.target.value;
       items.setDdPipelineSteps(dummy);
     }
 
@@ -497,7 +485,6 @@ export default function DescriptionDomain({
         input_list: [{ uri: '' }],
         output_list: [{ uri: '' }]
       });
-      console.log('dummy', dummy);
 
       // Update the state.
       items.setDdPipelineSteps(dummy);
@@ -528,7 +515,6 @@ export default function DescriptionDomain({
       }
     } else if (which === 'ddPipelineSteps') {
       // Update the state.
-      console.log('asdfffffffffffffff');
       items.setDdPipelineSteps(dummy);
     }
 
@@ -556,7 +542,6 @@ export default function DescriptionDomain({
       dummy = items.ddPipelineSteps;
       if (listtype === 'prerequisite') {
         if ('prerequisite' in dummy[which]) {
-          console.log('ddPipelineSteps 554', dummy[which], which);
           dummy[which][listtype].push({
             name: '',
             uri: {
@@ -574,11 +559,8 @@ export default function DescriptionDomain({
             }
           }]);
           dummy[which][listtype] = prerequisite;
-          console.log('ddPipelineSteps 570', dummy[which]);
         }
-        console.log('ddPipelineSteps 572', dummy[which], items.ddPipelineSteps);
         items.setDdPipelineSteps(dummy);
-        console.log('ddPipelineSteps 574', dummy[which], items.ddPipelineSteps);
       } else {
         // Push the new row.
         dummy[which][listtype].push({
@@ -622,23 +604,6 @@ export default function DescriptionDomain({
     // Needed to re-render the page.
     items.setRerender(items.rerender + 1);
   };
-
-  // Arguments
-  // ---------
-  // items: JSON object (Description Domain)
-
-  // ----- Meta Information ----- //
-
-  // Keywords
-
-  // Collapse the keywords to a string.
-  // const keywords = items.keywords.join(', ');
-
-  // ----- Processing ----- //
-
-  // None.
-
-  // ----- Description ----- //
 
   return (
     <Table size="small">
@@ -738,22 +703,22 @@ export default function DescriptionDomain({
                             <TextField InputProps={{ className: classes.root }} error={cF(subitem) === ''} label="ID" fullWidth variant="outlined" value={cF(subitem)} onChange={(e) => setListInput(e, index, 'ids', subindex, 'id')} />
                           </ListItem>
                           {
-                                        subindex !== item.ids.length - 1
-                                          ? (
-                                            <ListItem>
-                                              <Button variant="contained" color="primary" disableElevation fullWidth onClick={() => removeListRows(index, subindex, 'ids')}>
-                                                Remove
-                                              </Button>
-                                            </ListItem>
-                                          )
-                                          : (
-                                            <ListItem divider>
-                                              <Button variant="contained" color="primary" disableElevation fullWidth onClick={() => removeListRows(index, subindex, 'ids')}>
-                                                Remove
-                                              </Button>
-                                            </ListItem>
-                                          )
-                                    }
+                            subindex !== item.ids.length - 1
+                              ? (
+                                <ListItem>
+                                  <Button variant="contained" color="primary" disableElevation fullWidth onClick={() => removeListRows(index, subindex, 'ids')}>
+                                    Remove
+                                  </Button>
+                                </ListItem>
+                              )
+                              : (
+                                <ListItem divider>
+                                  <Button variant="contained" color="primary" disableElevation fullWidth onClick={() => removeListRows(index, subindex, 'ids')}>
+                                    Remove
+                                  </Button>
+                                </ListItem>
+                              )
+                            }
                         </>
                       ))}
                       <ListItem>
@@ -851,14 +816,12 @@ export default function DescriptionDomain({
                   </AccordionSummary>
                   <AccordionDetails>
                     <List className={classes.fullWidthList}>
-                      {console.log('ddPipelineSteps 849', item.prerequisite, item)}
                       {
 
                         item.prerequisite !== undefined
                           ? (
                             item.prerequisite.map((subitem, subindex) => (
                               <>
-                                {console.log('ddPipelineSteps 849', items.ddPipelineSteps)}
                                 <ListItem>
                                   <TextField InputProps={{ className: classes.root }} label="Name" fullWidth variant="outlined" value={cF(subitem.name)} onChange={(e) => setPrerequisiteInput(e, index, 'prerequisite', subindex, 'name')} />
                                 </ListItem>

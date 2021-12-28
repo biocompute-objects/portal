@@ -38,19 +38,19 @@ const MenuProps = {
 };
 
 const contributions = [
-	'authoredBy',
-	'contributedBy',
-	'createdAt',
-	'createdBy',
-	'createdWith',
-	'curatedBy',
-	'derivedFrom',
-	'importedBy',
-	'importedFrom',
-	'providedBy',
-	'retrievedBy',
-	'retrievedFrom',
-	'sourceAccessedBy'
+  'authoredBy',
+  'contributedBy',
+  'createdAt',
+  'createdBy',
+  'createdWith',
+  'curatedBy',
+  'derivedFrom',
+  'importedBy',
+  'importedFrom',
+  'providedBy',
+  'retrievedBy',
+  'retrievedFrom',
+  'sourceAccessedBy'
 ];
 
 function getStyles(name, contribution, theme) {
@@ -65,18 +65,15 @@ function getStyles(name, contribution, theme) {
 // TODO: Bug?  Couldn't pass item straight up, had to pass
 // item.reviewer
 
-export default function ContributionReviewer({ error, item, index, setInput }) {
-
+export default function ContributionReviewer({error, item, index, setInput}) {
   const classes = useStyles();
   const theme = useTheme();
-
-  console.log('Contribution item:', item)
 
   return (
     <div>
       <FormControl className={classes.formControl} error={error}>
         <Select
-					fullWidth
+          fullWidth
           labelId="demo-mutiple-chip-label"
           id="demo-mutiple-chip"
           multiple
@@ -87,9 +84,8 @@ export default function ContributionReviewer({ error, item, index, setInput }) {
             <div className={classes.chips}>
               {
                 selected.map((value) => (
-                    <Chip key={value} label={value} className={classes.chip} />
-                  )
-                )
+                  <Chip key={value} label={value} className={classes.chip} />
+                ))
               }
             </div>
           )}

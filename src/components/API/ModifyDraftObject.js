@@ -4,7 +4,7 @@
 draft id */
 
 export default function ModifyDraftObject(objectInformation) {
-  const obectContents = JSON.parse(localStorage.getItem('bco'));
+  const objectContents = JSON.parse(localStorage.getItem('bco'));
 
   console.log('bco', objectInformation);
   fetch(`${objectInformation.hostname}/api/objects/drafts/modify/`, {
@@ -12,8 +12,8 @@ export default function ModifyDraftObject(objectInformation) {
     body: JSON.stringify({
       POST_api_objects_drafts_modify: [
         {
-          contents: obectContents,
-          object_id: obectContents.object_id
+          contents: objectContents,
+          object_id: objectContents.object_id
         }
       ]
     }),
@@ -25,7 +25,7 @@ export default function ModifyDraftObject(objectInformation) {
     .then((response) => {
       if (response.status === 200) {
         console.log('POST_api_objects_drafts_modify: Success!');
-        alert('POST_api_objects_drafts_modify: Success!');
+        alert(`${objectInformation.owner} has saved ${objectInformation.object_id} successfully!`);
       } else {
         console.log('POST_api_objects_drafts_modify: FAILED!');
         alert('POST_api_objects_drafts_modify: FAILED!');

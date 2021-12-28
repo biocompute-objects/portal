@@ -130,7 +130,11 @@ export default function BuilderView() {
           input_subdomain: [{ uri: { uri: '' } }],
           output_subdomain: [{ mediatype: '', uri: { uri: '' } }]
         },
-        parametric_domain: [{ param: '', value: '', step: '' }]
+        parametric_domain: [{ param: '', value: '', step: '' }],
+        error_domain: {
+          empirical_error: {},
+          algorithmic_error: {}
+        }
       };
       setObjectContents(blankBco);
       localStorage.setItem('bco', JSON.stringify(blankBco));

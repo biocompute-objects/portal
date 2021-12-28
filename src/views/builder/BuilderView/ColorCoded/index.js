@@ -9,7 +9,7 @@ import {
 import Card from '@material-ui/core/Card';
 
 // Rendering dynamic JSON.
-import Meta from './Meta';
+import HelpBar from './HelpBar';
 import DescriptionDomain from './DescriptionDomain';
 import ErrorDomain from './ErrorDomain';
 import ExecutionDomain from './ExecutionDomain';
@@ -31,9 +31,6 @@ const useStyles = makeStyles((theme) => ({
   },
   margined: {
     marginBottom: '100px'
-  },
-  meta: {
-    background: '#74b3ce'
   },
   provenanceDomain: {
     background: '#EBEDEF'
@@ -182,6 +179,7 @@ function ColorCoded({
         name: pdName,
         version: pdVersion,
         created: pdCreated,
+        derived_from: pdDerivedFrom,
         modified: provModified.toISOString(),
         review: pdReview,
         contributors: pdContributors,
@@ -207,9 +205,11 @@ function ColorCoded({
       error_domain: errd,
       extension_domain: exd
     });
-  }, [pdName, pdVersion, pdLicense, pdDerivedFrom, pdCreated, pdModifed, pdObsoleteAfter, pdEmbargoStartTime, pdEmbargoEndTime, pdReview, pdContributors, ud, ddKeywords, ddPlatform, ddXref, ddPipelineSteps, edScript, edScriptDriver, edSoftwarePrerequisites, edExternalDataEndpoints, edEnvironmentVariables, iodInputSubdomain, iodOutputSubdomain, pad, errd, exd]);
-
-  console.log('setObjectContents', objectContents.provenance_domain.review);
+  }, [pdName, pdVersion, pdLicense, pdDerivedFrom, pdCreated, pdModifed,
+    pdObsoleteAfter, pdEmbargoStartTime, pdEmbargoEndTime, pdReview,
+    pdContributors, ud, ddKeywords, ddPlatform, ddXref, ddPipelineSteps,
+    edScript, edScriptDriver, edSoftwarePrerequisites, edExternalDataEndpoints,
+    edEnvironmentVariables, iodInputSubdomain, iodOutputSubdomain, pad, errd, exd]);
 
   localStorage.setItem('bco', JSON.stringify(objectContents));
 
@@ -220,6 +220,11 @@ function ColorCoded({
         container
         spacing={3}
       >
+        <Grid item lg={12} md={12} xs={12}>
+          <Card>
+             <HelpBar />
+          </Card>
+        </Grid>
         {compList.map((Component, index) => {
           return (
             <Grid item lg={12} md={12} xs={12}>

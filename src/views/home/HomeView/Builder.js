@@ -40,7 +40,7 @@ export default function Builder() {
       <CardActionArea className={classes.linkCard} component={RouterLink} to="/builder">
         <CardContent>
           <Typography className={classes.title}>
-            BioCompute Editor
+            BioCompute Builder
             <br />
             <img src={logo} height={100} alt="BCO logo" />
             <br />

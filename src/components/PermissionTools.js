@@ -20,9 +20,6 @@ import ValidateSchema from './ValidateSchema';
 import ServerList from '../utils/ServerList';
 import { FetchContext } from '../App';
 
-// Confirm publishing
-import PublishDialog from '../utils/PublishDialog';
-
 // Rendering URL parameters.
 // Source: https://stackoverflow.com/a/60312798
 
@@ -40,9 +37,9 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function PermissionTools({
-  objectIdDerivatives, setDraftSavingLocation, contents, publish, newDraft, objectInformation, setPublishSavingLocation, setDownloadDraft, setSaveDraft, setPublish, publishedObjectId, publishMessage, receivedDefault, serverLock, setDeleteDraftPostPublish
-}) {
+export default function PermissionTools({ 
+  contents, publish, newDraft, objectInformation, setPublish, publishedObjectId, 
+  receivedDefault, serverLock }) {
   // State
   const [saveDraftTo, setSaveDraftTo] = useState('');
   const [savePublishTo, setSavePublishTo] = useState('');
@@ -78,48 +75,21 @@ export default function PermissionTools({
       // From parent.
       PublishDraftObject(objectInformation);
     } else if (which === 'downloadDraft') {
-      // From parent.
-      setDownloadDraft(1);
+      const bco = localStorage.getItem("bco");
+      const blob = new Blob([bco],{type:'application/json'});
+      const href = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = href;
+      link.download = 'draftBCO.json';
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
     } else if (which === 'deleteDraft') {
       // From parent.
       // setDeletingDraft(true);
     }
   }
   console.log('objectInformation', objectInformation);
-  // ----- LISTENERS ----- //
-
-  // Listen for a change in save location
-  // to change the server lock.
-  // useEffect(() => {
-  // UN-parse the saving location information.
-  // The saving location information has to
-  // be a string for the selects to not complain.
-
-  // Prevent assignment on first render...
-  // TODO: better way to do this?
-  //   if (saveDraftTo !== '') {
-  //     setDraftSavingLocation(
-
-  //       {
-  //         hostname: saveDraftTo.split(' - ')[0],
-  //         group: saveDraftTo.split(' - ')[1]
-  //       }
-
-  //     );
-  //   }
-  // }, [saveDraftTo, setDraftSavingLocation]);
-
-  // Re-direct after publishing.
-  // Source: https://stackoverflow.com/a/58536772/5029459
-  const [redirect, setRedirect] = useState(false);
-
-  useEffect(() => {
-    if (redirect === true) {
-      // Crappy but works.
-      // Source: https://stackoverflow.com/a/64928405/5029459
-      window.location.href = publishedObjectId;
-    }
-  }, [redirect]);
 
   // ----- INITIAL RENDER ----- //
 
@@ -251,7 +221,7 @@ export default function PermissionTools({
                     variant="contained"
                     color="primary"
                     disableElevation
-                    disabled={publish === false}
+                    disabled={newDraft === true} //publish === false}
                     fullWidth
                     onClick={() => clickActions('publishDraft')}
                   >

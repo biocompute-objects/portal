@@ -18,7 +18,7 @@ import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 
 // Section cell styling
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
   header: {
     color: 'black'
   },
@@ -59,7 +59,7 @@ export default function ParametricDomain({ items, cF }) {
 
     // Description (note that Parametric Domain is not a necessary domain
     // in IEEE-2791).
-    if (items.pad.length === 0) {
+    if (!items.pad) {
       // No Parametric Domain.
       setMissingParametricDomain(false);
 
@@ -177,21 +177,23 @@ export default function ParametricDomain({ items, cF }) {
 
   // Add a row
   const addRows = () => {
-    // For some reason we can't have the push
-    // call inside of setRows.
-
-    // Get the state variable.
-    const dummy = items.pad;
-
-    // Push the new row.
-    dummy.push({
-      step: '',
-      param: '',
-      value: ''
-    });
-
-    // Update the state.
-    items.setPad(dummy);
+    if (!items.pad) {
+      const dummy = [];
+      dummy.push({
+        step: '',
+        param: '',
+        value: ''
+      });
+      items.setPad(dummy);
+    } else {
+      const dummy = items.pad;
+      dummy.push({
+        step: '',
+        param: '',
+        value: ''
+      });
+      items.setPad(dummy);
+    }
 
     // Needed to re-render the page.
     items.setRerender(items.rerender + 1);
@@ -211,14 +213,6 @@ export default function ParametricDomain({ items, cF }) {
     // Needed to re-render the page.
     items.setRerender(items.rerender + 1);
   };
-
-  // Arguments
-  // ---------
-  // items: JSON object (Parametric Domain)
-
-  // ----- Meta Information ----- //
-
-  // ----- None ----- //
 
   return (
     <div>
@@ -258,26 +252,30 @@ export default function ParametricDomain({ items, cF }) {
               </Typography>
             </StyledCell>
           </TableRow>
-          {
-        items.pad.map((item, index) => (
-          <TableRow>
-            <StyledCell>
-              <TextField InputProps={{ className: classes.root }} error={cF(item.step) === ''} value={cF(item.step)} onChange={(e) => setInput(e, index, 'step')} variant="outlined" />
-            </StyledCell>
-            <StyledCell>
-              <TextField InputProps={{ className: classes.root }} error={cF(item.param) === ''} value={cF(item.param)} onChange={(e) => setInput(e, index, 'param')} variant="outlined" />
-            </StyledCell>
-            <StyledCell>
-              <TextField InputProps={{ className: classes.root }} error={cF(item.value) === ''} value={cF(item.value)} onChange={(e) => setInput(e, index, 'value')} variant="outlined" />
-            </StyledCell>
-            <StyledCell>
-              <Button variant="contained" color="primary" disableElevation fullWidth onClick={() => removeRows(index)}>
-                Remove
-              </Button>
-            </StyledCell>
-          </TableRow>
-        ))
-      }
+          {(!items.pad)
+            ? (
+              <TableRow />
+            )
+            : (
+              items.pad.map((item, index) => (
+                <TableRow>
+                  <StyledCell>
+                    <TextField InputProps={{ className: classes.root }} error={cF(item.step) === ''} value={cF(item.step)} onChange={(e) => setInput(e, index, 'step')} variant="outlined" />
+                  </StyledCell>
+                  <StyledCell>
+                    <TextField InputProps={{ className: classes.root }} error={cF(item.param) === ''} value={cF(item.param)} onChange={(e) => setInput(e, index, 'param')} variant="outlined" />
+                  </StyledCell>
+                  <StyledCell>
+                    <TextField InputProps={{ className: classes.root }} error={cF(item.value) === ''} value={cF(item.value)} onChange={(e) => setInput(e, index, 'value')} variant="outlined" />
+                  </StyledCell>
+                  <StyledCell>
+                    <Button variant="contained" color="primary" disableElevation fullWidth onClick={() => removeRows(index)}>
+                      Remove
+                    </Button>
+                  </StyledCell>
+                </TableRow>
+              ))
+            )}
           <TableRow>
             <StyledCell colSpan="5">
               <Button variant="contained" color="primary" disableElevation fullWidth onClick={() => addRows()}>

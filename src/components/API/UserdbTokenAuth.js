@@ -1,10 +1,8 @@
-// /src/components/API/UserdbTokenAuth.js 
+// /src/components/API/UserdbTokenAuth.js
 
 /* Returns a JSON Web Token that can be used for authenticated requests. */
-import Alert from '@material-ui/lab/Alert';
 
-export default function UserdbTokenAuth( values ) {
-
+export default function UserdbTokenAuth(values) {
   fetch(values.url, {
     method: 'POST',
     headers: {
@@ -15,17 +13,23 @@ export default function UserdbTokenAuth( values ) {
       password: values.password
     })
   })
-  .then((response) => response.json())
-  .then((json) => {
-    if (typeof (json.user) !== 'undefined') {
-      // Set the user information.
-      localStorage.setItem('token', json.token);
-      localStorage.setItem('user', JSON.stringify(json.user));
-	  window.location.href = '/'
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error(response.status);
       } else {
-        // Bad login.
-        alert("Login Failed. Try again");
-		window.location.reload(false)
+        return response.json()
+          .then((data) => {
+            localStorage.setItem('token', data.token);
+            console.log('data', data)
+            localStorage.setItem('user', JSON.stringify(data.user));
+            window.location.href = '/';
+          });
       }
+    })
+    .catch((error) => {
+      // TODO: This needs to be fleshed out to get all errors and deal with them
+      alert(`Unable to log in with provided credentials. ${error}`);
+      console.log('error', error);
+      // return error;
     });
 }
