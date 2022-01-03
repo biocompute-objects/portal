@@ -66,7 +66,7 @@ export default function Meta({ items }) {
       makeETag();
       items.setMeEtagSet(false);
     }
-  }, [items]);
+  }, [items.meEtagSet]);
   return (
     <Table size="small">
       <TableHead className={classes.tabled}>
