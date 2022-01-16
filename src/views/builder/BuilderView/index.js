@@ -89,7 +89,8 @@ export default function BuilderView() {
     // if (parsePath[0, 8] === '/builder' || parsePath[0, 9] === '/builder/') {
     //
     // }
-    if (splitUp[splitUp.length - 1] === '') {
+    console.log('split', splitUp)
+    if (splitUp.length === 2) {
       setNewDraft(true);
       // Set the object contents to template values.
       setObjectFound(true);
