@@ -354,7 +354,7 @@ export default function ProvenanceDomain({ items, cF }) {
       // Update the state.
       items.setPdReview(dummy);
 	  console.log('pdModified', items.pdModifed);
-    } else if (which == 'pdContributors') {
+    } else if (which === 'pdContributors') {
       // Change the value at the given index.
       dummy[i][inputName] = event.target.value;
 
@@ -372,7 +372,7 @@ export default function ProvenanceDomain({ items, cF }) {
     let dummy = items[which];
 
     // Cases
-    if (which == 'pdReview') {
+    if (which === 'pdReview') {
       // Review is not required as of IEEE 2791-2020,
       // so add it if it's missing.
       if (cF(items.pdReview) === '') {
@@ -394,7 +394,7 @@ export default function ProvenanceDomain({ items, cF }) {
 
       // Update the state.
       items.setPdReview(dummy);
-    } else if (which == 'pdContributors') {
+    } else if (which === 'pdContributors') {
       // Push the new row.
       dummy.push({
         name: '',
@@ -432,7 +432,7 @@ export default function ProvenanceDomain({ items, cF }) {
         // Update the state.
         items.setPdReview(dummy);
       }
-    } else if (which == 'pdContributors') {
+    } else if (which === 'pdContributors') {
       // Update the state.
       console.log('asdfffffffffffffff');
       items.setPdContributors(dummy);

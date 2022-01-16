@@ -11,6 +11,8 @@ export default function RetrieveDraftObject(objectId, setObjectContents) {
     userToken = item.token;
   });
 
+  console.log("RetrieveDraftObject Call");
+
   fetch(`${objectId}/DRAFT`, {
     method: 'GET',
     headers: {

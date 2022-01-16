@@ -114,7 +114,7 @@ export default function Views({ objectId }) {
   useEffect(() => {
     setLoading(true);
     getObjectInfo();
-  }, []);
+  }, [setLoading, getObjectInfo]);
 
   // Define a variable for switching views within
   // the component (as opposed to getting the value)

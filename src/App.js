@@ -110,7 +110,7 @@ function App() {
     if (localStorage.getItem('token')) {
       TokenVerify(isLoggedIn, setIsLoggedIn, sending);
     }
-  });
+  }, [isLoggedIn, sending]);
 
   return (
     <ThemeProvider theme={theme}>
