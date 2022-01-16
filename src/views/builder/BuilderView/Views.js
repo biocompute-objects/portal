@@ -129,6 +129,7 @@ export default function Views({
             <TreeView
               objectContents={objectContents}
               setObjectContents={setObjectContents}
+            />
           </TabPanel>
           <TabPanel value={componentView} index={2}>
             <JsonView
