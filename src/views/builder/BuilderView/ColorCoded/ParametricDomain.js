@@ -99,7 +99,7 @@ export default function ParametricDomain({ items, cF }) {
       }
 
       // Each one of the parameters.
-      for (var i = 0; i < items.pad.length; i++) {
+      for (i = 0; i < items.pad.length; i++) {
         // Step
         if (items.pad[i].param === '') {
           // No parameter.
@@ -120,7 +120,7 @@ export default function ParametricDomain({ items, cF }) {
       }
 
       // Each one of the values.
-      for (var i = 0; i < items.pad.length; i++) {
+      for (i = 0; i < items.pad.length; i++) {
         // Step
         if (items.pad[i].value === '') {
           // No step.
@@ -237,17 +237,17 @@ export default function ParametricDomain({ items, cF }) {
         <TableBody>
           <TableRow>
             <StyledCell>
-              <Typography className={missingStep ? classes.missingHeader : classes.header} variant="h3">
+              <Typography className={missingStep ? classes.missingHeader : classes.header} >
                 Step
               </Typography>
             </StyledCell>
             <StyledCell>
-              <Typography className={missingParameter ? classes.missingHeader : classes.header} variant="h3">
+              <Typography className={missingParameter ? classes.missingHeader : classes.header} >
                 Parameter
               </Typography>
             </StyledCell>
             <StyledCell colSpan="2">
-              <Typography className={missingValue ? classes.missingHeader : classes.header} variant="h3">
+              <Typography className={missingValue ? classes.missingHeader : classes.header} >
                 Value
               </Typography>
             </StyledCell>

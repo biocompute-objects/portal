@@ -1,3 +1,5 @@
+/* eslint-disable max-len */
+/* eslint-disable react/prop-types */
 import React, { useEffect, useState } from 'react';
 import {
   makeStyles, withStyles, Typography
@@ -81,7 +83,13 @@ export default function ProvenanceDomain({ items, cF }) {
     let orFlag = false;
 
     // Name
-    if (items.pdName === '') {
+    if (!items.pdName) {
+      // No name. Object doesn't exist.
+      setMissingName(true);
+
+      // Set the OR flag.
+      orFlag = true;
+    } else if (items.pdName === '') {
       // No name.
       setMissingName(true);
 
@@ -185,7 +193,17 @@ export default function ProvenanceDomain({ items, cF }) {
     // our state is compared only to the relevant field.
 
     // Contributors are required
-    if (items.pdContributors.length === 0) {
+    if (!items.pdContributors) {
+      // No contributors.
+      setMissingContributors(true);
+
+      // No sub-fields.
+      setMissingContributorsName(true);
+      setMissingContributorsContribution(true);
+
+      // Set the OR flag.
+      orFlag = true;
+    } else if (items.pdContributors.length === 0) {
       // No contributors.
       setMissingContributors(true);
 
@@ -275,7 +293,7 @@ export default function ProvenanceDomain({ items, cF }) {
     // TODO: Fix so that
 
     // Only allow numbers and periods.
-    const onlyNumsPeriods = e.replace(/[^0-9\.]/g, '');
+    const onlyNumsPeriods = e.replace(/[^0-9.]/g, '');
 
     // REGEX patterns that are allowed.
     const patternZero = new RegExp('^$');
@@ -301,9 +319,9 @@ export default function ProvenanceDomain({ items, cF }) {
   // Check for an e-mail input
   // Source: https://stackoverflow.com/questions/52188192/what-is-the-simplest-and-shortest-way-for-validating-an-email-in-react
 
-  const checkeMailInput = (e) => {
-
-  };
+  // const checkeMailInput = (e) => {
+  //
+  // };
 
   // Set an input value
 
@@ -336,7 +354,7 @@ export default function ProvenanceDomain({ items, cF }) {
       // Update the state.
       items.setPdReview(dummy);
 	  console.log('pdModified', items.pdModifed);
-    } else if (which == 'pdContributors') {
+    } else if (which === 'pdContributors') {
       // Change the value at the given index.
       dummy[i][inputName] = event.target.value;
 
@@ -354,7 +372,7 @@ export default function ProvenanceDomain({ items, cF }) {
     let dummy = items[which];
 
     // Cases
-    if (which == 'pdReview') {
+    if (which === 'pdReview') {
       // Review is not required as of IEEE 2791-2020,
       // so add it if it's missing.
       if (cF(items.pdReview) === '') {
@@ -376,7 +394,7 @@ export default function ProvenanceDomain({ items, cF }) {
 
       // Update the state.
       items.setPdReview(dummy);
-    } else if (which == 'pdContributors') {
+    } else if (which === 'pdContributors') {
       // Push the new row.
       dummy.push({
         name: '',
@@ -414,9 +432,9 @@ export default function ProvenanceDomain({ items, cF }) {
         // Update the state.
         items.setPdReview(dummy);
       }
-    } else if (which == 'pdContributors') {
+    } else if (which === 'pdContributors') {
       // Update the state.
-      console.log('asdfffffffffffffff');
+      // console.log('asdfffffffffffffff');
       items.setPdContributors(dummy);
     }
 

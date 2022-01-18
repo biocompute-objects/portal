@@ -1,6 +1,8 @@
 // src/views/builder/BuilderView/index.js
 
 import React, { createContext, useState, useEffect } from 'react';
+// import PropTypes from 'prop-types';
+
 import { useLocation } from 'react-router-dom';
 import PermissionTools from 'src/components/PermissionTools';
 import Views from './Views';
@@ -69,6 +71,9 @@ export default function BuilderView() {
   // Who owns it?
   const [objectOwner, setObjectOwner] = useState('');
 
+  // Etag needs to be generated?
+  const [meEtagSet, setMeEtagSet] = useState(false);
+
   // The PUBLISHED object ID.
   const [publishedObjectId, setPublishedObjectId] = useState('');
 
@@ -84,56 +89,6 @@ export default function BuilderView() {
     if (splitUp[splitUp.length - 1] === '') {
       setNewDraft(true);
       // Set the object contents to template values.
-      const date = new Date();
-      const blankBco = {
-        object_id: '',
-        spec_version: '"https://w3id.org/ieee/ieee-2791-schema/2791object.json"',
-        etag: '',
-        provenance_domain: {
-          name: '',
-          version: '',
-          created: date.toISOString(),
-          modified: date.toISOString(),
-          contributors: [
-            {
-              contribution: ['createdBy'],
-              name: ''
-            }],
-          license: ''
-        },
-        usability_domain: [''],
-        description_domain: {
-          keywords: [''],
-          pipeline_steps: [
-            {
-              step_number: 0,
-              name: '',
-              description: '',
-              prerequisite: [{ name: '', uri: { uri: '' } }],
-              input_list: [{ uri: '' }],
-              output_list: [{ uri: '' }]
-            }
-          ]
-        },
-        execution_domain: {
-          script: [{ uri: { uri: '' } }],
-          script_driver: '',
-          software_prerequisites: [{ name: '', version: '', uri: { uri: '' } }],
-          external_data_endpoints: [{ name: '', url: '' }],
-          environment_variables: {}
-        },
-        io_domain: {
-          input_subdomain: [{ uri: { uri: '' } }],
-          output_subdomain: [{ mediatype: '', uri: { uri: '' } }]
-        },
-        parametric_domain: [{ param: '', value: '', step: '' }],
-        error_domain: {
-          empirical_error: {},
-          algorithmic_error: {}
-        }
-      };
-      setObjectContents(blankBco);
-      localStorage.setItem('bco', JSON.stringify(blankBco));
       setObjectFound(true);
     } else {
       // EXISTING draft
@@ -235,6 +190,8 @@ export default function BuilderView() {
           setPublish={setPublish}
           complianceCheck={complianceCheck}
           contents={objectContents}
+          setMeEtagSet={setMeEtagSet}
+          meEtagSet={meEtagSet}
         />
         <Views
           objectContents={objectContents}
@@ -243,6 +200,9 @@ export default function BuilderView() {
           objectId={objectId}
           loading={loading}
           objectFound={objectFound}
+          setMeEtagSet={setMeEtagSet}
+          meEtagSet={meEtagSet}
+
         />
       </div>
     </DeepContext.Provider>

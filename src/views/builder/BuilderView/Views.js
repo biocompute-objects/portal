@@ -12,7 +12,7 @@ import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
 // Dummy redirecting after draft object creation.
 // See https://www.codegrepper.com/code-examples/javascript/useHistory+is+not+exported+form+react-router-dom
-import { useNavigate } from 'react-router-dom';
+// import { useNavigate } from 'react-router-dom';
 
 // Tab icons
 import OpacityIcon from '@material-ui/icons/Opacity';
@@ -25,7 +25,7 @@ import TreeView from './TreeView';
 import JsonView from './JsonView';
 
 // Fetch context.
-import { FetchContext } from '../../../App';
+// import { FetchContext } from '../../../App';
 
 // Context
 // Source: https://www.digitalocean.com/community/tutorials/react-usecontext
@@ -79,12 +79,8 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function Views({
-  downloadDraft, setDownloadDraft, newDraft, saveDraft, setSaveDraft, publish, setPublish, complianceCheck, objectId, objectContents, setObjectContents, loading, objectFound
+  downloadDraft, setDownloadDraft, newDraft, saveDraft, setSaveDraft, publish, setPublish, complianceCheck, objectId, objectContents, setObjectContents, loading, objectFound, setMeEtagSet, meEtagSet
 }) {
-  // console.log('%%%%%%%%')
-  // console.log(complianceCheck)
-  console.log('newDraft', newDraft)
-  // console.log('##########')
   const classes = useStyles();
 
   useEffect(() => {
@@ -103,16 +99,6 @@ export default function Views({
   const handleChange = (event, newValue) => {
     setComponentView(newValue);
   };
-
-  // Integers are required for this component,
-  // so typecast the value we got from the radio selector.
-
-  // Use value={Number(view)} to pull from the parent..
-
-  // Listen to see if we're saving.
-  useEffect(() => {
-    console.log('Saving!!!!!!');
-  }, [saveDraft]);
 
   return (
     objectFound
@@ -136,13 +122,21 @@ export default function Views({
               complianceCheck={complianceCheck}
               objectContents={objectContents}
               setObjectContents={setObjectContents}
+              setMeEtagSet={setMeEtagSet}
+              meEtagSet={meEtagSet}
             />
           </TabPanel>
           <TabPanel value={componentView} index={1}>
-            <TreeView />
+            <TreeView
+              objectContents={objectContents}
+              setObjectContents={setObjectContents}
+            />
           </TabPanel>
           <TabPanel value={componentView} index={2}>
-            <JsonView />
+            <JsonView
+              objectContents={objectContents}
+              setObjectContents={setObjectContents}
+            />
           </TabPanel>
         </div>
       )

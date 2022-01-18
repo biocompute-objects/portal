@@ -14,12 +14,12 @@ import {
 } from '@material-ui/core';
 import MenuIcon from '@material-ui/icons/Menu';
 import Logo from 'src/components/Logo';
-import { FetchContext } from '../../App';
-
 import {
   User as UserIcon,
   Users as UsersIcon
 } from 'react-feather';
+import { FetchContext } from '../../App';
+
 import NavItem from './NavItem';
 
 // Navigation.

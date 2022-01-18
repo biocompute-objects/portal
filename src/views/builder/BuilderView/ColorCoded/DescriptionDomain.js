@@ -135,7 +135,7 @@ export default function DescriptionDomain({
         }
 
         // Each one of the Xrefs.
-        for (var i = 0; i < items.ddXref.length; i++) {
+        for (i = 0; i < items.ddXref.length; i++) {
           // Name
           if (items.ddXref[i].name === '') {
             // No name.
@@ -157,7 +157,7 @@ export default function DescriptionDomain({
 
         // Note the double for loop because of
         // the nested structure of the IDs.
-        for (var i = 0; i < items.ddXref.length; i++) {
+        for (i = 0; i < items.ddXref.length; i++) {
           // Do we have any IDs?
           if (items.ddXref[i].ids[0] === '') {
             // No IDs.
@@ -206,7 +206,7 @@ export default function DescriptionDomain({
         }
 
         // Each one of the Xrefs.
-        for (var i = 0; i < items.ddXref.length; i++) {
+        for (i = 0; i < items.ddXref.length; i++) {
           // Access time
           if (items.ddXref[i].access_time === '') {
             // No access time.
@@ -240,6 +240,7 @@ export default function DescriptionDomain({
       setMissingStepsNumber(true);
       setMissingStepsName(true);
       setMissingStepsDescription(true);
+      setMissingStepsVersion(true);
 
       // Set the OR flag.
       orFlag = true;
@@ -254,7 +255,7 @@ export default function DescriptionDomain({
       setMissingStepsNumber(false);
 
       // Each one of the pipeline steps.
-      for (var i = 0; i < items.ddPipelineSteps.length; i++) {
+      for (i = 0; i < items.ddPipelineSteps.length; i++) {
         // Name
         if (items.ddPipelineSteps[i].name === '') {
           // No Name.
@@ -276,7 +277,7 @@ export default function DescriptionDomain({
       }
 
       // Each one of the pipeline steps.
-      for (var i = 0; i < items.ddPipelineSteps.length; i++) {
+      for (i = 0; i < items.ddPipelineSteps.length; i++) {
         // Description
         if (items.ddPipelineSteps[i].description === '') {
           // No description.
@@ -299,7 +300,7 @@ export default function DescriptionDomain({
     }
 
     // Each input list of each step.
-    for (var i = 0; i < items.ddPipelineSteps.length; i++) {
+    for (i = 0; i < items.ddPipelineSteps.length; i++) {
       if (items.ddPipelineSteps[i].input_list.length === 0) {
         // No input list.
         setMissingStepsInputUri(true);
@@ -314,7 +315,7 @@ export default function DescriptionDomain({
       } else {
         // We have an input list, but do we have URIs?
 
-        for (var j = 0; j < items.ddPipelineSteps[i].input_list.length; j++) {
+        for (j = 0; j < items.ddPipelineSteps[i].input_list.length; j++) {
           if (items.ddPipelineSteps[i].input_list[j].uri === '') {
             // No URI.
             setMissingStepsInputUri(true);
@@ -334,7 +335,7 @@ export default function DescriptionDomain({
     }
 
     // Each output list of each step.
-    for (var i = 0; i < items.ddPipelineSteps.length; i++) {
+    for (i = 0; i < items.ddPipelineSteps.length; i++) {
       if (items.ddPipelineSteps[i].output_list.length === 0) {
         // No URI.
         setMissingStepsOutputUri(true);
@@ -349,7 +350,7 @@ export default function DescriptionDomain({
       } else {
         // We have an output list, but do we have URIs?
 
-        for (var j = 0; j < items.ddPipelineSteps[i].output_list.length; j++) {
+        for (j = 0; j < items.ddPipelineSteps[i].output_list.length; j++) {
           if (items.ddPipelineSteps[i].output_list[j].uri === '') {
             // No URI.
             setMissingStepsOutputUri(true);
@@ -627,7 +628,7 @@ export default function DescriptionDomain({
       <TableBody>
         <TableRow>
           <TableCell>
-            <Typography key="typography1" className={missingKeywords ? classes.missingHeader : classes.header} variant="h3">
+            <Typography className={missingKeywords ? classes.missingHeader : classes.header}>
               Keywords
             </Typography>
           </TableCell>
@@ -635,7 +636,7 @@ export default function DescriptionDomain({
             <TextField InputProps={{ className: classes.root }} error={!!missingKeywords} fullWidth variant="outlined" value={cF(items.ddKeywords)} onChange={(e) => items.setDdKeywords([e.target.value])} />
           </StyledCell>
           <TableCell>
-            <Typography variant="h3">
+            <Typography>
               Platform
             </Typography>
           </TableCell>
@@ -810,7 +811,7 @@ export default function DescriptionDomain({
                     aria-controls="panel1a-content"
                     id="panel1a-header"
                   >
-                    <Typography className={missingStepsOutputUri ? classes.missingHeader : classes.header} variant="h3">
+                    <Typography className={missingStepsOutputUri ? classes.missingHeader : classes.header} >
                       Show Prerequisites
                     </Typography>
                   </AccordionSummary>
@@ -874,7 +875,7 @@ export default function DescriptionDomain({
                     aria-controls="panel1a-content"
                     id="panel1a-header"
                   >
-                    <Typography className={missingStepsInputUri ? classes.missingHeader : classes.header} variant="h3">
+                    <Typography className={missingStepsInputUri ? classes.missingHeader : classes.header} >
                       Show Inputs
                     </Typography>
                   </AccordionSummary>
@@ -934,7 +935,7 @@ export default function DescriptionDomain({
                     aria-controls="panel1a-content"
                     id="panel1a-header"
                   >
-                    <Typography className={missingStepsOutputUri ? classes.missingHeader : classes.header} variant="h3">
+                    <Typography className={missingStepsOutputUri ? classes.missingHeader : classes.header} >
                       Show Outputs
                     </Typography>
                   </AccordionSummary>

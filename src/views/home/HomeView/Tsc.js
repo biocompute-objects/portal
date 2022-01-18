@@ -8,7 +8,7 @@ import {
   makeStyles,
   Typography
 } from '@material-ui/core';
-import { Link as RouterLink } from 'react-router-dom';
+// import { Link as RouterLink } from 'react-router-dom';
 
 import logo from 'src/images/logo.png';
 

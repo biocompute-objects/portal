@@ -42,14 +42,14 @@ export default function ErrorDomain({ items, cF }) {
     <Table size="small">
       <TableHead className={classes.tabled}>
         <TableRow>
-          <StyledCell colSpan="5">
+          <StyledCell colSpan="6">
             <Button
               variant="contained"
               // color="D5D8DC"
               fullWidth
               onClick={() => window.open('https://docs.biocomputeobject.org/error-domain/')}
             >
-              <Typography variant="h3">
+              <Typography variant="h1">
                 Error Domain &nbsp;
                 <HelpIcon />
               </Typography>

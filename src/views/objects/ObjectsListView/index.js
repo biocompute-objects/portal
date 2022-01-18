@@ -7,7 +7,7 @@ import {
 } from '@material-ui/core';
 import Page from 'src/components/Page';
 import Typography from '@material-ui/core/Typography';
-import Async from 'react-async';
+// import Async from 'react-async';
 import Results from './Results';
 // import Toolbar from '../../../components/ObjectsListViewToolbar.js';
 
@@ -90,11 +90,9 @@ const ObjectsListView = () => {
       // There was a user.
       ApiInfo = userInfo.apiinfo;
     }
-    console.log('ApiInfo', ApiInfo);
     // Get the info for each API.
     const results = Promise.all(ApiInfo.map(getObjs));
     results.then((data) => {
-      console.log('Output ', data);
       // data.forEach((d) => {
       const promises = data.map((apiAndPromise) => {
         // The provenance domain name may not be defined.
