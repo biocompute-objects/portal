@@ -13,6 +13,7 @@ import Box from '@material-ui/core/Box';
 import OpacityIcon from '@material-ui/icons/Opacity';
 import AccountTreeIcon from '@material-ui/icons/AccountTree';
 import InsertDriveFileIcon from '@material-ui/icons/InsertDriveFile';
+import RetrievePublishedObject from 'src/components/API/RetrievePublishedObject';
 import ColorCoded from './ColorCoded';
 import Raw from './Raw';
 import Tree from './Tree';
@@ -114,7 +115,8 @@ export default function Views({ objectId }) {
   useEffect(() => {
     setLoading(true);
     getObjectInfo();
-  }, [setLoading, getObjectInfo]);
+    // RetrievePublishedObject(objectId, setObjectInfo, setLoading, loading);
+  }, []);
 
   // Define a variable for switching views within
   // the component (as opposed to getting the value)
@@ -137,7 +139,7 @@ export default function Views({ objectId }) {
           <Typography>Loading...</Typography>
         </div>
       )
-      : objectFound
+      : (objectFound)
         ? (
           <div className={classes.root}>
             <AppBar position="static">

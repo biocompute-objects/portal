@@ -65,9 +65,10 @@ export default function PermissionTools({
   // Define the actions for each click.
   function clickActions(which) {
     if (which === 'saveDraft') {
-      ModifyDraftObject(objectInformation);
+      ModifyDraftObject(objectInformation, contents);
+      console.log('contents', contents);
     } else if (which === 'createDraft') {
-      CreateDraftObject(saveDraftTo);
+      CreateDraftObject(saveDraftTo, contents);
     } else if (which === 'validateDraft') {
       // From parent: Index.
       ValidateSchema(contents, setPublish, publish);

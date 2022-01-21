@@ -212,7 +212,7 @@ function ColorCoded({
     });
 
     console.log('ITEMS 213', objectContents);
-    localStorage.setItem('bco', JSON.stringify(objectContents));
+    // localStorage.setItem('bco', JSON.stringify(objectContents));
   }, [meEtag, pdName, pdVersion, pdLicense, pdDerivedFrom, pdCreated, pdModifed,
     pdObsoleteAfter, pdEmbargoStartTime, pdEmbargoEndTime, pdReview,
     pdContributors, ud, ddKeywords, ddPlatform, ddXref, ddPipelineSteps,

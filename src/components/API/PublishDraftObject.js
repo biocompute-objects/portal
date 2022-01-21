@@ -14,7 +14,8 @@ export default function PublishDraftObject(objectInformation) {
         {
           prefix: 'BCO',
           draft_id: obectContents.object_id,
-          delete_draft: true
+          object_id: obectContents.object_id,
+          delete_draft: false
         }
       ]
     }),
