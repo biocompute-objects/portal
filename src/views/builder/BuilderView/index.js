@@ -78,18 +78,8 @@ export default function BuilderView() {
 
   // Initial rendering.
   useEffect(() => {
-    // console.log("!!!! Path: " + parsePath);
-    // See if we're dealing with a new or existing draft.
-    // TODO: fix '/' re-directs in routes.js.
-    // const splitUp = parsePath.split('builder');
     const splitUp = parsePath.split('/');
-    // console.log("!!!! Splitup: " + splitUp);
-
-    // TODO: This might also need splitUp[splitUp.length -1] === 'builder' or something like that
-    // if (parsePath[0, 8] === '/builder' || parsePath[0, 9] === '/builder/') {
-    //
-    // }
-    console.log('split', splitUp)
+    console.log('split', splitUp);
     if (splitUp.length === 2) {
       setNewDraft(true);
       // Set the object contents to template values.
@@ -122,9 +112,6 @@ export default function BuilderView() {
         // We have a draft.
         oI += '/DRAFT';
       }
-      // console.log("!!!! hostname / oI: " + hostname + " / " + oI);
-
-      // Now look for a token associated with the hostname.
 
       // BAD fix, should have apiinfo stored as object...
       let foundToken = '';
@@ -205,7 +192,6 @@ export default function BuilderView() {
     }
   }, []);
 
-  // ----- Listeners ----- //
   return (
     <DeepContext.Provider value={{ objectOwner }}>
       <div>

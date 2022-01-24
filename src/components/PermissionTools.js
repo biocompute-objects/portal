@@ -37,8 +37,8 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function PermissionTools({ 
-  contents, publish, newDraft, objectInformation, setPublish, publishedObjectId, 
+export default function PermissionTools({
+  contents, publish, newDraft, objectInformation, setPublish, publishedObjectId,
   receivedDefault, serverLock }) {
   // State
   const [saveDraftTo, setSaveDraftTo] = useState('');
@@ -66,15 +66,12 @@ export default function PermissionTools({
   function clickActions(which) {
     if (which === 'saveDraft') {
       ModifyDraftObject(objectInformation, contents);
-      console.log('contents', contents);
     } else if (which === 'createDraft') {
       CreateDraftObject(saveDraftTo, contents);
     } else if (which === 'validateDraft') {
-      // From parent: Index.
       ValidateSchema(contents, setPublish, publish);
     } else if (which === 'publishDraft') {
-      // From parent.
-      PublishDraftObject(objectInformation);
+      PublishDraftObject(objectInformation, contents);
     } else if (which === 'downloadDraft') {
       const bco = localStorage.getItem("bco");
       const blob = new Blob([bco],{type:'application/json'});

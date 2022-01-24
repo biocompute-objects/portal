@@ -6,14 +6,13 @@ draft id */
 export default function ModifyDraftObject(objectInformation, contents) {
   const objectContents = contents;
 
-  console.log('bco', objectInformation);
   fetch(`${objectInformation.hostname}/api/objects/drafts/modify/`, {
     method: 'POST',
     body: JSON.stringify({
       POST_api_objects_drafts_modify: [
         {
           contents: objectContents,
-          object_id: objectContents.object_id
+          object_id: objectInformation.object_id
         }
       ]
     }),
