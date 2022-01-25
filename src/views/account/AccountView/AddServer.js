@@ -62,9 +62,7 @@ export default function FormDialog() {
     JSON.parse(localStorage.getItem('user')).apiinfo.map((record) => { // TODO: a bit expensive, use a for loop/break paradigm instead.
       if (record.public_hostname === hostname) { // Already added?
         serverAdded = true;
-        return true;
       }
-      return false;
     });
     if (serverAdded === false) { // Was the hostname already added?
       fetch(`${hostname}/api/accounts/describe/`, {
@@ -128,9 +126,7 @@ export default function FormDialog() {
         // Slight tweak here as the URL on the host isn't just the
         if (record.hostname === data.hostname) {
           serverAdded = true;
-          return true;
         }
-        return false;
       });
 
       // Was the hostname already added?

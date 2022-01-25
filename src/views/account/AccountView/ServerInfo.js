@@ -166,11 +166,9 @@ const EnhancedTableToolbar = (props) => {
   const classes = useToolbarStyles();
   const fc = useContext(FetchContext);
   const { numSelected, selectedRows } = props;
-  // const { setServerAdded, setSelected } = useContext(ParentContext);
-  const { setServerAdded } = useContext(ParentContext);
+  const { setServerAdded, setSelected } = useContext(ParentContext);
 
-  // const testDelete = (event, rows) => {
-  const testDelete = () => {
+  const testDelete = (event, rows) => {
     const userResponse = window.confirm('Are you sure you want to delete these rows?');
     if (userResponse) {
       fetch(fc.sending.userdb_removeapi, {
@@ -316,7 +314,7 @@ export default function EnhancedTable() {
 
     // The server added flag is no longer necessary.
     setServerAdded(false);
-  }, [serverAdded, permissions, setServerAdded]);
+  }, [serverAdded]);
 
   // Create a function to add a new server row to the table.
   // Source: https://webomnizz.com/change-parent-component-state-from-child-using-hooks-in-react/
