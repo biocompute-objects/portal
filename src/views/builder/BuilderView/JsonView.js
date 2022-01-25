@@ -1,6 +1,6 @@
 // src/views/builder/BuilderView/JsonView.js
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   makeStyles, withStyles, Typography
 } from '@material-ui/core';
@@ -71,6 +71,15 @@ export default function JsonView(items) {
         </TableRow>
       </TableHead>
       <TableBody>
+      <TableRow>
+          <Card className={classes.root}>
+            <CardContent>
+              <Typography className={jsonErrors !== '' ? classes.errors : classes.pass} variant="h5" component="h2">
+                { ReactHtmlParser(jsonErrors) }
+              </Typography>
+            </CardContent>
+          </Card>
+        </TableRow>
         <TableRow>
           <StyledCell>
             <TextField
@@ -84,15 +93,6 @@ export default function JsonView(items) {
               variant="outlined"
             />
           </StyledCell>
-        </TableRow>
-        <TableRow>
-          <Card className={classes.root}>
-            <CardContent>
-              <Typography className={jsonErrors !== '' ? classes.errors : classes.pass} variant="h5" component="h2">
-                { ReactHtmlParser(jsonErrors) }
-              </Typography>
-            </CardContent>
-          </Card>
         </TableRow>
       </TableBody>
     </Table>

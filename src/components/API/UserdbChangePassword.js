@@ -6,20 +6,17 @@ export default function UserdbChangePassword(values) {
   fetch(`${values.userdb}change_password/`, {
     method: 'PUT',
     headers: {
+      Authorization: `JWT ${localStorage.getItem('token')}`,
       'Content-Type': 'application/json'
     },
     body: JSON.stringify({
       old_password: values.old_password,
       new_password: values.new_password,
     }),
-    headers: {
-      Authorization: `JWT ${localStorage.getItem('token')}`,
-      'Content-Type': 'application/json'
-    },
   })
     .then((response) => {
       if (!response.ok) {
-        throw new Error(response.status);
+        throw new Error(response.statusText);
       } else {
         return response.json()
           .then((data) => {

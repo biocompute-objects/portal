@@ -628,7 +628,7 @@ export default function DescriptionDomain({
       <TableBody>
         <TableRow>
           <TableCell>
-            <Typography className={missingKeywords ? classes.missingHeader : classes.header}>
+            <Typography key="typography1" className={missingKeywords ? classes.missingHeader : classes.header} variant="h3">
               Keywords
             </Typography>
           </TableCell>

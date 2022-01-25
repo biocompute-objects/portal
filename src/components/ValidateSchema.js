@@ -4,17 +4,10 @@
 
 import Ajv from 'ajv';
 import object from 'src/utils/ieee2791/2791object';
-// import { useContext, useState } from 'react';
-// import { ColorCodedContext } from '../views/builder/BuilderView/ColorCoded';
-// import { FetchContext } from '../App';
-
 const ajv = Ajv();
 
 export default function ValidateSchema(contents, setPublish, publish, setMeEtagSet) {
   const BcoSchema = object;
-
-  // const { meEtagSet } = useContext(ColorCodedContext);
-  // console.log("meEtagSet: ", meEtagSet);
   console.log('objectContents', setPublish, contents);
   // 'https://opensource.ieee.org/2791-object/ieee-2791-schema/raw/master/2791object.json';
   // 'https://w3id.org/ieee/ieee-2791-schema/2791object.json';

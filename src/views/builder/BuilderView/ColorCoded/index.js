@@ -217,14 +217,13 @@ function ColorCoded({
       error_domain: errd,
       extension_domain: exd
     });
-    localStorage.setItem('bco', JSON.stringify(objectContents));
+    // localStorage.setItem('bco', JSON.stringify(objectContents));
+
   }, [meEtag, pdName, pdVersion, pdLicense, pdDerivedFrom, pdCreated, pdModifed,
     pdObsoleteAfter, pdEmbargoStartTime, pdEmbargoEndTime, pdReview,
     pdContributors, ud, ddKeywords, ddPlatform, ddXref, ddPipelineSteps,
     edScript, edScriptDriver, edSoftwarePrerequisites, edExternalDataEndpoints,
     edEnvironmentVariables, iodInputSubdomain, iodOutputSubdomain, pad, errd, exd]);
-
-  // localStorage.setItem('bco', JSON.stringify(objectContents));
 
   return (
     <ColorCodedContext.Provider value={{

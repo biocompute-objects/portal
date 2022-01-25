@@ -1,5 +1,5 @@
-// import React, { useEffect, useState } from 'react';
-import React from 'react';
+
+import React, { useEffect, useState } from 'react';
 import {
   makeStyles, withStyles, Typography
 } from '@material-ui/core';
@@ -39,10 +39,9 @@ const StyledCell = withStyles({
 // Pass an object and whether its keys are properties.
 export default function ExtensionDomain({ items }) {
   const classes = withStyles();
-
-  // const submitSchema = (value) => {
-  //   console.log('schema', value);
-  // };
+  const submitSchema = (value) => {
+    console.log('schema', value);
+  };
   const setInput = (value, i) => {
     const holder = items.exd;
     holder[i] = JSON.parse(value);

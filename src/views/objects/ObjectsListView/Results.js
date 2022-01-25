@@ -26,7 +26,7 @@ import FilterListIcon from '@material-ui/icons/FilterList';
 
 // Dummy redirecting after draft object creation.
 // See https://www.codegrepper.com/code-examples/javascript/useHistory+is+not+exported+form+react-router-dom
-import Linker from '../../../components/Linker';
+import Linker from 'src/components/Linker';
 
 // Fetch context.
 // import { FetchContext } from '../../../App';

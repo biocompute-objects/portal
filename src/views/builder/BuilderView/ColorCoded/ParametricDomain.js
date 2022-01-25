@@ -77,8 +77,10 @@ export default function ParametricDomain({ items, cF }) {
       // Assume the header is not red.
       setMissingParametricDomain(false);
 
+      var i = 0;
+
       // Each one of the steps.
-      for (var i = 0; i < items.pad.length; i++) {
+      for (i = 0; i < items.pad.length; i++) {
         // Step
         if (items.pad[i].step === '') {
           // No step.
@@ -258,7 +260,6 @@ export default function ParametricDomain({ items, cF }) {
             )
             : (
               items.pad.map((item, index) => (
-
                 <TableRow key={index.toString()}>
                   <StyledCell>
                     <TextField InputProps={{ className: classes.root }} error={cF(item.step) === ''} value={cF(item.step)} onChange={(e) => setInput(e, index, 'step')} variant="outlined" />

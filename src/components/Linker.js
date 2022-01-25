@@ -23,7 +23,7 @@ const useStyles = makeStyles(() => ({
 }));
 
 // Pass an object and whether or not its keys are properties.
-export default function Linker({uri, color, state}) {
+export default function Linker({ uri, color, state }) {
   const svgClasses = useStyles();
 
   // Arguments
@@ -44,7 +44,7 @@ export default function Linker({uri, color, state}) {
     state === 'DRAFT'
       ? (
         <Link className={svgClasses[color]} href={window.location.href.replace('/objects', '/builder/') + processed} target="_blank">
-          { processed.split('/').slice(-1) }
+          { processed.split('/').slice(-2) }
         </Link>
       )
       : (

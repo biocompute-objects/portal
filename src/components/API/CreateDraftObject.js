@@ -3,9 +3,10 @@
 /* Modifies a draft object using the current user's token and an object's
 draft id */
 
-export default function CreateDraftObject(url) {
-  const obectContents = JSON.parse(localStorage.getItem('bco'));
+export default function CreateDraftObject(url, contents) {
   let userToken = '';
+  const objectContents = contents;
+  console.log('objectContents', contents);
 
   JSON.parse(localStorage.getItem('user')).apiinfo.forEach((item) => {
     if (url === item.public_hostname) {
@@ -17,7 +18,7 @@ export default function CreateDraftObject(url) {
     body: JSON.stringify({
       POST_api_objects_draft_create: [
         {
-          contents: obectContents,
+          contents: objectContents,
           prefix: 'BCO',
           schema: 'IEEE',
           owner_group: 'bco_drafter'
