@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import {
   Button, makeStyles, withStyles, Typography
 } from '@material-ui/core';
@@ -42,15 +42,27 @@ export default function Meta({ items }) {
   const classes = withStyles();
   const svgClasses = useStyles();
   const makeETag = () => {
-    let hashContents = {...items.objectContents};
+    const hashContents = { ...items.objectContents };
     delete hashContents.object_id;
     delete hashContents.spec_version;
     delete hashContents.etag;
-    let etag = hash(hashContents);
+    const etag = hash(hashContents);
     items.setMeEtag(etag);
+    // items.setMeEtagSet(true);
     items.setRerender(items.rerender + 1);
-
+    console.log('items 1', items.meEtag);
+    console.log('items 2', etag);
+    console.log('items 3', items.objectContents);
+    items.setMeEtagSet(false);
   };
+
+  useEffect(() => {
+    if (items.meEtagSet) {
+      makeETag();
+      items.setMeEtagSet(false);
+    }
+  }, [items.meEtagSet]);
+
   return (
     <Table size="small">
       <TableHead className={classes.tabled}>
@@ -92,7 +104,7 @@ export default function Meta({ items }) {
           <StyledCell>
             <TextField InputProps={{ className: classes.root }} disabled label={items.meEtag} fullWidth id="outlined-basic" variant="outlined" />
           </StyledCell>
-          <Button 
+          <Button
             variant="contained"
             color="primary"
             disableElevation

@@ -70,6 +70,9 @@ export default function BuilderView() {
   // Who owns it?
   const [objectOwner, setObjectOwner] = useState('');
 
+  // Etag needs to be generated?
+  const [meEtagSet, setMeEtagSet] = useState(false);
+
   // The PUBLISHED object ID.
   const [publishedObjectId, setPublishedObjectId] = useState('');
 
@@ -205,6 +208,8 @@ export default function BuilderView() {
           setPublish={setPublish}
           complianceCheck={complianceCheck}
           contents={objectContents}
+          setMeEtagSet={setMeEtagSet}
+          meEtagSet={meEtagSet}
         />
         <Views
           objectContents={objectContents}
@@ -213,6 +218,9 @@ export default function BuilderView() {
           objectId={objectId}
           loading={loading}
           objectFound={objectFound}
+          setMeEtagSet={setMeEtagSet}
+          meEtagSet={meEtagSet}
+
         />
       </div>
     </DeepContext.Provider>

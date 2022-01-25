@@ -20,63 +20,55 @@ const StyledCell = withStyles({
 
 // Pass an object and whether or not its keys are properties.
 export default function ParametricDomain({ items }) {
-  
   const classes = withStyles();
 
   // Arguments
   // ---------
   // items: JSON object (Parametric Domain)
 
-
   // ----- Meta Information ----- //
-  
 
   // ----- None ----- //
 
-  return(
+  return (
     <div>
-    <Table size="small">
-    <TableHead className={classes.tabled}>
-      <TableRow>
-        <StyledCell colSpan="6">
-          <Typography variant="h3">
-            Parametric Domain
-          </Typography>
-        </StyledCell>
-      </TableRow>
-    </TableHead>
-    <TableBody>
-      <TableRow>
-        {
-          ['Step', 'Parameter', 'Value'].map(item => (
-              <StyledCell>
-                <Typography>
-                  {item}
-                </Typography>
-              </StyledCell>
-            )
-          )
+      <Table size="small">
+        <TableHead className={classes.tabled}>
+          <TableRow>
+            <StyledCell colSpan="6">
+              <Typography variant="h3">
+                Parametric Domain
+              </Typography>
+            </StyledCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          <TableRow>
+            {
+          ['Step', 'Parameter', 'Value'].map((item) => (
+            <StyledCell>
+              <Typography>
+                {item}
+              </Typography>
+            </StyledCell>
+          ))
         }
-      </TableRow>
-      {
-        items.map(item => (
-            <TableRow>
-              {
-                ['step', 'param', 'value'].map(subitem => (
+          </TableRow>
+          {
+        items.map((item) => (
+          <TableRow>
+            {
+                ['step', 'param', 'value'].map((subitem) => (
                   subitem in item
-                    ?
-                      <StyledCell>{item[subitem]}</StyledCell>
-                    :
-                      <StyledCell>None</StyledCell>
-                  )
-                )
+                    ? <StyledCell>{item[subitem]}</StyledCell>
+                    : <StyledCell>None</StyledCell>
+                ))
               }
-            </TableRow>
-          )
-        )
+          </TableRow>
+        ))
       }
-    </TableBody>
-  </Table>
-  </div>
+        </TableBody>
+      </Table>
+    </div>
   );
 }

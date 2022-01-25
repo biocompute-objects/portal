@@ -69,9 +69,8 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function Views({
-  downloadDraft, setDownloadDraft, newDraft, saveDraft, setSaveDraft, publish, setPublish, complianceCheck, objectId, objectContents, setObjectContents, loading, objectFound
+  downloadDraft, setDownloadDraft, newDraft, saveDraft, setSaveDraft, publish, setPublish, complianceCheck, objectId, objectContents, setObjectContents, loading, objectFound, setMeEtagSet, meEtagSet
 }) {
-
   const classes = useStyles();
 
   useEffect(() => {
@@ -113,6 +112,8 @@ export default function Views({
               complianceCheck={complianceCheck}
               objectContents={objectContents}
               setObjectContents={setObjectContents}
+              setMeEtagSet={setMeEtagSet}
+              meEtagSet={meEtagSet}
             />
           </TabPanel>
           <TabPanel value={componentView} index={1}>

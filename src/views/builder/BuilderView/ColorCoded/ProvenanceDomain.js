@@ -293,7 +293,7 @@ export default function ProvenanceDomain({ items, cF }) {
     // TODO: Fix so that
 
     // Only allow numbers and periods.
-    const onlyNumsPeriods = e.replace(/[^0-9\.]/g, '');
+    const onlyNumsPeriods = e.replace(/[^0-9.]/g, '');
 
     // REGEX patterns that are allowed.
     const patternZero = new RegExp('^$');
@@ -319,9 +319,9 @@ export default function ProvenanceDomain({ items, cF }) {
   // Check for an e-mail input
   // Source: https://stackoverflow.com/questions/52188192/what-is-the-simplest-and-shortest-way-for-validating-an-email-in-react
 
-  const checkeMailInput = (e) => {
-
-  };
+  // const checkeMailInput = (e) => {
+  //
+  // };
 
   // Set an input value
 
@@ -434,7 +434,7 @@ export default function ProvenanceDomain({ items, cF }) {
       }
     } else if (which === 'pdContributors') {
       // Update the state.
-      console.log('asdfffffffffffffff');
+      // console.log('asdfffffffffffffff');
       items.setPdContributors(dummy);
     }
 

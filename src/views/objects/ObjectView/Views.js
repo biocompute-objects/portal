@@ -80,39 +80,38 @@ export default function Views({ objectId }) {
   // Fetch behavior requires further processing.
 
   // Source: https://stackoverflow.com/questions/43903767/read-the-body-of-a-fetch-promise
-
-  const getObjectInfo = () => {
-    // Call the API.
-
-    // NO token necessary since published objects
-    // are freely requestable by the public.
-    fetch(objectId, {
-      method: 'GET',
-      headers: {
-        'Content-type': 'application/json; charset=UTF-8'
-      }
-    }).then((res) => res.json().then((data) => ({
-      data,
-      status: res.status
-    })).then((res) => {
-      // Did the request go ok or not?
-      if (res.status === 200) {
-        // We found the object, so set the data.
-        localStorage.setItem('bco', JSON.stringify(res.data[0]));
-        setObjectInfo(res.data[0]);
-        setObjectFound(true);
-      } else {
-        // There was a problem, so show what it was.
-        setObjectInfo();
-        setObjectFound(false);
-      }
-
-      // We're no longer loading.
-      setLoading(false);
-    }));
-  };
-
   useEffect(() => {
+    const getObjectInfo = () => {
+      // Call the API.
+
+      // NO token necessary since published objects
+      // are freely requestable by the public.
+      fetch(objectId, {
+        method: 'GET',
+        headers: {
+          'Content-type': 'application/json; charset=UTF-8'
+        }
+      }).then((res) => res.json().then((data) => ({
+        data,
+        status: res.status
+      })).then((res) => {
+        // Did the request go ok or not?
+        if (res.status === 200) {
+          // We found the object, so set the data.
+          localStorage.setItem('bco', JSON.stringify(res.data[0]));
+          setObjectInfo(res.data[0]);
+          setObjectFound(true);
+        } else {
+          // There was a problem, so show what it was.
+          setObjectInfo();
+          setObjectFound(false);
+        }
+
+        // We're no longer loading.
+        setLoading(false);
+      }));
+    };
+
     setLoading(true);
     getObjectInfo();
     // RetrievePublishedObject(objectId, setObjectInfo, setLoading, loading);

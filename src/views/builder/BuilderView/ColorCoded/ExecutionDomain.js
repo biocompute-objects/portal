@@ -270,6 +270,10 @@ export default function ExecutionDomain({ items, cF }) {
     }
   }, [items]);
 
+  // TODO: I think it is the above that is making it so that all of these checks
+  //       run over and over again when any field is changed.  This is probably through
+  //       all of these component files.
+
   // Set an input value
 
   // There were problems with value/defaultValue,

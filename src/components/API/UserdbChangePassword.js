@@ -13,10 +13,6 @@ export default function UserdbChangePassword(values) {
       old_password: values.old_password,
       new_password: values.new_password,
     }),
-    // headers: {
-    //   Authorization: `JWT ${localStorage.getItem('token')}`,
-    //   'Content-Type': 'application/json'
-    // },
   })
     .then((response) => {
       if (!response.ok) {

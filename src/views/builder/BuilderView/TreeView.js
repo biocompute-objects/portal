@@ -1,6 +1,6 @@
 // src/views/builder/BuilderView/Raw/index.js
 
-import React, { useContext, useState } from 'react';
+import React, { useState } from 'react';
 import {
   makeStyles, withStyles, Typography
 } from '@material-ui/core';
@@ -21,7 +21,7 @@ import ReactHtmlParser from 'react-html-parser';
 
 // Fetch context.
 import ReactJson from 'react-json-view';
-import { FetchContext } from '../../../App';
+// import { FetchContext } from '../../../App';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -45,7 +45,7 @@ const StyledCell = withStyles({
   }
 })(TableCell);
 
-// Pass an object and whether or not its keys are properties.
+// Pass an object and whether its keys are properties.
 export default function Raw(items) {
   // As of 5/13/21, there is no relationship between the color-coded
   // draft view and the raw draft view.

@@ -9,8 +9,6 @@ import {
   Typography
 } from '@material-ui/core';
 
-// import ieee from 'src/images/ieee.jpg';
-
 const useStyles = makeStyles({
   bullet: {
     display: 'inline-block',
