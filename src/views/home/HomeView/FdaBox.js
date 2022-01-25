@@ -8,7 +8,8 @@ import {
   makeStyles,
   Typography
 } from '@material-ui/core';
-import ieee from 'src/images/ieee.jpg';
+
+// import ieee from 'src/images/ieee.jpg';
 
 const useStyles = makeStyles({
   bullet: {

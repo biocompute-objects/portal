@@ -3,17 +3,16 @@
 /* Modifies a draft object using the current user's token and an object's
 draft id */
 
-export default function ModifyDraftObject(objectInformation) {
-  const objectContents = JSON.parse(localStorage.getItem('bco'));
+export default function ModifyDraftObject(objectInformation, contents) {
+  const objectContents = contents;
 
-  console.log('bco', objectInformation);
   fetch(`${objectInformation.hostname}/api/objects/drafts/modify/`, {
     method: 'POST',
     body: JSON.stringify({
       POST_api_objects_drafts_modify: [
         {
           contents: objectContents,
-          object_id: objectContents.object_id
+          object_id: objectInformation.object_id
         }
       ]
     }),
@@ -28,8 +27,7 @@ export default function ModifyDraftObject(objectInformation) {
       } else {
         return response.json()
           .then((data) => {
-            localStorage.removeItem('bco');
-            console.log('POST_api_objects_drafts_modify: Success!');
+            console.log('POST_api_objects_drafts_modify: Success!', objectContents);
             alert(`${objectInformation.owner} has saved ${objectInformation.object_id} successfully!`);
           });
       }

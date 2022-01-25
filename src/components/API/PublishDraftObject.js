@@ -3,10 +3,11 @@
 /* Modifies a draft object using the current user's token and an object's
 draft id */
 
-export default function PublishDraftObject(objectInformation) {
-  const obectContents = JSON.parse(localStorage.getItem('bco'));
-
-  console.log('bco', objectInformation);
+export default function PublishDraftObject(objectInformation, contents) {
+  const obectContents = contents;
+  const publishedId = obectContents.object_id.replace('DRAFT', '1.0');
+  const deleteDraft = window.confirm('Would you like to delete this draft object after publishing?');
+  console.log('deleteDraft', deleteDraft);
   fetch(`${objectInformation.hostname}/api/objects/drafts/publish/`, {
     method: 'POST',
     body: JSON.stringify({
@@ -14,7 +15,8 @@ export default function PublishDraftObject(objectInformation) {
         {
           prefix: 'BCO',
           draft_id: obectContents.object_id,
-          delete_draft: true
+          object_id: publishedId,
+          delete_draft: deleteDraft
         }
       ]
     }),
@@ -30,9 +32,9 @@ export default function PublishDraftObject(objectInformation) {
         console.log('POST_api_objects_drafts_publish: Success!', response);
         return response.json()
           .then((data) => {
-            const publishedId = data[0].published_id;
-            const publishedObject = publishedId.replace('://', '/');
-            const viewer = window.location.origin + '/objects/view/';
+            const returnedId = data[0].published_id;
+            const publishedObject = returnedId.replace('://', '/');
+            const viewer = `${window.location.origin}/objects/view/`;
             window.location.href = `${viewer}${publishedObject}`;
             alert('Object published successfully! Redirecting to the Object page for you to view');
           });

@@ -77,8 +77,10 @@ export default function ParametricDomain({ items, cF }) {
       // Assume the header is not red.
       setMissingParametricDomain(false);
 
+      var i = 0;
+
       // Each one of the steps.
-      for (var i = 0; i < items.pad.length; i++) {
+      for (i = 0; i < items.pad.length; i++) {
         // Step
         if (items.pad[i].step === '') {
           // No step.
@@ -99,7 +101,7 @@ export default function ParametricDomain({ items, cF }) {
       }
 
       // Each one of the parameters.
-      for (var i = 0; i < items.pad.length; i++) {
+      for (i = 0; i < items.pad.length; i++) {
         // Step
         if (items.pad[i].param === '') {
           // No parameter.
@@ -120,7 +122,7 @@ export default function ParametricDomain({ items, cF }) {
       }
 
       // Each one of the values.
-      for (var i = 0; i < items.pad.length; i++) {
+      for (i = 0; i < items.pad.length; i++) {
         // Step
         if (items.pad[i].value === '') {
           // No step.

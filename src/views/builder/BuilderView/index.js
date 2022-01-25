@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 // src/views/builder/BuilderView/index.js
 
 import React, { createContext, useState, useEffect } from 'react';
@@ -77,25 +78,40 @@ export default function BuilderView() {
 
   // Initial rendering.
   useEffect(() => {
-    // See if we're dealing with a new or existing draft.
-    // TODO: fix '/' re-directs in routes.js.
-    const splitUp = parsePath.split('builder');
-
-    if (splitUp[splitUp.length - 1] === '') {
+    const splitUp = parsePath.split('/');
+    console.log('split', splitUp);
+    if (splitUp.length === 2) {
       setNewDraft(true);
       // Set the object contents to template values.
       setObjectFound(true);
     } else {
-      // EXISTING draft
+      // Expected for EXISTING draft
+      // [0   1     2      3                4                                       5
+      // [,builder,http,127.0.0.1:8000,BCO_DRAFT_82b24092def74e70a5a2344fda39eeb4,DRAFT]
+
+      if (splitUp.length < 4) {
+        console.log(`Error in BuilderView/Index.js ~ 99 - URL doesn't have expected elements: ${parsePath}  ... Expected: (e.g) /builder/http/127.0.0.1:8000/BCO_DRAFT_82b24092def74e70a5a2344fda39eeb4/DRAFT`);
+        return;
+      }
+
       setNewDraft(false);
-      // Take everything after the builder section.
-      const splitAgain = splitUp[1].split('/');
+      const protocol = splitUp[2];
+      // Verify protocol is OK
+      if (protocol !== 'http' && protocol !== 'https') {
+        console.log(`Protocol is determined as ${protocol} but must be one of http or https.`);
+        return;
+      }
+      let hostname = splitUp[3];
+      // Prepend the protocol
+      hostname = `${protocol}://${hostname}`;
+      let oI = splitUp[4];
 
-      // Get the hostname and object ID.
-      const hostname = `${splitAgain[1]}://${splitAgain[2]}`;
-      const oI = `${hostname}/${splitAgain.slice(3, splitAgain.length)}`;
+      // console.log("Splitup length: " + splitUp.length);
 
-      // Now look for a token associated with the hostname.
+      if (splitUp.length >= 6 && splitUp[5] === 'DRAFT') {
+        // We have a draft.
+        oI += '/DRAFT';
+      }
 
       // BAD fix, should have apiinfo stored as object...
       let foundToken = '';
@@ -103,8 +119,10 @@ export default function BuilderView() {
       let objectStuff = {};
 
       JSON.parse(localStorage.getItem('user')).apiinfo.map((item) => {
+        // console.log("Public hostname: " + item.public_hostname);
         if (item.public_hostname === hostname) {
           foundToken = item.token;
+          // console.log("Found token: " + item.token);
           foundGroups = item.other_info.permissions.groups;
           objectStuff = ({
             object_id: oI,
@@ -115,10 +133,13 @@ export default function BuilderView() {
           });
           setObjectInformation(objectStuff);
         }
+        return true;
       });
 
+      const requestForDraft = `${hostname}/${oI}`;
+
       // Ask the server for the contents.
-      fetch(oI, {
+      fetch(requestForDraft, {
         method: 'GET',
         headers: {
           Authorization: `Token ${foundToken}`,
@@ -130,7 +151,7 @@ export default function BuilderView() {
       })).then((response) => {
         // Did the request go ok or not?
         if (response.status === 200) {
-          console.log('Server return contents: ', foundToken);
+          // console.log('Server return contents: ', foundToken);
           // Parse the results.
           // const parsed = JSON.parse(res.data)[0];
 
@@ -171,7 +192,6 @@ export default function BuilderView() {
     }
   }, []);
 
-  // ----- Listeners ----- //
   return (
     <DeepContext.Provider value={{ objectOwner }}>
       <div>
