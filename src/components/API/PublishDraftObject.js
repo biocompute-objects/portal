@@ -35,7 +35,7 @@ export default function PublishDraftObject(objectInformation, contents) {
             const returnedId = data[0].published_id;
             const publishedObject = returnedId.replace('://', '/');
             const viewer = `${window.location.origin}/objects/view/`;
-            // window.location.href = `${viewer}${publishedObject}`;
+            window.location.href = `${viewer}${publishedObject}`;
             alert('Object published successfully! Redirecting to the Object page for you to view');
           });
       }
