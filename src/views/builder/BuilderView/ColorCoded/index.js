@@ -147,14 +147,15 @@ function ColorCoded({
   // are set in the parent.
   const renderList = [
     {
+      complianceCheck, checkBlank, ud, setUd, rerender, setRerender
+    },
+    {
       complianceCheck, meObjectId, meEtagSet, setMeEtagSet, meEtag, setMeEtag, rerender, setRerender, objectContents
     },
     {
       complianceCheck, checkBlank, pdName, pdVersion, pdLicense, pdDerivedFrom, pdCreated, pdModifed, pdObsoleteAfter, pdEmbargoStartTime, pdEmbargoEndTime, pdReview, pdContributors, rerender, setRerender, setPdName, setPdVersion, setPdLicense, setPdDerivedFrom, setPdCreated, setPdModified, setPdObsoleteAfter, setPdEmbargoStartTime, setPdEmbargoEndTime, setPdReview, setPdContributors
     },
-    {
-      complianceCheck, checkBlank, ud, setUd
-    },
+
     {
       complianceCheck, checkBlank, iodInputSubdomain, iodOutputSubdomain, setIodInputSubdomain, setIodOutputSubdomain, rerender, setRerender
     },
@@ -175,8 +176,8 @@ function ColorCoded({
     }
   ];
 
-  const compList = [Meta, ProvenanceDomain, UsabilityDomain, IoDomain, ExecutionDomain, DescriptionDomain, ParametricDomain, ErrorDomain, ExtensionDomain];
-  const classNames = ['meta', 'provenanceDomain', 'usabilityDomain', 'ioDomain', 'executionDomain', 'descriptionDomain', 'parametricDomain', 'errorDomain', 'extensionDomain'];
+  const compList = [UsabilityDomain, Meta, ProvenanceDomain, IoDomain, ExecutionDomain, DescriptionDomain, ParametricDomain, ErrorDomain, ExtensionDomain];
+  const classNames = ['usabilityDomain', 'meta', 'provenanceDomain', 'ioDomain', 'executionDomain', 'descriptionDomain', 'parametricDomain', 'errorDomain', 'extensionDomain'];
 
   // Listeners
   // Listen for ANY change to the object,
@@ -218,7 +219,6 @@ function ColorCoded({
       extension_domain: exd
     });
     // localStorage.setItem('bco', JSON.stringify(objectContents));
-
   }, [meEtag, pdName, pdVersion, pdLicense, pdDerivedFrom, pdCreated, pdModifed,
     pdObsoleteAfter, pdEmbargoStartTime, pdEmbargoEndTime, pdReview,
     pdContributors, ud, ddKeywords, ddPlatform, ddXref, ddPipelineSteps,

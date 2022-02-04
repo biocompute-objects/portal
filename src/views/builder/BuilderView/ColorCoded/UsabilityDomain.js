@@ -7,6 +7,7 @@ import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
+import { Textfit } from 'react-textfit';
 
 // Multiline Input
 import TextField from '@material-ui/core/TextField';
@@ -44,7 +45,7 @@ const StyledCell = withStyles({
 // Pass an object and whether or not its keys are properties.
 export default function UsabilityDomain({ items, cF }) {
   const classes = useStyles();
-
+  const [newVal, setNewVal] = useState('');
   // State for showing missing sections.
   const [missingUsabilityDomain, setMissingUsabilityDomain] = useState(false);
 
@@ -58,15 +59,24 @@ export default function UsabilityDomain({ items, cF }) {
     }
   }, [items]);
 
-  // Arguments
-  // ---------
-  // items: JSON object (Usability Domain)
+  const removeRows = (index) => {
+    const temp = items.ud;
+    temp.splice(index, 1);
+    console.log('temp', temp);
+    items.setUd(temp);
+    setNewVal('');
+    items.setRerender(items.rerender + 1);
+  };
 
-  // ----- Meta Information ----- //
+  const addItem = () => {
+    const temp = newVal;
+    items.ud.push(newVal);
+    setNewVal('6]5');
+    console.log('items.ud', items.ud);
+    items.setRerender(items.rerender + 1);
+  };
 
-  // None.
-
-  // ----- Usability ----- //
+  console.log('length.items.ud', newVal);
 
   return (
     <Table size="small">
@@ -75,7 +85,6 @@ export default function UsabilityDomain({ items, cF }) {
           <TableCell>
             <Button
               variant="contained"
-              // color="D5D8DC"
               fullWidth
               onClick={() => window.open('https://docs.biocomputeobject.org/usability-domain/')}
             >
@@ -88,20 +97,49 @@ export default function UsabilityDomain({ items, cF }) {
         </TableRow>
       </TableHead>
       <TableBody>
+        {
+           (!items.ud)
+             ? (<TableRow />)
+             : (items.ud.map((item, index) => (
+               <TableRow>
+                 <StyledCell>
+                   <Textfit
+                     mode="multi"
+                     max="14"
+                   >
+                     {item}
+                   </Textfit>
+                 </StyledCell>
+                 <StyledCell>
+                   <Button
+                     variant="contained"
+                     color="primary"
+                     disableElevation
+                     onClick={() => removeRows(index)}
+                   >
+                     Remove
+                   </Button>
+                 </StyledCell>
+               </TableRow>
+             ))
+             )
+        }
         <TableRow>
           <StyledCell>
             <TextField
               InputProps={{ className: classes.root }}
               color="primary"
-              error={cF(items.ud[0]) === ''}
-              defaultValue={cF(items.ud)}
               fullWidth
               id="outlined-multiline-static"
-              multiline
-              rows={4}
               variant="outlined"
-              onChange={(e) => items.setUd([e.target.value])}
+              onChange={(e) => setNewVal(e.target.value)}
+              defaultValue={newVal}
             />
+          </StyledCell>
+          <StyledCell colSpan="5">
+            <Button variant="contained" color="primary" disableElevation fullWidth onClick={() => addItem(newVal)}>
+              Add Item
+            </Button>
           </StyledCell>
         </TableRow>
       </TableBody>
