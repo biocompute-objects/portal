@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import {
-  makeStyles, withStyles, Typography
+  Box, Container, Grid, makeStyles, withStyles, Typography,
+  Card,
+  CardActionArea,
+  CardContent,
 } from '@material-ui/core';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -8,7 +11,6 @@ import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import HelpIcon from '@material-ui/icons/Help';
-
 // For input_list and output_list.
 import Accordion from '@material-ui/core/Accordion';
 import AccordionSummary from '@material-ui/core/AccordionSummary';
@@ -16,10 +18,10 @@ import AccordionDetails from '@material-ui/core/AccordionDetails';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
-
+import { Textfit } from 'react-textfit';
 // Inputs
 import TextField from '@material-ui/core/TextField';
-
+import ListBox from 'src/components/ListBox';
 // Add step
 import Button from '@material-ui/core/Button';
 
@@ -48,7 +50,7 @@ const useStyles = makeStyles((theme) => ({
 // Cell styling
 const StyledCell = withStyles({
   root: {
-    color: 'white'
+    color: 'black'
   }
 })(TableCell);
 
@@ -66,6 +68,8 @@ export default function DescriptionDomain({
   const [missingXrefNamespace, setMissingXrefNamespace] = useState(false);
   const [missingXrefName, setMissingXrefName] = useState(false);
   const [missingXrefId, setMissingXrefId] = useState(false);
+  const [newPlatform, setNewPlatform] = useState();
+  const [newKeyword, setNewKeyword] = useState();
 
   // Special state variable required because of nested structure.
   const [missingXrefIdIndex, setMissingXrefIdIndex] = useState([]);
@@ -391,23 +395,25 @@ export default function DescriptionDomain({
   // See also https://stackoverflow.com/questions/42807901/react-input-element-value-vs-default-value
   const setInput = (event, i, inputName, which) => {
     // Get the state variable.
-    const dummy = items[which];
+    const tempVal = items[which];
 
     // TODO: Put in date-time logic...
 
     // Cases
     if (which === 'ddXref') {
       // Change the value at the given index.
-      dummy[i][inputName] = event.target.value;
+      tempVal[i][inputName] = event.target.value;
 
       // Update the state.
-      items.setDdXref(dummy);
-    } else if (which === 'ddPipelineSteps') {
+      items.setDdXref(tempVal);
+    }
+
+    if (which === 'ddPipelineSteps') {
       // Change the value at the given index.
-      dummy[i][inputName] = event.target.value;
+      tempVal[i][inputName] = event.target.value;
 
       // Update the state.
-      items.setDdPipelineSteps(dummy);
+      items.setDdPipelineSteps(tempVal);
     }
 
     // Needed to re-render the page.
@@ -416,16 +422,16 @@ export default function DescriptionDomain({
 
   const setPrerequisiteInput = (event, i, listtype, j, inputName) => {
   // Get the state variable.
-    let dummy = '';
+    let tempVal = '';
 
-    dummy = items.ddPipelineSteps;
+    tempVal = items.ddPipelineSteps;
     if (inputName === 'name') {
-      dummy[i][listtype][j][inputName] = event.target.value;
+      tempVal[i][listtype][j][inputName] = event.target.value;
     } else {
-      dummy[i][listtype][j].uri[inputName] = event.target.value;
+      tempVal[i][listtype][j].uri[inputName] = event.target.value;
     }
     // Update the state.
-    items.setDdPipelineSteps(dummy);
+    items.setDdPipelineSteps(tempVal);
 
     // Needed to re-render the page.
     items.setRerender(items.rerender + 1);
@@ -433,16 +439,16 @@ export default function DescriptionDomain({
 
   const setListInput = (event, i, listtype, j, inputName) => {
     // Get the state variable.
-    let dummy = '';
+    let tempVal = '';
 
     if (listtype === 'ids') {
-      dummy = items.ddXref;
-      dummy[i][listtype][j] = event.target.value;
-      items.setDdXref(dummy);
+      tempVal = items.ddXref;
+      tempVal[i][listtype][j] = event.target.value;
+      items.setDdXref(tempVal);
     } else {
-      dummy = items.ddPipelineSteps;
-      dummy[i][listtype][j][inputName] = event.target.value;
-      items.setDdPipelineSteps(dummy);
+      tempVal = items.ddPipelineSteps;
+      tempVal[i][listtype][j][inputName] = event.target.value;
+      items.setDdPipelineSteps(tempVal);
     }
 
     // Needed to re-render the page.
@@ -452,18 +458,18 @@ export default function DescriptionDomain({
   // Add a row
   const addRows = (which) => {
     // Get the state variable.
-    let dummy = items[which];
+    let tempVal = items[which];
 
     // Cases
     if (which === 'ddXref') {
       // Xref is not required as of IEEE 2791-2020,
       // so add it if it's missing.
       if (cF(items.ddXref) === '') {
-        dummy = [];
+        tempVal = [];
       }
 
       // Push the new row.
-      dummy.push({
+      tempVal.push({
         namespace: '',
         name: '',
         ids: [''],
@@ -471,14 +477,16 @@ export default function DescriptionDomain({
       });
 
       // Update the state.
-      items.setDdXref(dummy);
-    } else if (which === 'ddPipelineSteps') {
+      items.setDdXref(tempVal);
+    }
+
+    if (which === 'ddPipelineSteps') {
       // The step number is determined by how many
       // rows we already have.
       const stepNumber = items.ddPipelineSteps.length - 1;
 
       // Push the new row.
-      dummy.push({
+      tempVal.push({
         step_number: stepNumber,
         name: '',
         description: '',
@@ -488,7 +496,7 @@ export default function DescriptionDomain({
       });
 
       // Update the state.
-      items.setDdPipelineSteps(dummy);
+      items.setDdPipelineSteps(tempVal);
     }
 
     // Needed to re-render the page.
@@ -498,25 +506,24 @@ export default function DescriptionDomain({
   // Remove a row
   const removeRows = (which, i) => {
     // Get the state variable.
-    const dummy = items[which];
-
+    const tempVal = items[which];
     // Remove the index.
-    dummy.splice(i, 1);
+    tempVal.splice(i, 1);
 
     // Cases
     if (which === 'ddXref') {
       // Set the state, but only to valid objects
       // since Xref isn't required as of IEEE 2791-2020.
-      if (dummy.length === 0) {
+      if (tempVal.length === 0) {
         // Remove the review key completely.
         delete items[which];
       } else {
         // Update the state.
-        items.setDdXref(dummy);
+        items.setDdXref(tempVal);
       }
     } else if (which === 'ddPipelineSteps') {
       // Update the state.
-      items.setDdPipelineSteps(dummy);
+      items.setDdPipelineSteps(tempVal);
     }
 
     // Needed to re-render the page.
@@ -529,21 +536,21 @@ export default function DescriptionDomain({
     // call inside of setRows.
 
     // Get the state variable.
-    let dummy = '';
+    let tempVal = '';
 
     if (listtype === 'ids') {
-      dummy = items.ddXref;
+      tempVal = items.ddXref;
 
       // Push the new row.
-      dummy[which][listtype].push('');
+      tempVal[which][listtype].push('');
 
       // Update the state.
-      items.setDdXref(dummy);
+      items.setDdXref(tempVal);
     } else {
-      dummy = items.ddPipelineSteps;
+      tempVal = items.ddPipelineSteps;
       if (listtype === 'prerequisite') {
-        if ('prerequisite' in dummy[which]) {
-          dummy[which][listtype].push({
+        if ('prerequisite' in tempVal[which]) {
+          tempVal[which][listtype].push({
             name: '',
             uri: {
               uri: '',
@@ -559,123 +566,152 @@ export default function DescriptionDomain({
               uri: '', filename: '', access_time: '', sha1_checksum: ''
             }
           }]);
-          dummy[which][listtype] = prerequisite;
+          tempVal[which][listtype] = prerequisite;
         }
-        items.setDdPipelineSteps(dummy);
+        items.setDdPipelineSteps(tempVal);
       } else {
         // Push the new row.
-        dummy[which][listtype].push({
+        tempVal[which][listtype].push({
           uri: '',
           filename: '',
           access_time: '',
           sha1_checksum: ''
         });
         // Update the state.
-        items.setDdPipelineSteps(dummy);
+        items.setDdPipelineSteps(tempVal);
       }
     }
 
     // Needed to re-render the page.
     items.setRerender(items.rerender + 1);
   };
+  const addListItem = (item, listtype) => {
+    console.log('hadley', item, listtype);
+    if (listtype === 'ddKeywords') {
+      const temp = item;
+      items.ddKeywords.push(temp);
+    //   setNewVal('');
+    }
+    if (listtype === 'platform') {
+      const temp = item;
+      items.ddKeywords.push(temp);
+      // setNewVal('');
+    }
+    items.setRerender(items.rerender + 1);
+  };
 
   // Remove a row
-  const removeListRows = (which, subwhich, listtype) => {
+  const removeListRows = (index, subindex, listtype) => {
     // Get the state variable.
-    let dummy = '';
+    let tempVal = '';
 
-    if (listtype === 'ids') {
-      dummy = items.ddXref;
-
-      // Remove the index.
-      dummy[which][listtype].splice(subwhich, 1);
-
-      // Update the state.
-      items.setDdXref(dummy);
-    } else {
-      dummy = items.ddPipelineSteps;
-
-      // Remove the index.
-      dummy[which][listtype].splice(subwhich, 1);
-
-      // Update the state.
-      items.setDdPipelineSteps(dummy);
+    if (listtype === 'keywords') {
+      tempVal = items.ddKeywords;
+      tempVal.splice(index, 1);
+      console.log('hadley', items);
+      items.setDdKeywords(tempVal);
     }
 
+    if (listtype === 'platform') {
+      tempVal = items.ddPlatform;
+      tempVal.splice(index, 1);
+      console.log('hadley', items);
+      items.setDdKeywords(tempVal);
+    }
+
+    if (listtype === 'ids') {
+      tempVal = items.ddXref;
+      tempVal[index][listtype].splice(subindex, 1);
+      items.setDdXref(tempVal);
+    }
+
+    if (listtype === 'prerequisite') {
+      tempVal = items.ddPipelineSteps;
+      tempVal[index][listtype].splice(subindex, 1);
+      items.setDdPipelineSteps(tempVal);
+    }
+
+    if (listtype === 'input_list') {
+      tempVal = items.ddPipelineSteps;
+      tempVal[index][listtype].splice(subindex, 1);
+      items.setDdPipelineSteps(tempVal);
+    }
+
+    if (listtype === 'output_list') {
+      tempVal = items.ddPipelineSteps;
+      tempVal[index][listtype].splice(subindex, 1);
+      items.setDdPipelineSteps(tempVal);
+    }
     // Needed to re-render the page.
     items.setRerender(items.rerender + 1);
   };
 
+  const listHeaders = ['Keywords', 'Platform'];
+
   return (
-    <Table size="small">
-      <TableHead className={classes.tabled}>
-        <TableRow>
-          <StyledCell colSpan="12">
-            <Button
-              variant="contained"
-              // color="D5D8DC"
-              fullWidth
-              onClick={() => window.open('https://docs.biocomputeobject.org/description-domain/')}
-            >
-              <Typography className={missingDescriptionDomain ? classes.missingHeader : classes.header} variant="h1">
-                Description Domain &nbsp;
-                <HelpIcon />
+    <Container>
+      <Card className={classes.linkCard}>
+        <CardActionArea onClick={() => window.open('https://docs.biocomputeobject.org/description-domain/')}>
+          <CardContent className={classes.linkCard}>
+            <Typography className={missingDescriptionDomain ? classes.missingHeader : classes.header} variant="h1">
+              Description Domain &nbsp;<HelpIcon />
+            </Typography>
+          </CardContent>
+        </CardActionArea>
+      </Card>
+      <Grid classes={classes.colored} container justifyContent="space-around" spacing={3}>
+        <Grid item lg={6} sm={6} xl={6} xs={12}>
+          <ListBox
+            link="https://docs.biocomputeobject.org/description-domain/"
+            header={listHeaders[0]}
+            list={items.ddKeywords}
+            setList={items.setDdKeywords}
+            setRerender={items.setRerender}
+          />
+        </Grid>
+        <Grid item lg={6} sm={6} xl={6} xs={12}>
+          <ListBox
+            link="https://docs.biocomputeobject.org/description-domain/"
+            header={listHeaders[1]}
+            list={items.ddPlatform}
+            setList={items.setDdPlatform}
+            setRerender={items.setRerender}
+          />
+        </Grid>
+      </Grid>
+      <Table size="small">
+        <TableBody>
+          <TableRow>
+            <TableCell colSpan="5">
+              <Typography className={missingXref ? classes.missingHeaderOptional : classes.header} variant="h3">
+                Xref
               </Typography>
-            </Button>
-          </StyledCell>
-        </TableRow>
-      </TableHead>
-      <TableBody>
-        <TableRow>
-          <TableCell>
-            <Typography key="typography1" className={missingKeywords ? classes.missingHeader : classes.header} variant="h3">
-              Keywords
-            </Typography>
-          </TableCell>
-          <StyledCell>
-            <TextField InputProps={{ className: classes.root }} error={!!missingKeywords} fullWidth variant="outlined" value={cF(items.ddKeywords)} onChange={(e) => items.setDdKeywords([e.target.value])} />
-          </StyledCell>
-          <TableCell>
-            <Typography>
-              Platform
-            </Typography>
-          </TableCell>
-          <StyledCell>
-            <TextField InputProps={{ className: classes.root }} fullWidth variant="outlined" value={cF(items.ddPlatform)} onChange={(e) => items.setDdPlatform([e.target.value])} />
-          </StyledCell>
-          <TableCell />
-        </TableRow>
-        <TableRow>
-          <TableCell colSpan="5">
-            <Typography className={missingXref ? classes.missingHeaderOptional : classes.header} variant="h3">
-              Xref
-            </Typography>
-          </TableCell>
-        </TableRow>
-        <TableRow>
-          <TableCell>
-            <Typography className={missingXrefNamespace ? classes.missingHeaderOptional : classes.header}>
-              Namespace
-            </Typography>
-          </TableCell>
-          <TableCell>
-            <Typography className={missingXrefName ? classes.missingHeaderOptional : classes.header}>
-              Name
-            </Typography>
-          </TableCell>
-          <TableCell>
-            <Typography className={missingXrefId ? classes.missingHeaderOptional : classes.header}>
-              IDs
-            </Typography>
-          </TableCell>
-          <TableCell>
-            <Typography className={missingXrefAccessTime ? classes.missingHeaderOptional : classes.header}>
-              Access Time
-            </Typography>
-          </TableCell>
-          <TableCell />
-        </TableRow>
-        {
+            </TableCell>
+          </TableRow>
+          <TableRow>
+            <TableCell>
+              <Typography className={missingXrefNamespace ? classes.missingHeaderOptional : classes.header}>
+                Namespace
+              </Typography>
+            </TableCell>
+            <TableCell>
+              <Typography className={missingXrefName ? classes.missingHeaderOptional : classes.header}>
+                Name
+              </Typography>
+            </TableCell>
+            <TableCell>
+              <Typography className={missingXrefId ? classes.missingHeaderOptional : classes.header}>
+                IDs
+              </Typography>
+            </TableCell>
+            <TableCell>
+              <Typography className={missingXrefAccessTime ? classes.missingHeaderOptional : classes.header}>
+                Access Time
+              </Typography>
+            </TableCell>
+            <TableCell />
+          </TableRow>
+          {
         cF(items.ddXref) !== ''
           ? items.ddXref.map((item, index) => (
             <TableRow key={index.toString()}>
@@ -743,44 +779,44 @@ export default function DescriptionDomain({
           ))
           : null
       }
-        <TableRow>
-          <StyledCell colSpan="4">
-            <Button variant="contained" color="primary" disableElevation fullWidth onClick={() => addRows('ddXref')}>
-              Add Xref
-            </Button>
-          </StyledCell>
-        </TableRow>
-        <TableRow>
-          <TableCell colSpan="5">
-            <Typography className={missingSteps ? classes.missingHeader : classes.header} variant="h3">
-              Steps
-            </Typography>
-          </TableCell>
-        </TableRow>
-        <TableRow>
-          <TableCell>
-            <Typography className={missingStepsNumber ? classes.missingHeader : classes.header}>
-              Step Number
-            </Typography>
-          </TableCell>
-          <TableCell>
-            <Typography className={missingStepsName ? classes.missingHeader : classes.header}>
-              Name
-            </Typography>
-          </TableCell>
-          <TableCell>
-            <Typography className={missingStepsDescription ? classes.missingHeader : classes.header}>
-              Description
-            </Typography>
-          </TableCell>
-          <TableCell>
-            <Typography className={missingStepsVersion ? classes.missingHeader : classes.header}>
-              Version
-            </Typography>
-          </TableCell>
-          <TableCell />
-        </TableRow>
-        {
+          <TableRow>
+            <StyledCell colSpan="4">
+              <Button variant="contained" color="primary" disableElevation fullWidth onClick={() => addRows('ddXref')}>
+                Add Xref
+              </Button>
+            </StyledCell>
+          </TableRow>
+          <TableRow>
+            <TableCell colSpan="5">
+              <Typography className={missingSteps ? classes.missingHeader : classes.header} variant="h3">
+                Steps
+              </Typography>
+            </TableCell>
+          </TableRow>
+          <TableRow>
+            <TableCell>
+              <Typography className={missingStepsNumber ? classes.missingHeader : classes.header}>
+                Step Number
+              </Typography>
+            </TableCell>
+            <TableCell>
+              <Typography className={missingStepsName ? classes.missingHeader : classes.header}>
+                Name
+              </Typography>
+            </TableCell>
+            <TableCell>
+              <Typography className={missingStepsDescription ? classes.missingHeader : classes.header}>
+                Description
+              </Typography>
+            </TableCell>
+            <TableCell>
+              <Typography className={missingStepsVersion ? classes.missingHeader : classes.header}>
+                Version
+              </Typography>
+            </TableCell>
+            <TableCell />
+          </TableRow>
+          {
         items.ddPipelineSteps.map((item, index) => (
           <>
             <TableRow key={`${index.toString()}_Pipeline1`}>
@@ -811,7 +847,7 @@ export default function DescriptionDomain({
                     aria-controls="panel1a-content"
                     id="panel1a-header"
                   >
-                    <Typography className={missingStepsOutputUri ? classes.missingHeader : classes.header} >
+                    <Typography className={missingStepsOutputUri ? classes.missingHeader : classes.header}>
                       Show Prerequisites
                     </Typography>
                   </AccordionSummary>
@@ -875,7 +911,7 @@ export default function DescriptionDomain({
                     aria-controls="panel1a-content"
                     id="panel1a-header"
                   >
-                    <Typography className={missingStepsInputUri ? classes.missingHeader : classes.header} >
+                    <Typography className={missingStepsInputUri ? classes.missingHeader : classes.header}>
                       Show Inputs
                     </Typography>
                   </AccordionSummary>
@@ -935,7 +971,7 @@ export default function DescriptionDomain({
                     aria-controls="panel1a-content"
                     id="panel1a-header"
                   >
-                    <Typography className={missingStepsOutputUri ? classes.missingHeader : classes.header} >
+                    <Typography className={missingStepsOutputUri ? classes.missingHeader : classes.header}>
                       Show Outputs
                     </Typography>
                   </AccordionSummary>
@@ -993,14 +1029,15 @@ export default function DescriptionDomain({
           </>
         ))
         }
-        <TableRow>
-          <StyledCell colSpan="5">
-            <Button variant="contained" color="primary" disableElevation fullWidth onClick={() => addRows('ddPipelineSteps')}>
-              Add Step
-            </Button>
-          </StyledCell>
-        </TableRow>
-      </TableBody>
-    </Table>
+          <TableRow>
+            <StyledCell colSpan="5">
+              <Button variant="contained" color="primary" disableElevation fullWidth onClick={() => addRows('ddPipelineSteps')}>
+                Add Step
+              </Button>
+            </StyledCell>
+          </TableRow>
+        </TableBody>
+      </Table>
+    </Container>
   );
 }

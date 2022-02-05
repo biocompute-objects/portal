@@ -147,6 +147,12 @@ function ColorCoded({
   // are set in the parent.
   const renderList = [
     {
+      complianceCheck, checkBlank, ddKeywords, ddPlatform, ddXref, ddPipelineSteps, rerender, setDdKeywords, setDdPlatform, setDdXref, setDdPipelineSteps, setRerender
+    },
+    {
+      complianceCheck, checkBlank, edScript, edScriptDriver, edSoftwarePrerequisites, edExternalDataEndpoints, edEnvironmentVariables, rerender, setEdScript, setEdScriptDriver, setEdSoftwarePrerequisites, setEdExternalDataEndpoints, setEdEnvironmentVariables, setRerender
+    },
+    {
       complianceCheck, checkBlank, ud, setUd, rerender, setRerender
     },
     {
@@ -160,12 +166,6 @@ function ColorCoded({
       complianceCheck, checkBlank, iodInputSubdomain, iodOutputSubdomain, setIodInputSubdomain, setIodOutputSubdomain, rerender, setRerender
     },
     {
-      complianceCheck, checkBlank, edScript, edScriptDriver, edSoftwarePrerequisites, edExternalDataEndpoints, edEnvironmentVariables, rerender, setEdScript, setEdScriptDriver, setEdSoftwarePrerequisites, setEdExternalDataEndpoints, setEdEnvironmentVariables, setRerender
-    },
-    {
-      complianceCheck, checkBlank, ddKeywords, ddPlatform, ddXref, ddPipelineSteps, rerender, setDdKeywords, setDdPlatform, setDdXref, setDdPipelineSteps, setRerender
-    },
-    {
       complianceCheck, checkBlank, pad, rerender, setPad, setRerender
     },
     {
@@ -176,8 +176,8 @@ function ColorCoded({
     }
   ];
 
-  const compList = [UsabilityDomain, Meta, ProvenanceDomain, IoDomain, ExecutionDomain, DescriptionDomain, ParametricDomain, ErrorDomain, ExtensionDomain];
-  const classNames = ['usabilityDomain', 'meta', 'provenanceDomain', 'ioDomain', 'executionDomain', 'descriptionDomain', 'parametricDomain', 'errorDomain', 'extensionDomain'];
+  const compList = [DescriptionDomain, ExecutionDomain, UsabilityDomain, Meta, ProvenanceDomain, IoDomain, ParametricDomain, ErrorDomain, ExtensionDomain];
+  const classNames = ['descriptionDomain', 'executionDomain', 'usabilityDomain', 'meta', 'provenanceDomain', 'ioDomain', 'parametricDomain', 'errorDomain', 'extensionDomain'];
 
   // Listeners
   // Listen for ANY change to the object,
@@ -201,6 +201,7 @@ function ColorCoded({
       usability_domain: ud,
       description_domain: {
         keywords: ddKeywords,
+        platform: ddPlatform,
         pipeline_steps: ddPipelineSteps
       },
       execution_domain: {

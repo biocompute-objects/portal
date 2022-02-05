@@ -38,7 +38,6 @@ const useStyles = makeStyles((theme) => ({
 
 // Pass an object and whether or not its keys are properties.
 export default function Meta({ items }) {
-  console.log('ITEMS CHECK: ', items);
   const classes = withStyles();
   const svgClasses = useStyles();
   const makeETag = () => {
