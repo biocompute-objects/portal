@@ -103,11 +103,11 @@ function ColorCoded({
   const [pdContributors, setPdContributors] = useState(provenanceDomain.contributors ? provenanceDomain.contributors : [{ contribution: ['createdBy'], name: '' }]);
 
   // Usability domain
-  const [ud, setUd] = useState(objectContents.usability_domain ? objectContents.usability_domain : ['']);
+  const [ud, setUd] = useState(objectContents.usability_domain);
 
   // Description domain
   const [descriptionDomain, setDescriptionDomain] = useState(objectContents.description_domain ? objectContents.description_domain : {});
-  const [ddKeywords, setDdKeywords] = useState(descriptionDomain.keywords ? descriptionDomain.keywords : ['']);
+  const [ddKeywords, setDdKeywords] = useState(descriptionDomain.keywords);
   const [ddPlatform, setDdPlatform] = useState(descriptionDomain.platform);
   const [ddXref, setDdXref] = useState(descriptionDomain.xref);
   const [ddPipelineSteps, setDdPipelineSteps] = useState(descriptionDomain.pipeline_steps ? descriptionDomain.pipeline_steps : [{
@@ -125,14 +125,16 @@ function ColorCoded({
 
   // IO Domain
   const [ioDomain, setIoDomain] = useState(objectContents.io_domain ? objectContents.io_domain : {});
-  const [iodInputSubdomain, setIodInputSubdomain] = useState(ioDomain.input_subdomain ? ioDomain.input_subdomain : [{ uri: { uri: '' } }]);
-  const [iodOutputSubdomain, setIodOutputSubdomain] = useState(ioDomain.output_subdomain ? ioDomain.output_subdomain : [{ mediatype: '', uri: { uri: '' } }]);
+  const [iodInputSubdomain, setIodInputSubdomain] = useState(ioDomain.input_subdomain);
+  const [iodOutputSubdomain, setIodOutputSubdomain] = useState(ioDomain.output_subdomain);
 
   // Parametric domain
   const [pad, setPad] = useState(objectContents.parametric_domain);
 
   // Error domain
   const [errd, setErrd] = useState(objectContents.error_domain ? objectContents.error_domain : {});
+  const [empirical, setEmpirical] = useState(errd.empirical_error);
+  const [algorithmic, setAlgorithmic] = useState(errd.algorithmic_error);
 
   // Extension domain
   const [exd, setExd] = useState(objectContents.extension_domain);
@@ -146,6 +148,13 @@ function ColorCoded({
   // Note that meta attributes have no setters as they
   // are set in the parent.
   const renderList = [
+
+    {
+      complianceCheck, checkBlank, iodInputSubdomain, iodOutputSubdomain, setIodInputSubdomain, setIodOutputSubdomain, rerender, setRerender
+    },
+    {
+      complianceCheck, checkBlank, empirical, setEmpirical, algorithmic, setAlgorithmic
+    },
     {
       complianceCheck, checkBlank, ddKeywords, ddPlatform, ddXref, ddPipelineSteps, rerender, setDdKeywords, setDdPlatform, setDdXref, setDdPipelineSteps, setRerender
     },
@@ -161,23 +170,16 @@ function ColorCoded({
     {
       complianceCheck, checkBlank, pdName, pdVersion, pdLicense, pdDerivedFrom, pdCreated, pdModifed, pdObsoleteAfter, pdEmbargoStartTime, pdEmbargoEndTime, pdReview, pdContributors, rerender, setRerender, setPdName, setPdVersion, setPdLicense, setPdDerivedFrom, setPdCreated, setPdModified, setPdObsoleteAfter, setPdEmbargoStartTime, setPdEmbargoEndTime, setPdReview, setPdContributors
     },
-
-    {
-      complianceCheck, checkBlank, iodInputSubdomain, iodOutputSubdomain, setIodInputSubdomain, setIodOutputSubdomain, rerender, setRerender
-    },
     {
       complianceCheck, checkBlank, pad, rerender, setPad, setRerender
-    },
-    {
-      complianceCheck, checkBlank, errd, setErrd
     },
     {
       complianceCheck, checkBlank, exd, setExd, setRerender
     }
   ];
 
-  const compList = [DescriptionDomain, ExecutionDomain, UsabilityDomain, Meta, ProvenanceDomain, IoDomain, ParametricDomain, ErrorDomain, ExtensionDomain];
-  const classNames = ['descriptionDomain', 'executionDomain', 'usabilityDomain', 'meta', 'provenanceDomain', 'ioDomain', 'parametricDomain', 'errorDomain', 'extensionDomain'];
+  const compList = [IoDomain, ErrorDomain, DescriptionDomain, ExecutionDomain, UsabilityDomain, Meta, ProvenanceDomain, ParametricDomain, ExtensionDomain];
+  const classNames = ['ioDomain', 'errorDomain', 'descriptionDomain', 'executionDomain', 'usabilityDomain', 'meta', 'provenanceDomain', 'parametricDomain', 'extensionDomain'];
 
   // Listeners
   // Listen for ANY change to the object,
@@ -216,7 +218,10 @@ function ColorCoded({
         output_subdomain: iodOutputSubdomain
       },
       parametric_domain: pad,
-      error_domain: errd,
+      error_domain: {
+        empirical_error: empirical,
+        algorithmic_error: algorithmic
+      },
       extension_domain: exd
     });
     // localStorage.setItem('bco', JSON.stringify(objectContents));
@@ -224,7 +229,7 @@ function ColorCoded({
     pdObsoleteAfter, pdEmbargoStartTime, pdEmbargoEndTime, pdReview,
     pdContributors, ud, ddKeywords, ddPlatform, ddXref, ddPipelineSteps,
     edScript, edScriptDriver, edSoftwarePrerequisites, edExternalDataEndpoints,
-    edEnvironmentVariables, iodInputSubdomain, iodOutputSubdomain, pad, errd, exd]);
+    edEnvironmentVariables, iodInputSubdomain, iodOutputSubdomain, pad, empirical, algorithmic, exd]);
 
   return (
     <ColorCodedContext.Provider value={{

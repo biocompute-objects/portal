@@ -1,18 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { withStyles } from '@material-ui/core';
-import TableCell from '@material-ui/core/TableCell';
 import ListBox from 'src/components/ListBox';
-
-
-// Cell styling
-const StyledCell = withStyles({
-  root: {
-    color: 'black'
-  },
-  bordered: {
-    border: '1px solid black'
-  }
-})(TableCell);
+import PropTypes from 'prop-types';
 
 // Pass an object and whether or not its keys are properties.
 export default function UsabilityDomain({ items }) {
@@ -20,12 +8,12 @@ export default function UsabilityDomain({ items }) {
   const [missingUsabilityDomain, setMissingUsabilityDomain] = useState(false);
 
   useEffect(() => {
-    if (items.ud[0] === '') {
+    if (!items.ud) {
       setMissingUsabilityDomain(true);
     } else {
       setMissingUsabilityDomain(false);
     }
-  }, [items]);
+  }, [items.ud]);
 
   return (
     <ListBox
@@ -34,6 +22,11 @@ export default function UsabilityDomain({ items }) {
       list={items.ud}
       setList={items.setUd}
       setRerender={items.setRerender}
+      rerender={items.rerender}
     />
   );
 }
+
+UsabilityDomain.propTypes = {
+  items: PropTypes.object.isRequired,
+};

@@ -1,6 +1,6 @@
 // src/views/builder/BuilderView/JsonView.js
-
-import React, { useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
+import React, { useState } from 'react';
 import {
   makeStyles, withStyles, Typography
 } from '@material-ui/core';
@@ -47,31 +47,33 @@ const StyledCell = withStyles({
 })(TableCell);
 
 // Pass an object and whether or not its keys are properties.
-export default function JsonView(items) {
-  const contents = JSON.parse(localStorage.getItem('bco'));
+export default function JsonView({
+  jsonContents, setJsonContents, header, rows
+}) {
   const classes = useStyles();
 
-  const rawContents = JSON.stringify(items.objectContents, null, 4);
+  const rawContents = JSON.stringify(jsonContents, null, 4);
   const [jsonErrors, setJsonErrors] = useState('');
-  const setInput = (value,) => {
+  const setInput = (value) => {
+    console.log('working?', 'hadley');
     let holder = {};
     holder = JSON.parse(value);
-    items.setObjectContents(holder);
-    console.log('working?', value, holder);
+    setJsonContents(holder);
   };
+
   return (
     <Table size="small">
       <TableHead className={classes.tabled}>
         <TableRow>
           <StyledCell colSpan="5">
             <Typography component="span" variant="h3">
-              Raw JSON
+              {header}
             </Typography>
           </StyledCell>
         </TableRow>
       </TableHead>
       <TableBody>
-      <TableRow>
+        <TableRow>
           <Card className={classes.root}>
             <CardContent>
               <Typography className={jsonErrors !== '' ? classes.errors : classes.pass} variant="h5" component="h2">
@@ -87,9 +89,9 @@ export default function JsonView(items) {
               fullWidth
               id="outlined-multiline-static"
               multiline
-              rows={18}
+              rows={rows}
               defaultValue={rawContents}
-              onChange={(e) => setInput(e)}
+              onChange={(e) => setInput(e.target.value)}
               variant="outlined"
             />
           </StyledCell>
@@ -98,3 +100,10 @@ export default function JsonView(items) {
     </Table>
   );
 }
+
+JsonView.propTypes = {
+  jsonContents: PropTypes.object.isRequired,
+  setJsonContents: PropTypes.func.isRequired,
+  header: PropTypes.string.isRequired,
+  rows: PropTypes.number.isRequired,
+};

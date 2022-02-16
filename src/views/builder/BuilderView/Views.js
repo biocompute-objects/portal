@@ -19,7 +19,7 @@ import InsertDriveFileIcon from '@material-ui/icons/InsertDriveFile';
 // Color-coded view
 import ColorCoded from './ColorCoded';
 import TreeView from './TreeView';
-import JsonView from './JsonView';
+import JsonView from 'src/components/JsonView';
 
 function TabPanel(props) {
   const {
@@ -84,7 +84,7 @@ export default function Views({
   // Define a variable for switching views within
   // the component (as opposed to getting the value)
   // from the parent).
-  const [componentView, setComponentView] = useState(0);
+  const [componentView, setComponentView] = useState(2);
 
   const handleChange = (event, newValue) => {
     setComponentView(newValue);
@@ -124,8 +124,10 @@ export default function Views({
           </TabPanel>
           <TabPanel value={componentView} index={2}>
             <JsonView
-              objectContents={objectContents}
-              setObjectContents={setObjectContents}
+              jsonContents={objectContents}
+              setJsonContents={setObjectContents}
+              header={'Raw JSON'}
+              rows={18}
             />
           </TabPanel>
         </div>

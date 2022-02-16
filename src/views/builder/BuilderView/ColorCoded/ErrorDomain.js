@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import {
   makeStyles, withStyles, Typography
 } from '@material-ui/core';
@@ -9,9 +10,7 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import HelpIcon from '@material-ui/icons/Help';
 import Button from '@material-ui/core/Button';
-
-// Multiline Input
-import TextField from '@material-ui/core/TextField';
+import JsonView from 'src/components/JsonView';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -34,9 +33,10 @@ const StyledCell = withStyles({
 })(TableCell);
 
 // Pass an object and whether or not its keys are properties.
-export default function ErrorDomain({ items, cF }) {
+export default function ErrorDomain({ items }) {
   const inputClasses = useStyles();
   const classes = withStyles();
+  console.log('working', items);
 
   return (
     <Table size="small">
@@ -59,21 +59,26 @@ export default function ErrorDomain({ items, cF }) {
       </TableHead>
       <TableBody>
         <TableRow>
-          <StyledCell>
-            <TextField
-              InputProps={{ className: inputClasses.root }}
-              color="primary"
-              defaultValue={JSON.stringify(cF(items.errd), null, 4)}
-              fullWidth
-              id="outlined-multiline-static"
-              multiline
-              onChange={(e) => items.setErrd([e.target.value])}
-              rows={8}
-              variant="outlined"
-            />
-          </StyledCell>
+          <JsonView
+            jsonContents={items.empirical}
+            setJsonContents={items.setEmpirical}
+            header="Empirical Error Subdomain"
+            rows={4}
+          />
+        </TableRow>
+        <TableRow>
+          <JsonView
+            jsonContents={items.algorithmic}
+            setJsonContents={items.setAlgorithmic}
+            header="Algorithmic Error Subdomain"
+            rows={4}
+          />
         </TableRow>
       </TableBody>
     </Table>
   );
 }
+
+ErrorDomain.propTypes = {
+  items: PropTypes.any.isRequired
+};

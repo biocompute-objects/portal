@@ -1,6 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import {
-  Box, Container, Grid, makeStyles, withStyles, Typography,
+  Accordion,
+  AccordionDetails,
+  AccordionSummary,
+  Box, Container,
+  Grid, ListItem,
+  makeStyles,
+  withStyles,
+  Typography,
   Card,
   CardActionArea,
   CardContent,
@@ -12,18 +19,15 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import HelpIcon from '@material-ui/icons/Help';
 // For input_list and output_list.
-import Accordion from '@material-ui/core/Accordion';
-import AccordionSummary from '@material-ui/core/AccordionSummary';
-import AccordionDetails from '@material-ui/core/AccordionDetails';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
 import { Textfit } from 'react-textfit';
 // Inputs
 import TextField from '@material-ui/core/TextField';
 import ListBox from 'src/components/ListBox';
 // Add step
 import Button from '@material-ui/core/Button';
+import XternalRef from './components/XternalRef';
 
 // Section cell styling
 const useStyles = makeStyles((theme) => ({
@@ -87,7 +91,7 @@ export default function DescriptionDomain({
     // Create an OR flag.
     let orFlag = false;
     // Keywords
-    if (items.ddKeywords[0] === '') {
+    if (!items.ddKeywords) {
       // No keywords
       setMissingKeywords(true);
 
@@ -654,29 +658,41 @@ export default function DescriptionDomain({
         <CardActionArea onClick={() => window.open('https://docs.biocomputeobject.org/description-domain/')}>
           <CardContent className={classes.linkCard}>
             <Typography className={missingDescriptionDomain ? classes.missingHeader : classes.header} variant="h1">
-              Description Domain &nbsp;<HelpIcon />
+              Description Domain &nbsp;
+              <HelpIcon />
             </Typography>
           </CardContent>
         </CardActionArea>
       </Card>
       <Grid classes={classes.colored} container justifyContent="space-around" spacing={3}>
-        <Grid item lg={6} sm={6} xl={6} xs={12}>
+        <Grid item lg={4} sm={6} xl={4} xs={12}>
           <ListBox
             link="https://docs.biocomputeobject.org/description-domain/"
             header={listHeaders[0]}
             list={items.ddKeywords}
             setList={items.setDdKeywords}
             setRerender={items.setRerender}
+            rerender={items.rerender}
           />
         </Grid>
-        <Grid item lg={6} sm={6} xl={6} xs={12}>
+        <Grid item lg={4} sm={6} xl={4} xs={12}>
           <ListBox
             link="https://docs.biocomputeobject.org/description-domain/"
-            header={listHeaders[1]}
+            header="Platform"
             list={items.ddPlatform}
             setList={items.setDdPlatform}
             setRerender={items.setRerender}
           />
+          {/* <Grid item lg={4} sm={6} xl={4} xs={12}>
+            <XternalRef
+              link="https://docs.biocomputeobject.org/description-domain/"
+              header={listHeaders[1]}
+              list={items.ddXref}
+              setList={items.setDdXref}
+              setRerender={items.setRerender}
+              fields={['Namespace', 'Name', 'IDs', 'Access Time']}
+            />
+          </Grid> */}
         </Grid>
       </Grid>
       <Table size="small">
