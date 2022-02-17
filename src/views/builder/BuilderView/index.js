@@ -4,8 +4,8 @@
 import React, { createContext, useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import PermissionTools from 'src/components/PermissionTools';
+import Page from 'src/components/Page';
 import Views from './Views';
-
 // This is the parent for the object views.
 
 // The state model is based on https://reactjs.org/docs/lifting-state-up.html
@@ -191,7 +191,7 @@ export default function BuilderView() {
 
   return (
     <DeepContext.Provider value={{ objectOwner }}>
-      <div>
+      <Page title="BioCompute Builder">
         <PermissionTools
           contents={objectContents}
           setObjectContents={setObjectContents}
@@ -213,7 +213,7 @@ export default function BuilderView() {
           meEtagSet={meEtagSet}
 
         />
-      </div>
+      </Page>
     </DeepContext.Provider>
   );
 }

@@ -165,7 +165,7 @@ export default function Views({ objectId }) {
               There was a problem with the request, see output below.
             </Typography>
             <Typography>
-              Server http://127.0.0.1 says:
+              Object not found
               {' '}
               {objectInfo}
             </Typography>

@@ -34,7 +34,7 @@ const HomeView = () => {
   const classes = useStyles();
 
   return (
-    <Page className={classes.root} title="Dashboard">
+    <Page className={classes.root} title="BioCompute Home">
       <Container maxWidth={false}>
         <Grid container justifyContent="center" spacing={3}>
           <Grid item xs={12} sm={8} lg={9} xl={10}>

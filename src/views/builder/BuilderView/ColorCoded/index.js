@@ -120,7 +120,6 @@ function ColorCoded({
   const [edScriptDriver, setEdScriptDriver] = useState(executionDomain.script_driver ? executionDomain.script_driver : '');
   const [edSoftwarePrerequisites, setEdSoftwarePrerequisites] = useState(executionDomain.software_prerequisites ? executionDomain.software_prerequisites : [{ name: '', version: '', uri: { uri: '' } }]);
   const [edExternalDataEndpoints, setEdExternalDataEndpoints] = useState(executionDomain.external_data_endpoints ? executionDomain.external_data_endpoints : [{ name: '', url: '' }]);
-
   const [edEnvironmentVariables, setEdEnvironmentVariables] = useState(executionDomain.environment_variables);
 
   // IO Domain
@@ -147,9 +146,6 @@ function ColorCoded({
   // are set in the parent.
   const renderList = [
     {
-        complianceCheck, checkBlank, edScript, edScriptDriver, edSoftwarePrerequisites, edExternalDataEndpoints, edEnvironmentVariables, rerender, setEdScript, setEdScriptDriver, setEdSoftwarePrerequisites, setEdExternalDataEndpoints, setEdEnvironmentVariables, setRerender
-    },
-    {
       complianceCheck, meObjectId, meEtagSet, setMeEtagSet, meEtag, setMeEtag, rerender, setRerender, objectContents
     },
     {
@@ -165,6 +161,9 @@ function ColorCoded({
       complianceCheck, checkBlank, ddKeywords, ddPlatform, ddXref, ddPipelineSteps, rerender, setDdKeywords, setDdPlatform, setDdXref, setDdPipelineSteps, setRerender
     },
     {
+      complianceCheck, checkBlank, edScript, edScriptDriver, edSoftwarePrerequisites, edExternalDataEndpoints, edEnvironmentVariables, rerender, setEdScript, setEdScriptDriver, setEdSoftwarePrerequisites, setEdExternalDataEndpoints, setEdEnvironmentVariables, setRerender
+    },
+    {
       complianceCheck, checkBlank, iodInputSubdomain, iodOutputSubdomain, setIodInputSubdomain, setIodOutputSubdomain, rerender, setRerender
     },
     {
@@ -175,8 +174,8 @@ function ColorCoded({
     }
   ];
 
-  const compList = [ExecutionDomain, Meta, ProvenanceDomain, UsabilityDomain, ExtensionDomain, DescriptionDomain, IoDomain, ParametricDomain, ErrorDomain];
-  const classNames = ['executionDomain', 'meta', 'provenanceDomain', 'usabilityDomain', 'extensionDomain', 'descriptionDomain', 'ioDomain', 'parametricDomain', 'errorDomain'];
+  const compList = [Meta, ProvenanceDomain, UsabilityDomain, ExtensionDomain, DescriptionDomain, ExecutionDomain, IoDomain, ParametricDomain, ErrorDomain];
+  const classNames = ['meta', 'provenanceDomain', 'usabilityDomain', 'extensionDomain', 'descriptionDomain', 'executionDomain', 'ioDomain', 'parametricDomain', 'errorDomain'];
 
   // Listeners
   // Listen for ANY change to the object,
