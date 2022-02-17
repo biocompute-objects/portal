@@ -132,9 +132,7 @@ function ColorCoded({
   const [pad, setPad] = useState(objectContents.parametric_domain);
 
   // Error domain
-  const [errd, setErrd] = useState(objectContents.error_domain ? objectContents.error_domain : {});
-  const [empirical, setEmpirical] = useState(errd.empirical_error);
-  const [algorithmic, setAlgorithmic] = useState(errd.algorithmic_error);
+  const [errd, setErrd] = useState(objectContents.error_domain);
 
   // Extension domain
   const [exd, setExd] = useState(objectContents.extension_domain);
@@ -148,12 +146,17 @@ function ColorCoded({
   // Note that meta attributes have no setters as they
   // are set in the parent.
   const renderList = [
-
     {
-      complianceCheck, checkBlank, iodInputSubdomain, iodOutputSubdomain, setIodInputSubdomain, setIodOutputSubdomain, rerender, setRerender
+      complianceCheck, meObjectId, meEtagSet, setMeEtagSet, meEtag, setMeEtag, rerender, setRerender, objectContents
     },
     {
-      complianceCheck, checkBlank, empirical, setEmpirical, algorithmic, setAlgorithmic
+      complianceCheck, checkBlank, pdName, pdVersion, pdLicense, pdDerivedFrom, pdCreated, pdModifed, pdObsoleteAfter, pdEmbargoStartTime, pdEmbargoEndTime, pdReview, pdContributors, rerender, setRerender, setPdName, setPdVersion, setPdLicense, setPdDerivedFrom, setPdCreated, setPdModified, setPdObsoleteAfter, setPdEmbargoStartTime, setPdEmbargoEndTime, setPdReview, setPdContributors
+    },
+    {
+      complianceCheck, checkBlank, ud, setUd, rerender, setRerender
+    },
+    {
+      complianceCheck, checkBlank, exd, setExd, setRerender
     },
     {
       complianceCheck, checkBlank, ddKeywords, ddPlatform, ddXref, ddPipelineSteps, rerender, setDdKeywords, setDdPlatform, setDdXref, setDdPipelineSteps, setRerender
@@ -162,24 +165,18 @@ function ColorCoded({
       complianceCheck, checkBlank, edScript, edScriptDriver, edSoftwarePrerequisites, edExternalDataEndpoints, edEnvironmentVariables, rerender, setEdScript, setEdScriptDriver, setEdSoftwarePrerequisites, setEdExternalDataEndpoints, setEdEnvironmentVariables, setRerender
     },
     {
-      complianceCheck, checkBlank, ud, setUd, rerender, setRerender
-    },
-    {
-      complianceCheck, meObjectId, meEtagSet, setMeEtagSet, meEtag, setMeEtag, rerender, setRerender, objectContents
-    },
-    {
-      complianceCheck, checkBlank, pdName, pdVersion, pdLicense, pdDerivedFrom, pdCreated, pdModifed, pdObsoleteAfter, pdEmbargoStartTime, pdEmbargoEndTime, pdReview, pdContributors, rerender, setRerender, setPdName, setPdVersion, setPdLicense, setPdDerivedFrom, setPdCreated, setPdModified, setPdObsoleteAfter, setPdEmbargoStartTime, setPdEmbargoEndTime, setPdReview, setPdContributors
+      complianceCheck, checkBlank, iodInputSubdomain, iodOutputSubdomain, setIodInputSubdomain, setIodOutputSubdomain, rerender, setRerender
     },
     {
       complianceCheck, checkBlank, pad, rerender, setPad, setRerender
     },
     {
-      complianceCheck, checkBlank, exd, setExd, setRerender
+      complianceCheck, checkBlank, errd, setErrd
     }
   ];
 
-  const compList = [IoDomain, ErrorDomain, DescriptionDomain, ExecutionDomain, UsabilityDomain, Meta, ProvenanceDomain, ParametricDomain, ExtensionDomain];
-  const classNames = ['ioDomain', 'errorDomain', 'descriptionDomain', 'executionDomain', 'usabilityDomain', 'meta', 'provenanceDomain', 'parametricDomain', 'extensionDomain'];
+  const compList = [Meta, ProvenanceDomain, UsabilityDomain, ExtensionDomain, DescriptionDomain, ExecutionDomain, IoDomain, ParametricDomain, ErrorDomain];
+  const classNames = ['meta', 'provenanceDomain', 'usabilityDomain', 'extensionDomain', 'descriptionDomain', 'executionDomain', 'ioDomain', 'parametricDomain', 'errorDomain'];
 
   // Listeners
   // Listen for ANY change to the object,
@@ -218,10 +215,7 @@ function ColorCoded({
         output_subdomain: iodOutputSubdomain
       },
       parametric_domain: pad,
-      error_domain: {
-        empirical_error: empirical,
-        algorithmic_error: algorithmic
-      },
+      error_domain: errd,
       extension_domain: exd
     });
     // localStorage.setItem('bco', JSON.stringify(objectContents));
@@ -229,7 +223,7 @@ function ColorCoded({
     pdObsoleteAfter, pdEmbargoStartTime, pdEmbargoEndTime, pdReview,
     pdContributors, ud, ddKeywords, ddPlatform, ddXref, ddPipelineSteps,
     edScript, edScriptDriver, edSoftwarePrerequisites, edExternalDataEndpoints,
-    edEnvironmentVariables, iodInputSubdomain, iodOutputSubdomain, pad, empirical, algorithmic, exd]);
+    edEnvironmentVariables, iodInputSubdomain, iodOutputSubdomain, pad, errd, exd]);
 
   return (
     <ColorCodedContext.Provider value={{

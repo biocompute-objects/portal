@@ -55,7 +55,7 @@ export default function JsonView({
   const rawContents = JSON.stringify(jsonContents, null, 4);
   const [jsonErrors, setJsonErrors] = useState('');
   const setInput = (value) => {
-    console.log('working?', 'hadley');
+    console.log('working?', 'hadley', value);
     let holder = {};
     holder = JSON.parse(value);
     setJsonContents(holder);

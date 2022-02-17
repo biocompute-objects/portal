@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import {
   makeStyles, withStyles, Typography
@@ -36,7 +36,25 @@ const StyledCell = withStyles({
 export default function ErrorDomain({ items }) {
   const inputClasses = useStyles();
   const classes = withStyles();
-  console.log('working', items);
+  const [algorithmic, setAlgorithmic] = useState(items.errd ? items.errd.algorithmic_error : {});
+  const [empirical, setEmpirical] = useState(items.errd ? items.errd.empirical_error : {});
+  const [updates, setUpdates] = useState(false);
+
+  const addErrors = () => {
+    console.log('working click', setAlgorithmic);
+    setUpdates(true);
+  };
+
+  useEffect(() => {
+    if (updates === true) {
+      items.setErrd(
+        {
+          empirical_error: empirical,
+          algorithmic_error: algorithmic
+        }
+      );
+    }
+  }, [empirical, algorithmic, updates]);
 
   return (
     <Table size="small">
@@ -58,22 +76,38 @@ export default function ErrorDomain({ items }) {
         </TableRow>
       </TableHead>
       <TableBody>
-        <TableRow>
-          <JsonView
-            jsonContents={items.empirical}
-            setJsonContents={items.setEmpirical}
-            header="Empirical Error Subdomain"
-            rows={4}
-          />
-        </TableRow>
-        <TableRow>
-          <JsonView
-            jsonContents={items.algorithmic}
-            setJsonContents={items.setAlgorithmic}
-            header="Algorithmic Error Subdomain"
-            rows={4}
-          />
-        </TableRow>
+        {
+            (!items.errd)
+              ? (
+                <TableRow>
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    disableElevation
+                    fullWidth
+                    onClick={() => addErrors()}
+                  >
+                    Add Error Domain
+                  </Button>
+                </TableRow>
+              )
+              : (
+                <TableRow>
+                  <JsonView
+                    jsonContents={algorithmic}
+                    setJsonContents={setAlgorithmic}
+                    header="Algorithmic Error Subdomain"
+                    rows={4}
+                  />
+                  <JsonView
+                    jsonContents={empirical}
+                    setJsonContents={setEmpirical}
+                    header="Empirical Error Subdomain"
+                    rows={4}
+                  />
+                </TableRow>
+              )
+        }
       </TableBody>
     </Table>
   );

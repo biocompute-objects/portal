@@ -1,7 +1,10 @@
+
+
 import React, { useContext, useEffect, useState } from 'react';
 import {
   Button, makeStyles, withStyles, Typography
 } from '@material-ui/core';
+import PropTypes from 'prop-types';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -117,3 +120,7 @@ export default function Meta({ items }) {
     </Table>
   );
 }
+
+Meta.propTypes = {
+  items: PropTypes.object.isRequired
+};

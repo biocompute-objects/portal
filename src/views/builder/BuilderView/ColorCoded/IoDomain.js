@@ -35,6 +35,7 @@ export default function IoDomain({ items, cF }) {
   return (
     <Card>
       <UriObject
+        link={'https://docs.biocomputeobject.org/io-domain/'}
         header={'Input Subdomain'}
         list={items.iodInputSubdomain}
         setList={items.setIodInputSubdomain}
@@ -42,6 +43,7 @@ export default function IoDomain({ items, cF }) {
         rerender={items.rerender}
       />
       <UriObject
+        link={'https://docs.biocomputeobject.org/io-domain/'}
         header={'Output Subdomain'}
         list={items.iodOutputSubdomain}
         setList={items.setIodOutputSubdomain}
