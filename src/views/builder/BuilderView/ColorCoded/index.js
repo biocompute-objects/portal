@@ -121,7 +121,7 @@ function ColorCoded({
   const [edSoftwarePrerequisites, setEdSoftwarePrerequisites] = useState(executionDomain.software_prerequisites ? executionDomain.software_prerequisites : [{ name: '', version: '', uri: { uri: '' } }]);
   const [edExternalDataEndpoints, setEdExternalDataEndpoints] = useState(executionDomain.external_data_endpoints ? executionDomain.external_data_endpoints : [{ name: '', url: '' }]);
 
-  const [edEnvironmentVariables, setEdEnvironmentVariables] = useState(executionDomain.environment_variables ? executionDomain.environment_variables : {});
+  const [edEnvironmentVariables, setEdEnvironmentVariables] = useState(executionDomain.environment_variables);
 
   // IO Domain
   const [ioDomain, setIoDomain] = useState(objectContents.io_domain ? objectContents.io_domain : {});
@@ -147,6 +147,9 @@ function ColorCoded({
   // are set in the parent.
   const renderList = [
     {
+        complianceCheck, checkBlank, edScript, edScriptDriver, edSoftwarePrerequisites, edExternalDataEndpoints, edEnvironmentVariables, rerender, setEdScript, setEdScriptDriver, setEdSoftwarePrerequisites, setEdExternalDataEndpoints, setEdEnvironmentVariables, setRerender
+    },
+    {
       complianceCheck, meObjectId, meEtagSet, setMeEtagSet, meEtag, setMeEtag, rerender, setRerender, objectContents
     },
     {
@@ -162,9 +165,6 @@ function ColorCoded({
       complianceCheck, checkBlank, ddKeywords, ddPlatform, ddXref, ddPipelineSteps, rerender, setDdKeywords, setDdPlatform, setDdXref, setDdPipelineSteps, setRerender
     },
     {
-      complianceCheck, checkBlank, edScript, edScriptDriver, edSoftwarePrerequisites, edExternalDataEndpoints, edEnvironmentVariables, rerender, setEdScript, setEdScriptDriver, setEdSoftwarePrerequisites, setEdExternalDataEndpoints, setEdEnvironmentVariables, setRerender
-    },
-    {
       complianceCheck, checkBlank, iodInputSubdomain, iodOutputSubdomain, setIodInputSubdomain, setIodOutputSubdomain, rerender, setRerender
     },
     {
@@ -175,8 +175,8 @@ function ColorCoded({
     }
   ];
 
-  const compList = [Meta, ProvenanceDomain, UsabilityDomain, ExtensionDomain, DescriptionDomain, ExecutionDomain, IoDomain, ParametricDomain, ErrorDomain];
-  const classNames = ['meta', 'provenanceDomain', 'usabilityDomain', 'extensionDomain', 'descriptionDomain', 'executionDomain', 'ioDomain', 'parametricDomain', 'errorDomain'];
+  const compList = [ExecutionDomain, Meta, ProvenanceDomain, UsabilityDomain, ExtensionDomain, DescriptionDomain, IoDomain, ParametricDomain, ErrorDomain];
+  const classNames = ['executionDomain', 'meta', 'provenanceDomain', 'usabilityDomain', 'extensionDomain', 'descriptionDomain', 'ioDomain', 'parametricDomain', 'errorDomain'];
 
   // Listeners
   // Listen for ANY change to the object,

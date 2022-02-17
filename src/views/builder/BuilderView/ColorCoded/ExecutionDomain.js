@@ -8,12 +8,13 @@ import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import HelpIcon from '@material-ui/icons/Help';
-
 // Inputs
 import TextField from '@material-ui/core/TextField';
 
 // Add buttons
 import Button from '@material-ui/core/Button';
+
+import EnvVar from './EnvVar';
 
 // Section cell styling
 const useStyles = makeStyles((theme) => ({
@@ -411,6 +412,65 @@ export default function ExecutionDomain({ items, cF }) {
         </TableRow>
       </TableHead>
       <TableBody>
+      <TableRow>
+          <StyledCell colSpan="7">
+            <Typography className={missingScript ? classes.missingHeader : classes.header} variant="h3">
+              Script
+            </Typography>
+          </StyledCell>
+        </TableRow>
+        <TableRow>
+          <StyledCell colSpan="2">
+            <Typography>
+              Filename
+            </Typography>
+          </StyledCell>
+          <StyledCell colSpan="2">
+            <Typography className={missingScriptUri ? classes.missingHeader : classes.header}>
+              URI
+            </Typography>
+          </StyledCell>
+          <StyledCell>
+            <Typography>
+              Access Time
+            </Typography>
+          </StyledCell>
+          <StyledCell colSpan="2">
+            <Typography>
+              SHA1 Checksum
+            </Typography>
+          </StyledCell>
+        </TableRow>
+        {
+        items.edScript.map((item, index) => (
+          <TableRow key={index.toString()}>
+            <StyledCell colSpan="2">
+              <TextField InputProps={{ className: classes.root }} fullWidth value={cF(item.uri.filename)} variant="outlined" onChange={(e) => setInput(e, index, 'filename', 'edScript')} />
+            </StyledCell>
+            <StyledCell colSpan="2">
+              <TextField InputProps={{ className: classes.root }} error={cF(item.uri.uri) === ''} fullWidth value={cF(item.uri.uri)} variant="outlined" onChange={(e) => setInput(e, index, 'uri', 'edScript')} />
+            </StyledCell>
+            <StyledCell>
+              <TextField InputProps={{ className: classes.root }} label="YYYY-MM-DDTHH:MM:SS+HH:MM" fullWidth id="outlined-basic" value={cF(item.uri.access_time)} onChange={(e) => setInput(e, index, 'access_time', 'edScript')} variant="outlined" />
+            </StyledCell>
+            <StyledCell>
+              <TextField InputProps={{ className: classes.root }} value={cF(item.uri.sha1_checksum)} variant="outlined" onChange={(e) => setInput(e, index, 'sha1_checksum', 'edScript')} fullWidth />
+            </StyledCell>
+            <StyledCell>
+              <Button variant="contained" color="primary" disableElevation fullWidth onClick={() => removeRows('edScript', index)}>
+                Remove
+              </Button>
+            </StyledCell>
+          </TableRow>
+        ))
+      }
+        <TableRow>
+          <StyledCell colSpan="6">
+            <Button variant="contained" color="primary" disableElevation fullWidth onClick={() => addRows('edScript')}>
+              Add Script
+            </Button>
+          </StyledCell>
+        </TableRow>
         <TableRow>
           <StyledCell>
             <Typography className={missingScriptDriver ? classes.missingHeader : classes.header}>
@@ -539,66 +599,16 @@ export default function ExecutionDomain({ items, cF }) {
             </Button>
           </StyledCell>
         </TableRow>
-        <TableRow>
-          <StyledCell colSpan="7">
-            <Typography className={missingScript ? classes.missingHeader : classes.header} variant="h3">
-              Script
-            </Typography>
-          </StyledCell>
-        </TableRow>
-        <TableRow>
-          <StyledCell colSpan="2">
-            <Typography>
-              Filename
-            </Typography>
-          </StyledCell>
-          <StyledCell colSpan="2">
-            <Typography className={missingScriptUri ? classes.missingHeader : classes.header}>
-              URI
-            </Typography>
-          </StyledCell>
-          <StyledCell>
-            <Typography>
-              Access Time
-            </Typography>
-          </StyledCell>
-          <StyledCell colSpan="2">
-            <Typography>
-              SHA1 Checksum
-            </Typography>
-          </StyledCell>
-        </TableRow>
-        {
-        items.edScript.map((item, index) => (
-          <TableRow key={index.toString()}>
-            <StyledCell colSpan="2">
-              <TextField InputProps={{ className: classes.root }} fullWidth value={cF(item.uri.filename)} variant="outlined" onChange={(e) => setInput(e, index, 'filename', 'edScript')} />
-            </StyledCell>
-            <StyledCell colSpan="2">
-              <TextField InputProps={{ className: classes.root }} error={cF(item.uri.uri) === ''} fullWidth value={cF(item.uri.uri)} variant="outlined" onChange={(e) => setInput(e, index, 'uri', 'edScript')} />
-            </StyledCell>
-            <StyledCell>
-              <TextField InputProps={{ className: classes.root }} label="YYYY-MM-DDTHH:MM:SS+HH:MM" fullWidth id="outlined-basic" value={cF(item.uri.access_time)} onChange={(e) => setInput(e, index, 'access_time', 'edScript')} variant="outlined" />
-            </StyledCell>
-            <StyledCell>
-              <TextField InputProps={{ className: classes.root }} value={cF(item.uri.sha1_checksum)} variant="outlined" onChange={(e) => setInput(e, index, 'sha1_checksum', 'edScript')} fullWidth />
-            </StyledCell>
-            <StyledCell>
-              <Button variant="contained" color="primary" disableElevation fullWidth onClick={() => removeRows('edScript', index)}>
-                Remove
-              </Button>
-            </StyledCell>
-          </TableRow>
-        ))
-      }
-        <TableRow>
-          <StyledCell colSpan="6">
-            <Button variant="contained" color="primary" disableElevation fullWidth onClick={() => addRows('edScript')}>
-              Add Script
-            </Button>
-          </StyledCell>
-        </TableRow>
       </TableBody>
+      <EnvVar
+        link="link to some stuff"
+        header="Environment Variables"
+        object={items.edEnvironmentVariables}
+        setObject={items.setEdEnvironmentVariables}
+        setRerender={items.setRerender}
+        rerender={items.rerender}
+        fields={['key', 'value']}
+      />
     </Table>
   );
 }
