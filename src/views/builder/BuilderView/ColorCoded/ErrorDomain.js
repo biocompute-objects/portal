@@ -1,8 +1,8 @@
+//  src/views/builder/BuilderView/ColorCoded/ErrorDomain.js
+
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import {
-  makeStyles, withStyles, Typography
-} from '@material-ui/core';
+import { withStyles, Typography } from '@material-ui/core';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -11,16 +11,6 @@ import TableRow from '@material-ui/core/TableRow';
 import HelpIcon from '@material-ui/icons/Help';
 import Button from '@material-ui/core/Button';
 import JsonView from 'src/components/JsonView';
-
-const useStyles = makeStyles((theme) => ({
-  root: {
-    '& .MuiTextField-root': {
-      margin: theme.spacing(1),
-      width: '25ch',
-    },
-    color: 'black'
-  },
-}));
 
 // Cell styling
 const StyledCell = withStyles({
@@ -34,7 +24,6 @@ const StyledCell = withStyles({
 
 // Pass an object and whether or not its keys are properties.
 export default function ErrorDomain({ items }) {
-  const inputClasses = useStyles();
   const classes = withStyles();
   const [algorithmic, setAlgorithmic] = useState(items.errd ? items.errd.algorithmic_error : {});
   const [empirical, setEmpirical] = useState(items.errd ? items.errd.empirical_error : {});

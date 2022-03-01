@@ -10,9 +10,6 @@ const ajv = Ajv();
 export default function ValidateSchema(contents, setPublish) {
   const BcoSchema = object;
   console.log('objectContents', contents);
-  // 'https://opensource.ieee.org/2791-object/ieee-2791-schema/raw/master/2791object.json';
-  // 'https://w3id.org/ieee/ieee-2791-schema/2791object.json';
-  // fetch(BcoSchema, { mode: 'no-cors' });
 
   const valid = ajv.validate(BcoSchema, contents);
   if (valid) {

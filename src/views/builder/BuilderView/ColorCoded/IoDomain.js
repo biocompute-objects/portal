@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import {
   makeStyles, withStyles, Card
 } from '@material-ui/core';
@@ -17,16 +17,6 @@ const useStyles = makeStyles(() => ({
     color: 'black'
   }
 }));
-
-// Cell styling
-const StyledCell = withStyles({
-  root: {
-    color: 'black'
-  },
-  bordered: {
-    border: '1px solid black'
-  }
-})(TableCell);
 
 // Pass an object and whether or not its keys are properties.
 export default function IoDomain({ items, cF }) {

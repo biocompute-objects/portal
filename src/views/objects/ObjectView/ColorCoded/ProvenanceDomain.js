@@ -8,9 +8,6 @@ import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
-
-// For links.
-import Tooltip from '@material-ui/core/Tooltip';
 import Linker from './components/Linker';
 
 // For contact information.
@@ -24,16 +21,6 @@ const StyledCell = withStyles({
     border: '1px solid black'
   }
 })(TableCell);
-
-// Tooltip styling
-const HtmlTooltip = withStyles((theme) => ({
-  tooltip: {
-    backgroundColor: '#f5f5f9',
-    color: 'rgba(0, 0, 0, 0.87)',
-    maxWidth: 220,
-    border: '1px solid #dadde9',
-  },
-}))(Tooltip);
 
 // A function to process a key.
 const processKey = (ikey) => {

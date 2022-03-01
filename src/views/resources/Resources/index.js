@@ -40,7 +40,7 @@ function DocView() {
   return (
     <Page className={classes.root} title="Resources">
       <Container maxWidth={false}>
-        <Grid container justify="space-around" spacing={3}>
+        <Grid container justifyContent="space-around" spacing={3}>
 
           <Grid item xs={12} sm={6} lg={6} xl={6}>
             <Registry />
@@ -49,7 +49,7 @@ function DocView() {
             <CGC />
           </Grid>
 
-          <Grid classes={classes.colored} container justify="space-around" spacing={3}>
+          <Grid classes={classes.colored} container justifyContent="space-around" spacing={3}>
             <Grid item lg={3} sm={6} xl={4} xs={12}>
               <Hive />
             </Grid>

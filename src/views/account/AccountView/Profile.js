@@ -14,8 +14,8 @@ import {
   makeStyles
 } from '@material-ui/core';
 
-import { FetchContext } from '../../../App';
-import UserdbUpdateAccount from '../../../components/API/UserdbUpdateAccount.js';
+import { FetchContext } from 'src/App';
+import UserdbUpdateAccount from 'src/components/API/UserdbUpdateAccount';
 
 const useStyles = makeStyles(() => ({
   root: {},
@@ -34,8 +34,6 @@ const Profile = ({ className, ...rest }) => {
   const fc = useContext(FetchContext);
   const classes = useStyles();
   let userProfile = userInfo.profile;
-
-  // const [isPublic, setIsPublic] = useState(false);
   let publicSetting = false;
   const [isPublic, setIsPublic] = useState(publicSetting);
 
@@ -68,6 +66,7 @@ const Profile = ({ className, ...rest }) => {
     let tar = null;
     if (event.target.type === 'checkbox') {
       tar = event.target.checked;
+      console.log('Check', event.target.checked);
     } else {
       tar = event.target.value;
     }
@@ -144,7 +143,6 @@ const Profile = ({ className, ...rest }) => {
               <Grid item xs={12} sm={12} lg={12} xl={12}>
                 <Typography className={classes.detailDropdown}>Account Details</Typography>
                 <form
-                  form
                   onSubmit={handleSubmit}
                   autoComplete="off"
                   noValidate
@@ -153,82 +151,74 @@ const Profile = ({ className, ...rest }) => {
                 >
                   <Card elevation={0}>
                     <CardContent>
-                      <Grid
-                      container
-                      spacing={3}
-                    >
-                      <Grid
-                        item
-                        md={4}
-                        xs={6}
-                      >
-                        <TextField
-                          fullWidth
-                          label="First name"
-                          name="first_name"
-                          onChange={handleChange}
-                          required
-                          value={values.first_name}
-                          variant="outlined"
-                        />
-                      </Grid>
-                      <Grid item md={4} xs={6}>
-                        <TextField
-                          fullWidth
-                          label="Last name"
-                          name="last_name"
-                          onChange={handleChange}
-                          required
-                          value={values.last_name}
-                          variant="outlined"
-                        />
-                      </Grid>
-                      <Grid item md={4} xs={6}>
-                        <TextField
-                          fullWidth
-                          label="Email Address"
-                          name="email"
-                          onChange={handleChange}
-                          required
-                          value={values.email}
-                          variant="outlined"
-                        />
-                      </Grid>
-                      <Grid item md={4} xs={6}>
-                        <label>
-                          Public:
-                          <input
-                            name="public"
-                            type="checkbox"
-                            checked={isPublic}
-                            // onChange={(event) => setIsPublic(target.checked)}
+                      <Grid container spacing={3}>
+                        <Grid item md={4} xs={6}>
+                          <TextField
+                            fullWidth
+                            label="First name"
+                            name="first_name"
                             onChange={handleChange}
+                            required
+                            value={values.first_name}
+                            variant="outlined"
                           />
-                        </label>
+                        </Grid>
+                        <Grid item md={4} xs={6}>
+                          <TextField
+                            fullWidth
+                            label="Last name"
+                            name="last_name"
+                            onChange={handleChange}
+                            required
+                            value={values.last_name}
+                            variant="outlined"
+                          />
+                        </Grid>
+                        <Grid item md={4} xs={6}>
+                          <TextField
+                            fullWidth
+                            label="Email Address"
+                            name="email"
+                            onChange={handleChange}
+                            required
+                            value={values.email}
+                            variant="outlined"
+                          />
+                        </Grid>
+                        <Grid item md={4} xs={6}>
+                          <label htmlFor="public">
+                            Public:
+                            <input
+                              name="public"
+                              type="checkbox"
+                              checked={isPublic}
+                              onChange={handleChange}
+                            />
+                          </label>
+                        </Grid>
+                        <Grid item md={4} xs={6}>
+                          <TextField
+                            fullWidth
+                            label="Affiliation"
+                            name="affiliation"
+                            onChange={handleChange}
+                            required
+                            value={values.affiliation}
+                            variant="outlined"
+                          />
+                        </Grid>
+                        <Grid item md={4} xs={6}>
+                          <TextField
+                            fullWidth
+                            label="ORCID"
+                            name="orcid"
+                            onChange={handleChange}
+                            required
+                            value={values.orcid}
+                            variant="outlined"
+                          />
+                        </Grid>
                       </Grid>
-                      <Grid item md={4} xs={6}>
-                        <TextField
-                          fullWidth
-                          label="Affiliation"
-                          name="affiliation"
-                          onChange={handleChange}
-                          required
-                          value={values.affiliation}
-                          variant="outlined"
-                        />
-                      </Grid>
-                      <Grid item md={4} xs={6}>
-                        <TextField
-                          fullWidth
-                          label="ORCID"
-                          name="orcid"
-                          onChange={handleChange}
-                          required
-                          value={values.orcid}
-                          variant="outlined"
-                        />
-                      </Grid>
-                    </Grid>
                     </CardContent>
                     <Box
                       display="flex"
@@ -236,12 +226,12 @@ const Profile = ({ className, ...rest }) => {
                       p={2}
                     >
                       <Button
-                      color="primary"
-                      type="submit"
-                      variant="contained"
-                    >
-                      Save details
-                    </Button>
+                        color="primary"
+                        type="submit"
+                        variant="contained"
+                      >
+                        Save details
+                      </Button>
                     </Box>
                   </Card>
                 </form>

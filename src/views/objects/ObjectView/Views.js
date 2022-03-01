@@ -13,7 +13,7 @@ import Box from '@material-ui/core/Box';
 import OpacityIcon from '@material-ui/icons/Opacity';
 import AccountTreeIcon from '@material-ui/icons/AccountTree';
 import InsertDriveFileIcon from '@material-ui/icons/InsertDriveFile';
-import RetrievePublishedObject from 'src/components/API/RetrievePublishedObject';
+// import RetrievePublishedObject from 'src/components/API/RetrievePublishedObject';
 import ColorCoded from './ColorCoded';
 import Raw from './Raw';
 import Tree from './Tree';
@@ -22,7 +22,7 @@ function TabPanel(props) {
   const {
     children, value, index, ...other
   } = props;
-
+  console.log('Props', props);
   return (
     <div
       role="tabpanel"
@@ -56,8 +56,7 @@ function a11yProps(index) {
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
-    backgroundColor: theme.palette.background.paper,
-    marginBottom: '100px'
+    backgroundColor: theme.palette.background.paper
   },
 }));
 
@@ -115,7 +114,7 @@ export default function Views({ objectId }) {
     setLoading(true);
     getObjectInfo();
     // RetrievePublishedObject(objectId, setObjectInfo, setLoading, loading);
-  }, []);
+  }, [objectId]);
 
   // Define a variable for switching views within
   // the component (as opposed to getting the value)

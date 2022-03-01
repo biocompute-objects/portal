@@ -8,7 +8,6 @@ import {
   CardContent,
   Button,
   makeStyles,
-  TableBody,
   TableCell,
   TableRow,
   TextField,
@@ -50,19 +49,17 @@ export default function UriObject({
   link, header, list, setList, setRerender, rerender, additional_field
 }) {
   const classes = useStyles();
-  const [newVal, setNewVal] = useState('');
   const [newFile, setNewFile] = useState('');
   const [newUri, setNewUri] = useState('');
   const [newTime, setNewTime] = useState('');
   const [newChecksum, setNewChecksum] = useState('');
   const [newField, setNewField] = useState('');
 
-  const uriObj = [];
   useEffect(() => {
     if (typeof list === 'undefined') {
       setList();
     }
-  }, [list]);
+  }, [list, setList]);
 
   const removeItem = (index) => {
     const temp = list;

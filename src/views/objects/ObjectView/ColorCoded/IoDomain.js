@@ -23,7 +23,7 @@ const StyledCell = withStyles({
 
 // Pass an object and whether or not its keys are properties.
 export default function IoDomain({ items }) {
-  
+
   const classes = withStyles();
 
   // Arguments

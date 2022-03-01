@@ -187,7 +187,7 @@ export default function BuilderView() {
         }
       }));
     }
-  }, []);
+  }, [parsePath]);
 
   return (
     <DeepContext.Provider value={{ objectOwner }}>
