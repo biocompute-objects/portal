@@ -1,13 +1,15 @@
 // src/views/account/AccountView/ServerInfo.js
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import PropTypes from 'prop-types';
 import {
   Button, Card, Checkbox, Table, TableBody, TableCell, Typography, TableHead, TableRow
 } from '@material-ui/core';
+import { FetchContext } from 'src/App';
 
 export default function ServerInfo({ setShowing }) {
   const [serverChange, setServerChange] = useState(false);
+  const fc = useContext(FetchContext);
   const [permissions, setPermissions] = useState(JSON.parse(localStorage.getItem('user')).apiinfo);
   const [rows, setRows] = useState([]);
 
@@ -34,6 +36,32 @@ export default function ServerInfo({ setShowing }) {
     setServerChange(true);
   }
 
+  const deleteServer = (event, servername) => {
+    const userConfirm = window.confirm('Are you sure you want to delete these rows?');
+    const selectedRows = [];
+    if (userConfirm) {
+      selectedRows.push(servername);
+      fetch(fc.sending.userdb_removeapi, {
+        method: 'DELETE',
+        body: JSON.stringify({ selected_rows: selectedRows }),
+        headers: {
+          Authorization: `JWT ${localStorage.getItem('token')}`,
+          'Content-type': 'application/json; charset=UTF-8'
+        }
+      }).then((response) => response.json().then((data) => ({
+        data,
+        status: response.status
+      })).then((result) => {
+        if (result.status === 200) {
+          localStorage.setItem('user', JSON.stringify(result.data));
+          setServerChange(true);
+        } else {
+          console.log('Failed to remove the API server because: ', result.data.detail);
+        }
+      }));
+    }
+  };
+
   useEffect(() => {
     const holder = [];
     permissions.forEach((perm) => {
@@ -53,11 +81,7 @@ export default function ServerInfo({ setShowing }) {
     <Table>
       <TableHead>
         <TableRow>
-          <TableCell>
-            <Checkbox
-              onChange={selectAll}
-            />
-          </TableCell>
+          <TableCell />
           {headCells.map((headCell) => (
             <TableCell
               key={headCell.id}
@@ -73,9 +97,11 @@ export default function ServerInfo({ setShowing }) {
         { rows.map((row) => (
           <TableRow key={row.toString()}>
             <TableCell padding="checkbox">
-              <Checkbox
-                onChange={selectAll}
-              />
+              <Button
+                onClick={(e) => deleteServer(e, row.servername)}
+              >
+                Remove
+              </Button>
             </TableCell>
             <TableCell>{row.servername}</TableCell>
             <TableCell>{row.hostname}</TableCell>

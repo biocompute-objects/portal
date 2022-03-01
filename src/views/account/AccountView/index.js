@@ -31,7 +31,7 @@ const AccountView = () => {
   const classes = useStyles();
   const [showing, setShowing] = useState(false);
   const [serverAdded, setServerAdded] = useState(false);
- 
+
   return (
     <Page className={classes.root} title="Account">
       <Container maxWidth={false}>
