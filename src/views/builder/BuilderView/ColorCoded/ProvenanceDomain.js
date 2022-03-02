@@ -280,7 +280,7 @@ export default function ProvenanceDomain({ items, cF }) {
       setMissingContributors(false);
       setMissingProvenanceDomain(false);
     }
-  }, [items]);
+  }, [items, cF]);
 
   // Check for semantic versioning
   // Source: https://semver.org/spec/v2.0.0.html

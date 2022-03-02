@@ -4,8 +4,8 @@
 import React, { createContext, useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import PermissionTools from 'src/components/PermissionTools';
+import Page from 'src/components/Page';
 import Views from './Views';
-
 // This is the parent for the object views.
 
 // The state model is based on https://reactjs.org/docs/lifting-state-up.html
@@ -40,15 +40,6 @@ export default function BuilderView() {
   // For publishing.
   const [publish, setPublish] = useState(false);
 
-  // Was publishing successful?
-  const [publishMessage, setPublishMessage] = useState({});
-
-  // For downloading drafts.
-  const [downloadDraft, setDownloadDraft] = useState(0);
-
-  // For deleting drafts.
-  const [deleteDraft, setDeleteDraft] = useState(0);
-
   // Where are we saving either a draft or a published object?
   const [draftSavingLocation, setDraftSavingLocation] = useState('');
   const [publishSavingLocation, setPublishSavingLocation] = useState('');
@@ -71,13 +62,16 @@ export default function BuilderView() {
   const [objectOwner, setObjectOwner] = useState('');
 
   // Etag needs to be generated?
-  const [meEtagSet, setMeEtagSet] = useState(false);
+  const [eTag, setETag] = useState(objectContents.etag ? objectContents.etag : '');
 
   // The PUBLISHED object ID.
   const [publishedObjectId, setPublishedObjectId] = useState('');
 
   // A provided default for the server to save the draft to.
   const [receivedDefault, setReceivedDefault] = useState(null);
+
+  // Etag needs to be generated?
+  const [meEtagSet, setMeEtagSet] = useState(false);
 
   // Initial rendering.
   useEffect(() => {
@@ -193,21 +187,18 @@ export default function BuilderView() {
         }
       }));
     }
-  }, []);
+  }, [parsePath]);
 
   return (
     <DeepContext.Provider value={{ objectOwner }}>
-      <div>
+      <Page title="BioCompute Builder">
         <PermissionTools
-          newDraft={newDraft}
-          objectInformation={objectInformation}
-          setDownloadDraft={setDownloadDraft}
-          saveDraft={saveDraft}
-          setSaveDraft={setSaveDraft}
-          publish={publish}
-          setPublish={setPublish}
-          complianceCheck={complianceCheck}
           contents={objectContents}
+          setObjectContents={setObjectContents}
+          publish={publish}
+          objectInformation={objectInformation}
+          newDraft={newDraft}
+          setPublish={setPublish}
           setMeEtagSet={setMeEtagSet}
           meEtagSet={meEtagSet}
         />
@@ -222,7 +213,7 @@ export default function BuilderView() {
           meEtagSet={meEtagSet}
 
         />
-      </div>
+      </Page>
     </DeepContext.Provider>
   );
 }

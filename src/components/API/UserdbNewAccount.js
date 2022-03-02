@@ -40,7 +40,10 @@ export default function UserdbNewAccount(values) {
       }
     })
     .catch((error) => {
-      alert(`Something went wrong. ${error}`);
+      if (error === 'Error: 409') {
+        alert(`User name already taken. ${error}`);
+      }
+      alert(`Something went wrong, ${error}.`);
       console.log('error', error);
     // return error;
     });

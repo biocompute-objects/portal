@@ -11,7 +11,7 @@ import CardContent from '@material-ui/core/CardContent';
 import { Grid } from '@material-ui/core';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
-
+import PropTypes from 'prop-types';
 import CreateDraftObject from './API/CreateDraftObject';
 import ModifyDraftObject from './API/ModifyDraftObject';
 import PublishDraftObject from './API/PublishDraftObject';
@@ -38,19 +38,11 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function PermissionTools({
-  contents, publish, newDraft, objectInformation, setPublish, publishedObjectId,
-  receivedDefault, serverLock }) {
+  contents, publish, objectInformation, newDraft, setPublish
+}) {
   // State
   const [saveDraftTo, setSaveDraftTo] = useState('');
-  const [savePublishTo, setSavePublishTo] = useState('');
   const fc = useContext(FetchContext);
-
-  // For publishing
-  const [open, setOpen] = useState(false);
-  const [retainDraft, setRetainDraft] = useState(false);
-
-  // Is the user logged in?
-  const [loggedInWithServers, setLoggedInWithServers] = useState(false);
   const [userInfo, setUserInfo] = useState(null);
   const classes = useStyles();
   let ApiInfo = JSON.parse(localStorage.getItem('user'));
@@ -62,6 +54,7 @@ export default function PermissionTools({
     // There was a user.
     ApiInfo = ApiInfo.apiinfo;
   }
+
   // Define the actions for each click.
   function clickActions(which) {
     if (which === 'saveDraft') {
@@ -73,8 +66,8 @@ export default function PermissionTools({
     } else if (which === 'publishDraft') {
       PublishDraftObject(objectInformation, contents);
     } else if (which === 'downloadDraft') {
-      const bco = localStorage.getItem("bco");
-      const blob = new Blob([bco],{type:'application/json'});
+      const bco = localStorage.getItem('bco');
+      const blob = new Blob([bco], { type: 'application/json' });
       const href = URL.createObjectURL(blob);
       const link = document.createElement('a');
       link.href = href;
@@ -98,7 +91,6 @@ export default function PermissionTools({
 
     if (userInfoCheck !== null) {
       if (userInfoCheck.apiinfo.length > 0) {
-        setLoggedInWithServers(true);
         setUserInfo(userInfoCheck);
       }
     }
@@ -142,7 +134,8 @@ export default function PermissionTools({
                     3) SAVE CURRENT DRAFT
                   </Typography>
                   <Typography gutterBottom>
-                    This button will be available if you are working on a DRAFT currently in a BCODB.
+                    This button will be available if you are working on a DRAFT
+                    currently in a BCODB.
                   </Typography>
                   <Typography gutterBottom variant="h4">
                     4) VALIDATE DRAFT
@@ -180,7 +173,6 @@ export default function PermissionTools({
                   <ServerList
                     disabledValue={(newDraft === false)}
                     options={userInfo === null ? null : userInfo.apiinfo}
-                    receivedDefault={receivedDefault}
                     setter={setSaveDraftTo}
                     type="draft"
                   />
@@ -217,7 +209,7 @@ export default function PermissionTools({
                     variant="contained"
                     color="primary"
                     disableElevation
-                    disabled={newDraft === true} //publish === false}
+                    disabled={publish === false}
                     fullWidth
                     onClick={() => clickActions('publishDraft')}
                   >
@@ -255,7 +247,7 @@ export default function PermissionTools({
                     variant="contained"
                     color="secondary"
                     disableElevation
-                    disabled={!serverLock}
+                    disabled
                     fullWidth
                     onClick={() => clickActions('deleteDraft')}
                   >
@@ -270,3 +262,11 @@ export default function PermissionTools({
     </div>
   );
 }
+
+PermissionTools.propTypes = {
+  contents: PropTypes.object.isRequired,
+  publish: PropTypes.bool.isRequired,
+  objectInformation: PropTypes.object.isRequired,
+  newDraft: PropTypes.bool,
+  setPublish: PropTypes.func.isRequired,
+};

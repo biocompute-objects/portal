@@ -1,7 +1,10 @@
+
+
 import React, { useContext, useEffect, useState } from 'react';
 import {
   Button, makeStyles, withStyles, Typography
 } from '@material-ui/core';
+import PropTypes from 'prop-types';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -38,7 +41,6 @@ const useStyles = makeStyles((theme) => ({
 
 // Pass an object and whether or not its keys are properties.
 export default function Meta({ items }) {
-  console.log('ITEMS CHECK: ', items);
   const classes = withStyles();
   const svgClasses = useStyles();
   const makeETag = () => {
@@ -118,3 +120,7 @@ export default function Meta({ items }) {
     </Table>
   );
 }
+
+Meta.propTypes = {
+  items: PropTypes.object.isRequired
+};

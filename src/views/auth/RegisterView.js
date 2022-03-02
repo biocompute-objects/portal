@@ -1,6 +1,4 @@
-import React, {
-  useContext, useEffect, useRef, useState
-} from 'react';
+import React, { useContext, useRef } from 'react';
 import * as Yup from 'yup';
 import { Formik } from 'formik';
 import {
@@ -13,15 +11,10 @@ import {
   makeStyles
 } from '@material-ui/core';
 import Page from 'src/components/Page';
-
-// Fetch context.
-import Alert from '@material-ui/lab/Alert';
 import { useNavigate } from 'react-router-dom';
-import { FetchContext } from '../../App';
-import UserdbNewAccount from '../../components/API/UserdbNewAccount.js';
-import ApiNewAccount from '../../components/API/ApiNewAccount.js';
-// Registration error
-// Source: https://material-ui.com/components/alert/#simple-alerts
+import { FetchContext } from 'src/App';
+import UserdbNewAccount from 'src/components/API/UserdbNewAccount';
+import ApiNewAccount from 'src/components/API/ApiNewAccount';
 
 const useStyles = makeStyles((theme) => ({
   alertSpec: {
@@ -44,11 +37,6 @@ const RegisterView = () => {
 
   // Fetch context.
   const fc = useContext(FetchContext);
-
-  // State
-  const [registrationError, setRegistrationError] = useState(false);
-  const [registrationSuccess, setRegistrationSuccess] = useState(false);
-  const [responseToken, setResponseToken] = useState('');
 
   // Re-direct upon successful creation.
   // const navigate = useNavigate();
@@ -233,21 +221,8 @@ const RegisterView = () => {
                 </FormHelperText>
                 )}
                 <Box my={2}>
-                  <div className={classes.alertSpec}>
-                    {
-                      registrationSuccess && <Alert severity="success">Please check your e-mail within the next 10 minutes in order to activate your account.</Alert>
-                    }
-                  </div>
-                  <div className={classes.alertSpec}>
-                    {
-                      registrationError && <Alert severity="error">An account with this username already exists.</Alert>
-                    }
-                  </div>
-                </Box>
-                <Box my={2}>
                   <Button
                     color="primary"
-                    disabled={registrationSuccess}
                     fullWidth
                     size="large"
                     type="submit"

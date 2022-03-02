@@ -10,15 +10,12 @@ import {
   Typography,
   makeStyles
 } from '@material-ui/core';
-import PropTypes from 'prop-types';
+import { FetchContext } from 'src/App';
 // Host status
 import ServerStatus from './ServerStatus';
 
 // Summary information about the server
 import ServerSummary from './ServerSummary';
-
-// Fetch context.
-import { FetchContext } from '../../../App';
 
 const useStyles = makeStyles(() => ({
   centered: {
@@ -26,14 +23,14 @@ const useStyles = makeStyles(() => ({
   }
 }));
 
-export default function AddServer({ showing, setShowing }) {
+export default function FormDialog() {
   // Fetch context.
   const fc = useContext(FetchContext);
   const classes = useStyles();
 
   // Use the parent context.
   // Source: https://stackoverflow.com/questions/58936042/pass-context-between-siblings-using-context-in-react
-  const [serverAdded, setServerAdded] = useState(false);
+  const { showing, setShowing, setServerAdded } = useContext();
 
   // State variables to hold the server information.
   const [hostname, setHostname] = useState('');
@@ -54,10 +51,10 @@ export default function AddServer({ showing, setShowing }) {
   };
 
   const checkApi = () => { // Check if the server and the given key are valid.
-    let serverAdded = false; // See if this server has already been added.
-    JSON.parse(localStorage.getItem('user')).apiinfo.map((record) => { // TODO: a bit expensive, use a for loop/break paradigm instead.
+    const serverAdded = false; // See if this server has already been added.
+    JSON.parse(localStorage.getItem('user')).apiinfo.map((record) => {
       if (record.public_hostname === hostname) { // Already added?
-        serverAdded = true;
+        return serverAdded(true);
       }
     });
     if (serverAdded === false) { // Was the hostname already added?
@@ -89,6 +86,64 @@ export default function AddServer({ showing, setShowing }) {
     } else {
       setRequestStatus('already_added'); // Indicate the error.
     }
+  };
+
+  // Ask for a new account.
+  const newApiAccount = () => {
+    fetch(`${hostname}/users/add_api`, { // This causes a 405 error in the API Server
+      method: 'POST',
+      body: JSON.stringify({
+        token,
+        email
+      }),
+      headers: {
+        Authorization: `TOKEN ${localStorage.getItem('token')}`,
+        'Content-type': 'application/json; charset=UTF-8'
+      }
+    }).then((response) => {
+      if (!response.ok) {
+        // There was an error with the authentication.  Seems like the server requires
+        // there to be some level of authentication for whatever reason
+        throw new Error('failure');
+      }
+      return response.json();
+    }).then((data) => {
+      // Check to see if the server rejected the request
+      // See if this server has already been added.
+      let serverAdded = false;
+
+      // TODO: a bit expensive, use a for loop/break paradigm instead.
+      JSON.parse(localStorage.getItem('user')).apiinfo.map((record) => {
+        // Already added?
+
+        // Slight tweak here as the URL on the host isn't just the
+        if (record.hostname === data.hostname) {
+          serverAdded = true;
+        }
+      });
+
+      // Was the hostname already added?
+      if (serverAdded === false) {
+        // Instead of using status directly, we'll check for a necessary key.
+
+        // Was the request a success or not?
+        if (data.hostname !== 'undefined') {
+          // Update the message.
+          setRequestStatus('success');
+
+          // Save the server information.
+          setServerInfo(data);
+        } else {
+          // There was an issue, so alert the user.
+          setRequestStatus('failure');
+        }
+      } else {
+        // Indicate the error.
+        setRequestStatus('already_added');
+      }
+    }).catch((error) => {
+      setRequestStatus(error.message);
+    });
   };
 
   // Add the server info to UserDB.
@@ -149,7 +204,7 @@ export default function AddServer({ showing, setShowing }) {
     <div>
       <Dialog open={showing} onClose={handleClose} aria-labelledby="form-dialog-title">
         <DialogTitle id="form-dialog-title">
-          <Typography variant="h2">
+          <Typography variant="h1">
             Add a new BCO server
           </Typography>
         </DialogTitle>
@@ -209,6 +264,13 @@ export default function AddServer({ showing, setShowing }) {
               Verify Account Information
             </Button>
             &nbsp;
+            {/* <Button
+              color="primary"
+              variant="contained"
+              onClick={newApiAccount}
+            >
+              Request New Token
+            </Button> */}
           </div>
           {
             Object.keys(serverInfo).length > 0
@@ -231,9 +293,4 @@ export default function AddServer({ showing, setShowing }) {
       </Dialog>
     </div>
   );
-}
-
-AddServer.propTypes = {
-  setShowing: PropTypes.func.isRequired,
-  showing: PropTypes.bool.isRequired
 }

@@ -1,6 +1,8 @@
-// src/views/builder/BuilderView/ColorCoded/ExtensionDomain.js
-import React from 'react';
-import { withStyles, Typography } from '@material-ui/core';
+
+import React, { useEffect, useState } from 'react';
+import {
+  makeStyles, withStyles, Typography
+} from '@material-ui/core';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -11,6 +13,18 @@ import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import Card from '@material-ui/core/Card';
 import Linker from './components/Linker';
+
+// Multiline Input
+
+const useStyles = makeStyles((theme) => ({
+  root: {
+    '& .MuiTextField-root': {
+      margin: theme.spacing(1),
+      width: '25ch',
+    },
+    color: 'black'
+  },
+}));
 
 // Cell styling
 const StyledCell = withStyles({
@@ -25,7 +39,9 @@ const StyledCell = withStyles({
 // Pass an object and whether its keys are properties.
 export default function ExtensionDomain({ items }) {
   const classes = withStyles();
-
+  const submitSchema = (value) => {
+    console.log('schema', value);
+  };
   const setInput = (value, i) => {
     const holder = items.exd;
     holder[i] = JSON.parse(value);
@@ -125,7 +141,7 @@ export default function ExtensionDomain({ items }) {
                         multiline
                         rows={6}
                         defaultValue={JSON.stringify(item, null, 4)}
-                        onChange={(e) => setInput(e.target.value, index)}
+                        onChange={(e) => setInput(e.target.value, index)} // onChange={console.log('changed')}
                         variant="outlined"
                       />
                     </StyledCell>

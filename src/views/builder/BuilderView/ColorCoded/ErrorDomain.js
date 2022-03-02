@@ -1,7 +1,8 @@
-import React from 'react';
-import {
-  makeStyles, withStyles, Typography
-} from '@material-ui/core';
+//  src/views/builder/BuilderView/ColorCoded/ErrorDomain.js
+
+import React, { useEffect, useState } from 'react';
+import PropTypes from 'prop-types';
+import { withStyles, Typography } from '@material-ui/core';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -9,19 +10,7 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import HelpIcon from '@material-ui/icons/Help';
 import Button from '@material-ui/core/Button';
-
-// Multiline Input
-import TextField from '@material-ui/core/TextField';
-
-const useStyles = makeStyles((theme) => ({
-  root: {
-    '& .MuiTextField-root': {
-      margin: theme.spacing(1),
-      width: '25ch',
-    },
-    color: 'black'
-  },
-}));
+import JsonView from 'src/components/JsonView';
 
 // Cell styling
 const StyledCell = withStyles({
@@ -34,9 +23,27 @@ const StyledCell = withStyles({
 })(TableCell);
 
 // Pass an object and whether or not its keys are properties.
-export default function ErrorDomain({ items, cF }) {
-  const inputClasses = useStyles();
+export default function ErrorDomain({ items }) {
   const classes = withStyles();
+  const [algorithmic, setAlgorithmic] = useState(items.errd ? items.errd.algorithmic_error : {});
+  const [empirical, setEmpirical] = useState(items.errd ? items.errd.empirical_error : {});
+  const [updates, setUpdates] = useState(false);
+
+  const addErrors = () => {
+    console.log('working click', setAlgorithmic);
+    setUpdates(true);
+  };
+
+  useEffect(() => {
+    if (updates === true) {
+      items.setErrd(
+        {
+          empirical_error: empirical,
+          algorithmic_error: algorithmic
+        }
+      );
+    }
+  }, [empirical, algorithmic, updates]);
 
   return (
     <Table size="small">
@@ -58,22 +65,43 @@ export default function ErrorDomain({ items, cF }) {
         </TableRow>
       </TableHead>
       <TableBody>
-        <TableRow>
-          <StyledCell>
-            <TextField
-              InputProps={{ className: inputClasses.root }}
-              color="primary"
-              defaultValue={JSON.stringify(cF(items.errd), null, 4)}
-              fullWidth
-              id="outlined-multiline-static"
-              multiline
-              onChange={(e) => items.setErrd([e.target.value])}
-              rows={8}
-              variant="outlined"
-            />
-          </StyledCell>
-        </TableRow>
+        {
+            (!items.errd)
+              ? (
+                <TableRow>
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    disableElevation
+                    fullWidth
+                    onClick={() => addErrors()}
+                  >
+                    Add Error Domain
+                  </Button>
+                </TableRow>
+              )
+              : (
+                <TableRow>
+                  <JsonView
+                    jsonContents={algorithmic}
+                    setJsonContents={setAlgorithmic}
+                    header="Algorithmic Error Subdomain"
+                    rows={4}
+                  />
+                  <JsonView
+                    jsonContents={empirical}
+                    setJsonContents={setEmpirical}
+                    header="Empirical Error Subdomain"
+                    rows={4}
+                  />
+                </TableRow>
+              )
+        }
       </TableBody>
     </Table>
   );
 }
+
+ErrorDomain.propTypes = {
+  items: PropTypes.any.isRequired
+};

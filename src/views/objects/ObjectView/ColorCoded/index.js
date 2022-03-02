@@ -99,16 +99,16 @@ const ColorCoded = ({ contents }) => {
     etag: contents.etag
   };
 
-  if (!('error_domain' in contents)) {
-    contents.error_domain = '';
+  if (!contents.error_domain) {
+    contents.error_domain = {};
   }
 
-  if (!('parametricDomain' in contents)) {
-    contents.parametricDomain = '';
+  if (!contents.parametric_domain) {
+    contents.parametric_domain = [''];
   }
 
-  if (!('extension_domain' in contents)) {
-    contents.extension_domain = '';
+  if (!contents.extension_domain) {
+    contents.extension_domain = [''];
   }
 
   const renderList = [
@@ -120,7 +120,8 @@ const ColorCoded = ({ contents }) => {
     contents.io_domain,
     contents.parametric_domain,
     contents.error_domain,
-    contents.extension_domain];
+    contents.extension_domain
+];
 
   const compList = [Meta,
     ProvenanceDomain, UsabilityDomain, DescriptionDomain, ExecutionDomain,

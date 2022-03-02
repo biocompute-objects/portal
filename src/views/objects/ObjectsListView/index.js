@@ -35,7 +35,6 @@ const ObjectsListView = () => {
   const [rows, setRows] = useState();
   // First get the API info.
   let ApiInfo = {};
-  const thing = {};
   const user = JSON.parse(localStorage.getItem('user'));
   // If there is no user info stored, assume we're the anonymous user.
   if (user === null) {
