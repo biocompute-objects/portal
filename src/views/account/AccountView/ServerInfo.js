@@ -59,6 +59,7 @@ export default function ServerInfo({ setShowing }) {
           console.log('Failed to remove the API server because: ', result.data.detail);
         }
       }));
+      window.location.reload(false);
     }
   };
 
@@ -74,6 +75,7 @@ export default function ServerInfo({ setShowing }) {
       });
     });
     setRows(holder);
+    console.log(rows);
     setServerChange(false);
   }, [serverChange]);
 
