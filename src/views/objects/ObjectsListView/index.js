@@ -8,8 +8,8 @@ import {
 import Page from 'src/components/Page';
 import Typography from '@material-ui/core/Typography';
 // import Async from 'react-async';
-import Results from './Results';
-// import Toolbar from '../../../components/ObjectsListViewToolbar.js';
+import Results from 'src/views/objects/ObjectsListView/Results';
+import Toolbar from 'src/components/ObjectsListViewToolbar';
 
 // Fetch context.
 import { FetchContext } from '../../../App';
@@ -46,9 +46,31 @@ const ObjectsListView = () => {
   }
 
   // this function creates the row items. Use this later to add the select columns ability
-  function createData(name, public_hostname, contents, last_update, object_class, object_id, owner_group, owner_user, prefix, schema, state) {
+  function createData(
+    name,
+    public_hostname,
+    contents,
+    last_update,
+    object_class,
+    object_id,
+    owner_group,
+    owner_user,
+    prefix,
+    schema,
+    state
+  ) {
     return {
-      name, public_hostname, contents, last_update, object_class, object_id, owner_group, owner_user, prefix, schema, state
+      name,
+      public_hostname,
+      contents,
+      last_update,
+      object_class,
+      object_id,
+      owner_group,
+      owner_user,
+      prefix,
+      schema,
+      state
     };
   }
 
@@ -146,9 +168,7 @@ const ObjectsListView = () => {
       title="BioCompute Objects"
     >
       <Container maxWidth={false}>
-        {/* Disabled until button functions can be written
         <Toolbar />
-        */}
         {
           loading
             ? (
