@@ -1,6 +1,7 @@
 // src/components/PermissionTools.js
 
 import React, { useEffect, useState, useContext } from 'react';
+import { Grid, TextField } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import Accordion from '@material-ui/core/Accordion';
 import AccordionSummary from '@material-ui/core/AccordionSummary';
@@ -8,17 +9,15 @@ import AccordionDetails from '@material-ui/core/AccordionDetails';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
-import { Grid } from '@material-ui/core';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import PropTypes from 'prop-types';
-import CreateDraftObject from './API/CreateDraftObject';
-import ModifyDraftObject from './API/ModifyDraftObject';
-import PublishDraftObject from './API/PublishDraftObject';
-import ValidateSchema from './ValidateSchema';
-// Servers
-import ServerList from '../utils/ServerList';
-import { FetchContext } from '../App';
+import CreateDraftObject from 'src/components/API/CreateDraftObject';
+import ModifyDraftObject from 'src/components/API/ModifyDraftObject';
+import PublishDraftObject from 'src/components/API/PublishDraftObject';
+import ValidateSchema from 'src/components/ValidateSchema';
+import ServerList from 'src/utils/ServerList';
+import { FetchContext } from 'src/App';
 
 // Rendering URL parameters.
 // Source: https://stackoverflow.com/a/60312798
@@ -42,6 +41,8 @@ export default function PermissionTools({
 }) {
   // State
   const [saveDraftTo, setSaveDraftTo] = useState('');
+  const [prefix, setPrefix] = useState('BCO');
+  const [create, setCreate] = useState(false);
   const fc = useContext(FetchContext);
   const [userInfo, setUserInfo] = useState(null);
   const classes = useStyles();
@@ -60,7 +61,7 @@ export default function PermissionTools({
     if (which === 'saveDraft') {
       ModifyDraftObject(objectInformation, contents);
     } else if (which === 'createDraft') {
-      CreateDraftObject(saveDraftTo, contents);
+      CreateDraftObject(saveDraftTo, contents, prefix);
     } else if (which === 'validateDraft') {
       ValidateSchema(contents, setPublish, publish);
     } else if (which === 'publishDraft') {
@@ -96,6 +97,12 @@ export default function PermissionTools({
     }
   }, []);
 
+  useEffect(() => {
+    if (prefix.length >= 3 && prefix.length <= 5 && saveDraftTo !== '') {
+      setCreate(true);
+    }
+  }, [prefix, saveDraftTo]);
+
   return (
     <div className={classes.root}>
       <Accordion>
@@ -119,6 +126,10 @@ export default function PermissionTools({
                 <CardContent>
                   <Typography gutterBottom variant="h2">
                     Instructions
+                  </Typography>
+                  <Typography variant="h4">0) Select BCO Prefix to use for draft</Typography>
+                  <Typography gutterBottom>
+                    Select a specific BCO Prefix to use when CREATING a draft.
                   </Typography>
                   <Typography variant="h4">1) Select BCODB to save draft to</Typography>
                   <Typography gutterBottom>
@@ -177,13 +188,25 @@ export default function PermissionTools({
                     type="draft"
                   />
                   <Typography>
-                &nbsp;
+                    &nbsp;
+                  </Typography>
+                  <TextField
+                    InputProps={{ className: classes.root }}
+                    color="primary"
+                    fullWidth
+                    id="outlined-multiline-static"
+                    variant="outlined"
+                    onChange={(e) => setPrefix(e.target.value)}
+                    value={prefix}
+                  />
+                  <Typography>
+                    &nbsp;
                   </Typography>
                   <Button
                     variant="contained"
                     color="secondary"
                     disableElevation
-                    disabled={(saveDraftTo === '')}
+                    disabled={(create === false)}
                     fullWidth
                     onClick={() => clickActions('createDraft')}
                   >
