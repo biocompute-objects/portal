@@ -3,7 +3,7 @@
 /* Modifies a draft object using the current user's token and an object's
 draft id */
 
-export default function CreateDraftObject(url, contents) {
+export default function CreateDraftObject(url, contents, prefix) {
   let userToken = '';
   const objectContents = contents;
   console.log('objectContents', contents);
@@ -19,7 +19,7 @@ export default function CreateDraftObject(url, contents) {
       POST_api_objects_draft_create: [
         {
           contents: objectContents,
-          prefix: 'BCO',
+          prefix,
           schema: 'IEEE',
           owner_group: 'bco_drafter'
         }
