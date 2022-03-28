@@ -111,13 +111,16 @@ export default function PermissionTools({
           aria-controls="panel1a-content"
           id="panel1a-header"
         >
-          <Typography
+          <Button
             className={classes.heading}
-            variant="h1"
+            variant="contained"
+            color="secondary"
+            disableElevation
+            fullWidth
           >
             Saving and Publishing (click to expand)
 
-          </Typography>
+          </Button>
         </AccordionSummary>
         <AccordionDetails>
           <Grid container spacing={3}>
@@ -127,47 +130,47 @@ export default function PermissionTools({
                   <Typography gutterBottom variant="h2">
                     Instructions
                   </Typography>
-                  <Typography variant="h4">0) Select BCO Prefix to use for draft</Typography>
-                  <Typography gutterBottom>
-                    Select a specific BCO Prefix to use when CREATING a draft.
-                  </Typography>
                   <Typography variant="h4">1) Select BCODB to save draft to</Typography>
                   <Typography gutterBottom>
                     Select a specific BCODB (server) to save your draft to when CREATING a draft.
                   </Typography>
+                  <Typography variant="h4">2) Select BCO Prefix to use for draft</Typography>
+                  <Typography gutterBottom>
+                    Select a specific BCO Prefix to use when CREATING a draft.
+                  </Typography>
                   <Typography gutterBottom variant="h4">
-                    2)  CREATE NEW DRAFT
+                    3)  CREATE NEW DRAFT
                   </Typography>
                   <Typography gutterBottom>
                     This button will be available once a BCODB is selected for DRAFT creation.
                   </Typography>
                   <Typography gutterBottom variant="h4">
-                    3) SAVE CURRENT DRAFT
+                    4) SAVE CURRENT DRAFT
                   </Typography>
                   <Typography gutterBottom>
                     This button will be available if you are working on a DRAFT
                     currently in a BCODB.
                   </Typography>
                   <Typography gutterBottom variant="h4">
-                    4) VALIDATE DRAFT
+                    5) VALIDATE DRAFT
                   </Typography>
                   <Typography gutterBottom>
                     This function will validate the current DRAFT against the IEEE-2791-2020 schema.
                   </Typography>
                   <Typography gutterBottom variant="h4">
-                    5) PUBLISH DRAFT
+                    6) PUBLISH DRAFT
                   </Typography>
                   <Typography gutterBottom>
                     A DRAFT can not be published until it has passed validation.
                   </Typography>
                   <Typography gutterBottom variant="h4">
-                    6)  DOWN LOAD DRAFT
+                    7)  DOWN LOAD DRAFT
                   </Typography>
                   <Typography gutterBottom>
                     This will downlaod a JSON of the current DRAFT
                   </Typography>
                   <Typography gutterBottom variant="h4">
-                    7)  DELETE DRAFT
+                    8)  DELETE DRAFT
                   </Typography>
                   <Typography gutterBottom>
                     This function has not been implemented yet.
