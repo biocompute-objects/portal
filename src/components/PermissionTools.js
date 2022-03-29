@@ -15,6 +15,7 @@ import PropTypes from 'prop-types';
 import CreateDraftObject from 'src/components/API/CreateDraftObject';
 import ModifyDraftObject from 'src/components/API/ModifyDraftObject';
 import PublishDraftObject from 'src/components/API/PublishDraftObject';
+import DeleteDraftObject from 'src/components/API/DeleteDraftObject';
 import ValidateSchema from 'src/components/ValidateSchema';
 import ServerList from 'src/utils/ServerList';
 import { FetchContext } from 'src/App';
@@ -79,6 +80,7 @@ export default function PermissionTools({
     } else if (which === 'deleteDraft') {
       // From parent.
       // setDeletingDraft(true);
+      DeleteDraftObject(objectInformation, contents);
     }
   }
 
@@ -273,7 +275,7 @@ export default function PermissionTools({
                     variant="contained"
                     color="secondary"
                     disableElevation
-                    disabled
+                    disabled={newDraft === true}
                     fullWidth
                     onClick={() => clickActions('deleteDraft')}
                   >

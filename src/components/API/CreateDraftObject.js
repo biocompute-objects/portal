@@ -36,9 +36,9 @@ export default function CreateDraftObject(url, contents, prefix) {
       } else {
         return response.json()
           .then((data) => {
-            console.log('data', data[0].object_id);
-            const objectId = data[0].object_id;
-            alert(`Create Draft Success! Save the following object ID to access later  ${data[0].object_id}`);
+            console.log('data', data);
+            const objectId = data.object_id;
+            alert(`Create Draft Success! Save the following object ID to access later  ${data.object_id}`);
             const processed = objectId.replace('://', '/');
             window.location.href = `${window.location}/${processed}`;
           });
