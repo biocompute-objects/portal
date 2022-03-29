@@ -54,17 +54,35 @@ export default function Citations() {
             <li>
               <div vocab="http://schema.org" typeof="ScholarlyArticle">
                 <span property="author">King CH, Keeney J, Guimera N, Das S, Weber M, Fochtman B, Walderhaug MO, Talwar S, Patel JA, Mazumder R, Donaldson EF.</span>
-                <span property="name">Communicating regulatory high-throughput sequencing data using BioCompute Objects.</span>
+                <span property="name"> Communicating regulatory high-throughput sequencing data using BioCompute Objects. </span>
                 <span property="isPartOf" typeof="PublicationIssue">
                   <span property="name" typeof="Periodical">Drug Discov Today</span>
                   .
-                  <span property="datePublished">2022 Jan 22</span>
+                  <span property="datePublished"> 2022 Jan 22</span>
                   ;
                   <span property="isPartOf" typeof="PublicationVolume"><span property="volumeNumber" /></span>
                   {' '}
                   PMID:
                   {' '}
                   <a property="sameAs" href="https://pubmed.ncbi.nlm.nih.gov/35077912/" target="_blank" rel="noreferrer">35077912</a>
+                </span>
+                .
+              </div>
+            </li>
+            <li>
+              <div vocab="http://schema.org" typeof="ScholarlyArticle">
+                <span property="author">
+                  Stian Soiland-Reyes, Peter Sefton, Mercè Crosas, Leyla Jael Castro, Frederik Coppens, José M. Fernández, Daniel Garijo, Björn Grüning, Marco La Rosa,
+                  Simone Leo, Eoghan Ó Carragáin, Marc Portier, Ana Trisovic, RO-Crate Community, Paul Groth, Carole Goble.
+                </span>
+                <span property="name"> Packaging research artefacts with RO-Crate.</span>
+                <span property="isPartOf" typeof="PublicationIssue">
+                  <span property="name" typeof="Periodical"> Data Science</span>
+                  ,
+                  <span property="datePublished"> 2022</span>
+                  ;
+                  <span property="isPartOf" typeof="PublicationVolume"><span property="volumeNumber" /></span>
+                  <a property="sameAs" href="https://doi.org/10.3233/DS-210053" target="_blank" rel="noreferrer"> https://doi.org/10.3233/DS-210053</a>
                 </span>
                 .
               </div>
