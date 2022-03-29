@@ -6,7 +6,7 @@ import Autocomplete from '@material-ui/lab/Autocomplete';
 
 import TextField from '@material-ui/core/TextField';
 
-export default function ServerList({
+export default function PrefixList({
   disabledValue, options, receivedDefault, setter, type
 }) {
   // Some quick processing to make the keys usable.
@@ -58,7 +58,7 @@ export default function ServerList({
               {...params}
               label={type === 'draft'
                 ? 'Select server to save draft to.'
-                : 'Select server to search.'}
+                : 'Select server to publish draft to.'}
             />
           )}
         />

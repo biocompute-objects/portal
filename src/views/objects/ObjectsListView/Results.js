@@ -86,14 +86,14 @@ function EnhancedTableHead(props) {
   return (
     <TableHead>
       <TableRow>
-        <TableCell padding="checkbox">
+        {/* <TableCell padding="checkbox">
           <Checkbox
             indeterminate={numSelected > 0 && numSelected < rowCount}
             checked={rowCount > 0 && numSelected === rowCount}
             onChange={onSelectAllClick}
             inputProps={{ 'aria-label': 'select all desserts' }}
           />
-        </TableCell>
+        </TableCell> */}
         {headCells.map((headCell) => (
           <TableCell
             key={headCell.id}
@@ -168,7 +168,7 @@ const EnhancedTableToolbar = (props) => {
         </Typography>
       ) : (
         <Typography className={classes.title} variant="h1" id="tableTitle" component="div">
-          BioCompute Objects
+
         </Typography>
       )}
 
@@ -283,7 +283,6 @@ export default function Results({ rowInfo }) {
   return (
     <div className={classes.root}>
       <Paper className={classes.paper}>
-        <EnhancedTableToolbar numSelected={selected.length} />
         <TableContainer>
           <Table
             className={classes.table}
@@ -309,7 +308,7 @@ export default function Results({ rowInfo }) {
 
                   return (
                     <TableRow
-                      hover
+                    //   hover
                       onClick={(event) => handleClick(event, row.objectId)}
                       role="checkbox"
                       aria-checked={isItemSelected}
@@ -317,12 +316,12 @@ export default function Results({ rowInfo }) {
                       key={labelId}
                       selected={isItemSelected}
                     >
-                      <TableCell padding="checkbox">
+                      {/* <TableCell padding="checkbox">
                         <Checkbox
                           checked={isItemSelected}
                           inputProps={{ 'aria-labelledby': labelId }}
                         />
-                      </TableCell>
+                      </TableCell> */}
                       {/* <TableCell component="th" id={labelId} scope="row" padding="none">
                         <BcoPreviewPopup bcoLink={row.objectId} />
                       </TableCell> */}

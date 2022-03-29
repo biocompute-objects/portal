@@ -1,6 +1,6 @@
 // src/views/objects/ObjectsListView/Toolbar.js
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import {
@@ -14,9 +14,7 @@ import {
   makeStyles
 } from '@material-ui/core';
 import { Search as SearchIcon } from 'react-feather';
-
-// Server options for creating new objects.
-// import ServerDropdown from './ServerInfoMini'
+import ServerList from 'src/utils/ServerList';
 
 const useStyles = makeStyles((theme) => ({
   root: {},
@@ -30,37 +28,18 @@ const useStyles = makeStyles((theme) => ({
 
 const Toolbar = ({ className, ...rest }) => {
   const classes = useStyles();
-
+  const [searchLocation, setSearchLocation] = useState();
+  const userInfo = JSON.parse(localStorage.getItem('user'));
+  useEffect(() => {
+      console.log('searchLocation', searchLocation);
+  }, [searchLocation])
+  
   return (
     <div
       className={clsx(classes.root, className)}
       {...rest}
     >
-      <Box
-        display="flex"
-        justifyContent="flex-end"
-      >
-        <Button
-          className={classes.importButton}
-          color="primary"
-          variant="contained"
-        >
-          Import BCOs
-        </Button>
-        <Button
-          className={classes.exportButton}
-          color="primary"
-          variant="contained"
-        >
-          Export BCOs
-        </Button>
-        <Button
-          color="primary"
-          variant="contained"
-        >
-          Other options
-        </Button>
-      </Box>
+      <Box display="flex" justifyContent="flex-end" />
       <Box mt={3}>
         <Card>
           <CardContent>
@@ -70,19 +49,32 @@ const Toolbar = ({ className, ...rest }) => {
                 InputProps={{
                   startAdornment: (
                     <InputAdornment position="start">
-                      <SvgIcon
-                        fontSize="small"
-                        color="action"
-                      >
+                      <SvgIcon fontSize="small" color="action">
                         <SearchIcon />
                       </SvgIcon>
                     </InputAdornment>
                   )
                 }}
-                placeholder="Search customer"
+                placeholder="Search BCODB"
                 variant="outlined"
               />
+              <Box>
+                <ServerList
+                  options={userInfo === null ? null : userInfo.apiinfo}
+                  setter={setSearchLocation}
+                  type="search"
+                />
+              </Box>
             </Box>
+            <Button className={classes.importButton} color="primary" variant="contained">
+              Search prefix
+            </Button>
+            <Button className={classes.exportButton} color="primary" variant="contained">
+              Seach BCO_ID
+            </Button>
+            <Button color="primary" variant="contained">
+              My BCOs
+            </Button>
           </CardContent>
         </Card>
       </Box>
