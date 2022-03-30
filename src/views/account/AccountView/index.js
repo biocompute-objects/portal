@@ -40,7 +40,7 @@ const AccountView = () => {
             {/* <Profile /> */}
           </Grid>
         </Grid>
-        {/* <Accordion>
+        <Accordion>
           <AccordionSummary
             expandIcon={<ExpandMoreIcon />}
             aria-controls="panel1a-content"
@@ -57,7 +57,7 @@ const AccountView = () => {
               </Grid>
             </Grid>
           </AccordionDetails>
-        </Accordion> */}
+        </Accordion>
         <Accordion>
           <AccordionSummary
             expandIcon={<ExpandMoreIcon />}
