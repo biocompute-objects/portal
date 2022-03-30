@@ -30,28 +30,17 @@ const useStyles = makeStyles((theme) => ({
 const AccountView = () => {
   const classes = useStyles();
   const [showing, setShowing] = useState(false);
-  const [serverAdded, setServerAdded] = useState(false);
+  //   const [serverAdded, setServerAdded] = useState(false);
 
   return (
     <Page className={classes.root} title="Account">
       <Container maxWidth={false}>
-        <Accordion>
-          <AccordionSummary
-            expandIcon={<ExpandMoreIcon />}
-            aria-controls="panel1a-content"
-            id="panel1a-header"
-          >
-            <Typography className={classes.heading} variant="h3">
-              Profile Information (click to expand)
-            </Typography>
-          </AccordionSummary>
-          <Grid container spacing={5}>
-            <Grid item xs={12} sm={12} lg={12} xl={12}>
-              <Profile />
-            </Grid>
+        <Grid container spacing={5}>
+          <Grid item xs={12} sm={12} lg={12} xl={12}>
+            {/* <Profile /> */}
           </Grid>
-        </Accordion>
-        <Accordion>
+        </Grid>
+        {/* <Accordion>
           <AccordionSummary
             expandIcon={<ExpandMoreIcon />}
             aria-controls="panel1a-content"
@@ -68,7 +57,7 @@ const AccountView = () => {
               </Grid>
             </Grid>
           </AccordionDetails>
-        </Accordion>
+        </Accordion> */}
         <Accordion>
           <AccordionSummary
             expandIcon={<ExpandMoreIcon />}
