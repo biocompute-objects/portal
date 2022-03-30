@@ -45,9 +45,9 @@ export default function PermissionTools({
   const [prefix, setPrefix] = useState('BCO');
   const [create, setCreate] = useState(false);
   const fc = useContext(FetchContext);
-  const [userInfo, setUserInfo] = useState(null);
   const classes = useStyles();
   let ApiInfo = JSON.parse(localStorage.getItem('user'));
+  console.log('ApiInfo', ApiInfo)
   if (ApiInfo === null) {
     // Use the anon token, which is publicly available.
     ApiInfo = fc.sending.anon_api_info;
@@ -85,19 +85,6 @@ export default function PermissionTools({
   }
 
   // ----- INITIAL RENDER ----- //
-
-  // Saving is only possible if a user is logged in
-  // and has access to a server.
-  useEffect(() => {
-    // Logged in and has servers?
-    const userInfoCheck = JSON.parse(localStorage.getItem('user'));
-
-    if (userInfoCheck !== null) {
-      if (userInfoCheck.apiinfo.length > 0) {
-        setUserInfo(userInfoCheck);
-      }
-    }
-  }, []);
 
   useEffect(() => {
     if (prefix.length >= 3 && prefix.length <= 5 && saveDraftTo !== '') {
@@ -188,7 +175,7 @@ export default function PermissionTools({
                   </Typography>
                   <ServerList
                     disabledValue={(newDraft === false)}
-                    options={userInfo === null ? null : userInfo.apiinfo}
+                    options={ApiInfo}
                     setter={setSaveDraftTo}
                     type="draft"
                   />

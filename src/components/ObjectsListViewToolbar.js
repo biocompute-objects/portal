@@ -2,7 +2,6 @@
 
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import clsx from 'clsx';
 import {
   Box,
   Button,
@@ -15,34 +14,39 @@ import {
 } from '@material-ui/core';
 import { Search as SearchIcon } from 'react-feather';
 import ServerList from 'src/utils/ServerList';
+import SearchObjects from 'src/components/API/SearchObjects';
 
-const useStyles = makeStyles((theme) => ({
-  root: {},
-  importButton: {
-    marginRight: theme.spacing(1)
-  },
-  exportButton: {
-    marginRight: theme.spacing(1)
+
+const Toolbar = ({ ApiInfo, rows, setRows }) => {
+  const [search, setSearch] = useState('');
+  const [prefix, setPrefix] = useState();
+  const [searchLocation, setSearchLocation] = useState('');
+  const userInfo = ApiInfo;
+
+  function clickActions(action) {
+    SearchObjects(action, searchLocation, search, setRows);
   }
-}));
-
-const Toolbar = ({ className, ...rest }) => {
-  const classes = useStyles();
-  const [searchLocation, setSearchLocation] = useState();
-  const userInfo = JSON.parse(localStorage.getItem('user'));
   useEffect(() => {
-      console.log('searchLocation', searchLocation);
-  }, [searchLocation])
-  
+    if (searchLocation !== '' && search.length > 2 && search.length < 6) {
+      console.log('prefix', prefix);
+      setPrefix(true);
+    } else {
+      setPrefix(false);
+    }
+  }, [search, searchLocation]);
   return (
-    <div
-      className={clsx(classes.root, className)}
-      {...rest}
-    >
+    <div>
       <Box display="flex" justifyContent="flex-end" />
       <Box mt={3}>
         <Card>
           <CardContent>
+            <Box>
+              <ServerList
+                options={userInfo === null ? null : userInfo}
+                setter={setSearchLocation}
+                type="search"
+              />
+            </Box>
             <Box maxWidth={500}>
               <TextField
                 fullWidth
@@ -57,22 +61,31 @@ const Toolbar = ({ className, ...rest }) => {
                 }}
                 placeholder="Search BCODB"
                 variant="outlined"
+                onChange={(e) => setSearch(e.target.value)}
               />
-              <Box>
-                <ServerList
-                  options={userInfo === null ? null : userInfo.apiinfo}
-                  setter={setSearchLocation}
-                  type="search"
-                />
-              </Box>
             </Box>
-            <Button className={classes.importButton} color="primary" variant="contained">
+            <Button
+              disabled={prefix !== true}
+              color="primary"
+              variant="contained"
+              onClick={() => clickActions('prefix')}
+            >
               Search prefix
             </Button>
-            <Button className={classes.exportButton} color="primary" variant="contained">
+            <Button
+              disabled={searchLocation === ''}
+              color="primary"
+              variant="contained"
+              onClick={() => clickActions('bco_id')}
+            >
               Seach BCO_ID
             </Button>
-            <Button color="primary" variant="contained">
+            <Button
+              disabled={searchLocation === ''}
+              color="primary"
+              variant="contained"
+              onClick={() => clickActions('mine')}
+            >
               My BCOs
             </Button>
           </CardContent>
@@ -83,7 +96,9 @@ const Toolbar = ({ className, ...rest }) => {
 };
 
 Toolbar.propTypes = {
-  className: PropTypes.string
+  ApiInfo: PropTypes.array.isRequired,
+  rows: PropTypes.array,
+  setRows: PropTypes.func
 };
 
 export default Toolbar;

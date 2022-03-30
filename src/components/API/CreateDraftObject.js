@@ -3,17 +3,11 @@
 /* Modifies a draft object using the current user's token and an object's
 draft id */
 
-export default function CreateDraftObject(url, contents, prefix) {
-  let userToken = '';
+export default function CreateDraftObject(saveDraftTo, contents, prefix) {
   const objectContents = contents;
   console.log('objectContents', contents);
 
-  JSON.parse(localStorage.getItem('user')).apiinfo.forEach((item) => {
-    if (url === item.public_hostname) {
-      userToken = item.token;
-    }
-  });
-  fetch(`${url}/api/objects/drafts/create/`, {
+  fetch(`${saveDraftTo[0]}/api/objects/drafts/create/`, {
     method: 'POST',
     body: JSON.stringify({
       POST_api_objects_draft_create: [
@@ -26,7 +20,7 @@ export default function CreateDraftObject(url, contents, prefix) {
       ]
     }),
     headers: {
-      Authorization: `Token ${userToken}`,
+      Authorization: `Token ${saveDraftTo[1]}`,
       'Content-type': 'application/json; charset=UTF-8'
     }
   })
