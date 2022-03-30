@@ -3,7 +3,7 @@
 /* eslint-disable no-use-before-define */
 import React from 'react';
 import Autocomplete from '@material-ui/lab/Autocomplete';
-
+import PropTypes from 'prop-types';
 import TextField from '@material-ui/core/TextField';
 
 export default function ServerList({
@@ -13,7 +13,7 @@ export default function ServerList({
   const processed = [];
   // Render the options for servers based on the type of server
   // list we have IF we have them.
-  if (options !== null) {
+  if (options[0].other_info) {
     options.forEach((item) => {
       const groupList = [];
       const userList = [];
@@ -33,7 +33,15 @@ export default function ServerList({
         human_readable_hostname: item.human_readable_hostname,
         group: groupList,
         userlist: userList,
-        username: userName
+        username: userName,
+        token: item.token,
+      });
+    });
+  } else {
+    options.forEach((item) => {
+      processed.push({
+        hostname: item.public_hostname,
+        token: item.token,
       });
     });
   }
@@ -49,7 +57,7 @@ export default function ServerList({
           onChange={(event, newValue) => {
             newValue === null
               ? setter('')
-              : setter(newValue.hostname);
+              : setter([newValue.hostname, newValue.token]);
           }}
           options={processed}
           getOptionLabel={(option) => `${option.hostname} - ${option.human_readable_hostname}`}
@@ -85,4 +93,12 @@ export default function ServerList({
         />
       )
   );
+}
+
+ServerList.propTypes = {
+  disabledValue: PropTypes.bool,
+  options: PropTypes.array.isRequired,
+  receivedDefault: PropTypes.string,
+  setter: PropTypes.func,
+  type: PropTypes.string
 }
