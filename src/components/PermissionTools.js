@@ -92,6 +92,12 @@ export default function PermissionTools({
     }
   }, [prefix, saveDraftTo]);
 
+  useEffect(() => {
+    if (prefix.length >= 3 && prefix.length <= 5 && saveDraftTo !== '') {
+      setCreate(true);
+    }
+  }, [prefix, saveDraftTo]);
+
   return (
     <div className={classes.root}>
       <Accordion>

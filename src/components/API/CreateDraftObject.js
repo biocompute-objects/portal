@@ -4,6 +4,7 @@
 draft id */
 
 export default function CreateDraftObject(saveDraftTo, contents, prefix) {
+
   const objectContents = contents;
   console.log('objectContents', contents);
 
