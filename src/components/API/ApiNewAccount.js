@@ -19,14 +19,10 @@ export default function ApiNewAccount(values) {
   })
     .then((response) => {
       if (response.ok) {
-        return response.json()
-          .then((data) => {
-            console.log('data', data);
-            alert(`BCODB says: ${data.message}`);
-          });
+        return response;
       }
       if (response.status === 409) {
-        alert(`${values.apiurl} says: Account has already been requested.`);
+        alert(`${values.apiurl} says: An account with that email is awaiting activation.`);
       } else {
         throw new Error(response.status);
       }

@@ -28,9 +28,7 @@ export default function UserdbNewAccount(values) {
     })
   })
     .then((response) => {
-      if (!response.ok) {
-        throw new Error(response.status);
-      } else {
+      if (response.ok) {
         return response.json()
           .then((data) => {
             console.log('data', data);
@@ -38,11 +36,13 @@ export default function UserdbNewAccount(values) {
             alert('Portal Account created! Do not forget to activate your BCDODB account via the activation email sent from object.biocompute@gmail.com');
           });
       }
+      if (response.status === 409) {
+        alert('User name already taken. ');
+        return 1;
+      }
+      throw new Error(response.status);
     })
     .catch((error) => {
-      if (error === 'Error: 409') {
-        alert(`User name already taken. ${error}`);
-      }
       alert(`Something went wrong, ${error}.`);
       console.log('error', error);
     // return error;
