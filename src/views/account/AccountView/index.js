@@ -37,7 +37,7 @@ const AccountView = () => {
       <Container maxWidth={false}>
         <Grid container spacing={5}>
           <Grid item xs={12} sm={12} lg={12} xl={12}>
-            {/* <Profile /> */}
+            <Profile />
           </Grid>
         </Grid>
         <Accordion>
