@@ -104,7 +104,7 @@ const ColorCoded = ({ contents }) => {
   }
 
   if (!contents.parametric_domain) {
-    contents.parametric_domain = [''];
+    contents.parametric_domain = [];
   }
 
   if (!contents.extension_domain) {
