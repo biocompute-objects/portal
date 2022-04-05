@@ -123,6 +123,7 @@ export default function AddServer({ showing, setShowing }) {
         // UX thing, give a little time before closing the dialog.
         setTimeout(handleClose, 250);
         setServerInfo('');
+        window.location.reload();
       } else {
         // Display whatever the server said.
         console.log('Failed to add the server because: ', result.data.detail);

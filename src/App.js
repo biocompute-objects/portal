@@ -104,7 +104,7 @@ function App() {
   * @example
   * const sending = hostnames.local;
   */
-  const sending = hostnames.local;
+  const sending = hostnames.production;
 
   useEffect(() => {
     if (localStorage.getItem('token')) {
