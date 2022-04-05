@@ -1,6 +1,7 @@
 // src/components/PermissionTools.js
 
 import React, { useEffect, useState, useContext } from 'react';
+import { Grid, TextField } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import Accordion from '@material-ui/core/Accordion';
 import AccordionSummary from '@material-ui/core/AccordionSummary';
@@ -8,17 +9,16 @@ import AccordionDetails from '@material-ui/core/AccordionDetails';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
-import { Grid } from '@material-ui/core';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import PropTypes from 'prop-types';
-import CreateDraftObject from './API/CreateDraftObject';
-import ModifyDraftObject from './API/ModifyDraftObject';
-import PublishDraftObject from './API/PublishDraftObject';
-import ValidateSchema from './ValidateSchema';
-// Servers
-import ServerList from '../utils/ServerList';
-import { FetchContext } from '../App';
+import CreateDraftObject from 'src/components/API/CreateDraftObject';
+import ModifyDraftObject from 'src/components/API/ModifyDraftObject';
+import PublishDraftObject from 'src/components/API/PublishDraftObject';
+import DeleteDraftObject from 'src/components/API/DeleteDraftObject';
+import ValidateSchema from 'src/components/ValidateSchema';
+import ServerList from 'src/utils/ServerList';
+import { FetchContext } from 'src/App';
 
 // Rendering URL parameters.
 // Source: https://stackoverflow.com/a/60312798
@@ -42,10 +42,12 @@ export default function PermissionTools({
 }) {
   // State
   const [saveDraftTo, setSaveDraftTo] = useState('');
+  const [prefix, setPrefix] = useState('BCO');
+  const [create, setCreate] = useState(false);
   const fc = useContext(FetchContext);
-  const [userInfo, setUserInfo] = useState(null);
   const classes = useStyles();
   let ApiInfo = JSON.parse(localStorage.getItem('user'));
+  console.log('ApiInfo', ApiInfo)
   if (ApiInfo === null) {
     // Use the anon token, which is publicly available.
     ApiInfo = fc.sending.anon_api_info;
@@ -60,7 +62,7 @@ export default function PermissionTools({
     if (which === 'saveDraft') {
       ModifyDraftObject(objectInformation, contents);
     } else if (which === 'createDraft') {
-      CreateDraftObject(saveDraftTo, contents);
+      CreateDraftObject(saveDraftTo, contents, prefix);
     } else if (which === 'validateDraft') {
       ValidateSchema(contents, setPublish, publish);
     } else if (which === 'publishDraft') {
@@ -78,23 +80,23 @@ export default function PermissionTools({
     } else if (which === 'deleteDraft') {
       // From parent.
       // setDeletingDraft(true);
+      DeleteDraftObject(objectInformation, contents);
     }
   }
 
   // ----- INITIAL RENDER ----- //
 
-  // Saving is only possible if a user is logged in
-  // and has access to a server.
   useEffect(() => {
-    // Logged in and has servers?
-    const userInfoCheck = JSON.parse(localStorage.getItem('user'));
-
-    if (userInfoCheck !== null) {
-      if (userInfoCheck.apiinfo.length > 0) {
-        setUserInfo(userInfoCheck);
-      }
+    if (prefix.length >= 3 && prefix.length <= 5 && saveDraftTo !== '') {
+      setCreate(true);
     }
-  }, []);
+  }, [prefix, saveDraftTo]);
+
+  useEffect(() => {
+    if (prefix.length >= 3 && prefix.length <= 5 && saveDraftTo !== '') {
+      setCreate(true);
+    }
+  }, [prefix, saveDraftTo]);
 
   return (
     <div className={classes.root}>
@@ -104,13 +106,16 @@ export default function PermissionTools({
           aria-controls="panel1a-content"
           id="panel1a-header"
         >
-          <Typography
+          <Button
             className={classes.heading}
-            variant="h1"
+            variant="contained"
+            color="secondary"
+            disableElevation
+            fullWidth
           >
             Saving and Publishing (click to expand)
 
-          </Typography>
+          </Button>
         </AccordionSummary>
         <AccordionDetails>
           <Grid container spacing={3}>
@@ -124,39 +129,43 @@ export default function PermissionTools({
                   <Typography gutterBottom>
                     Select a specific BCODB (server) to save your draft to when CREATING a draft.
                   </Typography>
+                  <Typography variant="h4">2) Select BCO Prefix to use for draft</Typography>
+                  <Typography gutterBottom>
+                    Select a specific BCO Prefix to use when CREATING a draft.
+                  </Typography>
                   <Typography gutterBottom variant="h4">
-                    2)  CREATE NEW DRAFT
+                    3)  CREATE NEW DRAFT
                   </Typography>
                   <Typography gutterBottom>
                     This button will be available once a BCODB is selected for DRAFT creation.
                   </Typography>
                   <Typography gutterBottom variant="h4">
-                    3) SAVE CURRENT DRAFT
+                    4) SAVE CURRENT DRAFT
                   </Typography>
                   <Typography gutterBottom>
                     This button will be available if you are working on a DRAFT
                     currently in a BCODB.
                   </Typography>
                   <Typography gutterBottom variant="h4">
-                    4) VALIDATE DRAFT
+                    5) VALIDATE DRAFT
                   </Typography>
                   <Typography gutterBottom>
                     This function will validate the current DRAFT against the IEEE-2791-2020 schema.
                   </Typography>
                   <Typography gutterBottom variant="h4">
-                    5) PUBLISH DRAFT
+                    6) PUBLISH DRAFT
                   </Typography>
                   <Typography gutterBottom>
                     A DRAFT can not be published until it has passed validation.
                   </Typography>
                   <Typography gutterBottom variant="h4">
-                    6)  DOWN LOAD DRAFT
+                    7)  DOWN LOAD DRAFT
                   </Typography>
                   <Typography gutterBottom>
                     This will downlaod a JSON of the current DRAFT
                   </Typography>
                   <Typography gutterBottom variant="h4">
-                    7)  DELETE DRAFT
+                    8)  DELETE DRAFT
                   </Typography>
                   <Typography gutterBottom>
                     This function has not been implemented yet.
@@ -172,18 +181,30 @@ export default function PermissionTools({
                   </Typography>
                   <ServerList
                     disabledValue={(newDraft === false)}
-                    options={userInfo === null ? null : userInfo.apiinfo}
+                    options={ApiInfo}
                     setter={setSaveDraftTo}
                     type="draft"
                   />
                   <Typography>
-                &nbsp;
+                    &nbsp;
+                  </Typography>
+                  <TextField
+                    InputProps={{ className: classes.root }}
+                    color="primary"
+                    fullWidth
+                    id="outlined-multiline-static"
+                    variant="outlined"
+                    onChange={(e) => setPrefix(e.target.value)}
+                    value={prefix}
+                  />
+                  <Typography>
+                    &nbsp;
                   </Typography>
                   <Button
                     variant="contained"
                     color="secondary"
                     disableElevation
-                    disabled={(saveDraftTo === '')}
+                    disabled={(create === false)}
                     fullWidth
                     onClick={() => clickActions('createDraft')}
                   >
@@ -247,7 +268,7 @@ export default function PermissionTools({
                     variant="contained"
                     color="secondary"
                     disableElevation
-                    disabled
+                    disabled={newDraft === true}
                     fullWidth
                     onClick={() => clickActions('deleteDraft')}
                   >

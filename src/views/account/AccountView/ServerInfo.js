@@ -8,7 +8,7 @@ import {
 import { FetchContext } from 'src/App';
 
 export default function ServerInfo({ setShowing }) {
-  const [serverChange, setServerChange] = useState(false);
+  const [serverChange, setServerChange] = useState(null);
   const fc = useContext(FetchContext);
   const [permissions, setPermissions] = useState(JSON.parse(localStorage.getItem('user')).apiinfo);
   const [rows, setRows] = useState([]);
@@ -112,7 +112,7 @@ export default function ServerInfo({ setShowing }) {
               <Card>
                 {
                    Object.keys(row.permissions).map((perm, index) => (
-                     <Typography key={index} variant="body2" component="p">
+                     <Typography key={index.toString} variant="body2" component="p">
                        {perm }
                      </Typography>
                    ))

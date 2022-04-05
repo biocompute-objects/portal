@@ -3,30 +3,25 @@
 /* Modifies a draft object using the current user's token and an object's
 draft id */
 
-export default function CreateDraftObject(url, contents) {
-  let userToken = '';
+export default function CreateDraftObject(saveDraftTo, contents, prefix) {
+
   const objectContents = contents;
   console.log('objectContents', contents);
 
-  JSON.parse(localStorage.getItem('user')).apiinfo.forEach((item) => {
-    if (url === item.public_hostname) {
-      userToken = item.token;
-    }
-  });
-  fetch(`${url}/api/objects/drafts/create/`, {
+  fetch(`${saveDraftTo[0]}/api/objects/drafts/create/`, {
     method: 'POST',
     body: JSON.stringify({
       POST_api_objects_draft_create: [
         {
           contents: objectContents,
-          prefix: 'BCO',
+          prefix,
           schema: 'IEEE',
           owner_group: 'bco_drafter'
         }
       ]
     }),
     headers: {
-      Authorization: `Token ${userToken}`,
+      Authorization: `Token ${saveDraftTo[1]}`,
       'Content-type': 'application/json; charset=UTF-8'
     }
   })
@@ -36,9 +31,9 @@ export default function CreateDraftObject(url, contents) {
       } else {
         return response.json()
           .then((data) => {
-            console.log('data', data[0].object_id);
-            const objectId = data[0].object_id;
-            alert(`Create Draft Success! Save the following object ID to access later  ${data[0].object_id}`);
+            console.log('data', data);
+            const objectId = data.object_id;
+            alert(`Create Draft Success! Save the following object ID to access later  ${data.object_id}`);
             const processed = objectId.replace('://', '/');
             window.location.href = `${window.location}/${processed}`;
           });

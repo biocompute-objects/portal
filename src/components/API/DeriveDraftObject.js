@@ -3,21 +3,15 @@
 /* Modifies a draft object using the current user's token and an object's
 draft id */
 
-export default function DeriveDraftObject(url) {
+export default function DeriveDraftObject(saveDraftTo) {
   const date = new Date()
   var objectContents = JSON.parse(localStorage.getItem('bco'));
   objectContents['provenance_domain'].derived_from = objectContents.object_id;
   objectContents['provenance_domain'].created = date.toISOString();
   objectContents['provenance_domain'].modified = date.toISOString();
   delete objectContents['provenance_domain'].review;
-  let userToken = '';
-  JSON.parse(localStorage.getItem('user')).apiinfo.forEach((item) => {
-    if (url === item.public_hostname) {
-      userToken = item.token;
-    }
-  });
   console.log(objectContents);
-  fetch(`${url}/api/objects/drafts/create/`, {
+  fetch(`${saveDraftTo[0]}/api/objects/drafts/create/`, {
     method: 'POST',
     body: JSON.stringify({
       POST_api_objects_draft_create: [
@@ -30,7 +24,7 @@ export default function DeriveDraftObject(url) {
       ]
     }),
     headers: {
-      Authorization: `Token ${userToken}`,
+      Authorization: `Token ${saveDraftTo[1]}`,
       'Content-type': 'application/json; charset=UTF-8'
     }
   })

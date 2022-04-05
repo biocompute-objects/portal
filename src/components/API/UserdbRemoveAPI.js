@@ -1,34 +1,33 @@
-// /src/components/API/UserdbChangePassword.js
+// /src/components/API/UserdbRemoveAPI.js
 
-/* Returns a JSON Web Token that can be used for authenticated requests. */
+/* submits form for removing an API on UserDb */
 
-export default function UserdbChangePassword(values) {
-  fetch(`${values.userdb}change_password/`, {
-    method: 'PUT',
+export default function UserdbUpdateAccount(values) {
+  // let responseData = '';
+  console.log('recieved for userdb', values);
+  console.log('Values isPublic : Type', values.isPublic, typeof (values.isPublic));
+
+  fetch(fc.sending.userdb_removeapi, {
+    method: 'DELETE',
+    body: JSON.stringify({ selected_rows: selectedRows }),
     headers: {
       Authorization: `JWT ${localStorage.getItem('token')}`,
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({
-      old_password: values.old_password,
-      new_password: values.new_password,
-    }),
+      'Content-type': 'application/json; charset=UTF-8'
+    }
   })
     .then((response) => {
       if (!response.ok) {
-        throw new Error(response.statusText);
+        throw new Error(response.status);
       } else {
         return response.json()
           .then((data) => {
-            alert('Your password has been updated.');
-            console.log('data', );
+            localStorage.setItem('user', JSON.stringify(data));
+            setServerChange(true);
           });
       }
     })
     .catch((error) => {
-      // TODO: This needs to be fleshed out to get all errors and deal with them
-      alert(`The provided OLD PASSWORD was not correct. ${error}`);
-      console.log('error', error);
-      // return error;
+      console.log(`error: ${error}`);
+      alert(`Account Update FAILED! ${error}`);
     });
 }

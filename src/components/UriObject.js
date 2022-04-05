@@ -46,7 +46,7 @@ const StyledCell = withStyles({
 })(TableCell);
 
 export default function UriObject({
-  link, header, list, setList, setRerender, rerender, additional_field
+  link, header, list, setList, setRerender, rerender, additionalField
 }) {
   const classes = useStyles();
   const [newFile, setNewFile] = useState('');
@@ -57,7 +57,8 @@ export default function UriObject({
 
   useEffect(() => {
     if (typeof list === 'undefined') {
-      setList();
+      setList([]);
+      console.log('list 61', list);
     }
   }, [list, setList]);
 
@@ -83,13 +84,12 @@ export default function UriObject({
       }
     };
     if (newField !== ('')) {
-      temp[additional_field] = newField;
+      temp[additionalField] = newField;
     }
-    console.log('ListBox', list);
     list.push(temp);
     setNewField('');
     setNewFile('');
-    setNewField('');
+    setNewUri('');
     setNewTime('');
     setNewChecksum('');
     setRerender(rerender + 1);
@@ -106,7 +106,7 @@ export default function UriObject({
       </CardActionArea>
       <CardContent>
         {
-            (!additional_field)
+            (!additionalField)
               ? (
                 <TableRow>
                   <StyledCell />
@@ -128,7 +128,7 @@ export default function UriObject({
                 <TableRow>
                   <StyledCell />
                   <StyledCell>
-                    <Typography>{additional_field}</Typography>
+                    <Typography>{additionalField}</Typography>
                   </StyledCell>
                   <StyledCell>
                     <Typography>Filename</Typography>
@@ -149,7 +149,7 @@ export default function UriObject({
         {
            (!list)
              ? (<TableRow />)
-             : (!additional_field)
+             : (!additionalField)
                ? ((list.map((item, key) => (
                  <TableRow>
                    <StyledCell>
@@ -199,7 +199,7 @@ export default function UriObject({
                    </StyledCell>
                    <StyledCell>
                      <Textfit mode="multi" max={16}>
-                       {item[additional_field]}
+                       {item[additionalField]}
                      </Textfit>
                    </StyledCell>
                    <StyledCell>
@@ -228,7 +228,7 @@ export default function UriObject({
                ))
         }
         {
-            (!additional_field)
+            (!additionalField)
               ? (
                 <TableRow>
                   <StyledCell>
@@ -373,5 +373,5 @@ UriObject.propTypes = {
   setList: PropTypes.func,
   setRerender: PropTypes.func,
   rerender: PropTypes.number,
-  additional_field: PropTypes.array.isRequired,
+  additionalField: PropTypes.array.isRequired,
 };
