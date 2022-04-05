@@ -95,6 +95,7 @@ function App() {
     portal: '22.04',
     bcodb: '22.04',
     userdb: '22.04'
+
   };
 
   /**
@@ -104,7 +105,7 @@ function App() {
   * @example
   * const sending = hostnames.local;
   */
-  const sending = hostnames.local;
+  const sending = hostnames.production;
 
   useEffect(() => {
     if (localStorage.getItem('token')) {
