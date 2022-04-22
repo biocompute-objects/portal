@@ -47,7 +47,6 @@ export default function PermissionTools({
   const fc = useContext(FetchContext);
   const classes = useStyles();
   let ApiInfo = JSON.parse(localStorage.getItem('user'));
-  console.log('ApiInfo', ApiInfo)
   if (ApiInfo === null) {
     // Use the anon token, which is publicly available.
     ApiInfo = fc.sending.anon_api_info;

@@ -22,14 +22,17 @@ const useStyles = makeStyles((theme) => ({
   root: {
     backgroundColor: theme.palette.background.dark,
     minHeight: '100%',
-    paddingBottom: theme.spacing(3),
+    paddingBottom: theme.spacing(12),
     paddingTop: theme.spacing(3)
-  }
+  },
+  pos: {
+    marginBottom: 12,
+  },
 }));
 
 const AccountView = () => {
   const classes = useStyles();
-  const [showing, setShowing] = useState(false);
+  const [server, setServer] = useState(false);
   //   const [serverAdded, setServerAdded] = useState(false);
 
   return (
@@ -71,11 +74,15 @@ const AccountView = () => {
           <Grid container spacing={5}>
             <Grid item xs={12} sm={12} lg={12} xl={12}>
               <ServerInfo
-                setShowing={setShowing}
+                setServer={setServer}
               />
               <AddServer
-                showing={showing}
-                setShowing={setShowing}
+                server={server}
+                setServer={setServer}
+              />
+              <AddGroup
+                server={server}
+                setServer={setServer}
               />
             </Grid>
           </Grid>

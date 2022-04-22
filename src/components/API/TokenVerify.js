@@ -1,6 +1,7 @@
 // /src/components/API/TokenVerify.js
 
 /* Verifies JSON Web Token that can be used for authenticated requests. */
+import PropTypes from 'prop-types';
 
 export default function TokenVerify(isLoggedIn, setIsLoggedIn, sending) {
   const jwtToken = localStorage.getItem('token');
@@ -17,6 +18,7 @@ export default function TokenVerify(isLoggedIn, setIsLoggedIn, sending) {
       if (response.ok) {
         return response.json()
           .then((data) => {
+            localStorage.setItem('user', JSON.stringify(data.user));
             setIsLoggedIn(true);
           });
       } if (response.status === 400) {
@@ -33,3 +35,9 @@ export default function TokenVerify(isLoggedIn, setIsLoggedIn, sending) {
       return error;
     });
 }
+
+TokenVerify.propTypes = {
+  isLoggedIn: PropTypes.bool.isRequired,
+  setIsLoggedIn: PropTypes.func.isRequired,
+  sending: PropTypes.array.isRequired,
+};
