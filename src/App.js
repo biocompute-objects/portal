@@ -22,10 +22,10 @@ function App() {
   /*
   * Define hostnames here.
   */
-  // TODO: This is assuming a host at 8000 and 8080 - should probably be set more dynamically
+  // TODO: This is assuming a host at 8000 and 8181 - should probably be set more dynamically
   const hostnames = {
     local: {
-      userdb: 'http://127.0.0.1:8080/users/',
+      userdb: 'http://127.0.0.1:8181/users/',
       bcoapi: 'http://127.0.0.1:8000/api/',
       bcoapi_accounts_new: 'http://127.0.0.1:8000/api/accounts/new/',
       bcoapi_description_permissions: 'http://127.0.0.1:8000/api/description/permissions/',
@@ -33,12 +33,12 @@ function App() {
       bcoapi_objects_list: 'http://127.0.0.1:8000/api/objects/token/',
       bcoapi_objects_read: 'http://127.0.0.1:8000/api/objects/read/',
       bcoapi_objects_view: 'http://127.0.0.1:8000/api/objects/view/',
-      userdb_addapi: 'http://127.0.0.1:8080/users/add_api/',
-      userdb_removeapi: 'http://127.0.0.1:8080/users/remove_api/',
-      userdb_users: 'http://127.0.0.1:8080/users/list/',
-      update_user: 'http://127.0.0.1:8080/users/update_user/',
-      userdb_tokenauth: 'http://127.0.0.1:8080/users/token-auth/',
-      userdb_tokenverify: 'http://127.0.0.1:8080/users/token-verify/',
+      userdb_addapi: 'http://127.0.0.1:8181/users/add_api/',
+      userdb_removeapi: 'http://127.0.0.1:8181/users/remove_api/',
+      userdb_users: 'http://127.0.0.1:8181/users/list/',
+      update_user: 'http://127.0.0.1:8181/users/update_user/',
+      userdb_tokenauth: 'http://127.0.0.1:8181/users/token-auth/',
+      userdb_tokenverify: 'http://127.0.0.1:8181/users/token-verify/',
       anon_api_info: [
         {
           token: '627626823549f787c3ec763ff687169206626149',
@@ -92,9 +92,9 @@ function App() {
     }
   };
   const versions = {
-    portal: '22.04',
-    bcodb: '22.04',
-    userdb: '22.04'
+    portal: '22.05',
+    bcodb: '22.05',
+    userdb: '22.05'
   };
 
   /**
@@ -104,7 +104,7 @@ function App() {
   * @example
   * const sending = hostnames.local;
   */
-  const sending = hostnames.production;
+  const sending = hostnames.local;
 
   useEffect(() => {
     if (localStorage.getItem('token')) {

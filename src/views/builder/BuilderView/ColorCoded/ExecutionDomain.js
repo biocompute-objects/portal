@@ -443,7 +443,7 @@ export default function ExecutionDomain({ items, cF }) {
         </TableRow>
         {
         items.edScript.map((item, index) => (
-          <TableRow key={index.toString()}>
+          <TableRow key={index.toString()}>{console.log('item', item, index)}
             <StyledCell colSpan="2">
               <TextField InputProps={{ className: classes.root }} fullWidth value={cF(item.uri.filename)} variant="outlined" onChange={(e) => setInput(e, index, 'filename', 'edScript')} />
             </StyledCell>
