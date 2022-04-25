@@ -11,11 +11,10 @@ import { FetchContext } from 'src/App';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import ListBoxStatic from 'src/components/ListBoxStatic';
 
-export default function ServerInfo({ setServer }) {
+export default function ServerInfo({ setServer, addGroup, setAddGroup, setUrl, setSubmitToken }) {
   const [serverChange, setServerChange] = useState(null);
   const fc = useContext(FetchContext);
   const [rows, setRows] = useState([]);
-  //   const [permList, setPermList] = useState([]);
   const permissions = JSON.parse(localStorage.getItem('user')).apiinfo;
 
   const deleteServer = (event, servername) => {
@@ -71,6 +70,7 @@ export default function ServerInfo({ setServer }) {
         hostname: perm.hostname,
         token: perm.token,
         username: perm.username,
+        public_hostname: perm.public_hostname,
         permissions: permList[permList.length - 1],
         status: 'Active'
       });
@@ -113,7 +113,7 @@ export default function ServerInfo({ setServer }) {
                     {row.status}
                   </div>
                   <Button
-                    color="red"
+                    color="secondary"
                     onClick={(e) => deleteServer(e, row.servername)}
                   >
                     Remove
@@ -131,8 +131,14 @@ export default function ServerInfo({ setServer }) {
                   </AccordionSummary>
                   <AccordionDetails>
                     <ListBoxStatic
+                      bool={addGroup}
+                      setBool={setAddGroup}
                       header="Groups"
                       list={row.permissions.groups}
+                      setUrl={setUrl}
+                      url={row.public_hostname}
+                      setSubmitToken={setSubmitToken}
+                      token={row.token}
                     />
                   </AccordionDetails>
                 </Accordion>
@@ -164,4 +170,8 @@ export default function ServerInfo({ setServer }) {
 
 ServerInfo.propTypes = {
   setServer: PropTypes.func.isRequired,
+  addGroup: PropTypes.bool,
+  setAddGroup: PropTypes.func,
+  setUrl: PropTypes.func,
+  setSubmitToken: PropTypes.func
 };

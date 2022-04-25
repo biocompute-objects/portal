@@ -49,7 +49,9 @@ const StyledCell = withStyles({
   }
 })(TableCell);
 
-export default function ListBoxStatic({ header, list }) {
+export default function ListBoxStatic({
+  header, list, bool, setBool, url, setUrl, token, setSubmitToken
+}) {
   const classes = useStyles();
 
   return (
@@ -73,7 +75,13 @@ export default function ListBoxStatic({ header, list }) {
 
       </CardContent>
       <CardContent>
-        <Button>
+        <Button
+          onClick={() => {
+            setBool(true);
+            setUrl(url);
+            setSubmitToken(token);
+          }}
+        >
           New
           {' '}
           {header}
@@ -86,4 +94,10 @@ export default function ListBoxStatic({ header, list }) {
 ListBoxStatic.propTypes = {
   list: PropTypes.array,
   header: PropTypes.string,
+  bool: PropTypes.bool,
+  setBool: PropTypes.func,
+  url: PropTypes.string,
+  setUrl: PropTypes.func,
+  setSubmitToken: PropTypes.func,
+  token: PropTypes.string
 };

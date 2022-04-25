@@ -48,10 +48,9 @@ export default function AddServer({ server, setServer }) {
   };
 
   const checkApi = () => { // Check if the server and the given key are valid.
-    let serverAdded = false; // See if this server has already been added.
     JSON.parse(localStorage.getItem('user')).apiinfo.map((record) => { // TODO: a bit expensive, use a for loop/break paradigm instead.
       if (record.public_hostname === hostname) { // Already added?
-        serverAdded = true;
+        return setServerAdded(true);
       }
     });
     if (serverAdded === false) { // Was the hostname already added?
