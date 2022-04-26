@@ -373,5 +373,5 @@ UriObject.propTypes = {
   setList: PropTypes.func,
   setRerender: PropTypes.func,
   rerender: PropTypes.number,
-  additionalField: PropTypes.array.isRequired,
+  additionalField: PropTypes.array,
 };
