@@ -1,8 +1,7 @@
-import React, { useState, useContext } from 'react';
+import React, { useState } from 'react';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
@@ -106,7 +105,8 @@ export default function AddGroup({
           <br />
           <DialogContentText>
             <Typography>
-              Enter each username you want to be included in this group in the box below and then and hit the '+'
+              Enter each username you want to be included in this group
+              in the box below and then and hit the &apos;+&apos;
             </Typography>
           </DialogContentText>
           <ListBox

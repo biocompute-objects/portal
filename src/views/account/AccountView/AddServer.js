@@ -230,4 +230,4 @@ export default function AddServer({ server, setServer }) {
 AddServer.propTypes = {
   setServer: PropTypes.func.isRequired,
   server: PropTypes.bool.isRequired
-}
+};

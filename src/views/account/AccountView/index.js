@@ -76,7 +76,6 @@ const AccountView = () => {
             <Grid item xs={12} sm={12} lg={12} xl={12}>
               <ServerInfo
                 setServer={setServer}
-                addGroup={addGroup}
                 setAddGroup={setAddGroup}
                 setUrl={setUrl}
                 url={url}

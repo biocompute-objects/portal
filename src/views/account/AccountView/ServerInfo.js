@@ -5,13 +5,23 @@ import PropTypes from 'prop-types';
 import {
   Accordion,
   AccordionSummary,
-  AccordionDetails, Button, Card, Container, Grid, Table, TableBody, TableCell, Typography, TableHead, TableRow, CardContent
+  AccordionDetails,
+  Button,
+  Card,
+  CardContent,
+  Container,
+  Grid,
+  Typography
 } from '@material-ui/core';
 import { FetchContext } from 'src/App';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import ListBoxStatic from 'src/components/ListBoxStatic';
+import GroupsAndPerms from 'src/components/GroupsAndPerms';
 
-export default function ServerInfo({ setServer, addGroup, setAddGroup, setUrl, setSubmitToken }) {
+export default function ServerInfo(
+  {
+    setServer, setAddGroup, setUrl, setSubmitToken
+  }
+) {
   const [serverChange, setServerChange] = useState(null);
   const fc = useContext(FetchContext);
   const [rows, setRows] = useState([]);
@@ -53,11 +63,11 @@ export default function ServerInfo({ setServer, addGroup, setAddGroup, setUrl, s
       if (perm.other_info.permissions.groups.bco_drafter) {
         const groupHolder = [];
         const userHolder = [];
-        Object.keys(perm.other_info.permissions.groups).map((group, index) => (
+        Object.keys(perm.other_info.permissions.groups).map((group) => (
           groupHolder.push(group)
         ));
         Object.keys(perm.other_info.permissions.user).map((user, index) => (
-          Object.keys(user[index]).map((thing, index) => (
+          Object.keys(user[index]).map(() => (
             userHolder.push(perm.other_info.permissions.user[user][index])
           ))
         ));
@@ -130,10 +140,9 @@ export default function ServerInfo({ setServer, addGroup, setAddGroup, setUrl, s
                     </Typography>
                   </AccordionSummary>
                   <AccordionDetails>
-                    <ListBoxStatic
-                      bool={addGroup}
-                      setBool={setAddGroup}
-                      header="Groups"
+                    <GroupsAndPerms
+                      setAdd={setAddGroup}
+                      header="Group"
                       list={row.permissions.groups}
                       setUrl={setUrl}
                       url={row.public_hostname}
@@ -153,8 +162,8 @@ export default function ServerInfo({ setServer, addGroup, setAddGroup, setUrl, s
                     </Typography>
                   </AccordionSummary>
                   <AccordionDetails>
-                    <ListBoxStatic
-                      header="Permissions"
+                    <GroupsAndPerms
+                      header="Permission"
                       list={row.permissions.user}
                     />
                   </AccordionDetails>
@@ -170,7 +179,6 @@ export default function ServerInfo({ setServer, addGroup, setAddGroup, setUrl, s
 
 ServerInfo.propTypes = {
   setServer: PropTypes.func.isRequired,
-  addGroup: PropTypes.bool,
   setAddGroup: PropTypes.func,
   setUrl: PropTypes.func,
   setSubmitToken: PropTypes.func
