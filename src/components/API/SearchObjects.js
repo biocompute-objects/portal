@@ -24,7 +24,7 @@ export default function SearchObjects(action, searchLocation, search, setRows) {
       if (response.ok) {
         return response.json()
           .then((data) => {
-            console.log('data', data);
+            // console.log('data', data);
             setRows(data);
           });
       }
