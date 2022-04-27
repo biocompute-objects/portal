@@ -108,7 +108,7 @@ const ColorCoded = ({ contents }) => {
   }
 
   if (!contents.extension_domain) {
-    contents.extension_domain = [''];
+    contents.extension_domain = [];
   }
 
   const renderList = [

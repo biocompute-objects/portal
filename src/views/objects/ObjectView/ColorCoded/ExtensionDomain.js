@@ -24,8 +24,9 @@ const StyledCell = withStyles({
 
 // Pass an object and whether or not its keys are properties.
 export default function ExtensionDomain({ items }) {
-  
+
   const classes = withStyles();
+  const extension = (items[0]) ? (items) : ({});
 
   // Arguments
   // ---------
@@ -50,7 +51,7 @@ export default function ExtensionDomain({ items }) {
         </TableHead>
       </Table>
       <div className={classes.bordered}>
-        <RecursiveRows items={items}/>
+        <RecursiveRows items={extension} />
       </div>
     </div>
   );
