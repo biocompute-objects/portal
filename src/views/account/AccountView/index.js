@@ -34,6 +34,9 @@ const useStyles = makeStyles((theme) => ({
 const AccountView = () => {
   const classes = useStyles();
   const [server, setServer] = useState(false);
+  const [addGroup, setAddGroup] = useState(false);
+  const [url, setUrl] = useState(false);
+  const [submitToken, setSubmitToken] = useState();
   //   const [serverAdded, setServerAdded] = useState(false);
 
   return (
