@@ -5,17 +5,26 @@ import PropTypes from 'prop-types';
 import {
   Accordion,
   AccordionSummary,
-  AccordionDetails, Button, Card, Container, Grid, Table, TableBody, TableCell, Typography, TableHead, TableRow, CardContent
+  AccordionDetails,
+  Button,
+  Card,
+  CardContent,
+  Container,
+  Grid,
+  Typography
 } from '@material-ui/core';
 import { FetchContext } from 'src/App';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import ListBoxStatic from 'src/components/ListBoxStatic';
+import GroupsAndPerms from 'src/components/GroupsAndPerms';
 
-export default function ServerInfo({ setServer }) {
+export default function ServerInfo(
+  {
+    setServer, setAddGroup, setUrl, setSubmitToken
+  }
+) {
   const [serverChange, setServerChange] = useState(null);
   const fc = useContext(FetchContext);
   const [rows, setRows] = useState([]);
-  //   const [permList, setPermList] = useState([]);
   const permissions = JSON.parse(localStorage.getItem('user')).apiinfo;
 
   const deleteServer = (event, servername) => {
@@ -54,11 +63,11 @@ export default function ServerInfo({ setServer }) {
       if (perm.other_info.permissions.groups.bco_drafter) {
         const groupHolder = [];
         const userHolder = [];
-        Object.keys(perm.other_info.permissions.groups).map((group, index) => (
+        Object.keys(perm.other_info.permissions.groups).map((group) => (
           groupHolder.push(group)
         ));
         Object.keys(perm.other_info.permissions.user).map((user, index) => (
-          Object.keys(user[index]).map((thing, index) => (
+          Object.keys(user[index]).map(() => (
             userHolder.push(perm.other_info.permissions.user[user][index])
           ))
         ));
@@ -71,6 +80,7 @@ export default function ServerInfo({ setServer }) {
         hostname: perm.hostname,
         token: perm.token,
         username: perm.username,
+        public_hostname: perm.public_hostname,
         permissions: permList[permList.length - 1],
         status: 'Active'
       });
@@ -113,7 +123,7 @@ export default function ServerInfo({ setServer }) {
                     {row.status}
                   </div>
                   <Button
-                    color="red"
+                    color="secondary"
                     onClick={(e) => deleteServer(e, row.servername)}
                   >
                     Remove
@@ -130,9 +140,14 @@ export default function ServerInfo({ setServer }) {
                     </Typography>
                   </AccordionSummary>
                   <AccordionDetails>
-                    <ListBoxStatic
-                      header="Groups"
+                    <GroupsAndPerms
+                      setAdd={setAddGroup}
+                      header="Group"
                       list={row.permissions.groups}
+                      setUrl={setUrl}
+                      url={row.public_hostname}
+                      setSubmitToken={setSubmitToken}
+                      token={row.token}
                     />
                   </AccordionDetails>
                 </Accordion>
@@ -147,8 +162,8 @@ export default function ServerInfo({ setServer }) {
                     </Typography>
                   </AccordionSummary>
                   <AccordionDetails>
-                    <ListBoxStatic
-                      header="Permissions"
+                    <GroupsAndPerms
+                      header="Permission"
                       list={row.permissions.user}
                     />
                   </AccordionDetails>
@@ -164,4 +179,7 @@ export default function ServerInfo({ setServer }) {
 
 ServerInfo.propTypes = {
   setServer: PropTypes.func.isRequired,
+  setAddGroup: PropTypes.func,
+  setUrl: PropTypes.func,
+  setSubmitToken: PropTypes.func
 };

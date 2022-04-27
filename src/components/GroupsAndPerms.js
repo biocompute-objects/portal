@@ -1,20 +1,12 @@
-// src/views/home/HomeView/ListBoxStatic.js
+// src/views/home/HomeView/GroupsAndPerms.js
 
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import {
   Card,
-  CardActionArea,
   CardContent,
   Button,
-  makeStyles,
-  TableBody,
-  TableCell,
-  TableRow,
-  TextField,
-  Typography,
-  withStyles
+  makeStyles
 } from '@material-ui/core';
-import { Textfit } from 'react-textfit';
 import PropTypes from 'prop-types';
 
 const useStyles = makeStyles({
@@ -39,19 +31,13 @@ const useStyles = makeStyles({
   },
 });
 
-// Cell styling
-const StyledCell = withStyles({
-  root: {
-    color: 'black'
-  },
-  bordered: {
-    border: '1px solid black'
-  }
-})(TableCell);
-
-export default function ListBoxStatic({ header, list }) {
+export default function GroupsAndPerms({
+  header, list, setAdd, url, setUrl, token, setSubmitToken
+}) {
   const classes = useStyles();
-
+  const modify = (group) => {
+    console.log('test', group, token);
+  };
   return (
     <Card className={classes.linkCard}>
       <CardContent className={classes.box}>
@@ -63,6 +49,7 @@ export default function ListBoxStatic({ header, list }) {
                   variant="contained"
                   color="secondary"
                   disableElevation
+                  onClick={() => modify(list[index])}
                 >
                   {list[index] }
                 </Button>
@@ -73,7 +60,13 @@ export default function ListBoxStatic({ header, list }) {
 
       </CardContent>
       <CardContent>
-        <Button>
+        <Button
+          onClick={() => {
+            setAdd(true);
+            setUrl(url);
+            setSubmitToken(token);
+          }}
+        >
           New
           {' '}
           {header}
@@ -83,7 +76,12 @@ export default function ListBoxStatic({ header, list }) {
   );
 }
 
-ListBoxStatic.propTypes = {
+GroupsAndPerms.propTypes = {
   list: PropTypes.array,
   header: PropTypes.string,
+  setAdd: PropTypes.func,
+  url: PropTypes.string,
+  setUrl: PropTypes.func,
+  setSubmitToken: PropTypes.func,
+  token: PropTypes.string
 };

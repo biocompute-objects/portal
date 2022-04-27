@@ -17,6 +17,7 @@ import ServerInfo from 'src/views/account/AccountView/ServerInfo';
 import Profile from 'src/views/account/AccountView/Profile';
 import Password from 'src/views/account/AccountView/Password';
 import AddServer from 'src/views/account/AccountView/AddServer';
+import AddGroup from 'src/views/account/AccountView/AddGroup';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -75,14 +76,21 @@ const AccountView = () => {
             <Grid item xs={12} sm={12} lg={12} xl={12}>
               <ServerInfo
                 setServer={setServer}
+                setAddGroup={setAddGroup}
+                setUrl={setUrl}
+                url={url}
+                setSubmitToken={setSubmitToken}
+                submitToken={submitToken}
               />
               <AddServer
                 server={server}
                 setServer={setServer}
               />
               <AddGroup
-                server={server}
-                setServer={setServer}
+                addGroup={addGroup}
+                setAddGroup={setAddGroup}
+                url={url}
+                submitToken={submitToken}
               />
             </Grid>
           </Grid>
