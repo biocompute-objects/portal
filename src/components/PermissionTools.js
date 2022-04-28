@@ -91,12 +91,6 @@ export default function PermissionTools({
     }
   }, [prefix, saveDraftTo]);
 
-  useEffect(() => {
-    if (prefix.length >= 3 && prefix.length <= 5 && saveDraftTo !== '') {
-      setCreate(true);
-    }
-  }, [prefix, saveDraftTo]);
-
   return (
     <div className={classes.root}>
       <Accordion>
@@ -178,37 +172,44 @@ export default function PermissionTools({
                   <Typography gutterBottom variant="h2">
                     Functions
                   </Typography>
-                  <ServerList
-                    disabledValue={(newDraft === false)}
-                    options={ApiInfo}
-                    setter={setSaveDraftTo}
-                    type="draft"
-                  />
-                  <Typography>
-                    &nbsp;
-                  </Typography>
-                  <TextField
-                    InputProps={{ className: classes.root }}
-                    color="primary"
-                    fullWidth
-                    id="outlined-multiline-static"
-                    variant="outlined"
-                    onChange={(e) => setPrefix(e.target.value)}
-                    value={prefix}
-                  />
-                  <Typography>
-                    &nbsp;
-                  </Typography>
-                  <Button
-                    variant="contained"
-                    color="secondary"
-                    disableElevation
-                    disabled={(create === false)}
-                    fullWidth
-                    onClick={() => clickActions('createDraft')}
-                  >
-                    CREATE NEW DRAFT
-                  </Button>
+                  {
+                      (newDraft === false)
+                        ? (console.log('New Draft: ', newDraft))
+                        : (
+                          <>
+                            <ServerList
+                              options={ApiInfo}
+                              setter={setSaveDraftTo}
+                              type="draft"
+                            />
+                            <Typography>
+                              &nbsp;
+                            </Typography>
+                            <TextField
+                              InputProps={{ className: classes.root }}
+                              color="primary"
+                              fullWidth
+                              id="outlined-multiline-static"
+                              variant="outlined"
+                              onChange={(e) => setPrefix(e.target.value)}
+                              value={prefix}
+                            />
+                            <Typography>
+                              &nbsp;
+                            </Typography>
+                            <Button
+                              variant="contained"
+                              color="secondary"
+                              disableElevation
+                              disabled={(create === false)}
+                              fullWidth
+                              onClick={() => clickActions('createDraft')}
+                            >
+                              CREATE NEW DRAFT
+                            </Button>
+                          </>
+                        )
+                  }
                   <Typography>
                 &nbsp;
                   </Typography>

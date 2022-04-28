@@ -5,9 +5,10 @@ draft id */
 
 export default function PublishDraftObject(objectInformation, contents) {
   const obectContents = contents;
-  const publishedId = obectContents.object_id.replace('DRAFT', '1.0');
+  const { version } = obectContents.provenance_domain;
+  const publishedId = obectContents.object_id.replace('DRAFT', version);
   const deleteDraft = window.confirm('Would you like to delete this draft object after publishing?');
-  console.log('deleteDraft', deleteDraft);
+  console.log('deleteDraft', deleteDraft, publishedId);
   fetch(`${objectInformation.hostname}/api/objects/drafts/publish/`, {
     method: 'POST',
     body: JSON.stringify({
@@ -28,7 +29,7 @@ export default function PublishDraftObject(objectInformation, contents) {
     .then((response) => {
       if (!response.ok) {
         throw new Error(response.status);
-      } else {
+      } else if (response.status === 200) {
         console.log('POST_api_objects_drafts_publish: Success!', response);
         return response.json()
           .then((data) => {
@@ -37,6 +38,13 @@ export default function PublishDraftObject(objectInformation, contents) {
             const viewer = `${window.location.origin}/objects/view/`;
             window.location.href = `${viewer}${publishedObject}`;
             alert('Object published successfully! Redirecting to the Object page for you to view');
+          });
+      } else if (response.status === 207) {
+        console.log('POST_api_objects_drafts_publish: Failed!');
+        return response.json()
+          .then((data) => {
+            const message = data[0].message;
+            alert(`Object publishing Failed! ${message}`);
           });
       }
     })
