@@ -18,6 +18,7 @@ import Profile from 'src/views/account/AccountView/Profile';
 import Password from 'src/views/account/AccountView/Password';
 import AddServer from 'src/views/account/AccountView/AddServer';
 import AddGroup from 'src/views/account/AccountView/AddGroup';
+import ModifyGroup from 'src/views/account/AccountView/ModifyGroup';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -35,8 +36,16 @@ const AccountView = () => {
   const classes = useStyles();
   const [server, setServer] = useState(false);
   const [addGroup, setAddGroup] = useState(false);
-  const [url, setUrl] = useState(false);
+  const [url, setUrl] = useState();
   const [submitToken, setSubmitToken] = useState();
+  const [modifyGroup, setModifyGroup] = useState(false);
+  const [groupInfo, setGroupInfo] = useState({
+    name: 'group.name',
+    permissions: ['group_permissions'],
+    members: ['group_members'],
+    description: '',
+    admin: false,
+  });
   //   const [serverAdded, setServerAdded] = useState(false);
 
   return (
@@ -80,24 +89,33 @@ const AccountView = () => {
               <ServerInfo
                 setServer={setServer}
                 setAddGroup={setAddGroup}
+                setModifyGroup={setModifyGroup}
                 setUrl={setUrl}
                 url={url}
+                setGroupInfo={setGroupInfo}
                 setSubmitToken={setSubmitToken}
-                submitToken={submitToken}
-              />
-              <AddServer
-                server={server}
-                setServer={setServer}
-              />
-              <AddGroup
-                addGroup={addGroup}
-                setAddGroup={setAddGroup}
-                url={url}
                 submitToken={submitToken}
               />
             </Grid>
           </Grid>
         </Accordion>
+        <AddServer
+          server={server}
+          setServer={setServer}
+        />
+        <AddGroup
+          addGroup={addGroup}
+          setAddGroup={setAddGroup}
+          url={url}
+          submitToken={submitToken}
+        />
+        <ModifyGroup
+          modifyGroup={modifyGroup}
+          setModifyGroup={setModifyGroup}
+          url={url}
+          submitToken={submitToken}
+          groupInfo={groupInfo}
+        />
       </Container>
     </Page>
   );
