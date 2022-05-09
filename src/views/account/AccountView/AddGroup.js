@@ -59,8 +59,6 @@ export default function AddGroup({
     handleClose();
   };
 
-  console.log('Test', submitToken, groupName, groupUsers, deleteMembers, description, expiration, maxMembers);
-
   return (
     <div>
       <Dialog open={addGroup} onClose={handleClose} aria-labelledby="form-dialog-title">
