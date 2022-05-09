@@ -8,6 +8,7 @@ import {
   makeStyles
 } from '@material-ui/core';
 import PropTypes from 'prop-types';
+import ApiGroupInfo from 'src/components/API/ApiGroupInfo';
 
 const useStyles = makeStyles({
   bullet: {
@@ -32,12 +33,18 @@ const useStyles = makeStyles({
 });
 
 export default function GroupsAndPerms({
-  header, list, setAdd, url, setUrl, token, setSubmitToken
+  header, list, setAdd, url, setUrl, token, setSubmitToken, setModifyGroup, setGroupInfo
 }) {
   const classes = useStyles();
+
   const modify = (group) => {
     console.log('test', group, token);
+    ApiGroupInfo(group, token, url, setGroupInfo);
+    setModifyGroup(true);
+    setUrl(url);
+    setSubmitToken(token);
   };
+
   return (
     <Card className={classes.linkCard}>
       <CardContent className={classes.box}>
@@ -83,5 +90,7 @@ GroupsAndPerms.propTypes = {
   url: PropTypes.string,
   setUrl: PropTypes.func,
   setSubmitToken: PropTypes.func,
-  token: PropTypes.string
+  setModifyGroup: PropTypes.func,
+  token: PropTypes.string,
+  setGroupInfo: PropTypes.func
 };

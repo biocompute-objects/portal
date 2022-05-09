@@ -19,7 +19,7 @@ import GroupsAndPerms from 'src/components/GroupsAndPerms';
 
 export default function ServerInfo(
   {
-    setServer, setAddGroup, setUrl, setSubmitToken
+    setServer, setAddGroup, setUrl, setSubmitToken, setModifyGroup, setGroupInfo
   }
 ) {
   const [serverChange, setServerChange] = useState(null);
@@ -92,15 +92,15 @@ export default function ServerInfo(
   return (
     <div>
       <Container>
-        <Button
-          color="primary"
-          onClick={() => setServer(true)}
-          rows={rows}
-          variant="contained"
-        >
-          Add Server
-        </Button>
         <Grid container spacing={2}>
+          <Button
+            color="primary"
+            onClick={() => setServer(true)}
+            rows={rows}
+            variant="contained"
+          >
+            Add Server
+          </Button>
           {rows.map((row) => (
             <Grid item xs={12} sm={12} lg={5} xl={5}>
               <Card>
@@ -145,13 +145,15 @@ export default function ServerInfo(
                       header="Group"
                       list={row.permissions.groups}
                       setUrl={setUrl}
+                      setModifyGroup={setModifyGroup}
                       url={row.public_hostname}
                       setSubmitToken={setSubmitToken}
                       token={row.token}
+                      setGroupInfo={setGroupInfo}
                     />
                   </AccordionDetails>
                 </Accordion>
-                <Accordion>
+                {/* <Accordion>
                   <AccordionSummary
                     expandIcon={<ExpandMoreIcon />}
                     aria-controls="panel1a-content"
@@ -167,7 +169,7 @@ export default function ServerInfo(
                       list={row.permissions.user}
                     />
                   </AccordionDetails>
-                </Accordion>
+                </Accordion> */}
               </Card>
             </Grid>
           ))}
@@ -181,5 +183,7 @@ ServerInfo.propTypes = {
   setServer: PropTypes.func.isRequired,
   setAddGroup: PropTypes.func,
   setUrl: PropTypes.func,
-  setSubmitToken: PropTypes.func
+  setSubmitToken: PropTypes.func,
+  setModifyGroup: PropTypes.func,
+  setGroupInfo: PropTypes.func
 };
