@@ -18,6 +18,7 @@ import Profile from 'src/views/account/AccountView/Profile';
 import Password from 'src/views/account/AccountView/Password';
 import AddServer from 'src/views/account/AccountView/AddServer';
 import AddGroup from 'src/views/account/AccountView/AddGroup';
+
 import ModifyGroup from 'src/views/account/AccountView/ModifyGroup';
 
 const useStyles = makeStyles((theme) => ({
@@ -46,6 +47,7 @@ const AccountView = () => {
     description: '',
     admin: false,
   });
+
   //   const [serverAdded, setServerAdded] = useState(false);
 
   return (
