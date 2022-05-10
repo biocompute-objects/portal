@@ -113,6 +113,7 @@ export default function ModifyGroup({
                     type="checkbox"
                     checked={rename}
                     onChange={checkActions}
+                    disabled
                   />
               &nbsp;&nbsp;Rename&nbsp;&nbsp;
                   <input
@@ -185,16 +186,7 @@ export default function ModifyGroup({
                   </Typography>
                 </DialogContentText>
               )
-              : (
-                (!groupUsers)
-                  ? (<Typography />)
-                  : (groupUsers.forEach((item) => (
-                    <Typography>
-                      { item }
-                    </Typography>
-                  ))
-                  )
-              )
+              : (<></>)
           }
           <div className={classes.centered}>
             <Button onClick={handleClose} color="primary">
@@ -202,7 +194,7 @@ export default function ModifyGroup({
             </Button>
             &nbsp;
             <Button
-              disabled={!(groupName.length > 2)}
+              disabled={!(groupName.length > 2) || modifyMembers === false || setRediscribe === false}
               color="primary"
               onClick={submitModifyGroup}
               variant="contained"

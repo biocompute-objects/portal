@@ -92,15 +92,15 @@ export default function ServerInfo(
   return (
     <div>
       <Container>
+        <Button
+          color="primary"
+          onClick={() => setServer(true)}
+          rows={rows}
+          variant="contained"
+        >
+          Add Server
+        </Button>
         <Grid container spacing={2}>
-          <Button
-            color="primary"
-            onClick={() => setServer(true)}
-            rows={rows}
-            variant="contained"
-          >
-            Add Server
-          </Button>
           {rows.map((row) => (
             <Grid item xs={12} sm={12} lg={5} xl={5}>
               <Card>
