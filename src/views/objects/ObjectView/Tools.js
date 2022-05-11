@@ -46,7 +46,7 @@ export default function Tools() {
           aria-controls="panel1a-content"
           id="panel1a-header"
         >
-          <Typography className={classes.heading}>Object Tools</Typography>
+          <Typography className={classes.heading}>EDIT OBJECT</Typography>
         </AccordionSummary>
         <AccordionDetails>
           <Grid container spacing={3}>
