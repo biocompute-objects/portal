@@ -6,7 +6,7 @@ import AccordionDetails from '@material-ui/core/AccordionDetails';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import { Grid } from '@material-ui/core';
+import { Grid, TextField } from '@material-ui/core';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import DeriveDraftObject from 'src/components/API/DeriveDraftObject';
@@ -30,11 +30,12 @@ const useStyles = makeStyles((theme) => ({
 export default function Tools() {
   const classes = useStyles();
   const [saveDraftTo, setSaveDraftTo] = useState('');
+  const [prefix, setPrefix] = useState('');
   const userInfoCheck = JSON.parse(localStorage.getItem('user'));
 
   function clickActions(which) {
     if (which === 'createDraft') {
-      DeriveDraftObject(saveDraftTo);
+      DeriveDraftObject(saveDraftTo, prefix);
     }
   }
 
@@ -64,11 +65,21 @@ export default function Tools() {
                         setter={setSaveDraftTo}
                         type="draft"
                       />
+                      <TextField
+                        InputProps={{ className: classes.root }}
+                        color="primary"
+                        fullWidth
+                        id="outlined-multiline-static"
+                        variant="outlined"
+                        placeholder='enter prefix'
+                        onChange={(e) => setPrefix(e.target.value)}
+                        value={prefix}
+                      />
                       <Button
                         variant="contained"
                         color="secondary"
                         disableElevation
-                        disabled={(saveDraftTo === '')}
+                        disabled={(saveDraftTo === '' || prefix.length < 3 || prefix.length > 6)}
                         fullWidth
                         onClick={() => clickActions('createDraft')}
                       >
