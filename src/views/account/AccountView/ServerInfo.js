@@ -19,7 +19,7 @@ import GroupsAndPerms from 'src/components/GroupsAndPerms';
 
 export default function ServerInfo(
   {
-    setServer, setAddGroup, setUrl, setSubmitToken, setModifyGroup, setGroupInfo
+    setAddGroup, setUrl, setSubmitToken, setModifyGroup, setGroupInfo
   }
 ) {
   const [serverChange, setServerChange] = useState(null);
@@ -92,14 +92,6 @@ export default function ServerInfo(
   return (
     <div>
       <Container>
-        <Button
-          color="primary"
-          onClick={() => setServer(true)}
-          rows={rows}
-          variant="contained"
-        >
-          Add Server
-        </Button>
         <Grid container spacing={2}>
           {rows.map((row) => (
             <Grid item xs={12} sm={12} lg={5} xl={5}>
@@ -139,7 +131,7 @@ export default function ServerInfo(
                       Groups (click to expand)
                     </Typography>
                   </AccordionSummary>
-                  <AccordionDetails>
+                  <AccordionDetails >
                     <GroupsAndPerms
                       setAdd={setAddGroup}
                       header="Group"
@@ -180,7 +172,6 @@ export default function ServerInfo(
 }
 
 ServerInfo.propTypes = {
-  setServer: PropTypes.func.isRequired,
   setAddGroup: PropTypes.func,
   setUrl: PropTypes.func,
   setSubmitToken: PropTypes.func,

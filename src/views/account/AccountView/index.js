@@ -5,6 +5,7 @@ import {
   Accordion,
   AccordionSummary,
   AccordionDetails,
+  Button,
   Container,
   Grid,
   makeStyles,
@@ -83,23 +84,43 @@ const AccountView = () => {
             id="panel1a-header"
           >
             <Typography className={classes.heading} variant="h3">
-              Server Information (click to expand)
+              Database, Groups, and Permissions (click to expand)
             </Typography>
           </AccordionSummary>
-          <Grid container spacing={5}>
-            <Grid item xs={12} sm={12} lg={12} xl={12}>
-              <ServerInfo
-                setServer={setServer}
-                setAddGroup={setAddGroup}
-                setModifyGroup={setModifyGroup}
-                setUrl={setUrl}
-                url={url}
-                setGroupInfo={setGroupInfo}
-                setSubmitToken={setSubmitToken}
-                submitToken={submitToken}
-              />
+          <AccordionDetails>
+            <Grid container spacing={5}>
+              <Grid item xs={12} sm={12} lg={12} xl={12}>
+                <Grid item>
+                  Each BCO DB instance has an independant set of groups, prefix, and user permissions.
+                  <br />
+                  To add a new database instance click the &apos;ADD SERVER&apos; button.
+                  <br />
+                  To create or modify a group expand the &apos;Group&apos; tab in the appropriate server box.
+                  {' '}
+                </Grid>
+                <br />
+                <Button
+                  color="primary"
+                  onClick={() => setServer(true)}
+                  variant="contained"
+                >
+                  Add Server
+                </Button>
+              </Grid>
+              <Grid item xs={12} sm={12} lg={12} xl={12}>
+                <ServerInfo
+                  setServer={setServer}
+                  setAddGroup={setAddGroup}
+                  setModifyGroup={setModifyGroup}
+                  setUrl={setUrl}
+                  url={url}
+                  setGroupInfo={setGroupInfo}
+                  setSubmitToken={setSubmitToken}
+                  submitToken={submitToken}
+                />
+              </Grid>
             </Grid>
-          </Grid>
+          </AccordionDetails>
         </Accordion>
         <AddServer
           server={server}
