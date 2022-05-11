@@ -28,7 +28,14 @@ export default function CreateDraftObject(saveDraftTo, contents, prefix) {
     .then((response) => {
       if (!response.ok) {
         throw new Error(response.status);
-      } else {
+      }
+      if (response.status === 207) {
+        return response.json()
+          .then((data) => {
+            throw new Error(data[0].message);
+          });
+      };
+      if (response.status === 200) {
         return response.json()
           .then((data) => {
             console.log('data', data);

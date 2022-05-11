@@ -43,7 +43,6 @@ export default function PermissionTools({
   // State
   const [saveDraftTo, setSaveDraftTo] = useState('');
   const [prefix, setPrefix] = useState('BCO');
-  const [create, setCreate] = useState(false);
   const fc = useContext(FetchContext);
   const classes = useStyles();
   let ApiInfo = JSON.parse(localStorage.getItem('user'));
@@ -84,12 +83,6 @@ export default function PermissionTools({
   }
 
   // ----- INITIAL RENDER ----- //
-
-  useEffect(() => {
-    if (prefix.length >= 3 && prefix.length <= 5 && saveDraftTo !== '') {
-      setCreate(true);
-    }
-  }, [prefix, saveDraftTo]);
 
   return (
     <div className={classes.root}>
@@ -201,7 +194,7 @@ export default function PermissionTools({
                               variant="contained"
                               color="secondary"
                               disableElevation
-                              disabled={(create === false)}
+                              disabled={prefix.length < 3 || prefix.length > 5 || saveDraftTo === ''}
                               fullWidth
                               onClick={() => clickActions('createDraft')}
                             >

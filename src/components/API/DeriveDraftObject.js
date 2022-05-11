@@ -6,10 +6,11 @@ draft id */
 import PropTypes from 'prop-types';
 
 export default function DeriveDraftObject(saveDraftTo, prefix) {
-  const date = new Date()
+  const date = new Date();
   const objectContents = JSON.parse(localStorage.getItem('bco'));
-  const ownerGroup = prefix.concat('_drafter');
+  const ownerGroup = prefix.toLowerCase().concat('_drafter');
   objectContents.provenance_domain.derived_from = objectContents.object_id;
+  objectContents.provenance_domain.version = '1.0';
   objectContents.provenance_domain.created = date.toISOString();
   objectContents.provenance_domain.modified = date.toISOString();
   delete objectContents.provenance_domain.review;
@@ -32,6 +33,13 @@ export default function DeriveDraftObject(saveDraftTo, prefix) {
     }
   })
     .then((response) => {
+      if (response.status === 207) {
+        return response.json()
+          .then((data) => {
+            console.log(data[0].message);
+            throw new Error(data[0].message);
+          });
+      }
       if (!response.ok) {
         throw new Error(response.status);
       } else {
@@ -55,4 +63,4 @@ export default function DeriveDraftObject(saveDraftTo, prefix) {
 DeriveDraftObject.propTypes = {
   saveDraftTo: PropTypes.string.isRequired,
   prefix: PropTypes.string.isRequired
-}
+};
