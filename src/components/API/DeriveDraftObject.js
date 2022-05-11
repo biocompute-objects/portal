@@ -3,14 +3,17 @@
 /* Modifies a draft object using the current user's token and an object's
 draft id */
 
-export default function DeriveDraftObject(saveDraftTo) {
+import PropTypes from 'prop-types';
+
+export default function DeriveDraftObject(saveDraftTo, prefix) {
   const date = new Date()
-  var objectContents = JSON.parse(localStorage.getItem('bco'));
-  objectContents['provenance_domain'].derived_from = objectContents.object_id;
-  objectContents['provenance_domain'].created = date.toISOString();
-  objectContents['provenance_domain'].modified = date.toISOString();
-  delete objectContents['provenance_domain'].review;
-  console.log(objectContents);
+  const objectContents = JSON.parse(localStorage.getItem('bco'));
+  const ownerGroup = prefix.concat('_drafter');
+  objectContents.provenance_domain.derived_from = objectContents.object_id;
+  objectContents.provenance_domain.created = date.toISOString();
+  objectContents.provenance_domain.modified = date.toISOString();
+  delete objectContents.provenance_domain.review;
+  console.log(ownerGroup, prefix, saveDraftTo);
   fetch(`${saveDraftTo[0]}/api/objects/drafts/create/`, {
     method: 'POST',
     body: JSON.stringify({
@@ -18,8 +21,8 @@ export default function DeriveDraftObject(saveDraftTo) {
         {
           contents: objectContents,
           schema: 'IEEE',
-          prefix: 'BCO',
-          owner_group: 'bco_drafter'
+          prefix,
+          owner_group: ownerGroup
         }
       ]
     }),
@@ -47,4 +50,9 @@ export default function DeriveDraftObject(saveDraftTo) {
       console.log(`error: ${error}`);
       alert(`Derrive Draft FAILED! ${error}`);
     });
+}
+
+DeriveDraftObject.propTypes = {
+  saveDraftTo: PropTypes.string.isRequired,
+  prefix: PropTypes.string.isRequired
 }
