@@ -3,14 +3,18 @@
 /* Modifies a draft object using the current user's token and an object's
 draft id */
 
-export default function DeriveDraftObject(saveDraftTo) {
-  const date = new Date()
-  var objectContents = JSON.parse(localStorage.getItem('bco'));
-  objectContents['provenance_domain'].derived_from = objectContents.object_id;
-  objectContents['provenance_domain'].created = date.toISOString();
-  objectContents['provenance_domain'].modified = date.toISOString();
-  delete objectContents['provenance_domain'].review;
-  console.log(objectContents);
+import PropTypes from 'prop-types';
+
+export default function DeriveDraftObject(saveDraftTo, prefix) {
+  const date = new Date();
+  const objectContents = JSON.parse(localStorage.getItem('bco'));
+  const ownerGroup = prefix.toLowerCase().concat('_drafter');
+  objectContents.provenance_domain.derived_from = objectContents.object_id;
+  objectContents.provenance_domain.version = '1.0';
+  objectContents.provenance_domain.created = date.toISOString();
+  objectContents.provenance_domain.modified = date.toISOString();
+  delete objectContents.provenance_domain.review;
+  console.log(ownerGroup, prefix, saveDraftTo);
   fetch(`${saveDraftTo[0]}/api/objects/drafts/create/`, {
     method: 'POST',
     body: JSON.stringify({
@@ -18,8 +22,8 @@ export default function DeriveDraftObject(saveDraftTo) {
         {
           contents: objectContents,
           schema: 'IEEE',
-          prefix: 'BCO',
-          owner_group: 'bco_drafter'
+          prefix,
+          owner_group: ownerGroup
         }
       ]
     }),
@@ -29,6 +33,13 @@ export default function DeriveDraftObject(saveDraftTo) {
     }
   })
     .then((response) => {
+      if (response.status === 207) {
+        return response.json()
+          .then((data) => {
+            console.log(data[0].message);
+            throw new Error(data[0].message);
+          });
+      }
       if (!response.ok) {
         throw new Error(response.status);
       } else {
@@ -48,3 +59,8 @@ export default function DeriveDraftObject(saveDraftTo) {
       alert(`Derrive Draft FAILED! ${error}`);
     });
 }
+
+DeriveDraftObject.propTypes = {
+  saveDraftTo: PropTypes.string.isRequired,
+  prefix: PropTypes.string.isRequired
+};

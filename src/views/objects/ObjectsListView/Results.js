@@ -68,7 +68,7 @@ const headCells = [
     id: 'state', numeric: false, disablePadding: false, label: 'State'
   },
   {
-    id: 'source', numeric: false, disablePadding: false, label: 'Source'
+    id: 'prefix', numeric: false, disablePadding: false, label: 'Prefix'
   },
   {
     id: 'lastUpdated', numeric: true, disablePadding: false, label: 'Last Updated'
@@ -167,9 +167,7 @@ const EnhancedTableToolbar = (props) => {
           selected
         </Typography>
       ) : (
-        <Typography className={classes.title} variant="h1" id="tableTitle" component="div">
-
-        </Typography>
+        <Typography className={classes.title} variant="h1" id="tableTitle" component="div" />
       )}
 
       {numSelected > 0 ? (
@@ -328,9 +326,10 @@ export default function Results({ rowInfo }) {
                       <TableCell component="th" id={labelId} scope="row" padding="none">
                         <Linker color="blueLink" uri={row.object_id} accessionOnly state={row.state} token={row.objectIdToken} />
                       </TableCell>
-                      <TableCell>{row.name}</TableCell>
+                      <TableCell>{JSON.stringify(row.contents.provenance_domain['name'])}</TableCell>
+                      {console.log(row)}
                       <TableCell>{row.state}</TableCell>
-                      <TableCell>{row.public_hostname}</TableCell>
+                      <TableCell>{row.prefix}</TableCell>
                       <TableCell>{row.last_update}</TableCell>
                     </TableRow>
                   );

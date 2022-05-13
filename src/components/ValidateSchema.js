@@ -5,7 +5,7 @@
 import Ajv from 'ajv';
 import object from 'src/utils/ieee2791/2791object';
 
-const ajv = Ajv();
+const ajv = Ajv({ allErrors: true });
 
 export default function ValidateSchema(contents, setPublish) {
   const BcoSchema = object;

@@ -26,25 +26,19 @@ const useStyles = makeStyles(() => ({
   }
 }));
 
-export default function AddServer({ showing, setShowing }) {
+export default function AddServer({ server, setServer }) {
   // Fetch context.
   const fc = useContext(FetchContext);
   const classes = useStyles();
-
-  // Use the parent context.
-  // Source: https://stackoverflow.com/questions/58936042/pass-context-between-siblings-using-context-in-react
   const [serverAdded, setServerAdded] = useState(false);
-
-  // State variables to hold the server information.
   const [hostname, setHostname] = useState('');
   const [token, setToken] = useState('');
   const [email, setEmail] = useState('');
   const [requestStatus, setRequestStatus] = useState('');
   const [serverInfo, setServerInfo] = useState({});
-
   // TODO: improve error checking.
   const handleClose = () => {
-    setShowing(false); // Clean out any server info that might have been fetched
+    setServer(false); // Clean out any server info that might have been fetched
     setServerInfo('');
     setHostname(''); // Clean the Public Hostname, Token, and e-Mail
     setEmail('');
@@ -54,10 +48,9 @@ export default function AddServer({ showing, setShowing }) {
   };
 
   const checkApi = () => { // Check if the server and the given key are valid.
-    let serverAdded = false; // See if this server has already been added.
     JSON.parse(localStorage.getItem('user')).apiinfo.map((record) => { // TODO: a bit expensive, use a for loop/break paradigm instead.
       if (record.public_hostname === hostname) { // Already added?
-        serverAdded = true;
+        return setServerAdded(true);
       }
     });
     if (serverAdded === false) { // Was the hostname already added?
@@ -148,7 +141,7 @@ export default function AddServer({ showing, setShowing }) {
 
   return (
     <div>
-      <Dialog open={showing} onClose={handleClose} aria-labelledby="form-dialog-title">
+      <Dialog open={server} onClose={handleClose} aria-labelledby="form-dialog-title">
         <DialogTitle id="form-dialog-title">
           <Typography variant="h2">
             Add a new BCO server
@@ -235,6 +228,6 @@ export default function AddServer({ showing, setShowing }) {
 }
 
 AddServer.propTypes = {
-  setShowing: PropTypes.func.isRequired,
-  showing: PropTypes.bool.isRequired
-}
+  setServer: PropTypes.func.isRequired,
+  server: PropTypes.bool.isRequired
+};

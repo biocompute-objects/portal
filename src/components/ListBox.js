@@ -1,4 +1,4 @@
-// src/views/home/HomeView/FdaBox.js
+// src/components/ListBox.js
 
 import React, { useState, useEffect } from 'react';
 import {
@@ -24,8 +24,7 @@ const useStyles = makeStyles({
     transform: 'scale(0.8)',
   },
   linkCard: {
-    minWidth: 275,
-    textAlign: 'left'
+    textAlign: 'center'
   },
   title: {
     fontSize: '33px',
@@ -75,13 +74,19 @@ export default function ListBox({
 
   return (
     <Card className={classes.linkCard}>
-      <CardActionArea onClick={() => window.open(link)}>
-        <CardContent className={classes.linkCard}>
-          <Typography className={classes.title}>
-            {header}
-          </Typography>
-        </CardContent>
-      </CardActionArea>
+      {
+        (link === 'noLink')
+          ? (<CardActionArea />)
+          : (
+            <CardActionArea onClick={() => window.open(link)}>
+              <CardContent className={classes.linkCard}>
+                <Typography className={classes.title}>
+                  {header}
+                </Typography>
+              </CardContent>
+            </CardActionArea>
+          )
+        }
       <CardContent>
         <TableBody>
           {

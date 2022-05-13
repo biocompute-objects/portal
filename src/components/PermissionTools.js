@@ -43,11 +43,9 @@ export default function PermissionTools({
   // State
   const [saveDraftTo, setSaveDraftTo] = useState('');
   const [prefix, setPrefix] = useState('BCO');
-  const [create, setCreate] = useState(false);
   const fc = useContext(FetchContext);
   const classes = useStyles();
   let ApiInfo = JSON.parse(localStorage.getItem('user'));
-  console.log('ApiInfo', ApiInfo)
   if (ApiInfo === null) {
     // Use the anon token, which is publicly available.
     ApiInfo = fc.sending.anon_api_info;
@@ -85,18 +83,6 @@ export default function PermissionTools({
   }
 
   // ----- INITIAL RENDER ----- //
-
-  useEffect(() => {
-    if (prefix.length >= 3 && prefix.length <= 5 && saveDraftTo !== '') {
-      setCreate(true);
-    }
-  }, [prefix, saveDraftTo]);
-
-  useEffect(() => {
-    if (prefix.length >= 3 && prefix.length <= 5 && saveDraftTo !== '') {
-      setCreate(true);
-    }
-  }, [prefix, saveDraftTo]);
 
   return (
     <div className={classes.root}>
@@ -179,37 +165,44 @@ export default function PermissionTools({
                   <Typography gutterBottom variant="h2">
                     Functions
                   </Typography>
-                  <ServerList
-                    disabledValue={(newDraft === false)}
-                    options={ApiInfo}
-                    setter={setSaveDraftTo}
-                    type="draft"
-                  />
-                  <Typography>
-                    &nbsp;
-                  </Typography>
-                  <TextField
-                    InputProps={{ className: classes.root }}
-                    color="primary"
-                    fullWidth
-                    id="outlined-multiline-static"
-                    variant="outlined"
-                    onChange={(e) => setPrefix(e.target.value)}
-                    value={prefix}
-                  />
-                  <Typography>
-                    &nbsp;
-                  </Typography>
-                  <Button
-                    variant="contained"
-                    color="secondary"
-                    disableElevation
-                    disabled={(create === false)}
-                    fullWidth
-                    onClick={() => clickActions('createDraft')}
-                  >
-                    CREATE NEW DRAFT
-                  </Button>
+                  {
+                      (newDraft === false)
+                        ? (console.log('New Draft: ', newDraft))
+                        : (
+                          <>
+                            <ServerList
+                              options={ApiInfo}
+                              setter={setSaveDraftTo}
+                              type="draft"
+                            />
+                            <Typography>
+                              &nbsp;
+                            </Typography>
+                            <TextField
+                              InputProps={{ className: classes.root }}
+                              color="primary"
+                              fullWidth
+                              id="outlined-multiline-static"
+                              variant="outlined"
+                              onChange={(e) => setPrefix(e.target.value)}
+                              value={prefix}
+                            />
+                            <Typography>
+                              &nbsp;
+                            </Typography>
+                            <Button
+                              variant="contained"
+                              color="secondary"
+                              disableElevation
+                              disabled={prefix.length < 3 || prefix.length > 5 || saveDraftTo === ''}
+                              fullWidth
+                              onClick={() => clickActions('createDraft')}
+                            >
+                              CREATE NEW DRAFT
+                            </Button>
+                          </>
+                        )
+                  }
                   <Typography>
                 &nbsp;
                   </Typography>
