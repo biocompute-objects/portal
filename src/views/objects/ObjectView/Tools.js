@@ -71,7 +71,7 @@ export default function Tools() {
                         fullWidth
                         id="outlined-multiline-static"
                         variant="outlined"
-                        placeholder='enter prefix'
+                        placeholder="enter prefix"
                         onChange={(e) => setPrefix(e.target.value)}
                         value={prefix}
                       />
