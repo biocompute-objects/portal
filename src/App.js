@@ -92,7 +92,7 @@ function App() {
     }
   };
   const versions = {
-    portal: '22.05',
+    portal: '22.05.1',
     bcodb: '22.05',
     userdb: '22.05'
   };
