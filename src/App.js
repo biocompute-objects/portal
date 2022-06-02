@@ -42,7 +42,8 @@ function App() {
       anon_api_info: [
         {
           token: '627626823549f787c3ec763ff687169206626149',
-          public_hostname: 'http://127.0.0.1:8000'
+          public_hostname: 'http://127.0.0.1:8000',
+          human_readable_hostname: 'BCO Server (Not Logged In)'
         }
       ]
     },
@@ -64,7 +65,8 @@ function App() {
       anon_api_info: [
         {
           token: '627626823549f787c3ec763ff687169206626149',
-          public_hostname: 'https://test.portal.biochemistry.gwu.edu'
+          public_hostname: 'https://test.portal.biochemistry.gwu.edu',
+          human_readable_hostname: 'BCO Server (Not Logged In)'
         }
       ]
     },
@@ -86,7 +88,8 @@ function App() {
       anon_api_info: [
         {
           token: 'b196023f46cdc919d064b0d9f210154d9a7a5b2e',
-          public_hostname: 'https://biocomputeobject.org'
+          public_hostname: 'https://biocomputeobject.org',
+          human_readable_hostname: 'BCO Server (Not Logged In)'
         }
       ]
     }

@@ -16,7 +16,7 @@ import { Search as SearchIcon } from 'react-feather';
 import ServerList from 'src/utils/ServerList';
 import SearchObjects from 'src/components/API/SearchObjects';
 
-const Toolbar = ({ ApiInfo, rows, setRows }) => {
+const Toolbar = ({ ApiInfo, setRows }) => {
   const [search, setSearch] = useState('');
   const [prefix, setPrefix] = useState();
   const [searchLocation, setSearchLocation] = useState('');
@@ -33,6 +33,7 @@ const Toolbar = ({ ApiInfo, rows, setRows }) => {
       setPrefix(false);
     }
   }, [search, searchLocation]);
+
   return (
     <div>
       <Box display="flex" justifyContent="flex-end" />
