@@ -55,7 +55,7 @@ export default function ServerList({
           disabled={disabledValue}
           fullWidth
           inputValue={receivedDefault}
-          onChange={(newValue) => {
+          onChange={(event, newValue) => {
             newValue === null
               ? setter('')
               : setter([newValue.hostname, newValue.token]);

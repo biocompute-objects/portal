@@ -10,6 +10,7 @@ import {
   TextField,
   InputAdornment,
   SvgIcon,
+  Typography,
   makeStyles
 } from '@material-ui/core';
 import { Search as SearchIcon } from 'react-feather';
@@ -18,21 +19,17 @@ import SearchObjects from 'src/components/API/SearchObjects';
 
 const Toolbar = ({ ApiInfo, setRows }) => {
   const [search, setSearch] = useState('');
-  const [prefix, setPrefix] = useState();
+  const [action, setAction] = useState();
   const [searchLocation, setSearchLocation] = useState('');
   const userInfo = ApiInfo;
 
-  function clickActions(action) {
+  function clickActions() {
     SearchObjects(action, searchLocation, search, setRows);
   }
-  useEffect(() => {
-    if (searchLocation !== '' && search.length > 2 && search.length < 6) {
-      console.log('prefix', prefix);
-      setPrefix(true);
-    } else {
-      setPrefix(false);
-    }
-  }, [search, searchLocation]);
+  function checkActions(checked) {
+    setAction(checked.target.value);
+    console.log(checked.target.value);
+  }
 
   return (
     <div>
@@ -47,9 +44,50 @@ const Toolbar = ({ ApiInfo, setRows }) => {
                 type="search"
               />
             </Box>
+          </CardContent>
+        </Card>
+        <Card>
+          <CardContent>
+            <text>
+              Search Type:&nbsp;&nbsp;
+            </text>
+            <Typography>
+              <input
+                type="radio"
+                data-limit="only-one-in-a-group"
+                name="radio"
+                value="mine"
+                onChange={checkActions}
+                disabled={searchLocation === ''}
+              />
+                &nbsp;&nbsp;My BCOs&nbsp;&nbsp;
+              <input
+                type="radio"
+                data-limit="only-one-in-a-group"
+                name="radio"
+                value="prefix"
+                onChange={checkActions}
+                disabled={searchLocation === ''}
+              />
+                &nbsp;&nbsp;Prefix Search&nbsp;&nbsp;
+              <input
+                type="radio"
+                data-limit="only-one-in-a-group"
+                name="radio"
+                value="bco_id"
+                onChange={checkActions}
+                disabled={searchLocation === ''}
+              />
+              &nbsp;&nbsp;Search BCO_ID&nbsp;&nbsp;
+            </Typography>
+          </CardContent>
+        </Card>
+        <Card>
+          <CardContent>
             <Box maxWidth={500}>
               <TextField
                 fullWidth
+                disabled={searchLocation === '' || action === 'mine'}
                 InputProps={{
                   startAdornment: (
                     <InputAdornment position="start">
@@ -63,31 +101,15 @@ const Toolbar = ({ ApiInfo, setRows }) => {
                 variant="outlined"
                 onChange={(e) => setSearch(e.target.value)}
               />
+              <Button
+                disabled={!action}
+                color="primary"
+                variant="contained"
+                onClick={() => clickActions()}
+              >
+                Search
+              </Button>
             </Box>
-            <Button
-              disabled={prefix !== true}
-              color="primary"
-              variant="contained"
-              onClick={() => clickActions('prefix')}
-            >
-              Search prefix
-            </Button>
-            <Button
-              disabled={searchLocation === ''}
-              color="primary"
-              variant="contained"
-              onClick={() => clickActions('bco_id')}
-            >
-              Seach BCO_ID
-            </Button>
-            <Button
-              disabled={searchLocation === ''}
-              color="primary"
-              variant="contained"
-              onClick={() => clickActions('mine')}
-            >
-              My BCOs
-            </Button>
           </CardContent>
         </Card>
       </Box>
