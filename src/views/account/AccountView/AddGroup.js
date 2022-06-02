@@ -116,7 +116,7 @@ export default function AddGroup({
             setRerender={setRerender}
             rerender={rerender}
           />
-          <DialogContentText>
+          {/* <DialogContentText>
             <Typography>
               Delete members on group deletion
               <Checkbox
@@ -126,7 +126,7 @@ export default function AddGroup({
               />
             </Typography>
 
-            {/* <Typography>
+            <Typography>
               Set a max number of members?
               <input
                 type="text"
@@ -135,12 +135,12 @@ export default function AddGroup({
                 onChange={(e) =>
                   setMaxMemers((v) => (e.target.validity.valid ? e.target.value : v))}
               />
-            </Typography> */}
-          </DialogContentText>
-          <DateTimePicker
+            </Typography>
+          </DialogContentText> */}
+          {/* <DateTimePicker
             onChange={setExpiration}
             value={expiration}
-          />
+          /> */}
           {/* <ServerStatus serverStatus={requestStatus} /> */}
           <div className={classes.centered}>
             <Button onClick={handleClose} color="primary">
