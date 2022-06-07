@@ -145,10 +145,10 @@ export default function PermissionTools({
                     A DRAFT can not be published until it has passed validation.
                   </Typography>
                   <Typography gutterBottom variant="h4">
-                    7)  DOWN LOAD DRAFT
+                    7)  DOWNLOAD DRAFT
                   </Typography>
                   <Typography gutterBottom>
-                    This will downlaod a JSON of the current DRAFT
+                    This will download a JSON of the current DRAFT.
                   </Typography>
                   <Typography gutterBottom variant="h4">
                     8)  DELETE DRAFT

@@ -22,7 +22,7 @@ export default function IoDomain({ items }) {
         setList={items.setIodOutputSubdomain}
         setRerender={items.setRerender}
         rerender={items.rerender}
-        additionalField="mediatype"
+        additionalField="Mediatype"
       />
 
     </Card>
