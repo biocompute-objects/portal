@@ -5,7 +5,7 @@ draft id */
 
 export default function DeleteDraftObject(objectInformation, contents) {
   const objectContents = contents;
-  const deleteDraft = window.confirm(`Are you sure you wnat to delete ${objectInformation.object_id}`);
+  const deleteDraft = window.confirm(`Are you sure you wnat to delete ${objectInformation.object_id}?`);
   if (deleteDraft === true) {
     fetch(`${objectInformation.hostname}/api/objects/drafts/modify/`, {
       method: 'POST',

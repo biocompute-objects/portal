@@ -25,9 +25,9 @@ export default function ValidateSchema(contents, setPublish) {
       "${ajv.errors[0].dataPath}"
       ${ajv.errors[0].message}
 
-      1) If this field is blank,  you may need to delete it. Try using the Tree view.
+      1) If this field is blank, you may need to delete it. Try using the Tree view.
 
-      2) If this field appears correct check for extra spaces. 
+      2) If this field appears correct, check for extra spaces. 
 
       For more information check the schema here:
         ${ajv.errors[0].schemaPath}`);
