@@ -47,16 +47,16 @@ export default function DeriveDraftObject(saveDraftTo, prefix) {
           .then((data) => {
             console.log('data', data[0].object_id);
             const objectId = data[0].object_id;
-            alert(`Derrive Draft Success! Save the following object ID to access later  ${data[0].object_id}`);
+            alert(`Derive Draft Success! Save the following object ID to access later  ${data[0].object_id}`);
             const processed = objectId.replace('://', '/');
-            console.log('derrive 42', `${window.location.origin}/builder/${processed}`);
+            console.log('derive 42', `${window.location.origin}/builder/${processed}`);
             window.location.href = `${window.location.origin}/builder/${processed}`;
           });
       }
     })
     .catch((error) => {
       console.log(`error: ${error}`);
-      alert(`Derrive Draft FAILED! ${error}`);
+      alert(`Derive Draft FAILED! ${error}`);
     });
 }
 
