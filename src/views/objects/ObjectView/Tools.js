@@ -55,7 +55,7 @@ export default function Tools() {
               <Card>
                 <CardContent>
                   <Typography variant="h3">
-                    Derrive New Object Draft from this object
+                    Derive New Object Draft from this object
                   </Typography>
                   <Grid alignItems="center" container direction="row" justify="flex-start" spacing={3}>
                     <Grid item lg={12} md={12} xs={12}>
