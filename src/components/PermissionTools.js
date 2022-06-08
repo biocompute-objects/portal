@@ -154,7 +154,7 @@ export default function PermissionTools({
                     8)  DELETE DRAFT
                   </Typography>
                   <Typography gutterBottom>
-                    This function has not been implemented yet.
+                    This button will delete the current DRAFT.
                   </Typography>
                 </CardContent>
               </Card>
