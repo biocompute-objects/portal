@@ -58,7 +58,6 @@ export default function UriObject({
   useEffect(() => {
     if (typeof list === 'undefined') {
       setList([]);
-      console.log('list 61', list);
     }
   }, [list, setList]);
 

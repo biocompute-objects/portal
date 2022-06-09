@@ -192,6 +192,7 @@ function ColorCoded({
         created: pdCreated,
         derived_from: pdDerivedFrom,
         modified: provModified.toISOString(),
+        obsolete_after: pdObsoleteAfter,
         review: pdReview,
         contributors: pdContributors,
         license: pdLicense

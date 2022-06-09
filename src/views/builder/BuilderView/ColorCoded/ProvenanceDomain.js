@@ -9,6 +9,7 @@ import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
+import DateTimePicker from 'react-datetime-picker';
 
 // Datetime picker
 import 'react-datetime/css/react-datetime.css';
@@ -77,6 +78,150 @@ export default function ProvenanceDomain({ items, cF }) {
   const [missingContributors, setMissingContributors] = useState(false);
   const [missingContributorsName, setMissingContributorsName] = useState(false);
   const [missingContributorsContribution, setMissingContributorsContribution] = useState(false);
+  const [obsolete, setObsolete] = useState();
+
+  // Check for semantic versioning
+  // Source: https://semver.org/spec/v2.0.0.html
+  // Source: https://stackoverflow.com/questions/43134195/how-to-allow-only-numbers-in-textbox-and-format-as-us-mobile-number-format-in-re
+  // Source: https://stackoverflow.com/questions/6603015/check-whether-a-string-matches-a-regex-in-js
+  // Source: https://stackoverflow.com/questions/17885855/use-dynamic-variable-string-as-regex-pattern-in-javascript
+
+  const checkSemanticVersioning = (e) => {
+    // TODO: Fix so that version dots exists in input.
+    // TODO: Fix so that
+
+    // Only allow numbers and periods.
+    const onlyNumsPeriods = e.replace(/[^0-9.]/g, '');
+
+    // REGEX patterns that are allowed.
+    const patternZero = new RegExp('^$');
+    const patternOne = new RegExp('^[0-9]+$');
+    const patternTwo = new RegExp('^[0-9]+\\.$');
+    const patternThree = new RegExp('^[0-9]+\\.[0-9]+[0-9]*$');
+
+    if (patternZero.test(onlyNumsPeriods)) {
+      items.setPdVersion(onlyNumsPeriods);
+    } else if (patternOne.test(onlyNumsPeriods)) {
+      items.setPdVersion(onlyNumsPeriods);
+    } else if (patternTwo.test(onlyNumsPeriods)) {
+      items.setPdVersion(onlyNumsPeriods);
+    } else if (patternThree.test(onlyNumsPeriods)) {
+      items.setPdVersion(onlyNumsPeriods);
+    }
+  };
+
+  // See also https://stackoverflow.com/questions/42807901/react-input-element-value-vs-default-value
+  const setInput = (event, i, inputName, which) => {
+    // Get the state variable.
+    const dummy = items[which];
+
+    // Cases
+    if (which === 'pdReview') {
+      // Cases
+      if (inputName === 'reviewer_comment' || inputName === 'date') {
+        // Change the value at the given index.
+        dummy[i][inputName] = event.target.value;
+      } else if (inputName === 'status') {
+        // Change the value at the given index.
+        dummy[i][inputName] = event.target.value;
+      } else {
+        // Need to split up the sub-key.
+        const splitUp = inputName.split('.');
+
+        // Change the value at the given index.
+        dummy[i][splitUp[0]][splitUp[1]] = event.target.value;
+      }
+
+      // Update the state.
+      items.setPdReview(dummy);
+      console.log('pdModified', items.pdModifed);
+    } else if (which === 'pdContributors') {
+      // Change the value at the given index.
+      dummy[i][inputName] = event.target.value;
+
+      // Update the state.
+      items.setPdContributors(dummy);
+    }
+
+    // Needed to re-render the page.
+    items.setRerender(items.rerender + 1);
+  };
+
+  // Add a row
+  const addRows = (which) => {
+    // Get the state variable.
+    let dummy = items[which];
+
+    // Cases
+    if (which === 'pdReview') {
+      // Review is not required as of IEEE 2791-2020,
+      // so add it if it's missing.
+      if (cF(items.pdReview) === '') {
+        dummy = [];
+      }
+
+      // Push the new row.
+      dummy.push({
+        date: '',
+        status: [],
+        reviewer: {
+          name: '',
+          affiliation: '',
+          email: '',
+          contribution: ['createdBy']
+        },
+        reviewer_comment: ''
+      });
+
+      // Update the state.
+      items.setPdReview(dummy);
+    } else if (which === 'pdContributors') {
+      // Push the new row.
+      dummy.push({
+        name: '',
+        contribution: ['createdBy'],
+        affiliation: '',
+        email: '',
+        orcid: ''
+      });
+
+      // Update the state.
+      items.setPdContributors(dummy);
+    }
+
+    // Needed to re-render the page.
+    items.setRerender(items.rerender + 1);
+  };
+
+  // Remove a row
+  const removeRows = (which, i) => {
+    // Get the state variable.
+    const dummy = items[which];
+
+    // Remove the index.
+    dummy.splice(i, 1);
+
+    // Cases
+    if (which === 'pdReview') {
+      // Set the state, but only to valid objects
+      // since Review isn't required as of IEEE 2791-2020.
+      if (dummy.length === 0) {
+        // Remove the review key completely.
+        delete items[which];
+      } else {
+        console.log('pdReview', dummy);
+        // Update the state.
+        items.setPdReview(dummy);
+      }
+    } else if (which === 'pdContributors') {
+      // Update the state.
+      // console.log('asdfffffffffffffff');
+      items.setPdContributors(dummy);
+    }
+
+    // Needed to re-render the page.
+    items.setRerender(items.rerender + 1);
+  };
 
   useEffect(() => {
     // Create an OR flag.
@@ -188,10 +333,6 @@ export default function ProvenanceDomain({ items, cF }) {
         }
       }
     }
-
-    // Each field must be treated independently so that
-    // our state is compared only to the relevant field.
-
     // Contributors are required
     if (!items.pdContributors) {
       // No contributors.
@@ -259,9 +400,6 @@ export default function ProvenanceDomain({ items, cF }) {
         } else {
           setMissingContributorsContribution(false);
         }
-
-        // Can't rely on orFlag here because fields like
-        // Name, Version, and License also depend on it.
       }
     }
 
@@ -282,173 +420,16 @@ export default function ProvenanceDomain({ items, cF }) {
     }
   }, [items, cF]);
 
-  // Check for semantic versioning
-  // Source: https://semver.org/spec/v2.0.0.html
-  // Source: https://stackoverflow.com/questions/43134195/how-to-allow-only-numbers-in-textbox-and-format-as-us-mobile-number-format-in-re
-  // Source: https://stackoverflow.com/questions/6603015/check-whether-a-string-matches-a-regex-in-js
-  // Source: https://stackoverflow.com/questions/17885855/use-dynamic-variable-string-as-regex-pattern-in-javascript
-
-  const checkSemanticVersioning = (e) => {
-    // TODO: Fix so that version dots exists in input.
-    // TODO: Fix so that
-
-    // Only allow numbers and periods.
-    const onlyNumsPeriods = e.replace(/[^0-9.]/g, '');
-
-    // REGEX patterns that are allowed.
-    const patternZero = new RegExp('^$');
-    const patternOne = new RegExp('^[0-9]+$');
-    const patternTwo = new RegExp('^[0-9]+\\.$');
-    const patternThree = new RegExp('^[0-9]+\\.[0-9]+[0-9]*$');
-
-    if (patternZero.test(onlyNumsPeriods)) {
-      items.setPdVersion(onlyNumsPeriods);
-    } else if (patternOne.test(onlyNumsPeriods)) {
-      items.setPdVersion(onlyNumsPeriods);
-    } else if (patternTwo.test(onlyNumsPeriods)) {
-      items.setPdVersion(onlyNumsPeriods);
-    } else if (patternThree.test(onlyNumsPeriods)) {
-      items.setPdVersion(onlyNumsPeriods);
-
-      // Remove the error flag only on this pattern,
-      // since we have a fully semantic version number.
-      // set...
+  useEffect(() => {
+    console.log('TIME OUTSIDE');
+    if (!obsolete) {
+      console.log('TIME NO', obsolete, items.pdObsoleteAfter);
+      delete items.pdObsoleteAfter;
+    } else {
+      items.setPdObsoleteAfter(obsolete);
+      console.log('TIME YES', obsolete, items.pdObsoleteAfter);
     }
-  };
-
-  // Check for an e-mail input
-  // Source: https://stackoverflow.com/questions/52188192/what-is-the-simplest-and-shortest-way-for-validating-an-email-in-react
-
-  // const checkeMailInput = (e) => {
-  //
-  // };
-
-  // Set an input value
-
-  // There were problems with value/defaultValue,
-  // so I opted to put in a custom handler based
-  // on the response at https://github.com/facebook/react/issues/8053#issuecomment-255555133
-
-  // See also https://stackoverflow.com/questions/42807901/react-input-element-value-vs-default-value
-  const setInput = (event, i, inputName, which) => {
-    // Get the state variable.
-    const dummy = items[which];
-
-    // Cases
-    if (which === 'pdReview') {
-      // Cases
-      if (inputName === 'reviewer_comment' || inputName === 'date') {
-        // Change the value at the given index.
-        dummy[i][inputName] = event.target.value;
-      } else if (inputName === 'status') {
-        // Change the value at the given index.
-        dummy[i][inputName] = event.target.value;
-      } else {
-        // Need to split up the sub-key.
-        const splitUp = inputName.split('.');
-
-        // Change the value at the given index.
-        dummy[i][splitUp[0]][splitUp[1]] = event.target.value;
-      }
-
-      // Update the state.
-      items.setPdReview(dummy);
-	  console.log('pdModified', items.pdModifed);
-    } else if (which === 'pdContributors') {
-      // Change the value at the given index.
-      dummy[i][inputName] = event.target.value;
-
-      // Update the state.
-      items.setPdContributors(dummy);
-    }
-
-    // Needed to re-render the page.
-    items.setRerender(items.rerender + 1);
-  };
-
-  // Add a row
-  const addRows = (which) => {
-    // Get the state variable.
-    let dummy = items[which];
-
-    // Cases
-    if (which === 'pdReview') {
-      // Review is not required as of IEEE 2791-2020,
-      // so add it if it's missing.
-      if (cF(items.pdReview) === '') {
-        dummy = [];
-      }
-
-      // Push the new row.
-      dummy.push({
-        date: '',
-        status: [],
-        reviewer: {
-          name: '',
-          affiliation: '',
-          email: '',
-          contribution: ['createdBy']
-        },
-        reviewer_comment: ''
-      });
-
-      // Update the state.
-      items.setPdReview(dummy);
-    } else if (which === 'pdContributors') {
-      // Push the new row.
-      dummy.push({
-        name: '',
-        contribution: ['createdBy'],
-        affiliation: '',
-        email: '',
-        orcid: ''
-      });
-
-      // Update the state.
-      items.setPdContributors(dummy);
-    }
-
-    // Needed to re-render the page.
-    items.setRerender(items.rerender + 1);
-  };
-
-  // Remove a row
-  const removeRows = (which, i) => {
-    // Get the state variable.
-    const dummy = items[which];
-
-    // Remove the index.
-    dummy.splice(i, 1);
-
-    // Cases
-    if (which === 'pdReview') {
-      // Set the state, but only to valid objects
-      // since Review isn't required as of IEEE 2791-2020.
-      if (dummy.length === 0) {
-        // Remove the review key completely.
-        delete items[which];
-      } else {
-        console.log('pdReview', dummy);
-        // Update the state.
-        items.setPdReview(dummy);
-      }
-    } else if (which === 'pdContributors') {
-      // Update the state.
-      // console.log('asdfffffffffffffff');
-      items.setPdContributors(dummy);
-    }
-
-    // Needed to re-render the page.
-    items.setRerender(items.rerender + 1);
-  };
-
-  // Arguments
-  // ---------
-  // items: JSON object (Provenance Domain)
-
-  // The arrays containing the information can be processed here.
-
-  // ----- Meta Information ----- //
+  }, [obsolete]);
 
   return (
     <Table size="small">
@@ -516,7 +497,11 @@ export default function ProvenanceDomain({ items, cF }) {
             Obsolete After
           </StyledCell>
           <StyledCell>
-            <TextField InputProps={{ className: classes.root }} label="YYYY-MM-DDTHH:MM:SS+HH:MM" fullWidth id="outlined-basic" value={cF(items.pdObsoleteAfter)} onChange={(e) => items.setPdObsoleteAfter(e.target.value)} variant="outlined" />
+            <DateTimePicker
+              onChange={setObsolete}
+              value={obsolete}
+            />
+            {/* <TextField InputProps={{ className: classes.root }} label="YYYY-MM-DDTHH:MM:SS+HH:MM" fullWidth id="outlined-basic" value={cF(items.pdObsoleteAfter)} onChange={(e) => items.setPdObsoleteAfter(e.target.value)} variant="outlined" /> */}
           </StyledCell>
         </TableRow>
         <TableRow>
