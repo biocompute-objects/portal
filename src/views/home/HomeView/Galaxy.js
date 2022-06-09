@@ -39,21 +39,20 @@ export default function Other() {
 
   return (
     <Card className={classes.linkCard} elevation={0}>
-      <CardActionArea onClick={() => window.open(galaxyLink)}>
         <CardContent>
           <Typography className={classes.title}>
             <img src={hive} height={65} alt="Galaxy logo" />
             <br />
             <img src={aws} height={35} alt="AWS logo" />
           </Typography>
+
           <Typography className={classes.bullet}>
-            Use Galaxy on AWS, the open source, web-based platform for data
-            intensive biomedical research. Assemble your [pipeline](/about) in the
-            workspace, designate the outputs in the module boxes, and record the
-            entire pipeline as a BCO.
+            BioCompute has been merged into the main Galaxy repository. 
+            This BioCompute enabled instance of Galaxy on AWS is therefore no longer operational. 
+            Thank you to those that have participated in its development.
           </Typography>
+
         </CardContent>
-      </CardActionArea>
     </Card>
   );
 }
