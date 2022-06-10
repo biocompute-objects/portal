@@ -43,7 +43,6 @@ export default function Galaxy() {
 
   return (
     <Card className={`${classes.root} ${classes.linkCard}`} elevation={0}>
-      <CardActionArea onClick={() => window.open(galaxyLink)}>
         <CardContent>
           <Typography className={classes.title}>
             <img src={hive} height={65} alt="Galaxy logo" />
@@ -56,7 +55,6 @@ export default function Galaxy() {
             BCO format.
           </Typography>
         </CardContent>
-      </CardActionArea>
     </Card>
   );
 }

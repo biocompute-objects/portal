@@ -44,7 +44,6 @@ export default function Hive() {
 
   return (
     <Card className={`${classes.root} ${classes.supportCard}`} elevation={0}>
-      <CardActionArea onClick={() => window.open(hiveLink)}>
         <CardContent>
           <Typography className={classes.title}>
             <img src={hive} height={65} alt="HIVE logo" />
@@ -57,7 +56,6 @@ export default function Hive() {
             from workflows.
           </Typography>
         </CardContent>
-      </CardActionArea>
     </Card>
   );
 }
