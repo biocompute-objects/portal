@@ -7,14 +7,14 @@ export default function PublishDraftObject(objectInformation, contents) {
   const obectContents = contents;
   const { version } = obectContents.provenance_domain;
   const publishedId = obectContents.object_id.replace('DRAFT', version);
+  const prefix = obectContents.object_id.split('/')[3].split('_')[0];
   const deleteDraft = window.confirm('Would you like to delete this draft object after publishing?');
-  console.log('deleteDraft', deleteDraft, publishedId);
   fetch(`${objectInformation.hostname}/api/objects/drafts/publish/`, {
     method: 'POST',
     body: JSON.stringify({
       POST_api_objects_drafts_publish: [
         {
-          prefix: 'BCO',
+          prefix,
           draft_id: obectContents.object_id,
           object_id: publishedId,
           delete_draft: deleteDraft
@@ -43,7 +43,7 @@ export default function PublishDraftObject(objectInformation, contents) {
         console.log('POST_api_objects_drafts_publish: Failed!');
         return response.json()
           .then((data) => {
-            const message = data[0].message;
+            const { message } = data[0];
             alert(`Object publishing Failed! ${message}`);
           });
       }
