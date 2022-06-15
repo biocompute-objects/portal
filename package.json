@@ -36,6 +36,7 @@
     "clsx": "^1.1.1",
     "crypto-js": "^4.1.1",
     "depcheck": "^1.4.2",
+    "file-saver": "^2.0.5",
     "formik": "^2.1.5",
     "moment": "^2.27.0",
     "object-hash": "^2.2.0",
