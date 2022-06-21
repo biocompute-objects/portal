@@ -1,10 +1,10 @@
-// /src/components/Api/RetrieveDraftObject.js 
+// /src/components/Api/RetrieveDraftObject.js
 
-/* Retrievs a draft object using the current user's token and an object's 
+/* Retrievs a draft object using the current user's token and an object's
 draft id */
 
 export default function RetrieveDraftObject(objectId, setObjectContents) {
-  let objectContents = '';
+  const objectContents = '';
   let userToken = '';
 
   JSON.parse(localStorage.getItem('user')).apiinfo.forEach((item) => {
