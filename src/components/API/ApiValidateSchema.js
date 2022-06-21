@@ -29,17 +29,17 @@ export default function ApiValidateSchema(objectInformation, contents, setPublis
               setPublish(true);
             } else {
               setPublish(false);
-              if (viewResult === 'download') {
-                const blob = new Blob([JSON.stringify(data)], { type: 'text/json' });
-                saveAs(blob, `${objectInformation.object_id}.json`);
-              }
-              if (viewResult === 'display') {
-                const link = document.createElement('a');
-                const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'text/json' });
-                //   alert(`Result display: ${blob}`);
-                link.href = URL.createObjectURL(blob);
-                window.open(link);
-              }
+            }
+            if (viewResult === 'download') {
+              const blob = new Blob([JSON.stringify(data)], { type: 'text/json' });
+              saveAs(blob, `${objectInformation.object_id}.json`);
+            }
+            if (viewResult === 'display') {
+              const link = document.createElement('a');
+              const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'text/json' });
+              //   alert(`Result display: ${blob}`);
+              link.href = URL.createObjectURL(blob);
+              window.open(link);
             }
           });
       }
