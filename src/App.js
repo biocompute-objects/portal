@@ -95,9 +95,9 @@ function App() {
     }
   };
   const versions = {
-    portal: '22.06',
-    bcodb: '22.06',
-    userdb: '22.06'
+    portal: '22.07',
+    bcodb: '22.07',
+    userdb: '22.07'
   };
 
   /**
