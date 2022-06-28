@@ -7,6 +7,7 @@ export default function PublishDraftObject(objectInformation, contents) {
   const obectContents = contents;
   const { version } = obectContents.provenance_domain;
   const publishedId = obectContents.object_id.replace('DRAFT', version);
+  const prefix = obectContents.object_id.split('_')[0].split('/').pop();
   const deleteDraft = window.confirm('Would you like to delete this draft object after publishing?');
   console.log('deleteDraft', deleteDraft, publishedId);
   fetch(`${objectInformation.hostname}/api/objects/drafts/modify/`, {
@@ -34,7 +35,7 @@ export default function PublishDraftObject(objectInformation, contents) {
       body: JSON.stringify({
         POST_api_objects_drafts_publish: [
           {
-            prefix: 'BCO',
+            prefix,
             draft_id: obectContents.object_id,
             object_id: publishedId,
             delete_draft: deleteDraft
