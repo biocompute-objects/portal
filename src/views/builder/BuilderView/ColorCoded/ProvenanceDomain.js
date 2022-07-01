@@ -100,9 +100,10 @@ export default function ProvenanceDomain({ items, cF }) {
     }
 
     // Version (note the regex check)
-    const versionRegex = new RegExp('^[0-9]+\\.[0-9]+[0-9]*$');
+    // const versionRegex = new RegExp('^[0-9]+\\.[0-9]+[0-9]+\\.[0-9]+[0-9]*$');
 
-    if (items.pdVersion === '' || !(versionRegex.test(items.pdVersion))) {
+    // if (items.pdVersion === '' || !(versionRegex.test(items.pdVersion))) {
+    if (items.pdVersion === '') {
       // No version.
       setMissingVersion(true);
 
@@ -288,33 +289,35 @@ export default function ProvenanceDomain({ items, cF }) {
   // Source: https://stackoverflow.com/questions/6603015/check-whether-a-string-matches-a-regex-in-js
   // Source: https://stackoverflow.com/questions/17885855/use-dynamic-variable-string-as-regex-pattern-in-javascript
 
-  const checkSemanticVersioning = (e) => {
-    // TODO: Fix so that version dots exists in input.
-    // TODO: Fix so that
+//   const checkSemanticVersioning = (e) => {
+//     // TODO: Fix so that version dots exists in input.
+//     // TODO: Fix so that
 
-    // Only allow numbers and periods.
-    const onlyNumsPeriods = e.replace(/[^0-9.]/g, '');
+//     // Only allow numbers and periods.
+//     const onlyNumsPeriods = e.replace(/[^0-9.]/g, '');
 
-    // REGEX patterns that are allowed.
-    const patternZero = new RegExp('^$');
-    const patternOne = new RegExp('^[0-9]+$');
-    const patternTwo = new RegExp('^[0-9]+\\.$');
-    const patternThree = new RegExp('^[0-9]+\\.[0-9]+[0-9]*$');
+//     // REGEX patterns that are allowed.
+//     const patternZero = new RegExp('^$');
+//     const patternOne = new RegExp('^[0-9]+$');
+//     const patternTwo = new RegExp('^[0-9]+\\.$');
+//     const patternThree = new RegExp('^[0-9]+\\.[0-9]+[0-9]*$');
+//     const patternFour = new RegExp('^[0-9]+\\.[0-9]+[0-9]+\\.[0-9]+[0-9]*$');
 
-    if (patternZero.test(onlyNumsPeriods)) {
-      items.setPdVersion(onlyNumsPeriods);
-    } else if (patternOne.test(onlyNumsPeriods)) {
-      items.setPdVersion(onlyNumsPeriods);
-    } else if (patternTwo.test(onlyNumsPeriods)) {
-      items.setPdVersion(onlyNumsPeriods);
-    } else if (patternThree.test(onlyNumsPeriods)) {
-      items.setPdVersion(onlyNumsPeriods);
-
-      // Remove the error flag only on this pattern,
-      // since we have a fully semantic version number.
-      // set...
-    }
-  };
+//     if (patternZero.test(onlyNumsPeriods)) {
+//       items.setPdVersion(onlyNumsPeriods);
+//     } else if (patternOne.test(onlyNumsPeriods)) {
+//       items.setPdVersion(onlyNumsPeriods);
+//     } else if (patternTwo.test(onlyNumsPeriods)) {
+//       items.setPdVersion(onlyNumsPeriods);
+//     } else if (patternThree.test(onlyNumsPeriods)) {
+//       items.setPdVersion(onlyNumsPeriods);
+//     } else if (patternFour.test(onlyNumsPeriods)) {
+//       items.setPdVersion(onlyNumsPeriods);
+//       // Remove the error flag only on this pattern,
+//       // since we have a fully semantic version number.
+//       // set...
+//     }
+//   };
 
   // Check for an e-mail input
   // Source: https://stackoverflow.com/questions/52188192/what-is-the-simplest-and-shortest-way-for-validating-an-email-in-react
@@ -353,7 +356,6 @@ export default function ProvenanceDomain({ items, cF }) {
 
       // Update the state.
       items.setPdReview(dummy);
-	  console.log('pdModified', items.pdModifed);
     } else if (which === 'pdContributors') {
       // Change the value at the given index.
       dummy[i][inputName] = event.target.value;
@@ -481,7 +483,7 @@ export default function ProvenanceDomain({ items, cF }) {
             Version
           </TableCell>
           <StyledCell>
-            <TextField InputProps={{ className: classes.root }} error={!!missingVersion} fullWidth id="outlined-basic" value={cF(items.pdVersion)} onChange={(e) => checkSemanticVersioning(e.target.value)} variant="outlined" />
+            <TextField InputProps={{ className: classes.root }} error={!!missingVersion} fullWidth id="outlined-basic" value={cF(items.pdVersion)} onChange={(e) => items.setPdVersion(e.target.value)} variant="outlined" />
           </StyledCell>
           <TableCell className={missingLicense ? classes.missingHeader : classes.header}>
             License
