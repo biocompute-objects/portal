@@ -73,6 +73,7 @@ export default function ProvenanceDomain({ items, cF }) {
   const [missingReview, setMissingReview] = useState(false);
   const [missingReviewStatus, setMissingReviewStatus] = useState(false);
   const [missingReviewName, setMissingReviewName] = useState(false);
+  const [missingReviewEmail, setMissingReviewEmail] = useState(false);
   const [missingReviewContribution, setMissingReviewContribution] = useState(false);
   const [missingContributors, setMissingContributors] = useState(false);
   const [missingContributorsName, setMissingContributorsName] = useState(false);
@@ -134,6 +135,7 @@ export default function ProvenanceDomain({ items, cF }) {
         // No sub-fields.
         setMissingReviewStatus(false);
         setMissingReviewName(false);
+        setMissingReviewEmail(false);
         setMissingReviewContribution(false);
       } else {
         // If there is a review field, we have to consider
@@ -162,11 +164,17 @@ export default function ProvenanceDomain({ items, cF }) {
           } else {
             setMissingReviewStatus(false);
           }
-
+          if (items.pdReview[i].email === '') {
+            setMissingReview(true);
+            setMissingReviewEmail(true);
+            orFlag = true;
+            break;
+          } else {
+            setMissingReviewEmail(false);
+          }
           // Can't rely on orFlag here because fields like
           // Name, Version, and License also depend on it.
         }
-
         for (let reviewCont = 0; reviewCont < items.pdReview.length; reviewCont++) {
           // Contribution
           if (items.pdReview[reviewCont].reviewer.contribution.length === 0) {
@@ -273,6 +281,7 @@ export default function ProvenanceDomain({ items, cF }) {
       // All required fields are ok.
       setMissingReviewStatus(false);
       setMissingReviewName(false);
+      setMissingReviewEmail(false);
       setMissingReviewContribution(false);
       setMissingContributorsName(false);
       setMissingContributorsContribution(false);
@@ -289,35 +298,35 @@ export default function ProvenanceDomain({ items, cF }) {
   // Source: https://stackoverflow.com/questions/6603015/check-whether-a-string-matches-a-regex-in-js
   // Source: https://stackoverflow.com/questions/17885855/use-dynamic-variable-string-as-regex-pattern-in-javascript
 
-//   const checkSemanticVersioning = (e) => {
-//     // TODO: Fix so that version dots exists in input.
-//     // TODO: Fix so that
+  //   const checkSemanticVersioning = (e) => {
+  //     // TODO: Fix so that version dots exists in input.
+  //     // TODO: Fix so that
 
-//     // Only allow numbers and periods.
-//     const onlyNumsPeriods = e.replace(/[^0-9.]/g, '');
+  //     // Only allow numbers and periods.
+  //     const onlyNumsPeriods = e.replace(/[^0-9.]/g, '');
 
-//     // REGEX patterns that are allowed.
-//     const patternZero = new RegExp('^$');
-//     const patternOne = new RegExp('^[0-9]+$');
-//     const patternTwo = new RegExp('^[0-9]+\\.$');
-//     const patternThree = new RegExp('^[0-9]+\\.[0-9]+[0-9]*$');
-//     const patternFour = new RegExp('^[0-9]+\\.[0-9]+[0-9]+\\.[0-9]+[0-9]*$');
+  //     // REGEX patterns that are allowed.
+  //     const patternZero = new RegExp('^$');
+  //     const patternOne = new RegExp('^[0-9]+$');
+  //     const patternTwo = new RegExp('^[0-9]+\\.$');
+  //     const patternThree = new RegExp('^[0-9]+\\.[0-9]+[0-9]*$');
+  //     const patternFour = new RegExp('^[0-9]+\\.[0-9]+[0-9]+\\.[0-9]+[0-9]*$');
 
-//     if (patternZero.test(onlyNumsPeriods)) {
-//       items.setPdVersion(onlyNumsPeriods);
-//     } else if (patternOne.test(onlyNumsPeriods)) {
-//       items.setPdVersion(onlyNumsPeriods);
-//     } else if (patternTwo.test(onlyNumsPeriods)) {
-//       items.setPdVersion(onlyNumsPeriods);
-//     } else if (patternThree.test(onlyNumsPeriods)) {
-//       items.setPdVersion(onlyNumsPeriods);
-//     } else if (patternFour.test(onlyNumsPeriods)) {
-//       items.setPdVersion(onlyNumsPeriods);
-//       // Remove the error flag only on this pattern,
-//       // since we have a fully semantic version number.
-//       // set...
-//     }
-//   };
+  //     if (patternZero.test(onlyNumsPeriods)) {
+  //       items.setPdVersion(onlyNumsPeriods);
+  //     } else if (patternOne.test(onlyNumsPeriods)) {
+  //       items.setPdVersion(onlyNumsPeriods);
+  //     } else if (patternTwo.test(onlyNumsPeriods)) {
+  //       items.setPdVersion(onlyNumsPeriods);
+  //     } else if (patternThree.test(onlyNumsPeriods)) {
+  //       items.setPdVersion(onlyNumsPeriods);
+  //     } else if (patternFour.test(onlyNumsPeriods)) {
+  //       items.setPdVersion(onlyNumsPeriods);
+  //       // Remove the error flag only on this pattern,
+  //       // since we have a fully semantic version number.
+  //       // set...
+  //     }
+  //   };
 
   // Check for an e-mail input
   // Source: https://stackoverflow.com/questions/52188192/what-is-the-simplest-and-shortest-way-for-validating-an-email-in-react
@@ -556,7 +565,7 @@ export default function ProvenanceDomain({ items, cF }) {
           <TableCell className={missingReviewName ? classes.missingHeaderOptional : classes.header}>Reviewer Name</TableCell>
           <TableCell className={missingReviewContribution ? classes.missingHeaderOptional : classes.header}>Reviewer Contribution</TableCell>
           <StyledCell>Reviewer Affiliation</StyledCell>
-          <StyledCell>Reviewer e-Mail</StyledCell>
+          <TableCell className={missingReviewEmail ? classes.missingHeaderOptional : classes.header}>Reviewer e-Mail</TableCell>
           <StyledCell>Reviewer ORCID</StyledCell>
           <StyledCell colSpan="4">Reviewer Comment</StyledCell>
         </TableRow>
@@ -632,7 +641,7 @@ export default function ProvenanceDomain({ items, cF }) {
                   <TextField InputProps={{ className: classes.root }} fullWidth variant="outlined" value={cF(item.affiliation)} onChange={(e) => setInput(e, index, 'affiliation', 'pdContributors')} />
                 </StyledCell>
                 <StyledCell colSpan="2">
-                  <TextField InputProps={{ className: classes.root }} fullWidth variant="outlined" value={cF(item.email)} onChange={(e) => setInput(e, index, 'email', 'pdContributors')} />
+                  <TextField InputProps={{ className: classes.root }} error={cF(item.email) === ''} fullWidth variant="outlined" value={cF(item.email)} onChange={(e) => setInput(e, index, 'email', 'pdContributors')} />
                 </StyledCell>
                 <StyledCell colSpan="3">
                   <TextField InputProps={{ className: classes.root }} fullWidth variant="outlined" value={cF(item.orcid)} onChange={(e) => setInput(e, index, 'orcid', 'pdContributors')} />
