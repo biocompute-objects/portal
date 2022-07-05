@@ -3,7 +3,7 @@ import {
   Accordion,
   AccordionDetails,
   AccordionSummary,
-  Box, Container,
+  Container,
   Grid, ListItem,
   makeStyles,
   withStyles,
@@ -15,19 +15,16 @@ import {
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
-import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import HelpIcon from '@material-ui/icons/Help';
 // For input_list and output_list.
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import List from '@material-ui/core/List';
-import { Textfit } from 'react-textfit';
 // Inputs
 import TextField from '@material-ui/core/TextField';
 import ListBox from 'src/components/ListBox';
 // Add step
 import Button from '@material-ui/core/Button';
-import XternalRef from './components/XternalRef';
 
 // Section cell styling
 const useStyles = makeStyles((theme) => ({
@@ -59,7 +56,6 @@ const StyledCell = withStyles({
 })(TableCell);
 
 // Pass an object.
-/* export default function DescriptionDomain({ addRows, removeRows, descriptionKeywords, items, cF }) { */
 export default function DescriptionDomain({
   compCheck, checkBlank, items, cF
 }) {
@@ -837,7 +833,7 @@ export default function DescriptionDomain({
           <>
             <TableRow key={`${index.toString()}_Pipeline1`}>
               <TableCell className={classes.stepNumber} rowSpan="2">
-                <TextField InputProps={{ className: classes.root }} variant="outlined" value={index + 1} />
+                <TextField InputProps={{ className: classes.root }} variant="outlined" value={item.step_number} onChange={(e) => setInput(e, index, 'step_number', 'ddPipelineSteps')}/>
                 {compCheck}
               </TableCell>
               <StyledCell>
