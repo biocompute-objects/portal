@@ -5,7 +5,7 @@ draft id */
 
 export default function CreateDraftObject(saveDraftTo, contents, prefix) {
   const objectContents = contents;
-  console.log('objectContents', contents);
+  const ownerGroup = `${prefix}_drafter`.toLocaleLowerCase();
 
   fetch(`${saveDraftTo[0]}/api/objects/drafts/create/`, {
     method: 'POST',
@@ -15,7 +15,7 @@ export default function CreateDraftObject(saveDraftTo, contents, prefix) {
           contents: objectContents,
           prefix,
           schema: 'IEEE',
-          owner_group: 'bco_drafter'
+          owner_group: ownerGroup
         }
       ]
     }),
@@ -32,10 +32,10 @@ export default function CreateDraftObject(saveDraftTo, contents, prefix) {
         const data = await response.json();
         throw new Error(data[0].message);
       }
-      if (response.status === 200) {
+      if (response.status === 201) {
         const data = await response.json();
         console.log('data', data);
-        const objectId = data[0].object_id;
+        const objectId = data.object_id;
         alert(`Create Draft Success! Save the following object ID to access later  ${objectId}`);
         const processed = objectId.replace('://', '/');
         window.location.href = `${window.location}/${processed}`;

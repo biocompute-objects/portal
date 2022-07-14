@@ -87,7 +87,6 @@ const ObjectsListView = () => {
         <Box>
           <Toolbar
             ApiInfo={ApiInfo}
-            rowInfo={rows}
             setRows={setRows}
           />
         </Box>

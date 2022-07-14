@@ -77,12 +77,23 @@ export default function UriObject({
   const addItem = () => {
     const temp = {
       uri: {
-        filename: newFile,
         uri: newUri,
-        access_time: newTime,
-        sha1_checksum: newChecksum
       }
     };
+
+    console.log('temp', temp.uri);
+    if (newFile !== ('')) {
+      temp.uri.filename = newFile;
+    }
+    if (newUri !== ('')) {
+      temp.uri.uri = newUri;
+    }
+    if (newTime !== ('')) {
+      temp.uri.access_time = newTime;
+    }
+    if (newFile !== ('')) {
+      temp.uri.sha1_checksum = newChecksum;
+    }
     if (newField !== ('')) {
       temp[additionalField] = newField;
     }
@@ -204,7 +215,7 @@ export default function UriObject({
                    </StyledCell>
                    <StyledCell>
                      <Textfit mode="multi" max={16}>
-                       {item.uri.filename}
+                       {item.uri.filename ? item.uri.filename : ''}
                      </Textfit>
                    </StyledCell>
                    <StyledCell>
@@ -238,6 +249,7 @@ export default function UriObject({
                       disableElevation
                       fullWidth
                       onClick={addItem}
+                      disabled={newUri === ''}
                     >
                       Add
                     </Button>
@@ -299,6 +311,7 @@ export default function UriObject({
                       disableElevation
                       fullWidth
                       onClick={addItem}
+                      disabled={newUri === ''}
                     >
                       Add
                     </Button>

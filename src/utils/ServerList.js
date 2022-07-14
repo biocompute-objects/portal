@@ -41,6 +41,7 @@ export default function ServerList({
     options.forEach((item) => {
       processed.push({
         hostname: item.public_hostname,
+        human_readable_hostname: item.human_readable_hostname,
         token: item.token,
       });
     });

@@ -1,7 +1,7 @@
 // src/components/PermissionTools.js
 
-import React, { useEffect, useState, useContext } from 'react';
-import { Grid, TextField } from '@material-ui/core';
+import React, { useState, useContext } from 'react';
+import { Box, Grid, TextField } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import Accordion from '@material-ui/core/Accordion';
 import AccordionSummary from '@material-ui/core/AccordionSummary';
@@ -17,6 +17,7 @@ import ModifyDraftObject from 'src/components/API/ModifyDraftObject';
 import PublishDraftObject from 'src/components/API/PublishDraftObject';
 import DeleteDraftObject from 'src/components/API/DeleteDraftObject';
 import ValidateSchema from 'src/components/ValidateSchema';
+import ApiValidateSchema from 'src/components/API/ApiValidateSchema';
 import ServerList from 'src/utils/ServerList';
 import { FetchContext } from 'src/App';
 
@@ -45,6 +46,8 @@ export default function PermissionTools({
   const [prefix, setPrefix] = useState('BCO');
   const fc = useContext(FetchContext);
   const classes = useStyles();
+  const [viewResult, setViewResult] = useState();
+
   let ApiInfo = JSON.parse(localStorage.getItem('user'));
   if (ApiInfo === null) {
     // Use the anon token, which is publicly available.
@@ -61,8 +64,11 @@ export default function PermissionTools({
       ModifyDraftObject(objectInformation, contents);
     } else if (which === 'createDraft') {
       CreateDraftObject(saveDraftTo, contents, prefix);
-    } else if (which === 'validateDraft') {
-      ValidateSchema(contents, setPublish, publish);
+    } else if (which === 'validateDraft' && newDraft === true) {
+      ValidateSchema(contents, setPublish, viewResult);
+    } else if (which === 'validateDraft' && newDraft !== true) {
+      ApiValidateSchema(objectInformation, contents, setPublish, viewResult);
+      console.log(viewResult, publish);
     } else if (which === 'publishDraft') {
       PublishDraftObject(objectInformation, contents);
     } else if (which === 'downloadDraft') {
@@ -82,7 +88,10 @@ export default function PermissionTools({
     }
   }
 
-  // ----- INITIAL RENDER ----- //
+  function checkResult(checked) {
+    setViewResult(checked.target.value);
+    console.log(checked.target.value);
+  }
 
   return (
     <div className={classes.root}>
@@ -145,16 +154,16 @@ export default function PermissionTools({
                     A DRAFT can not be published until it has passed validation.
                   </Typography>
                   <Typography gutterBottom variant="h4">
-                    7)  DOWN LOAD DRAFT
+                    7)  DOWNLOAD DRAFT
                   </Typography>
                   <Typography gutterBottom>
-                    This will downlaod a JSON of the current DRAFT
+                    This will download a JSON of the current DRAFT.
                   </Typography>
                   <Typography gutterBottom variant="h4">
                     8)  DELETE DRAFT
                   </Typography>
                   <Typography gutterBottom>
-                    This function has not been implemented yet.
+                    This button will delete the current DRAFT.
                   </Typography>
                 </CardContent>
               </Card>
@@ -232,13 +241,33 @@ export default function PermissionTools({
                   <Typography>
             &nbsp;
                   </Typography>
+                  <Typography>
+                    <Box>
+                      <input
+                        type="radio"
+                        data-limit="only-one-in-a-group"
+                        name="results"
+                        value="display"
+                        onChange={checkResult}
+                      />
+                    &nbsp;&nbsp;Display Validation&nbsp;&nbsp;
+                      <input
+                        type="radio"
+                        data-limit="only-one-in-a-group"
+                        name="results"
+                        value="download"
+                        onChange={checkResult}
+                      />
+                    &nbsp;&nbsp;Download Validation&nbsp;&nbsp;
+                    </Box>
+                  </Typography>
                   <Button
                     variant="contained"
                     color="primary"
                     disableElevation
-                    // disabled={savePublishTo === ''}
                     fullWidth
                     onClick={() => clickActions('validateDraft')}
+                    disabled={!viewResult}
                   >
                     Validate DRAFT
                   </Button>

@@ -39,7 +39,7 @@ const BottomBar = ({
   ...rest
 }) => {
   const classes = useStyles();
-  
+
   // Fetch context.
   const fc = useContext(FetchContext);
   return (
@@ -56,36 +56,47 @@ const BottomBar = ({
             href={`https://github.com/biocompute-objects/portal/tree/${fc.versions.portal}`}
             target="_blank"
           >
-            BioCompute Portal {fc.versions.portal}
-          </Link>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+            BioCompute Portal
+            {' '}
+            {fc.versions.portal}
+          </Link>
+&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
           <Link
             className={classes.bottomLink}
             rel="noopener"
             href={`https://github.com/biocompute-objects/bco_api/tree/${fc.versions.bcodb}`}
             target="_blank"
           >
-            BCODB {fc.versions.bcodb}
-          </Link>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+            BCODB
+            {' '}
+            {fc.versions.bcodb}
+          </Link>
+&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
           <Link
             className={classes.bottomLink}
             href={`https://github.com/biocompute-objects/userdb/tree/${fc.versions.userdb}`}
             target="_blank"
           >
-            Portal UserDB {fc.versions.userdb}
-          </Link> &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+            Portal UserDB
+            {' '}
+            {fc.versions.userdb}
+          </Link>
+          {' '}
+&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
           <Link
             className={classes.bottomLink}
             href="https://docs.biocomputeobject.org/contact"
             target="_blank"
           >
             Contact Us
-          </Link>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+          </Link>
+&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
           <Link
             className={classes.bottomLink}
             href="https://github.com/biocompute-objects/portal/issues/new/choose"
             target="_blank"
           >
-            Report issue on GitHub
+            Report bug or request feature
           </Link>
         </Typography>
         <Box flexGrow={1} />

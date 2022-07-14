@@ -39,6 +39,7 @@ const useStyles = makeStyles((theme) => ({
   },
   provenanceDomain: {
     background: '#EBEDEF'
+    ,overflow: "auto"
   },
   usabilityDomain: {
     background: '#FDFEFE'
