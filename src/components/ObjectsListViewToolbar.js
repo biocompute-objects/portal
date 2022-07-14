@@ -1,6 +1,6 @@
 // src/views/objects/ObjectsListView/Toolbar.js
 
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import {
   Box,
@@ -10,8 +10,7 @@ import {
   TextField,
   InputAdornment,
   SvgIcon,
-  Typography,
-  makeStyles
+  Typography
 } from '@material-ui/core';
 import { Search as SearchIcon } from 'react-feather';
 import ServerList from 'src/utils/ServerList';
@@ -33,7 +32,6 @@ const Toolbar = ({ ApiInfo, setRows }) => {
 
   return (
     <div>
-      <Box display="flex" justifyContent="flex-end" />
       <Box mt={3}>
         <Card>
           <CardContent>
@@ -119,7 +117,6 @@ const Toolbar = ({ ApiInfo, setRows }) => {
 
 Toolbar.propTypes = {
   ApiInfo: PropTypes.array.isRequired,
-  rows: PropTypes.array,
   setRows: PropTypes.func
 };
 
