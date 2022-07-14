@@ -12,7 +12,8 @@ import ObjectView from 'src/views/objects/ObjectView';
 import ObjectViewLayout from 'src/layouts/ObjectViewLayout';
 import RegisterView from 'src/views/auth/RegisterView';
 import Resources from 'src/views/resources/Resources';
-import ResetPassword from './views/auth/ResetPassword';
+import ResetPassword from 'src/views/auth/ResetPassword';
+import Prefix from 'src/views/prefix/index';
 // Routing rules are given at https://github.com/snd/url-pattern
 
 const routes = () => {
@@ -35,6 +36,7 @@ const routes = () => {
           element: <Navigate to="https://docs.biocomputeobject.org/" />
         },
         { path: 'resources', element: <Resources /> },
+        { path: 'prefix', element: <Prefix /> },
         {/* path: 'community', element: <Community /> */}
       ]
     },
