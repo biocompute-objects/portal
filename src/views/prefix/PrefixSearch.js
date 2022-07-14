@@ -117,7 +117,11 @@ export default function PrefixSearch({ setRows }) {
                   )
               }
               <Typography>
-                Please contact the prefix owner if you need access to that prefix
+                Please contact the prefix owner if you need access to that prefix.
+                <br />
+                If you would like to register a prefix please contact
+                {' '}
+                <a href="mailto:keeneyjg@gwu.edu">keeneyjg@gwu.edu</a>
               </Typography>
               <br />
             </Box>
