@@ -12,6 +12,7 @@ import TableRow from '@material-ui/core/TableRow';
 
 // Datetime picker
 import 'react-datetime/css/react-datetime.css';
+import Datetime from 'react-datetime';
 
 // Inputs
 import TextField from '@material-ui/core/TextField';
@@ -515,19 +516,19 @@ export default function ProvenanceDomain({ items, cF }) {
             Created
           </StyledCell>
           <StyledCell>
-            <TextField InputProps={{ className: classes.root }} disabled label={items.pdCreated.toString()} fullWidth id="outlined-basic" />
+            <Datetime inputProps={{ className: classes.root, disabled: true }} value={items.pdCreated} id="outlined-basic" dateFormat='YYYY-MM-DD' timeFormat='HH:MM:SS'/>
           </StyledCell>
           <StyledCell>
             Modified
           </StyledCell>
           <StyledCell>
-            <TextField InputProps={{ className: classes.root }} disabled label={items.pdModifed} fullWidth id="outlined-basic" />
+            <Datetime inputProps={{ className: classes.root, disabled: true}} value={items.pdModifed} id="outlined-basic" />
           </StyledCell>
           <StyledCell>
             Obsolete After
           </StyledCell>
           <StyledCell>
-            <TextField InputProps={{ className: classes.root }} label="YYYY-MM-DDTHH:MM:SS+HH:MM" fullWidth id="outlined-basic" value={cF(items.pdObsoleteAfter)} onChange={(e) => items.setPdObsoleteAfter(e.target.value)} variant="outlined" />
+            <Datetime inputProps={{ className: classes.root }} id="outlined-basic" value={cF(items.pdObsoleteAfter)} onChange={date => {console.log(date.toISOString());items.setPdObsoleteAfter(date.toISOString())}} dateFormat='YYYY-MM-DD' timeFormat='HH:MM:SS'/>
           </StyledCell>
         </TableRow>
         <TableRow>
@@ -542,13 +543,13 @@ export default function ProvenanceDomain({ items, cF }) {
             Start Time
           </StyledCell>
           <StyledCell>
-            <TextField InputProps={{ className: classes.root }} label="YYYY-MM-DDTHH:MM:SS+HH:MM" fullWidth id="outlined-basic" value={cF(items.pdEmbargoStartTime)} onChange={(e) => items.setPdEmbargoStartTime(e.target.value)} variant="outlined" />
+            <Datetime inputProps={{ className: classes.root }} id="outlined-basic" value={cF(items.pdEmbargoStartTime)} onChange={(date) => items.setPdEmbargoStartTime(date.toISOString())} dateFormat='YYYY-MM-DD' timeFormat='HH:MM:SS' />
           </StyledCell>
           <StyledCell>
             Embargo End Time
           </StyledCell>
           <StyledCell>
-            <TextField InputProps={{ className: classes.root }} label="YYYY-MM-DDTHH:MM:SS+HH:MM" fullWidth id="outlined-basic" value={cF(items.pdEmbargoEndTime)} onChange={(e) => items.setPdEmbargoEndTime(e.target.value)} variant="outlined" />
+            <Datetime inputProps={{ className: classes.root }} id="outlined-basic" value={cF(items.pdEmbargoEndTime)} onChange={(date) => items.setPdEmbargoEndTime(date.toISOString())} dateFormat='YYYY-MM-DD' timeFormat='HH:MM:SS' />
           </StyledCell>
           <StyledCell />
         </TableRow>
