@@ -50,13 +50,13 @@ export default function Hive() {
           <img src={aws} height={35} alt="AWS logo" />
         </Typography>
 
-        <html>
-        <body>
-        <p>
-        AWS instance of HIVE is temporarily down. Check back later for access.
-        </p>
-        </body>
-        </html>
+        <div>
+          <body>
+            <p>
+              AWS instance of HIVE is temporarily down. Check back later for access.
+            </p>
+          </body>
+        </div>
 
         <Typography className={classes.bullet}>
           Access AWS HIVE, the High-Performance Integrated Virtual Environment, on AWS.
