@@ -33,6 +33,8 @@ export default function Prefix() {
 
   const handleClose = () => {
     setAddPrefix();
+    setDescription();
+    setPrefix('');
     console.log(addPrefix);
   };
 
@@ -153,7 +155,7 @@ export default function Prefix() {
           <Button 
             onClick={submit}
             color="primary"
-            disabled={(prefix.length < 3 || prefix.length > 5) || !isPublic}
+            disabled={prefix.length < 3 || prefix.length > 5 || !isPublic}
           >
             Submit
           </Button>
