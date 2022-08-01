@@ -1,7 +1,7 @@
 // src/components/PrefixSearch.js
 
 import React, { useContext, useEffect, useState } from 'react';
-import PropTypes from 'prop-types';
+import PropTypes, { func } from 'prop-types';
 import {
   Box,
   Button,
@@ -14,24 +14,29 @@ import {
 } from '@material-ui/core';
 import { Search as SearchIcon } from 'react-feather';
 import SearchPrefix from 'src/components/API/UserdbSearchPrefix';
-import { FetchContext } from 'src/App';
 
-export default function PrefixSearch({ setRows }) {
+export default function PrefixSearch({
+  setRows, addPrefix, setAddPrefix, fc
+}) {
   const [search, setSearch] = useState('');
   const [action, setAction] = useState();
-  const fc = useContext(FetchContext);
-
+  const isLoggedIn = fc.isLoggedIn
   function clickActions() {
-    const ApiInfo = fc.sending.userdb;
-    SearchPrefix(action, search, ApiInfo, setRows);
+    const { userdb } = fc.sending;
+    SearchPrefix(action, search, userdb, setRows, isLoggedIn);
   }
 
   function checkActions(checked) {
     setAction(checked.target.value);
   }
 
+  function registerPrefix() {
+    setAddPrefix(true);
+  }
+
   function clear() {
     setSearch(null);
+    setAction(null);
     setRows([]);
   }
 
@@ -57,6 +62,7 @@ export default function PrefixSearch({ setRows }) {
                   name="radio"
                   value="mine"
                   onChange={checkActions}
+                  disabled={!isLoggedIn}
                 />
                 &nbsp;&nbsp;My Prefixs&nbsp;&nbsp;
                 <input
@@ -117,13 +123,20 @@ export default function PrefixSearch({ setRows }) {
                   )
               }
               <Typography>
-                Please contact the prefix owner if you need access to that prefix.
+                Please contact the prefix owner if you would like access to that prefix.
                 <br />
-                If you would like to register a prefix please contact
-                {' '}
-                <a href="mailto:keeneyjg@gwu.edu">keeneyjg@gwu.edu</a>
               </Typography>
               <br />
+              <Button
+                onClick={registerPrefix}
+                disabled={!isLoggedIn}
+                color="primary"
+                variant="contained"
+              >
+                Register Prefix
+                {' '}
+
+              </Button>
             </Box>
           </CardContent>
         </Card>
@@ -133,5 +146,8 @@ export default function PrefixSearch({ setRows }) {
 }
 
 PrefixSearch.propTypes = {
-  setRows: PropTypes.func.isRequired
+  setRows: PropTypes.func.isRequired,
+  addPrefix: PropTypes.bool,
+  setAddPrefix: PropTypes.func,
+  fc: PropTypes.any
 };

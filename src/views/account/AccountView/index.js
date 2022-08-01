@@ -91,11 +91,13 @@ const AccountView = () => {
             <Grid container spacing={5}>
               <Grid item xs={12} sm={12} lg={12} xl={12}>
                 <Grid item>
-                  Each BCO DB instance has an independant set of groups, prefix, and user permissions.
+                  Each BCO DB instance has an independant set of groups,
+                  prefix, and user permissions.
                   <br />
                   To add a new database instance click the &apos;ADD SERVER&apos; button.
                   <br />
-                  To create or modify a group expand the &apos;Group&apos; tab in the appropriate server box.
+                  To create or modify a group expand the &apos;Group&apos;
+                  tab in the appropriate server box.
                   {' '}
                 </Grid>
                 <br />
