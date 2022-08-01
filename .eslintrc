@@ -9,6 +9,9 @@
     "airbnb/hooks",
     "eslint:recommended"
   ],
+  "parserOptions": {
+    "ecmaVersion": 8,
+  },
   "settings": {
     "import/resolver": {
       "node": {
