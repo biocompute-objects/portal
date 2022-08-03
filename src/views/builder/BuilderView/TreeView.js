@@ -57,7 +57,6 @@ export default function Raw(items) {
   const handleChange = (event) => {
     console.log(items);
     console.log('event.updated_src', event.updated_src);
-    localStorage.setItem('bco', JSON.stringify(event.updated_src));
     items.setObjectContents(event.updated_src);
   };
 

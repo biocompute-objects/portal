@@ -97,7 +97,6 @@ export default function Views({ objectId }) {
         // Did the request go ok or not?
         if (res.status === 200) {
           // We found the object, so set the data.
-          localStorage.setItem('bco', JSON.stringify(res.data[0]));
           setObjectInfo(res.data[0]);
           setObjectFound(true);
         } else {

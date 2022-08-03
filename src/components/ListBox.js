@@ -14,6 +14,7 @@ import {
   Typography,
   withStyles
 } from '@material-ui/core';
+import HelpIcon from '@material-ui/icons/Help';
 import { Textfit } from 'react-textfit';
 import PropTypes from 'prop-types';
 
@@ -82,6 +83,7 @@ export default function ListBox({
               <CardContent className={classes.linkCard}>
                 <Typography className={classes.title}>
                   {header}
+                  <HelpIcon/>
                 </Typography>
               </CardContent>
             </CardActionArea>

@@ -1,153 +1,105 @@
 // src/views/builder/BuilderView/ColorCoded/ExtensionDomain.js
-import React from 'react';
-import { withStyles, Typography } from '@material-ui/core';
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
+import React, { useState } from 'react';
+import { 
+    Card,
+    CardActionArea,
+    CardContent,
+    TextField,
+    Typography,
+} from '@material-ui/core';
 import HelpIcon from '@material-ui/icons/Help';
 import Button from '@material-ui/core/Button';
-import TextField from '@material-ui/core/TextField';
-import Card from '@material-ui/core/Card';
-import Linker from './components/Linker';
+import PropTypes from 'prop-types';
+import Extension from 'src/components/Extension'
 
-// Cell styling
-const StyledCell = withStyles({
-  root: {
-    color: 'black'
-  },
-  bordered: {
-    border: '1px solid black'
-  }
-})(TableCell);
 
 // Pass an object and whether its keys are properties.
 export default function ExtensionDomain({ items }) {
-  const classes = withStyles();
 
-  const setInput = (value, i) => {
-    const holder = items.exd;
-    holder[i] = JSON.parse(value);
-    items.setExd(holder);
-    console.log('working?', items.exd[i]);
-  };
+  const [newSchema, setNewSchema] = useState();
 
-  const addRows = () => {
-    console.log('add Rows', items);
+  const addRows = (newSchema) => {
     if (!items.exd) {
       const holder = [];
       holder.push({
-        extension_schema: ''
+        extension_schema: newSchema
       });
       items.setExd(holder);
     } else {
       const holder = items.exd;
       holder.push({
-        extension_schema: ''
+        extension_schema: newSchema
       })
       items.setExd(holder);
     }
-    items.setRerender(items.rerender + 1);
+    setNewSchema('')
   };
+  
+  const removeRows = (index) => {
+    items.setExd(items.exd.filter(((o, i) => index !== i)))
+  }
 
-  const removeRows = (which) => {
-    const holder = items.exd;
-    holder.splice(which, 1);
-    items.setExd(holder);
-    items.setRerender(items.rerender + 1);
-  };
-  // useEffect(() => {
-  //   if (!items.exd) {
-  //     console.log('No Extension');
-  //   } else {
-  //     for (let extensionIndex = 0; extensionIndex < items.exd.length; extensionIndex++) {
-  //       const schemaURL = items.exd[extensionIndex].extension_schema;
-  //       console.log('Extension schema', schema);
-  //       fetch(schemaURL)
-  //         .then((response) => response.json())
-  //         .then((jsonData) => {
-  //           schemaList.push(jsonData);
-  //           console.log(jsonData);
-  //         })
-  //         .catch((error) => {
-  //         // handle your errors here
-  //           console.error(error);
-  //         });
-  //     }
-  //     setSchema(schemaList);
-  //   }
-  // }, [items.exd]);
-
+  const link = 'https://docs.biocomputeobject.org/extension-domain/'
+  
   return (
-    <Table size="small">
-      <TableHead className={classes.tabled}>
-        <TableRow>
-          <StyledCell colSpan="5">
-            <Button
-              variant="contained"
-              // color="D5D8DC"
-              fullWidth
-              onClick={() => window.open('https://docs.biocomputeobject.org/bco-domains/')}
-            >
-              <Typography variant="h1">
-                Extension Domain&nbsp;
-                <HelpIcon />
-              </Typography>
-            </Button>
-          </StyledCell>
-        </TableRow>
-      </TableHead>
-      <TableBody>
-        {(!items.exd)
-          ? (<TableRow>{console.log('no items.exd')}</TableRow>)
-          : (
-            items.exd.map((item, index) => {
-              return (
-                <Card>
-                  <TableRow>
-                    <StyledCell>
-                      <Typography variant="h3">
-                        Extension Schema
-                      </Typography>
-                    </StyledCell>
-                    <StyledCell>
-                      <Linker color="blackLink" uri={item.extension_schema} />
-                    </StyledCell>
-                  </TableRow>
-                  <TableRow>
-                    <StyledCell colspan={6}>
-                      <TextField
-                        color="primary"
-                        fullWidth
-                        name="extension_domain"
-                        id="outlined-multiline-static"
-                        multiline
-                        rows={6}
-                        defaultValue={JSON.stringify(item, null, 4)}
-                        onChange={(e) => setInput(e.target.value, index)}
-                        variant="outlined"
-                      />
-                    </StyledCell>
-                    <StyledCell>
-                      <Button variant="contained" color="primary" disableElevation fullWidth onClick={() => removeRows(index)}>
-                        Remove
-                      </Button>
-                    </StyledCell>
-                  </TableRow>
-                </Card>
+    <Card>
+      <CardActionArea onClick={() => window.open(link)}>
+        <CardContent >
+          <Typography >
+            Extension Domain &nbsp;
+            <HelpIcon />
+          </Typography>
+        </CardContent>
+      </CardActionArea>
+      <CardContent>
+        <dev>
+          <TextField
+            fullWidth
+            onChange={(e) => setNewSchema(e.target.value)}
+            value={newSchema}
+          >
+          </TextField>
+          <Button
+            variant="contained"
+            disabled={!newSchema}
+            onClick={() => addRows(newSchema)}
+          >
+                Add Extension
+          </Button>
+        </dev>
+      </CardContent>
+    {  (!items.exd)
+        ? (
+            <CardContent />
+          )
+        : ( items.exd.map((item, index) => {
+            return (
+                <CardContent key={index}>
+                  <Extension
+                    extension={item}
+                    schemaUrl={item['extension_schema']}
+                    index={index}
+                    allExtensions={items}
+                  />
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    disableElevation
+                    fullWidth
+                    onClick={() => removeRows(index)}
+                  >
+                    Remove
+                  </Button> 
+                </CardContent>
               );
-            })
-          )}
-        <TableRow />
-        <Card>
-          <TableRow>
-            <Button variant="contained" color="primary" disableElevation fullWidth onClick={() => addRows()}>
-              Add Extension Schema
-            </Button>
-          </TableRow>
-        </Card>
-      </TableBody>
-    </Table>
+            }
+          )
+        )
+    }
+    </Card>
   );
+}
+
+ExtensionDomain.propTypes = {
+    items: PropTypes.object.isRequired,
 }

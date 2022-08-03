@@ -58,11 +58,12 @@ export default function JsonView({
     let holder = {};
     try {
       holder = JSON.parse(value);
-      setJsonErrors('');
+      setJsonErrors('')
     } catch (e) {
-      setJsonErrors(e);
-      console.log(jsonErrors);
+      setJsonErrors(e)
+      console.log(jsonErrors)
     }
+    
     setJsonContents(holder);
   };
 

@@ -154,7 +154,6 @@ export default function BuilderView() {
 
           // Set the object information.
           setObjectContents(response.data);
-          localStorage.setItem('bco', JSON.stringify(response.data));
           // Set the draft saving location.
           setReceivedDefault(response.data.object_id);
           // Lock the savable server based on the information

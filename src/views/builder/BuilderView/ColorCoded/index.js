@@ -156,7 +156,7 @@ function ColorCoded({
       complianceCheck, checkBlank, ud, setUd, rerender, setRerender
     },
     {
-      complianceCheck, checkBlank, exd, setExd, setRerender
+      complianceCheck, checkBlank, exd, setExd, rerender, setRerender
     },
     {
       complianceCheck, checkBlank, ddKeywords, ddPlatform, ddXref, ddPipelineSteps, rerender, setDdKeywords, setDdPlatform, setDdXref, setDdPipelineSteps, setRerender
@@ -218,7 +218,6 @@ function ColorCoded({
       error_domain: errd,
       extension_domain: exd
     });
-    // localStorage.setItem('bco', JSON.stringify(objectContents));
   }, [meEtag, pdName, pdVersion, pdLicense, pdDerivedFrom, pdCreated, pdModifed,
     pdObsoleteAfter, pdEmbargoStartTime, pdEmbargoEndTime, pdReview,
     pdContributors, ud, ddKeywords, ddPlatform, ddXref, ddPipelineSteps,
