@@ -147,9 +147,6 @@ function ColorCoded({
   // are set in the parent.
   const renderList = [
     {
-        complianceCheck, checkBlank, exd, setExd, setRerender
-    },
-    {
       complianceCheck, meObjectId, meEtagSet, setMeEtagSet, meEtag, setMeEtag, rerender, setRerender, objectContents
     },
     {
@@ -157,6 +154,9 @@ function ColorCoded({
     },
     {
       complianceCheck, checkBlank, ud, setUd, rerender, setRerender
+    },
+    {
+      complianceCheck, checkBlank, exd, setExd, rerender, setRerender
     },
     {
       complianceCheck, checkBlank, ddKeywords, ddPlatform, ddXref, ddPipelineSteps, rerender, setDdKeywords, setDdPlatform, setDdXref, setDdPipelineSteps, setRerender
@@ -175,8 +175,8 @@ function ColorCoded({
     }
   ];
 
-  const compList = [ExtensionDomain, Meta, ProvenanceDomain, UsabilityDomain, DescriptionDomain, ExecutionDomain, IoDomain, ParametricDomain, ErrorDomain];
-  const classNames = ['extensionDomain', 'meta', 'provenanceDomain', 'usabilityDomain', 'descriptionDomain', 'executionDomain', 'ioDomain', 'parametricDomain', 'errorDomain'];
+  const compList = [Meta, ProvenanceDomain, UsabilityDomain, ExtensionDomain, DescriptionDomain, ExecutionDomain, IoDomain, ParametricDomain, ErrorDomain];
+  const classNames = ['meta', 'provenanceDomain', 'usabilityDomain', 'extensionDomain', 'descriptionDomain', 'executionDomain', 'ioDomain', 'parametricDomain', 'errorDomain'];
 
   // Listeners
   // Listen for ANY change to the object,
@@ -218,7 +218,6 @@ function ColorCoded({
       error_domain: errd,
       extension_domain: exd
     });
-    // localStorage.setItem('bco', JSON.stringify(objectContents));
   }, [meEtag, pdName, pdVersion, pdLicense, pdDerivedFrom, pdCreated, pdModifed,
     pdObsoleteAfter, pdEmbargoStartTime, pdEmbargoEndTime, pdReview,
     pdContributors, ud, ddKeywords, ddPlatform, ddXref, ddPipelineSteps,
