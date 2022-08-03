@@ -27,7 +27,6 @@ export default function RetrieveDraftObject(objectId, setObjectContents) {
         if (response.status === 200) {
           setObjectContents(response.data);
           console.log('Server return contents33: ', objectContents);
-          localStorage.setItem('bco', JSON.stringify(objectContents));
         }
       }));
 }

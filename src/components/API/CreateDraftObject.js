@@ -32,10 +32,10 @@ export default function CreateDraftObject(saveDraftTo, contents, prefix) {
         const data = await response.json();
         throw new Error(data[0].message);
       }
-      if (response.status === 201) {
+      if (response.status === 200) {
         const data = await response.json();
-        console.log('data', data);
-        const objectId = data.object_id;
+        console.log('data', data[0]);
+        const objectId = data[0].object_id;
         alert(`Create Draft Success! Save the following object ID to access later  ${objectId}`);
         const processed = objectId.replace('://', '/');
         window.location.href = `${window.location}/${processed}`;
