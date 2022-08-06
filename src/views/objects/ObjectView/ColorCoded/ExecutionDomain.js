@@ -94,8 +94,8 @@ export default function ExecutionDomain({ items }) {
       </TableRow>
       <TableRow>
         {
-          ['Name', 'Version', 'Filename', 'URI', 'Access Time', 'SHA1 Checksum'].map(item => (
-              <StyledCell>
+          ['Name', 'Version', 'Filename', 'URI', 'Access Time', 'SHA1 Checksum'].map(index => (
+              <StyledCell key={index}>
                 <Typography>
                   {item}
                 </Typography>
