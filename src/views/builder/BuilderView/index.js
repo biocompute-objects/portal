@@ -6,9 +6,6 @@ import { useLocation } from 'react-router-dom';
 import PermissionTools from 'src/components/PermissionTools';
 import Page from 'src/components/Page';
 import Views from './Views';
-// This is the parent for the object views.
-
-// The state model is based on https://reactjs.org/docs/lifting-state-up.html
 
 // Context for deep nestings.
 export const DeepContext = createContext();
@@ -28,24 +25,14 @@ export default function BuilderView() {
   // Was the provided URI valid?
   const [objectFound, setObjectFound] = useState(false);
 
-  // Object compliance (incremented every time object compliance is checked
-  // so as to enforce a re-render).
-
   // Could use context handler, but for now just pass directly.
   const [complianceCheck, setComplianceCheck] = useState(0);
-
-  // For saving drafts.
-  const [saveDraft, setSaveDraft] = useState(0);
 
   // For publishing.
   const [publish, setPublish] = useState(false);
 
   // Where are we saving either a draft or a published object?
   const [draftSavingLocation, setDraftSavingLocation] = useState('');
-  const [publishSavingLocation, setPublishSavingLocation] = useState('');
-
-  // Delete the draft after we publish?
-  const [deleteDraftPostPublish, setDeleteDraftPostPublish] = useState(true);
 
   // Was the initial draft successfuly created OR are we working
   // with a draft that was save previously?
@@ -63,9 +50,6 @@ export default function BuilderView() {
 
   // Etag needs to be generated?
   const [eTag, setETag] = useState(objectContents.etag ? objectContents.etag : '');
-
-  // The PUBLISHED object ID.
-  const [publishedObjectId, setPublishedObjectId] = useState('');
 
   // A provided default for the server to save the draft to.
   const [receivedDefault, setReceivedDefault] = useState(null);
@@ -115,23 +99,26 @@ export default function BuilderView() {
       let foundGroups = [];
       let objectStuff = {};
 
-      JSON.parse(localStorage.getItem('user')).apiinfo.map((item) => {
-        // console.log("Public hostname: " + item.public_hostname);
-        if (item.public_hostname === hostname) {
-          foundToken = item.token;
-          // console.log("Found token: " + item.token);
-          foundGroups = item.other_info.permissions.groups;
-          objectStuff = ({
-            object_id: oI,
-            token: item.token,
-            groups: item.other_info.permissions.groups,
-            owner: item.username,
-            hostname: item.public_hostname
-          });
-          setObjectInformation(objectStuff);
+    try {
+        JSON.parse(localStorage.getItem('user')).apiinfo.map((item) => {
+            // console.log("Public hostname: " + item.public_hostname);
+            if (item.public_hostname === hostname) {
+            foundToken = item.token;
+            // console.log("Found token: " + item.token);
+            foundGroups = item.other_info.permissions.groups;
+            objectStuff = ({
+                object_id: oI,
+                token: item.token,
+                groups: item.other_info.permissions.groups,
+                owner: item.username,
+                hostname: item.public_hostname
+            });
+            setObjectInformation(objectStuff);
+            }
+            return true;
+        });} catch (error){
+            console.log(error)
         }
-        return true;
-      });
 
       const requestForDraft = `${hostname}/${oI}`;
 
@@ -183,6 +170,9 @@ export default function BuilderView() {
 
           // The object was found.
           setObjectFound(true);
+        }
+        if (response.status === 401) {
+          setLoading(false);
         }
       }));
     }
