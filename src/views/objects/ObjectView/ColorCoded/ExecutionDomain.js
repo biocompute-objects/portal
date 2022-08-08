@@ -54,26 +54,40 @@ export default function ExecutionDomain({ items }) {
     <TableBody>
       {
         items.script.map((item, index) => (
-            index === 0
-              ?
-                <TableRow>
-                  <StyledCell rowSpan={items.script.length}>
-                    <Typography>
-                      Script
-                    </Typography>
-                  </StyledCell>
-                  <StyledCell colSpan="5">
-                    <Linker color= { 'whiteLink' } uri={ item.uri.uri } />
-                  </StyledCell>
-                </TableRow>
-              :
-              <TableRow>
-                <StyledCell colSpan="5">
-                  <Linker color= { 'whiteLink' } uri={ item.uri.uri } />
-                </StyledCell>
-              </TableRow>
-          )
-        )
+            <TableRow>
+              <StyledCell >
+                <Typography>
+                    File Name
+                </Typography>
+              </StyledCell>
+              {
+                item.uri.filename
+                ? (
+                    <StyledCell >
+                      <Typography>
+                        {item.uri.filename}
+                      </Typography>
+                    </StyledCell>
+                  )
+                : (
+                    <StyledCell >
+                      <Typography>
+                        ' '
+                      </Typography>
+                    </StyledCell>
+                  )
+              }
+
+              <StyledCell >
+                <Typography>
+                    Script
+                </Typography>
+              </StyledCell>
+              <StyledCell colSpan="5">
+                <Linker color= { 'whiteLink' } uri={ item.uri.uri } />
+              </StyledCell>
+            </TableRow>
+        ))
       }
       <TableRow>
         <StyledCell>
@@ -94,7 +108,7 @@ export default function ExecutionDomain({ items }) {
       </TableRow>
       <TableRow>
         {
-          ['Name', 'Version', 'Filename', 'URI', 'Access Time', 'SHA1 Checksum'].map(index => (
+          ['Name', 'Version', 'Filename', 'URI', 'Access Time', 'SHA1 Checksum'].map((item, index) => (
               <StyledCell key={index}>
                 <Typography>
                   {item}
