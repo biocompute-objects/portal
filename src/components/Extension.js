@@ -63,6 +63,6 @@ export default function Extension({
 Extension.propTypes = {
   extension: PropTypes.object,
   schemaUrl: PropTypes.string,
-  index: PropTypes.sting,
+  index: PropTypes.string,
   allExtensions: PropTypes.any
 };
