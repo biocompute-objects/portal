@@ -1,4 +1,4 @@
-// src/views/objects/ObjectsListView/Toolbar.js
+// src/components/ObjectsListViewToolbar.js
 
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
@@ -36,6 +36,9 @@ const Toolbar = ({ ApiInfo, setRows }) => {
         <Card>
           <CardContent>
             <Box>
+                <Typography>
+                   1. Select from available BCODBs to display results
+                </Typography>
               <ServerList
                 options={userInfo === null ? null : userInfo}
                 setter={setSearchLocation}
@@ -46,10 +49,23 @@ const Toolbar = ({ ApiInfo, setRows }) => {
         </Card>
         <Card>
           <CardContent>
+            <Typography>
+              2. Use the radio buttons below to select the type of search you would like to perform.
+            </Typography>
+            <Typography>
+              - "My BCOs" will return objects you own.
+            </Typography>
+            <Typography>
+              - "Prefix Search" will return objects with the search term you enter in the prefix.
+            </Typography>
+            <Typography>
+              - "Search BCO_ID" will return objects with the search term you enter in the BCO_ID.
+            </Typography>
+            <br />
+            <Typography>
             <text>
               Search Type:&nbsp;&nbsp;
             </text>
-            <Typography>
               <input
                 type="radio"
                 data-limit="only-one-in-a-group"
@@ -83,6 +99,10 @@ const Toolbar = ({ ApiInfo, setRows }) => {
         <Card>
           <CardContent>
             <Box maxWidth={500}>
+              <Typography>
+                3. Enter search term below
+              </Typography>
+              <br />
               <TextField
                 fullWidth
                 disabled={searchLocation === '' || action === 'mine'}
