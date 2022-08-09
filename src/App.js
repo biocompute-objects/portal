@@ -117,7 +117,7 @@ function App() {
 
   return (
     <ThemeProvider theme={theme}>
-      <FetchContext.Provider value={{ sending, versions, isLoggedIn }}>
+      <FetchContext.Provider value={{ sending, versions, isLoggedIn, setIsLoggedIn }}>
         <GlobalStyles />
         {routing}
       </FetchContext.Provider>

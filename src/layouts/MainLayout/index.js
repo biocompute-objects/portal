@@ -38,11 +38,10 @@ const useStyles = makeStyles((theme) => ({
 
 const MainLayout = () => {
   const classes = useStyles();
-  const [isMobileNavOpen, setMobileNavOpen] = useState(false);
 
   return (
     <div className={classes.root}>
-      <TopBar onMobileNavOpen={() => setMobileNavOpen(true)} />
+      <TopBar />
       <div className={classes.wrapper}>
         <div className={classes.contentContainer}>
           <div className={classes.content}>
@@ -50,7 +49,7 @@ const MainLayout = () => {
           </div>
         </div>
       </div>
-      <BottomBar onMobileNavOpen={() => setMobileNavOpen(true)} />
+      <BottomBar />
     </div>
   );
 };
