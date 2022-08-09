@@ -16,8 +16,8 @@ export default function IoDomain({ items }) {
     <Card>
       <CardActionArea onClick={() => window.open(link)}>
         <CardContent >
-          <Typography >
-            Usability Domain &nbsp;
+          <Typography variant="h1">
+            IO Domain &nbsp;
             <HelpIcon />
           </Typography>
         </CardContent>

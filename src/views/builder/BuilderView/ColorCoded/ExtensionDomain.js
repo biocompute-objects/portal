@@ -45,7 +45,7 @@ export default function ExtensionDomain({ items }) {
     <Card>
       <CardActionArea onClick={() => window.open(link)}>
         <CardContent >
-          <Typography >
+          <Typography variant="h1">
             Extension Domain &nbsp;
             <HelpIcon />
           </Typography>
@@ -53,6 +53,9 @@ export default function ExtensionDomain({ items }) {
       </CardActionArea>
       <CardContent>
         <dev>
+          <Typography>
+            Top add an extension enter a valid URL for the extension schema below and hit the 'ADD EXTENSION' button. 
+          </Typography>
           <TextField
             fullWidth
             onChange={(e) => setNewSchema(e.target.value)}
