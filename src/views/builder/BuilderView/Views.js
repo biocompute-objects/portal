@@ -20,6 +20,7 @@ import InsertDriveFileIcon from '@material-ui/icons/InsertDriveFile';
 import ColorCoded from './ColorCoded';
 import TreeView from './TreeView';
 import JsonView from 'src/components/JsonView';
+import { Card } from '@material-ui/core';
 
 function TabPanel(props) {
   const {
@@ -69,7 +70,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function Views({
-  downloadDraft, setDownloadDraft, newDraft, saveDraft, setSaveDraft, publish, setPublish, complianceCheck, objectId, objectContents, setObjectContents, loading, objectFound, setMeEtagSet, meEtagSet
+  downloadDraft, setDownloadDraft, saveDraft, setSaveDraft, publish, setPublish, complianceCheck, objectContents, setObjectContents, loading, objectFound, setMeEtagSet, meEtagSet
 }) {
   const classes = useStyles();
 
@@ -133,20 +134,39 @@ export default function Views({
         </div>
       )
       : (
-        <div className={classes.root}>
-          <AppBar position="static">
-            <Tabs value={componentView} onChange={handleChange} aria-label="simple tabs example">
-              <Tab icon={<OpacityIcon />} label="Color-Coded" {...a11yProps(0)} />
-              <Tab icon={<InsertDriveFileIcon />} label="Raw" {...a11yProps(1)} />
-            </Tabs>
-          </AppBar>
-          <Typography>
-            Loading......
-          </Typography>
-          <Typography>
-            'We are loading...'
-          </Typography>
-        </div>
+        (loading)
+        ? ( <div className={classes.root}>
+            <AppBar position="static">
+                <Tabs value={componentView} onChange={handleChange} aria-label="simple tabs example">
+                <Tab icon={<OpacityIcon />} label="Color-Coded" {...a11yProps(0)} />
+                <Tab icon={<InsertDriveFileIcon />} label="Raw" {...a11yProps(1)} />
+                </Tabs>
+            </AppBar>
+            <Typography>
+                Loading......
+            </Typography>
+            <Typography>
+                `&aposWe are loading...&apos`
+            </Typography>
+            </div>)
+        : ( <div className={classes.root}>
+            <AppBar position="static">
+                <Tabs value={componentView} onChange={handleChange} aria-label="simple tabs example">
+                <Tab icon={<OpacityIcon />} label="Color-Coded" {...a11yProps(0)} />
+                <Tab icon={<InsertDriveFileIcon />} label="Raw" {...a11yProps(1)} />
+                </Tabs>
+            </AppBar>
+            <Typography>
+                DENIED
+            </Typography>
+            <Card style={{  padding: 10 }}>
+            <Typography>
+                `We can neither confirm nor deny the existance of this object.
+                 We can only say that you do not have acces to an object with this ID, if it exists.
+                 If you are not logged that may be the issue.`
+            </Typography>
+            </Card>
+            </div>)
       )
   );
 }
