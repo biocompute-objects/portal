@@ -60,7 +60,7 @@ export default function ListBox({
   const removeItem = (index) => {
     const temp = list;
     temp.splice(index, 1);
-    setList(temp);
+    setList([...temp]);
     setNewVal('');
     setRerender(rerender + 1);
   };
@@ -69,6 +69,7 @@ export default function ListBox({
     const temp = newVal;
     console.log('ListBox', list);
     list.push(temp);
+    setList([...list]);
     setNewVal('');
     setRerender(rerender + 1);
   };
