@@ -1,79 +1,77 @@
 {
-  "name": "react-material-dashboard",
-  "author": "DeviasIO",
-  "licence": "MIT",
-  "version": "1.0.0",
-  "private": false,
-  "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject",
-    "docs": "jsdoc -c jsdoc.conf.json --verbose"
-  },
-  "eslintConfig": {
-    "extends": "react-app"
-  },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
-  },
-  "dependencies": {
-    "@material-ui/core": "^4.11.3",
-    "@material-ui/icons": "^4.11.2",
-    "@material-ui/lab": "^4.0.0-alpha.56",
-    "@material-ui/styles": "^4.10.0",
-    "@rjsf/core": "^4.2.2",
-    "@rjsf/material-ui": "^4.2.2",
-    "ajv": "^6.12.6",
-    "clsx": "^1.1.1",
-    "crypto-js": "^4.1.1",
-    "depcheck": "^1.4.2",
-    "file-saver": "^2.0.5",
-    "formik": "^2.1.5",
-    "moment": "^2.27.0",
-    "node-polyfill-webpack-plugin": "^2.0.1",
-    "object-hash": "^2.2.0",
-    "prop-types": "^15.7.2",
-    "react": "^16.13.1",
-    "react-async": "^10.0.1",
-    "react-chartjs-2": "^2.10.0",
-    "react-datepicker": "^3.6.0",
-    "react-datetime": "^3.0.4",
-    "react-datetime-picker": "^3.1.0",
-    "react-dom": "^16.13.1",
-    "react-feather": "^2.0.8",
-    "react-helmet": "^6.1.0",
-    "react-html-parser": "^2.0.2",
-    "react-json-component": "^1.0.0",
-    "react-json-view": "^1.21.3",
-    "react-perfect-scrollbar": "^1.5.8",
-    "react-router-dom": "^6.0.0-beta.0",
-    "react-scripts": "^5.0.1",
-    "react-textfit": "^1.1.1",
-    "react-twitter-embed": "^3.0.3",
-    "uuid": "^8.3.0",
-    "yup": "^0.29.3"
-  },
-  "devDependencies": {
-    "babel-eslint": "^10.1.0",
-    "eslint": "^6.8.0",
-    "eslint-config-airbnb": "^18.2.0",
-    "eslint-config-prettier": "^6.11.0",
-    "eslint-plugin-import": "^2.22.0",
-    "eslint-plugin-jsx-a11y": "^6.3.1",
-    "eslint-plugin-prettier": "^3.1.4",
-    "eslint-plugin-react": "^7.30.1",
-    "eslint-plugin-react-hooks": "^2.5.1",
-    "jsdoc": "^3.6.7",
-    "prettier": "^1.19.1"
-  }
+    "name": "react-material-dashboard",
+    "author": "DeviasIO",
+    "licence": "MIT",
+    "version": "1.0.0",
+    "private": false,
+    "scripts": {
+        "start": "react-scripts start",
+        "build": "react-scripts build",
+        "test": "react-scripts test",
+        "eject": "react-scripts eject",
+        "docs": "jsdoc -c jsdoc.conf.json --verbose"
+    },
+    "eslintConfig": {
+        "extends": "react-app"
+    },
+    "browserslist": {
+        "production": [
+            ">0.2%",
+            "not dead",
+            "not op_mini all"
+        ],
+        "development": [
+            "last 1 chrome version",
+            "last 1 firefox version",
+            "last 1 safari version"
+        ]
+    },
+    "dependencies": {
+        "@material-ui/core": "^4.11.3",
+        "@material-ui/icons": "^4.11.2",
+        "@material-ui/lab": "^4.0.0-alpha.56",
+        "@material-ui/styles": "^4.10.0",
+        "@rjsf/core": "^3.2.1",
+        "@rjsf/material-ui": "^4.2.3",
+        "ajv": "^6.12.6",
+        "clsx": "^1.1.1",
+        "crypto-js": "^4.1.1",
+        "depcheck": "^1.4.2",
+        "file-saver": "^2.0.5",
+        "formik": "^2.1.5",
+        "moment": "^2.27.0",
+        "object-hash": "^2.2.0",
+        "prop-types": "^15.7.2",
+        "react": "^16.13.1",
+        "react-async": "^10.0.1",
+        "react-chartjs-2": "^2.10.0",
+        "react-datepicker": "^3.6.0",
+        "react-datetime": "^3.0.4",
+        "react-datetime-picker": "^3.1.0",
+        "react-dom": "^16.13.1",
+        "react-feather": "^2.0.8",
+        "react-helmet": "^6.1.0",
+        "react-html-parser": "^2.0.2",
+        "react-json-component": "^1.0.0",
+        "react-json-view": "^1.21.3",
+        "react-perfect-scrollbar": "^1.5.8",
+        "react-router-dom": "^6.0.0-beta.0",
+        "react-scripts": "^3.4.1",
+        "react-textfit": "^1.1.1",
+        "react-twitter-embed": "^3.0.3",
+        "uuid": "^8.3.0",
+        "yup": "^0.29.3"
+    },
+    "devDependencies": {
+        "eslint": "^6.8.0",
+        "eslint-config-airbnb": "^18.2.0",
+        "eslint-config-prettier": "^6.11.0",
+        "eslint-plugin-import": "^2.22.0",
+        "eslint-plugin-jsx-a11y": "^6.3.1",
+        "eslint-plugin-prettier": "^3.1.4",
+        "eslint-plugin-react": "^7.20.3",
+        "eslint-plugin-react-hooks": "^2.5.1",
+        "jsdoc": "^3.6.7",
+        "prettier": "^1.19.1"
+    }
 }
