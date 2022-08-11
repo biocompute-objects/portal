@@ -193,6 +193,11 @@ function ColorCoded({
         created: pdCreated,
         derived_from: pdDerivedFrom,
         modified: provModified.toISOString(),
+        embargo: {
+          start_time: pdEmbargoStartTime,
+          end_time: pdEmbargoEndTime
+      },
+        obsolete_after: pdObsoleteAfter,
         review: pdReview,
         contributors: pdContributors,
         license: pdLicense
