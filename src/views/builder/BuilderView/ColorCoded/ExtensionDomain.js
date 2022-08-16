@@ -15,7 +15,6 @@ import Extension from 'src/components/Extension';
 // Pass an object and whether its keys are properties.
 export default function ExtensionDomain({ items }) {
   const [newSchema, setNewSchema] = useState();
-  console.log('newSchema', newSchema);
 
   const addRows = () => {
     fetch(newSchema)

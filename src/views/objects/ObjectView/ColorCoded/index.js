@@ -41,34 +41,43 @@ const useStyles = makeStyles((theme) => ({
   },
   meta: {
     background: '#74b3ce',
-    color: 'white'
+    color: 'white',
+    overflow: 'auto'
   },
   productCard: {
     height: '100%'
   },
   descriptionDomain: {
-    background: '#09bc8a'
+    background: '#09bc8a',
+    overflow: 'auto'
   },
   errorDomain: {
-    background: '#3d5a80'
+    background: '#3d5a80',
+    overflow: 'auto'
   },
   executionDomain: {
-    background: '#3d5a80'
+    background: '#3d5a80',
+    overflow: 'auto'
   },
   extensionDomain: {
-    background: '#293241'
+    background: '#293241',
+    overflow: 'auto'
   },
   ioDomain: {
-    background: '#98c1d9'
+    background: '#98c1d9',
+    overflow: 'auto'
   },
   parametricDomain: {
-    background: '#ee6c4d'
+    background: '#ee6c4d',
+    overflow: 'auto'
   },
   provenanceDomain: {
-    background: '#172a3a'
+    background: '#172a3a',
+    overflow: 'auto'
   },
   usabilityDomain: {
-    background: '#004346'
+    background: '#004346',
+    overflow: 'auto'
   }
 }));
 
