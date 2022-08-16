@@ -6,56 +6,57 @@ import {
   Card, CardContent,
 } from '@material-ui/core';
 import PropTypes from 'prop-types';
-import Form from "@rjsf/material-ui";
+import Form from '@rjsf/material-ui';
 
 export default function Extension({
-    extension, schemaUrl, index, allExtensions
+  extension, schemaUrl, index, allExtensions
 }) {
   const [schema, setSchema] = useState();
-  const [formData, setFormData] = useState()
+  const [formData, setFormData] = useState();
 
   useEffect(() => {
     fetch(schemaUrl)
       .then((response) => response.json())
       .then((jsonData) => {
-        setSchema(jsonData)
-        setFormData(extension)
+        setSchema(jsonData);
+        setFormData(extension);
       })
       .catch((error) => {
         console.log(`ERROR: ${error}`);
-        alert(`Fetch schema FAILED: ${error}`)
+        alert(`Fetch schema FAILED: ${error}`);
+        setSchema('');
+        setFormData('');
       });
   }, [allExtensions]);
 
-  const onSubmit = ({formData}) => {
+  const onSubmit = ({ newFormData }) => {
     const holder = allExtensions.exd;
-    holder[index] = formData;
+    holder[index] = newFormData;
     allExtensions.setExd(holder);
   };
 
   const uiSchema = {
-    "ui:order": ["extension_schema", "*"],
-    "extension_schema": {
-        "ui:readonly": true
+    'ui:order': ['extension_schema', '*'],
+    extension_schema: {
+      'ui:readonly': true
     }
-  }
+  };
 
   return (
     <Card>
       { (!schema)
         ? (<div>loading</div>)
         : (
-            <CardContent>
-              <Form
-                schema={schema}
-                formData={formData}
-                uiSchema={uiSchema}
-                onSubmit={onSubmit}
-              />
-            </CardContent>
-          )
-      }
-      <br/>
+          <CardContent>
+            <Form
+              schema={schema}
+              formData={formData}
+              uiSchema={uiSchema}
+              onSubmit={onSubmit}
+            />
+          </CardContent>
+        )}
+      <br />
     </Card>
   );
 }
