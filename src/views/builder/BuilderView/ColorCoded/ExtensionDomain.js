@@ -62,7 +62,7 @@ export default function ExtensionDomain({ items }) {
         <dev>
           <Typography>
             Top add an extension enter a valid URL for the extension schema
-            below and hit the &aposADD EXTENSION&apos button.
+            below and hit the &apos;ADD EXTENSION&apos; button.
           </Typography>
           <TextField
             fullWidth
