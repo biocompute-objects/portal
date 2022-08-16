@@ -35,32 +35,40 @@ const useStyles = makeStyles((theme) => ({
     marginBottom: '100px'
   },
   meta: {
-    background: '#FDFEFE'
+    background: '#FDFEFE',
+    overflow: 'auto'
   },
   provenanceDomain: {
-    background: '#EBEDEF'
-    ,overflow: "auto"
+    background: '#EBEDEF',
+    overflow: 'auto'
   },
   usabilityDomain: {
-    background: '#FDFEFE'
+    background: '#FDFEFE',
+    overflow: 'auto'
   },
   ioDomain: {
-    background: '#EBEDEF'
+    background: '#EBEDEF',
+    overflow: 'auto'
   },
   executionDomain: {
-    background: '#FDFEFE'
+    background: '#FDFEFE',
+    overflow: 'auto'
   },
   descriptionDomain: {
-    background: '#EBEDEF'
+    background: '#EBEDEF',
+    overflow: 'auto'
   },
   parametricDomain: {
-    background: '#FDFEFE'
+    background: '#FDFEFE',
+    overflow: 'auto'
   },
   errorDomain: {
-    background: '#EBEDEF'
+    background: '#EBEDEF',
+    overflow: 'auto'
   },
   extensionDomain: {
-    background: '#FDFEFE'
+    background: '#FDFEFE',
+    overflow: 'auto'
   }
 }));
 
