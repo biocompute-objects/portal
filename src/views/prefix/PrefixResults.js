@@ -4,39 +4,57 @@ import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 import {
   Card,
+  CardActionArea,
   CardContent,
   Container,
   Grid,
   Typography
 } from '@material-ui/core';
 
-export default function PrefixResults({ rows }) {
-  console.log('contents', rows.length);
+export default function PrefixResults({ rows, userInfo }) {
+  const ieeeLink = 'http://loaclhost:8181/users/admin';
   return (
     <Container>
-      <Grid container spacing={2}>
-        {rows.map((row) => (
+      {rows.length === 0
+        ? (
           <Card>
             <CardContent>
               <Typography>
-                Prefix:
-                {' '}
-                {row.prefix}
-              </Typography>
-              <Typography>
-                Prefix owner:
-                {' '}
-                {row.username}
-              </Typography>
-              <Typography>
-                Registration date:
-                {' '}
-                {row.registration_date}
+                No results for that search
               </Typography>
             </CardContent>
           </Card>
-        ))}
-      </Grid>
+        )
+        : (
+          <Grid container spacing={2}>
+            {rows.map((row) => (
+              <Card key={row.prefix}>
+                <CardContent>
+                  <CardActionArea
+                    onClick={() => window.open(ieeeLink)}
+                    disabled={userInfo.username !== row.username}
+                  >
+                    <Typography>
+                      Prefix:
+                      {' '}
+                      {row.prefix}
+                    </Typography>
+                    <Typography>
+                      Prefix owner:
+                      {' '}
+                      {row.username}
+                    </Typography>
+                    <Typography>
+                      Registration date:
+                      {' '}
+                      {row.registration_date}
+                    </Typography>
+                  </CardActionArea>
+                </CardContent>
+              </Card>
+            ))}
+          </Grid>
+        )}
     </Container>
 
   );

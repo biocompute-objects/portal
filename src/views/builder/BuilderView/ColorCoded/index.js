@@ -35,32 +35,40 @@ const useStyles = makeStyles((theme) => ({
     marginBottom: '100px'
   },
   meta: {
-    background: '#FDFEFE'
+    background: '#FDFEFE',
+    overflow: 'auto'
   },
   provenanceDomain: {
-    background: '#EBEDEF'
-    ,overflow: "auto"
+    background: '#EBEDEF',
+    overflow: 'auto'
   },
   usabilityDomain: {
-    background: '#FDFEFE'
+    background: '#FDFEFE',
+    overflow: 'auto'
   },
   ioDomain: {
-    background: '#EBEDEF'
+    background: '#EBEDEF',
+    overflow: 'auto'
   },
   executionDomain: {
-    background: '#FDFEFE'
+    background: '#FDFEFE',
+    overflow: 'auto'
   },
   descriptionDomain: {
-    background: '#EBEDEF'
+    background: '#EBEDEF',
+    overflow: 'auto'
   },
   parametricDomain: {
-    background: '#FDFEFE'
+    background: '#FDFEFE',
+    overflow: 'auto'
   },
   errorDomain: {
-    background: '#EBEDEF'
+    background: '#EBEDEF',
+    overflow: 'auto'
   },
   extensionDomain: {
-    background: '#FDFEFE'
+    background: '#FDFEFE',
+    overflow: 'auto'
   }
 }));
 
@@ -156,7 +164,7 @@ function ColorCoded({
       complianceCheck, checkBlank, ud, setUd, rerender, setRerender
     },
     {
-      complianceCheck, checkBlank, exd, setExd, setRerender
+      complianceCheck, checkBlank, exd, setExd, rerender, setRerender
     },
     {
       complianceCheck, checkBlank, ddKeywords, ddPlatform, ddXref, ddPipelineSteps, rerender, setDdKeywords, setDdPlatform, setDdXref, setDdPipelineSteps, setRerender
@@ -193,6 +201,11 @@ function ColorCoded({
         created: pdCreated,
         derived_from: pdDerivedFrom,
         modified: provModified.toISOString(),
+        embargo: {
+          start_time: pdEmbargoStartTime,
+          end_time: pdEmbargoEndTime
+      },
+        obsolete_after: pdObsoleteAfter,
         review: pdReview,
         contributors: pdContributors,
         license: pdLicense
@@ -218,7 +231,6 @@ function ColorCoded({
       error_domain: errd,
       extension_domain: exd
     });
-    // localStorage.setItem('bco', JSON.stringify(objectContents));
   }, [meEtag, pdName, pdVersion, pdLicense, pdDerivedFrom, pdCreated, pdModifed,
     pdObsoleteAfter, pdEmbargoStartTime, pdEmbargoEndTime, pdReview,
     pdContributors, ud, ddKeywords, ddPlatform, ddXref, ddPipelineSteps,

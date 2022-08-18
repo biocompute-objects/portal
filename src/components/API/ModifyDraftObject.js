@@ -21,10 +21,15 @@ export default function ModifyDraftObject(objectInformation, contents) {
       'Content-type': 'application/json; charset=UTF-8'
     }
   })
-    .then((response) => {
+    .then(async(response) => {
       if (!response.ok) {
         throw new Error(response.status);
-      } else {
+      }
+      if (response.status === 207) {
+        const data = await response.json();
+        throw new Error(data[0].message)
+      }
+      if (response.status === 200) {
         return response.json()
           .then((data) => {
             console.log('POST_api_objects_drafts_modify: Success!', objectContents);

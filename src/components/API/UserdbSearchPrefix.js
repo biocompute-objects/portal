@@ -5,8 +5,16 @@ draft id */
 
 import PropTypes from 'prop-types';
 
-export default function SearchPrefix(action, search, ApiInfo, setRows) {
-  console.log('stuff', action, search, typeof setRows, `${ApiInfo}prefixes/`);
+export default function SearchPrefix(action, search, ApiInfo, setRows, isLoggedIn) {
+  console.log('stuff', action, search, typeof setRows, isLoggedIn, `${ApiInfo}prefixes/`);
+  function getToken() {
+    if (isLoggedIn) {
+      return localStorage.getItem('token');
+    }
+    return 'dummytokentext';
+  }
+  const token = getToken();
+
   fetch(`${ApiInfo}prefixes/`, {
     method: 'POST',
     body: JSON.stringify({
@@ -18,6 +26,7 @@ export default function SearchPrefix(action, search, ApiInfo, setRows) {
       ]
     }),
     headers: {
+      Authorization: `JWT ${token}`,
       'Content-type': 'application/json; charset=UTF-8'
     }
   })
@@ -44,5 +53,6 @@ SearchPrefix.PropTypes = {
   action: PropTypes.string.isRequired,
   search: PropTypes.string,
   ApiInfo: PropTypes.object,
-  setRows: PropTypes.func
+  setRows: PropTypes.func,
+  isLoggedIn: PropTypes.bool
 };

@@ -1,16 +1,17 @@
 // src/layouts/shared/TopBar.js
 
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { NavLink as RouterLink, useNavigate } from 'react-router-dom';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import {
   AppBar,
   Button,
+  Container,
   Hidden,
-  IconButton,
   Toolbar,
-  makeStyles
+  makeStyles,
+  Dialog
 } from '@material-ui/core';
 import MenuIcon from '@material-ui/icons/Menu';
 import Logo from 'src/components/Logo';
@@ -21,63 +22,6 @@ import {
 import { FetchContext } from '../../App';
 
 import NavItem from './NavItem';
-
-// Navigation.
-const itemsAuth = [
-  {
-    href: '/resources',
-    icon: UserIcon,
-    title: 'Resources'
-  },
-  // {
-  //   href: '/community',
-  //   icon: UserIcon,
-  //   title: 'Community'
-  // },
-  {
-    href: '/builder',
-    icon: UserIcon,
-    title: 'Builder'
-  },
-  {
-    href: '/account',
-    icon: UserIcon,
-    title: 'Account'
-  },
-  {
-    href: '/objects',
-    icon: UsersIcon,
-    title: 'BioCompute Objects'
-  }
-];
-
-const itemsNoAuth = [
-  {
-    href: '/resources',
-    icon: UserIcon,
-    title: 'Resources'
-  },
-  // {
-  //   href: '/community',
-  //   icon: UserIcon,
-  //   title: 'Community'
-  // },
-  {
-    href: '/builder',
-    icon: UserIcon,
-    title: 'Builder'
-  },
-  {
-    href: '/objects',
-    icon: UsersIcon,
-    title: 'BioCompute Objects'
-  },
-  {
-    href: '/login',
-    icon: UserIcon,
-    title: 'Log In/Register'
-  }
-];
 
 const useStyles = makeStyles((theme) => ({
   item: {
@@ -108,83 +52,102 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
+
 function TopBar(props, { className, onMobileNavOpen, ...rest }) {
   const navigate = useNavigate();
   const fc = useContext(FetchContext);
+
+  const [anchorEl, setAnchorEl] = useState(null);
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+  
+  var userName = (fc.isLoggedIn === true)
+    ? (JSON.parse(localStorage.getItem('user'))['first_name'])
+    : ('')
+
+  console.log('test', userName)
+  const handleClick = (event) => {
+    console.log('click!!');
+    setAnchorEl(event.currentTarget);
+  };
+
   function Logout() {
     localStorage.clear();
+    fc.setIsLoggedIn(false)
     navigate('/login', { replace: true });
   }
 
   const classes = useStyles();
 
-  const loggedOutBar = (
-    <Toolbar>
-      <RouterLink to="/">
-        <Logo />
-      </RouterLink>
-      <Hidden smDown>
-        {itemsNoAuth.map((item) => (
-          <NavItem
-            href={item.href}
-            key={item.title}
-            title={item.title}
-            icon={item.icon}
-          />
-        ))}
-      </Hidden>
-      <Hidden mdUp>
-        <IconButton
-          color="inherit"
-          onClick={onMobileNavOpen}
-        >
-          <MenuIcon />
-        </IconButton>
-      </Hidden>
-    </Toolbar>
-  );
 
-  const loggedInBar = (
-
-    <Toolbar>
-      <RouterLink to="/">
-        <Logo />
-      </RouterLink>
-      <Hidden smDown>
-        {itemsAuth.map((item) => (
-          <NavItem
-            href={item.href}
-            key={item.title}
-            title={item.title}
-            icon={item.icon}
-          />
-        ))}
-      </Hidden>
-      <Button
-        // activeClassName={classes.active}
-        className={classes.button}
-        color="inherit"
-        onClick={Logout}
-      >
-        Log Out
-      </Button>
-      <Hidden mdUp>
-        <IconButton
-          color="inherit"
-          onClick={onMobileNavOpen}
-        >
-          <MenuIcon />
-        </IconButton>
-      </Hidden>
-    </Toolbar>
-  );
   return (
     <AppBar
       className={clsx(classes.root, className)}
-      elevation={0}
+      elevation={2}
       {...rest}
     >
-      {(fc.isLoggedIn === true) ? loggedInBar : loggedOutBar}
+      <Container maxWidth="xl">
+        <Toolbar disableGutters>
+            <RouterLink to="/">
+            <Logo />
+          </RouterLink>
+            <NavItem
+              href={'/resources'}
+              key={'resources'}
+              title={'Resources'}
+              icon={UsersIcon}
+            />
+            <NavItem
+              href={'/builder'}
+              key={'builder'}
+              title={'Builder'}
+              icon={UsersIcon}
+            />
+            <NavItem
+              href={'/objects'}
+              key={'objects'}
+              title={'Objects'}
+              icon={UsersIcon}
+            />
+            {
+                (fc.isLoggedIn === true)
+                ? (
+                  <NavItem
+                    href={'/account'}
+                    key={'account'}
+                    title={'Account'}
+                    icon={Logo}
+                  />
+                  )
+                : (
+                  <NavItem
+                    href={'/login'}
+                    key={'login'}
+                    title={'Log In'}
+                    icon={UsersIcon}
+                  />
+                )
+            }
+            {
+                (fc.isLoggedIn !== true)
+                ? (
+                  <div></div>
+
+                )
+                : (
+                  <Button
+                    className={classes.button}
+                    color="inherit"
+                    onClick={Logout}
+                  >
+                    {`Log Out ${userName}`}
+                  </Button>
+                )
+            }
+        </Toolbar>
+      </Container>
     </AppBar>
   );
 }

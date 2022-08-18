@@ -26,6 +26,7 @@ import ListBox from 'src/components/ListBox';
 // Add step
 import Button from '@material-ui/core/Button';
 
+
 // Section cell styling
 const useStyles = makeStyles((theme) => ({
   fullWidthList: {
@@ -594,7 +595,7 @@ export default function DescriptionDomain({
     }
     if (listtype === 'platform') {
       const temp = item;
-      items.ddKeywords.push(temp);
+      items.ddPlatform.push(temp);
       // setNewVal('');
     }
     items.setRerender(items.rerender + 1);
@@ -616,7 +617,7 @@ export default function DescriptionDomain({
       tempVal = items.ddPlatform;
       tempVal.splice(index, 1);
       console.log('hadley', items);
-      items.setDdKeywords(tempVal);
+      items.setDdPlatform(tempVal);
     }
 
     if (listtype === 'ids') {

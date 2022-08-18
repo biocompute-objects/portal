@@ -95,9 +95,9 @@ function App() {
     }
   };
   const versions = {
-    portal: '22.07',
-    bcodb: '22.07',
-    userdb: '22.07'
+    portal: '22.08',
+    bcodb: '22.08',
+    userdb: '22.08'
   };
 
   /**
@@ -117,7 +117,7 @@ function App() {
 
   return (
     <ThemeProvider theme={theme}>
-      <FetchContext.Provider value={{ sending, versions, isLoggedIn }}>
+      <FetchContext.Provider value={{ sending, versions, isLoggedIn, setIsLoggedIn }}>
         <GlobalStyles />
         {routing}
       </FetchContext.Provider>

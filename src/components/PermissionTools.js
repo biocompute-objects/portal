@@ -113,72 +113,49 @@ export default function PermissionTools({
           </Button>
         </AccordionSummary>
         <AccordionDetails>
-          <Grid container spacing={3}>
-            <Grid item lg={6} md={6} sm={6} xs={12}>
+          <Grid container spacing={8}>
+            <Grid item lg={12} md={12} sm={12} xs={12}>
               <Card>
                 <CardContent>
-                  <Typography gutterBottom variant="h2">
-                    Instructions
-                  </Typography>
-                  <Typography variant="h4">1) Select BCODB to save draft to</Typography>
-                  <Typography gutterBottom>
-                    Select a specific BCODB (server) to save your draft to when CREATING a draft.
-                  </Typography>
-                  <Typography variant="h4">2) Select BCO Prefix to use for draft</Typography>
-                  <Typography gutterBottom>
-                    Select a specific BCO Prefix to use when CREATING a draft.
-                  </Typography>
-                  <Typography gutterBottom variant="h4">
-                    3)  CREATE NEW DRAFT
-                  </Typography>
-                  <Typography gutterBottom>
-                    This button will be available once a BCODB is selected for DRAFT creation.
-                  </Typography>
-                  <Typography gutterBottom variant="h4">
-                    4) SAVE CURRENT DRAFT
-                  </Typography>
-                  <Typography gutterBottom>
-                    This button will be available if you are working on a DRAFT
-                    currently in a BCODB.
-                  </Typography>
-                  <Typography gutterBottom variant="h4">
-                    5) VALIDATE DRAFT
-                  </Typography>
-                  <Typography gutterBottom>
-                    This function will validate the current DRAFT against the IEEE-2791-2020 schema.
-                  </Typography>
-                  <Typography gutterBottom variant="h4">
-                    6) PUBLISH DRAFT
-                  </Typography>
-                  <Typography gutterBottom>
-                    A DRAFT can not be published until it has passed validation.
-                  </Typography>
-                  <Typography gutterBottom variant="h4">
-                    7)  DOWNLOAD DRAFT
-                  </Typography>
-                  <Typography gutterBottom>
-                    This will download a JSON of the current DRAFT.
-                  </Typography>
-                  <Typography gutterBottom variant="h4">
-                    8)  DELETE DRAFT
-                  </Typography>
-                  <Typography gutterBottom>
-                    This button will delete the current DRAFT.
-                  </Typography>
-                </CardContent>
-              </Card>
-            </Grid>
-            <Grid item lg={6} md={6} sm={6} xs={12}>
-              <Card>
-                <CardContent>
-                  <Typography gutterBottom variant="h2">
-                    Functions
-                  </Typography>
+
                   {
                       (newDraft === false)
-                        ? (console.log('New Draft: ', newDraft))
+                        ? (
+                          <>
+                            <Typography gutterBottom>
+                              To save your current DRAFT use this button.
+                            </Typography>
+                            <Button
+                              variant="contained"
+                              color="secondary"
+                              disableElevation
+                              disabled={(newDraft === true)}
+                              fullWidth
+                              onClick={() => clickActions('saveDraft')}
+                            >
+                              SAVE CURRENT DRAFT
+                            </Button>
+                            <Typography>
+                              &nbsp;
+                            </Typography>
+                            <Button
+                              variant="contained"
+                              color="primary"
+                              disableElevation
+                              disabled={publish === false}
+                              fullWidth
+                              onClick={() => clickActions('publishDraft')}
+                            >
+                              PUBLISH DRAFT
+                            </Button>
+                          </>
+                        )
                         : (
                           <>
+                            <Typography variant="h4">
+                              1) Select BCODB to save draft to
+                            </Typography>
+
                             <ServerList
                               options={ApiInfo}
                               setter={setSaveDraftTo}
@@ -187,15 +164,29 @@ export default function PermissionTools({
                             <Typography>
                               &nbsp;
                             </Typography>
-                            <TextField
-                              InputProps={{ className: classes.root }}
-                              color="primary"
-                              fullWidth
-                              id="outlined-multiline-static"
-                              variant="outlined"
-                              onChange={(e) => setPrefix(e.target.value)}
-                              value={prefix}
-                            />
+                            {
+                                (saveDraftTo === '')
+                                  ? (<div />)
+                                  : (
+                                    <div>
+                                      <Typography variant="h4">
+                                        2) Select BCO Prefix to use for draft
+                                      </Typography>
+                                      <Typography gutterBottom>
+                                        Select a specific BCO Prefix to use when CREATING a draft.
+                                      </Typography>
+                                      <TextField
+                                        InputProps={{ className: classes.root }}
+                                        color="primary"
+                                        fullWidth
+                                        id="outlined-multiline-static"
+                                        variant="outlined"
+                                        onChange={(e) => setPrefix(e.target.value)}
+                                        value={prefix}
+                                      />
+                                    </div>
+                                  )
+                            }
                             <Typography>
                               &nbsp;
                             </Typography>
@@ -212,34 +203,15 @@ export default function PermissionTools({
                           </>
                         )
                   }
+
                   <Typography>
-                &nbsp;
+                    &nbsp;
                   </Typography>
-                  <Button
-                    variant="contained"
-                    color="secondary"
-                    disableElevation
-                    disabled={(newDraft === true)}
-                    fullWidth
-                    onClick={() => clickActions('saveDraft')}
-                  >
-                    SAVE CURRENT DRAFT
-                  </Button>
-                  <Typography>
-                &nbsp;
+                  <Typography gutterBottom variant="h4">
+                    VALIDATE DRAFT
                   </Typography>
-                  <Button
-                    variant="contained"
-                    color="primary"
-                    disableElevation
-                    disabled={publish === false}
-                    fullWidth
-                    onClick={() => clickActions('publishDraft')}
-                  >
-                    PUBLISH DRAFT
-                  </Button>
                   <Typography>
-            &nbsp;
+                    Select how you would like to view the Validation results:
                   </Typography>
                   <Typography>
                     <Box>
@@ -260,6 +232,10 @@ export default function PermissionTools({
                       />
                     &nbsp;&nbsp;Download Validation&nbsp;&nbsp;
                     </Box>
+                    <Typography gutterBottom>
+                      Once you select a format above, this buton will validate the current
+                      DRAFT against the IEEE-2791-2020 schema.
+                    </Typography>
                   </Typography>
                   <Button
                     variant="contained"
@@ -271,8 +247,15 @@ export default function PermissionTools({
                   >
                     Validate DRAFT
                   </Button>
+
                   <Typography>
-            &nbsp;
+                  &nbsp;
+                  </Typography>
+                  <Typography gutterBottom variant="h4">
+                    DOWNLOAD DRAFT
+                  </Typography>
+                  <Typography gutterBottom>
+                    This will download a JSON of the current DRAFT.
                   </Typography>
                   <Button
                     variant="contained"
@@ -285,6 +268,13 @@ export default function PermissionTools({
                   </Button>
                   <Typography>
             &nbsp;
+                  </Typography>
+                  <Typography gutterBottom variant="h4">
+                    DELETE DRAFT
+                  </Typography>
+                  <Typography gutterBottom>
+                    This button will delete the current DRAFT. This can only be
+                    undone by an administrator.
                   </Typography>
                   <Button
                     variant="contained"
