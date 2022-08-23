@@ -1,8 +1,8 @@
 {
-    "name": "react-material-dashboard",
-    "author": "DeviasIO",
+    "name": "biocompute-object-portal",
+    "author": "biocompute-objects",
     "licence": "MIT",
-    "version": "1.0.0",
+    "version": "22.09",
     "private": false,
     "scripts": {
         "start": "react-scripts start",
