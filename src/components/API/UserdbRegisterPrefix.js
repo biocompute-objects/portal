@@ -4,9 +4,8 @@
 
 import PropTypes from 'prop-types';
 
-export default function RegisterPrefix(username, prefix, ApiInfo) {
-  console.log('stuff', username, prefix, `${ApiInfo}`);
-  fetch(`${ApiInfo}register_prefix/${username}/${prefix}`, {
+export default function RegisterPrefix(username, prefix, ApiInfo, isPublic) {
+  fetch(`${ApiInfo}register_prefix/${username}/${prefix}/${isPublic}`, {
     method: 'GET',
     headers: {
       Authorization: `JWT ${localStorage.getItem('token')}`,
@@ -15,16 +14,14 @@ export default function RegisterPrefix(username, prefix, ApiInfo) {
   })
     .then((response) => {
       if (response.ok) {
+        console.log(response);
+        alert(`Prefix ${prefix} was successfully registered for ${username}.`)
         return response
-          .then((data) => {
-            console.log('data', data);
-          });
       }
-      return response
-        .then((data) => {
-          console.log('data', data);
-        //   alert(`${data}`);
-        });
+      if (response.status === 409) {
+        alert(`Register prefix failed. That prefix is already registered.`);
+        return response.status
+      }
     }).catch((error) => {
       console.log(`error: ${error}`);
       alert(`Register prefix failed ${error}`);
@@ -34,5 +31,6 @@ export default function RegisterPrefix(username, prefix, ApiInfo) {
 RegisterPrefix.PropTypes = {
   username: PropTypes.string,
   prefix: PropTypes.string,
-  ApiInfo: PropTypes.object
+  ApiInfo: PropTypes.object,
+  isPublic: PropTypes.bool
 };

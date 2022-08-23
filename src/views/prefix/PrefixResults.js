@@ -1,6 +1,6 @@
 // src/components/PrefixResults.js
 
-import React, { useContext } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import {
   Card,
@@ -13,6 +13,17 @@ import {
 
 export default function PrefixResults({ rows, userInfo }) {
   const ieeeLink = 'http://loaclhost:8181/users/admin';
+  const [username, setUsername] = useState()
+  
+  useEffect(() => {
+    if (!userInfo) {
+        setUsername('anon')
+        console.log('userInfo', userInfo);
+      } else {
+        setUsername(userInfo.username)
+      };
+  }, [])
+  
   return (
     <Container>
       {rows.length === 0
@@ -32,7 +43,7 @@ export default function PrefixResults({ rows, userInfo }) {
                 <CardContent>
                   <CardActionArea
                     onClick={() => window.open(ieeeLink)}
-                    disabled={userInfo.username !== row.username}
+                    disabled={username !== row.username}
                   >
                     <Typography>
                       Prefix:
