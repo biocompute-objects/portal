@@ -1,6 +1,3 @@
-/* eslint-disable max-len */
-/* eslint-disable react/prop-types */
-/* eslint-disable no-underscore-dangle */
 // /src/views/builder/BuilderView/ColorCoded/index.js
 
 import React, { useEffect, useState } from 'react';
