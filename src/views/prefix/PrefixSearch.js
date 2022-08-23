@@ -64,7 +64,7 @@ export default function PrefixSearch({
                   onChange={checkActions}
                   disabled={!isLoggedIn}
                 />
-                &nbsp;&nbsp;My Prefixs&nbsp;&nbsp;
+                &nbsp;&nbsp;My Prefixes&nbsp;&nbsp;
                 <input
                   type="radio"
                   data-limit="only-one-in-a-group"
