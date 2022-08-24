@@ -13,17 +13,16 @@ import {
 
 export default function PrefixResults({ rows, userInfo }) {
   const ieeeLink = 'http://loaclhost:8181/users/admin';
-  const [username, setUsername] = useState()
-  
+  const [username, setUsername] = useState();
+
   useEffect(() => {
     if (!userInfo) {
-        setUsername('anon')
-        console.log('userInfo', userInfo);
-      } else {
-        setUsername(userInfo.username)
-      };
-  }, [])
-  
+      setUsername('anon');
+    } else {
+      setUsername(userInfo.username);
+    }
+  }, []);
+
   return (
     <Container>
       {rows.length === 0
@@ -72,5 +71,6 @@ export default function PrefixResults({ rows, userInfo }) {
 }
 
 PrefixResults.propTypes = {
-  rows: PropTypes.array
+  rows: PropTypes.array,
+  userInfo: PropTypes.object
 };
