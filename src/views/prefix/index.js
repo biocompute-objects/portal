@@ -33,6 +33,7 @@ export default function Prefix() {
     setAddPrefix();
     setDescription();
     setPrefix('');
+    console.log(addPrefix);
   };
 
   const setInput = (event, which) => {
@@ -48,9 +49,10 @@ export default function Prefix() {
     }
   };
 
-  async function submitPrefix() {
+  const submitPrefix = () => {
     RegisterPrefix(userInfo.username, prefix, fc.sending.userdb, isPublic, description);
-  }
+    setAddPrefix();
+  };
 
   return (
     <Page
@@ -64,6 +66,7 @@ export default function Prefix() {
         <Box>
           <PrefixSearch
             setRows={setRows}
+            addPrefix={addPrefix}
             setAddPrefix={setAddPrefix}
             fc={fc}
           />
@@ -121,7 +124,7 @@ export default function Prefix() {
         </DialogContent>
         <DialogActions>
           <Button
-            onClick={submitPrefix()}
+            onClick={submitPrefix}
             color="primary"
             disabled={prefix.length < 3 || prefix.length > 5 || !isPublic}
           >
