@@ -20,7 +20,8 @@
           ".jsx"
         ]
       }
-    },
+    }
+  },
     "rules": {
       "arrow-body-style": "off",
       "comma-dangle": "off",

@@ -19,12 +19,10 @@ import PrefixResults from 'src/views/prefix/PrefixResults';
 import Page from 'src/components/Page';
 import RegisterPrefix from 'src/components/API/UserdbRegisterPrefix';
 import 'react-datetime/css/react-datetime.css';
-import Datetime from 'react-datetime';
 
 export default function Prefix() {
   const [rows, setRows] = useState([]);
   const [addPrefix, setAddPrefix] = useState();
-  const [modifyPrefix, setModifyPrefix] = useState(false);
   const [prefix, setPrefix] = useState('');
   const [description, setDescription] = useState();
   const [isPublic, setIsPublic] = useState(false);
@@ -35,7 +33,6 @@ export default function Prefix() {
     setAddPrefix();
     setDescription();
     setPrefix('');
-    console.log(addPrefix);
   };
 
   const setInput = (event, which) => {
@@ -43,43 +40,17 @@ export default function Prefix() {
       setPrefix(event.target.value);
     }
     if (which === 'description') {
-        setDescription(event.target.value);
+      setDescription(event.target.value);
     }
     if (which === 'public') {
-        setIsPublic(event.target.value);
-        console.log('public', isPublic)
+      setIsPublic(event.target.value);
+      console.log('public', isPublic);
     }
   };
 
-  async function submit() {
-    RegisterPrefix(userInfo.username, prefix, fc.sending.userdb, isPublic);
-    // const status = await fetch(`${fc.sending.userdb}register_prefix/${userInfo.username}/${prefix}`, {
-    //     method: 'GET',
-    //     headers: {
-    //       Authorization: `JWT ${localStorage.getItem('token')}`,
-    //       'Content-type': 'application/json; charset=UTF-8'
-    //     }
-    //   })
-    //     .then((response) => {
-    //       if (response.ok) {
-    //         console.log(response);
-    //         alert(`Prefix ${prefix} was successfully registered for ${userInfo.username}.`)
-    //         return response.status
-    //       }
-    //       if (response.status === 409) {
-    //         alert(`Register prefix failed. That prefix is already registered.`);
-    //         return response.status
-    //       }
-    //     }).catch((error) => {
-    //       console.log(`error: ${error}`);
-    //       alert(`Register prefix failed ${error}`);
-    //     });
-    // console.log('status', status);
-    // ApiNewPrefix(userInfo, prefix, description, expiration)
-    setAddPrefix();
-  };
-
-  console.log('addPrefix', addPrefix, fc.isLoggedIn, fc.sending.userdb);
+  async function submitPrefix() {
+    RegisterPrefix(userInfo.username, prefix, fc.sending.userdb, isPublic, description);
+  }
 
   return (
     <Page
@@ -93,7 +64,6 @@ export default function Prefix() {
         <Box>
           <PrefixSearch
             setRows={setRows}
-            addPrefix={addPrefix}
             setAddPrefix={setAddPrefix}
             fc={fc}
           />
@@ -113,9 +83,7 @@ export default function Prefix() {
           </Typography>
         </DialogTitle>
         <DialogContent>
-          <Typography>
-
-          </Typography>
+          <Typography />
           <TextField
             autoFocus
             margin="dense"
@@ -126,19 +94,19 @@ export default function Prefix() {
           />
           <Typography>
             <input
-                type="radio"
-                data-limit="only-one-in-a-group"
-                name="radio"
-                value="true"
-                onChange={(event) => setInput(event, 'public')}
+              type="radio"
+              data-limit="only-one-in-a-group"
+              name="radio"
+              value="true"
+              onChange={(event) => setInput(event, 'public')}
             />
             &nbsp;&nbsp;Public Prefix&nbsp;&nbsp;
             <input
-                type="radio"
-                data-limit="only-one-in-a-group"
-                name="radio"
-                value="false"
-                onChange={(event) => setInput(event, 'public')}
+              type="radio"
+              data-limit="only-one-in-a-group"
+              name="radio"
+              value="false"
+              onChange={(event) => setInput(event, 'public')}
             />
             &nbsp;&nbsp;Private Prefix&nbsp;&nbsp;
           </Typography>
@@ -152,8 +120,8 @@ export default function Prefix() {
           />
         </DialogContent>
         <DialogActions>
-          <Button 
-            onClick={submit}
+          <Button
+            onClick={submitPrefix()}
             color="primary"
             disabled={prefix.length < 3 || prefix.length > 5 || !isPublic}
           >
