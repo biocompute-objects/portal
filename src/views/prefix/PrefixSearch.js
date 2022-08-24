@@ -30,9 +30,9 @@ export default function PrefixSearch({
     setAction(checked.target.value);
   }
 
-  function registerPrefix() {
+  const registerPrefix = () => {
     setAddPrefix(true);
-  }
+  };
 
   function clear() {
     setSearch(null);
@@ -128,7 +128,7 @@ export default function PrefixSearch({
               </Typography>
               <br />
               <Button
-                onClick={registerPrefix()}
+                onClick={registerPrefix}
                 disabled={!isLoggedIn}
                 color="primary"
                 variant="contained"
