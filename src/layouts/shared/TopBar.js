@@ -111,6 +111,12 @@ function TopBar(props, { className, onMobileNavOpen, ...rest }) {
               title={'Objects'}
               icon={UsersIcon}
             />
+            <NavItem
+              href={'/prefix'}
+              key={'prefix'}
+              title={'Prefix Registry'}
+              icon={UsersIcon}
+            />
             {
                 (fc.isLoggedIn === true)
                 ? (

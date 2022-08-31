@@ -1,27 +1,27 @@
 {
-  "parser": "babel-eslint",
-  "env": {
-    "es6": true,
-    "browser": true
-  },
-  "extends": [
-    "airbnb",
-    "airbnb/hooks",
-    "eslint:recommended"
-  ],
-  "settings": {
-    "import/resolver": {
-      "node": {
-        "paths": [
-          "src"
-        ],
-        "extensions": [
-          ".js",
-          ".jsx"
-        ]
+    "parser": "babel-eslint",
+    "env": {
+      "es6": true,
+      "browser": true
+    },
+    "extends": [
+      "airbnb",
+      "airbnb/hooks",
+      "eslint:recommended"
+    ],
+    "settings": {
+      "import/resolver": {
+        "node": {
+          "paths": [
+            "src"
+          ],
+          "extensions": [
+            ".js",
+            ".jsx"
+          ]
+        }
       }
-    }
-  },
+    },
     "rules": {
       "arrow-body-style": "off",
       "comma-dangle": "off",
@@ -33,10 +33,11 @@
       "no-console": "off",
       "no-param-reassign": "off",
       "no-plusplus": "off",
-      "react-hooks/exhaustive-deps": "off",
       "react/forbid-prop-types": "off",
       "react/jsx-filename-extension": "off",
       "react/jsx-props-no-spreading": "off",
-      "react/require-default-props": "off"
+      "react/require-default-props": "off",
+      "react-hooks/rules-of-hooks": "error",
+      "react-hooks/exhaustive-deps": "warn"
     }
   }
