@@ -246,9 +246,9 @@ function ColorCoded({
           spacing={3}
         >
           <Grid item lg={12} md={12} xs={12}>
-            <Card>
+            {/* <Card>
               <HelpBar />
-            </Card>
+            </Card> */}
           </Grid>
           {compList.map((Component, index) => {
             return (
