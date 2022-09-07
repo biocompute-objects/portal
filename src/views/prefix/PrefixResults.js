@@ -12,7 +12,7 @@ import {
 } from '@material-ui/core';
 
 export default function PrefixResults({ rows, userInfo }) {
-  const ieeeLink = 'http://loaclhost:8181/users/admin';
+  const prefixLink = '/account';
   const [username, setUsername] = useState();
 
   useEffect(() => {
@@ -41,7 +41,7 @@ export default function PrefixResults({ rows, userInfo }) {
               <Card key={row.prefix}>
                 <CardContent>
                   <CardActionArea
-                    onClick={() => window.open(ieeeLink)}
+                    onClick={() => window.open(prefixLink)}
                     disabled={username !== row.username}
                   >
                     <Typography>
