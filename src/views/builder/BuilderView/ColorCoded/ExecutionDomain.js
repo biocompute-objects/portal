@@ -1,7 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import {
-  makeStyles, withStyles, Typography
+  Accordion,
+  AccordionSummary,
+  AccordionDetails,
+  makeStyles,
+  withStyles,
+  Typography
 } from '@material-ui/core';
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -288,7 +294,7 @@ export default function ExecutionDomain({ items, cF }) {
 
   // See also https://stackoverflow.com/questions/42807901/react-input-element-value-vs-default-value
   const setInput = (event, i, inputName, which) => {
-     // Get the state variable.
+    // Get the state variable.
     const dummy = items[which];
 
     // TODO: Put in date-time logic...
@@ -323,32 +329,31 @@ export default function ExecutionDomain({ items, cF }) {
   };
 
   const setDateTimeInput = (date_time, i, inputName, which) => {
-      // Get the state variable.
-      const dummy = items[which];
+    // Get the state variable.
+    const dummy = items[which];
 
-     // Cases
-     if (which === 'edSoftwarePrerequisites') {
+    // Cases
+    if (which === 'edSoftwarePrerequisites') {
       // Special rule for URI.
-        dummy[i].uri[inputName] = date_time;
+      dummy[i].uri[inputName] = date_time;
       // Update the state.
       items.setEdSoftwarePrerequisites(dummy);
     } else if (which === 'edExternalDataEndpoints') {
       // Change the value at the given index.
-      dummy[i][inputName] = date_time;//event.target.value;
+      dummy[i][inputName] = date_time;// event.target.value;
 
       // Update the state.
       items.setEdExternalDataEndpoints(dummy);
     } else if (which === 'edScript') {
       // Only possible to set on the URI key.
-      dummy[i].uri[inputName] = date_time;//event.target.value;
+      dummy[i].uri[inputName] = date_time;// event.target.value;
 
       // Update the state.
       items.setEdScript(dummy);
     }
-     // Needed to re-render the page.
-     items.setRerender(items.rerender + 1);
+    // Needed to re-render the page.
+    items.setRerender(items.rerender + 1);
   };
-
 
   // Add a row
   const addRows = (which) => {
@@ -426,55 +431,62 @@ export default function ExecutionDomain({ items, cF }) {
   // ----- None ----- //
 
   return (
-    <Table size="small">
-      <TableHead className={classes.tabled}>
-        <TableRow>
-          <StyledCell colSpan="12">
-            <Button
-              variant="contained"
-              // color="D5D8DC"
-              fullWidth
-              onClick={() => window.open('https://docs.biocomputeobject.org/execution-domain/')}
-            >
-              <Typography className={missingExecutionDomain ? classes.missingHeader : classes.header} variant="h1">
-                Execution Domain &nbsp;
-                <HelpIcon />
-              </Typography>
-            </Button>
-          </StyledCell>
-        </TableRow>
-      </TableHead>
-      <TableBody>
-      <TableRow>
-          <StyledCell colSpan="7">
-            <Typography className={missingScript ? classes.missingHeader : classes.header} variant="h3">
-              Script
-            </Typography>
-          </StyledCell>
-        </TableRow>
-        <TableRow>
-          <StyledCell colSpan="2">
-            <Typography>
-              Filename
-            </Typography>
-          </StyledCell>
-          <StyledCell colSpan="2">
-            <Typography className={missingScriptUri ? classes.missingHeader : classes.header}>
-              URI
-            </Typography>
-          </StyledCell>
-          <StyledCell>
-            <Typography>
-              Access Time
-            </Typography>
-          </StyledCell>
-          <StyledCell colSpan="2">
-            <Typography>
-              SHA1 Checksum
-            </Typography>
-          </StyledCell>
-        </TableRow>
-        {
+    <Accordion>
+      <AccordionSummary
+        expandIcon={<ExpandMoreIcon />}
+        aria-controls="panel1a-content"
+        id="panel1a-header"
+      >
+        <Typography className={classes.heading} variant="h3">
+          Execution Domain
+        </Typography>
+      </AccordionSummary>
+      <AccordionDetails>
+        <Table size="small">
+          <TableHead className={classes.tabled}>
+            <TableRow>
+              <Button
+                variant="contained"
+                fullWidth
+                onClick={() => window.open('https://docs.biocomputeobject.org/execution-domain/')}
+              >
+                <Typography>
+                  <HelpIcon />
+                </Typography>
+              </Button>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            <TableRow>
+              <StyledCell colSpan="7">
+                <Typography className={missingScript ? classes.missingHeader : classes.header} variant="h3">
+                  Script
+                </Typography>
+              </StyledCell>
+            </TableRow>
+            <TableRow>
+              <StyledCell colSpan="2">
+                <Typography>
+                  Filename
+                </Typography>
+              </StyledCell>
+              <StyledCell colSpan="2">
+                <Typography className={missingScriptUri ? classes.missingHeader : classes.header}>
+                  URI
+                </Typography>
+              </StyledCell>
+              <StyledCell>
+                <Typography>
+                  Access Time
+                </Typography>
+              </StyledCell>
+              <StyledCell colSpan="2">
+                <Typography>
+                  SHA1 Checksum
+                </Typography>
+              </StyledCell>
+            </TableRow>
+            {
         items.edScript.map((item, index) => (
           <TableRow key={index.toString()}>
             <StyledCell colSpan="2">
@@ -484,7 +496,7 @@ export default function ExecutionDomain({ items, cF }) {
               <TextField InputProps={{ className: classes.root }} error={cF(item.uri.uri) === ''} fullWidth value={cF(item.uri.uri)} variant="outlined" onChange={(e) => setInput(e, index, 'uri', 'edScript')} />
             </StyledCell>
             <StyledCell>
-              <Datetime inputProps={{ className: classes.root }} id="outlined-basic" value={cF(item.uri.access_time)} onChange={(date) => setDateTimeInput(date, index, 'access_time', 'edScript')} dateFormat='YYYY-MM-DD' timeFormat={true}/>
+              <Datetime inputProps={{ className: classes.root }} id="outlined-basic" value={cF(item.uri.access_time)} onChange={(date) => setDateTimeInput(date, index, 'access_time', 'edScript')} dateFormat="YYYY-MM-DD" timeFormat />
             </StyledCell>
             <StyledCell>
               <TextField InputProps={{ className: classes.root }} value={cF(item.uri.sha1_checksum)} variant="outlined" onChange={(e) => setInput(e, index, 'sha1_checksum', 'edScript')} fullWidth />
@@ -497,63 +509,63 @@ export default function ExecutionDomain({ items, cF }) {
           </TableRow>
         ))
       }
-        <TableRow>
-          <StyledCell colSpan="6">
-            <Button variant="contained" color="primary" disableElevation fullWidth onClick={() => addRows('edScript')}>
-              Add Script
-            </Button>
-          </StyledCell>
-        </TableRow>
-        <TableRow>
-          <StyledCell>
-            <Typography className={missingScriptDriver ? classes.missingHeader : classes.header}>
-              Script Driver
-            </Typography>
-          </StyledCell>
-          <StyledCell colSpan="6">
-            <TextField InputProps={{ className: classes.root }} error={!!missingScriptDriver} fullWidth id="outlined-basic" value={cF(items.edScriptDriver)} onChange={(e) => items.setEdScriptDriver(e.target.value)} variant="outlined" />
-          </StyledCell>
-        </TableRow>
-        <TableRow>
-          <StyledCell colSpan="7">
-            <Typography className={missingSoftwarePrerequisites ? classes.missingHeader : classes.header} variant="h3">
-              Software Prerequisites
-            </Typography>
-          </StyledCell>
-        </TableRow>
-        <TableRow>
-          <StyledCell>
-            <Typography className={missingSoftwarePrerequisitesName ? classes.missingHeader : classes.header}>
-              Name
-            </Typography>
-          </StyledCell>
-          <StyledCell>
-            <Typography className={missingSoftwarePrerequisitesVersion ? classes.missingHeader : classes.header}>
-              Version
-            </Typography>
-          </StyledCell>
-          <StyledCell>
-            <Typography>
-              Filename
-            </Typography>
-          </StyledCell>
-          <StyledCell>
-            <Typography className={missingSoftwarePrerequisitesUri ? classes.missingHeader : classes.header}>
-              URI
-            </Typography>
-          </StyledCell>
-          <StyledCell>
-            <Typography>
-              Access Time
-            </Typography>
-          </StyledCell>
-          <StyledCell colSpan="2">
-            <Typography>
-              SHA1 Checksum
-            </Typography>
-          </StyledCell>
-        </TableRow>
-        {
+            <TableRow>
+              <StyledCell colSpan="6">
+                <Button variant="contained" color="primary" disableElevation fullWidth onClick={() => addRows('edScript')}>
+                  Add Script
+                </Button>
+              </StyledCell>
+            </TableRow>
+            <TableRow>
+              <StyledCell>
+                <Typography className={missingScriptDriver ? classes.missingHeader : classes.header}>
+                  Script Driver
+                </Typography>
+              </StyledCell>
+              <StyledCell colSpan="6">
+                <TextField InputProps={{ className: classes.root }} error={!!missingScriptDriver} fullWidth id="outlined-basic" value={cF(items.edScriptDriver)} onChange={(e) => items.setEdScriptDriver(e.target.value)} variant="outlined" />
+              </StyledCell>
+            </TableRow>
+            <TableRow>
+              <StyledCell colSpan="7">
+                <Typography className={missingSoftwarePrerequisites ? classes.missingHeader : classes.header} variant="h3">
+                  Software Prerequisites
+                </Typography>
+              </StyledCell>
+            </TableRow>
+            <TableRow>
+              <StyledCell>
+                <Typography className={missingSoftwarePrerequisitesName ? classes.missingHeader : classes.header}>
+                  Name
+                </Typography>
+              </StyledCell>
+              <StyledCell>
+                <Typography className={missingSoftwarePrerequisitesVersion ? classes.missingHeader : classes.header}>
+                  Version
+                </Typography>
+              </StyledCell>
+              <StyledCell>
+                <Typography>
+                  Filename
+                </Typography>
+              </StyledCell>
+              <StyledCell>
+                <Typography className={missingSoftwarePrerequisitesUri ? classes.missingHeader : classes.header}>
+                  URI
+                </Typography>
+              </StyledCell>
+              <StyledCell>
+                <Typography>
+                  Access Time
+                </Typography>
+              </StyledCell>
+              <StyledCell colSpan="2">
+                <Typography>
+                  SHA1 Checksum
+                </Typography>
+              </StyledCell>
+            </TableRow>
+            {
         items.edSoftwarePrerequisites.map((item, index) => (
           <TableRow key={index.toString()}>
             <StyledCell>
@@ -569,7 +581,7 @@ export default function ExecutionDomain({ items, cF }) {
               <TextField InputProps={{ className: classes.root }} error={cF(item.uri.uri) === ''} value={cF(item.uri.uri)} variant="outlined" onChange={(e) => setInput(e, index, 'uri', 'edSoftwarePrerequisites')} />
             </StyledCell>
             <StyledCell>
-              <Datetime inputProps={{ className: classes.root }} id="outlined-basic" value={cF(item.uri.access_time)} onChange={(date) => setDateTimeInput(date, index, 'access_time', 'edSoftwarePrerequisites')} dateFormat='YYYY-MM-DD' timeFormat={true}/>
+              <Datetime inputProps={{ className: classes.root }} id="outlined-basic" value={cF(item.uri.access_time)} onChange={(date) => setDateTimeInput(date, index, 'access_time', 'edSoftwarePrerequisites')} dateFormat="YYYY-MM-DD" timeFormat />
             </StyledCell>
             <StyledCell>
               <TextField InputProps={{ className: classes.root }} value={cF(item.uri.sha1_checksum)} variant="outlined" onChange={(e) => setInput(e, index, 'sha1_checksum', 'edSoftwarePrerequisites')} fullWidth />
@@ -582,33 +594,33 @@ export default function ExecutionDomain({ items, cF }) {
           </TableRow>
         ))
       }
-        <TableRow>
-          <StyledCell colSpan="6">
-            <Button variant="contained" color="primary" disableElevation fullWidth onClick={() => addRows('edSoftwarePrerequisites')}>
-              Add Software Prerequisite
-            </Button>
-          </StyledCell>
-        </TableRow>
-        <TableRow>
-          <StyledCell colSpan="7">
-            <Typography className={missingExternalDataEndpoints ? classes.missingHeader : classes.header} variant="h3">
-              External Data Endpoints
-            </Typography>
-          </StyledCell>
-        </TableRow>
-        <TableRow>
-          <StyledCell colSpan="3">
-            <Typography className={missingExternalDataEndpointsName ? classes.missingHeader : classes.header}>
-              Name
-            </Typography>
-          </StyledCell>
-          <StyledCell colSpan="4">
-            <Typography className={missingExternalDataEndpointsUrl ? classes.missingHeader : classes.header}>
-              URL
-            </Typography>
-          </StyledCell>
-        </TableRow>
-        {
+            <TableRow>
+              <StyledCell colSpan="6">
+                <Button variant="contained" color="primary" disableElevation fullWidth onClick={() => addRows('edSoftwarePrerequisites')}>
+                  Add Software Prerequisite
+                </Button>
+              </StyledCell>
+            </TableRow>
+            <TableRow>
+              <StyledCell colSpan="7">
+                <Typography className={missingExternalDataEndpoints ? classes.missingHeader : classes.header} variant="h3">
+                  External Data Endpoints
+                </Typography>
+              </StyledCell>
+            </TableRow>
+            <TableRow>
+              <StyledCell colSpan="3">
+                <Typography className={missingExternalDataEndpointsName ? classes.missingHeader : classes.header}>
+                  Name
+                </Typography>
+              </StyledCell>
+              <StyledCell colSpan="4">
+                <Typography className={missingExternalDataEndpointsUrl ? classes.missingHeader : classes.header}>
+                  URL
+                </Typography>
+              </StyledCell>
+            </TableRow>
+            {
         items.edExternalDataEndpoints.map((item, index) => (
           <TableRow key={index.toString()}>
             <StyledCell colSpan="3">
@@ -625,23 +637,25 @@ export default function ExecutionDomain({ items, cF }) {
           </TableRow>
         ))
       }
-        <TableRow>
-          <StyledCell colSpan="6">
-            <Button variant="contained" color="primary" disableElevation fullWidth onClick={() => addRows('edExternalDataEndpoints')}>
-              Add External Data Endpoint
-            </Button>
-          </StyledCell>
-        </TableRow>
-      </TableBody>
-      <EnvVar
-        link="link to some stuff"
-        header="Environment Variables"
-        object={items.edEnvironmentVariables}
-        setObject={items.setEdEnvironmentVariables}
-        setRerender={items.setRerender}
-        rerender={items.rerender}
-        fields={['key', 'value']}
-      />
-    </Table>
+            <TableRow>
+              <StyledCell colSpan="6">
+                <Button variant="contained" color="primary" disableElevation fullWidth onClick={() => addRows('edExternalDataEndpoints')}>
+                  Add External Data Endpoint
+                </Button>
+              </StyledCell>
+            </TableRow>
+          </TableBody>
+          <EnvVar
+            link="link to some stuff"
+            header="Environment Variables"
+            object={items.edEnvironmentVariables}
+            setObject={items.setEdEnvironmentVariables}
+            setRerender={items.setRerender}
+            rerender={items.rerender}
+            fields={['key', 'value']}
+          />
+        </Table>
+      </AccordionDetails>
+    </Accordion>
   );
 }

@@ -26,7 +26,6 @@ import ListBox from 'src/components/ListBox';
 // Add step
 import Button from '@material-ui/core/Button';
 
-
 // Section cell styling
 const useStyles = makeStyles((theme) => ({
   fullWidthList: {
@@ -650,81 +649,67 @@ export default function DescriptionDomain({
   const listHeaders = ['Keywords', 'Platform'];
 
   return (
-    <Container>
-      <Card className={classes.linkCard}>
-        <CardActionArea onClick={() => window.open('https://docs.biocomputeobject.org/description-domain/')}>
-          <CardContent className={classes.linkCard}>
-            <Typography className={missingDescriptionDomain ? classes.missingHeader : classes.header} variant="h1">
-              Description Domain &nbsp;
-              <HelpIcon />
-            </Typography>
-          </CardContent>
-        </CardActionArea>
-      </Card>
-      <Grid classes={classes.colored} container justifyContent="space-around" spacing={3}>
-        <Grid item lg={4} sm={6} xl={4} xs={12}>
-          <ListBox
-            link="https://docs.biocomputeobject.org/description-domain/"
-            header={listHeaders[0]}
-            list={items.ddKeywords}
-            setList={items.setDdKeywords}
-            setRerender={items.setRerender}
-            rerender={items.rerender}
-          />
-        </Grid>
-        <Grid item lg={4} sm={6} xl={4} xs={12}>
-          <ListBox
-            link="https://docs.biocomputeobject.org/description-domain/"
-            header="Platform"
-            list={items.ddPlatform}
-            setList={items.setDdPlatform}
-            setRerender={items.setRerender}
-          />
-          {/* <Grid item lg={4} sm={6} xl={4} xs={12}>
-            <XternalRef
-              link="https://docs.biocomputeobject.org/description-domain/"
-              header={listHeaders[1]}
-              list={items.ddXref}
-              setList={items.setDdXref}
-              setRerender={items.setRerender}
-              fields={['Namespace', 'Name', 'IDs', 'Access Time']}
-            />
-          </Grid> */}
-        </Grid>
-      </Grid>
-      <Table size="small">
-        <TableBody>
-          <TableRow>
-            <TableCell colSpan="5">
-              <Typography className={missingXref ? classes.missingHeaderOptional : classes.header} variant="h3">
-                Xref
-              </Typography>
-            </TableCell>
-          </TableRow>
-          <TableRow>
-            <TableCell>
-              <Typography className={missingXrefNamespace ? classes.missingHeaderOptional : classes.header}>
-                Namespace
-              </Typography>
-            </TableCell>
-            <TableCell>
-              <Typography className={missingXrefName ? classes.missingHeaderOptional : classes.header}>
-                Name
-              </Typography>
-            </TableCell>
-            <TableCell>
-              <Typography className={missingXrefId ? classes.missingHeaderOptional : classes.header}>
-                IDs
-              </Typography>
-            </TableCell>
-            <TableCell>
-              <Typography className={missingXrefAccessTime ? classes.missingHeaderOptional : classes.header}>
-                Access Time
-              </Typography>
-            </TableCell>
-            <TableCell />
-          </TableRow>
-          {
+    <Accordion>
+      <AccordionSummary
+        expandIcon={<ExpandMoreIcon />}
+        aria-controls="panel1a-content"
+        id="panel1a-header"
+      >
+        <Typography className={classes.heading} variant="h3">
+          Description Domain
+        </Typography>
+      </AccordionSummary>
+      <AccordionDetails>
+        <Table>
+          <TableBody>
+            <TableRow>
+              <ListBox
+                link="https://docs.biocomputeobject.org/description-domain/"
+                header={listHeaders[0]}
+                list={items.ddKeywords}
+                setList={items.setDdKeywords}
+                setRerender={items.setRerender}
+                rerender={items.rerender}
+              />
+              <ListBox
+                link="https://docs.biocomputeobject.org/description-domain/"
+                header="Platform"
+                list={items.ddPlatform}
+                setList={items.setDdPlatform}
+                setRerender={items.setRerender}
+              />
+            </TableRow>
+            <TableRow>
+              <TableCell colSpan="5">
+                <Typography className={missingXref ? classes.missingHeaderOptional : classes.header} variant="h3">
+                  Xref
+                </Typography>
+              </TableCell>
+            </TableRow>
+            <TableRow>
+              <TableCell>
+                <Typography className={missingXrefNamespace ? classes.missingHeaderOptional : classes.header}>
+                  Namespace
+                </Typography>
+              </TableCell>
+              <TableCell>
+                <Typography className={missingXrefName ? classes.missingHeaderOptional : classes.header}>
+                  Name
+                </Typography>
+              </TableCell>
+              <TableCell>
+                <Typography className={missingXrefId ? classes.missingHeaderOptional : classes.header}>
+                  IDs
+                </Typography>
+              </TableCell>
+              <TableCell>
+                <Typography className={missingXrefAccessTime ? classes.missingHeaderOptional : classes.header}>
+                  Access Time
+                </Typography>
+              </TableCell>
+              <TableCell />
+            </TableRow>
+            {
         cF(items.ddXref) !== ''
           ? items.ddXref.map((item, index) => (
             <TableRow key={index.toString()}>
@@ -792,49 +777,49 @@ export default function DescriptionDomain({
           ))
           : null
       }
-          <TableRow>
-            <StyledCell colSpan="4">
-              <Button variant="contained" color="primary" disableElevation fullWidth onClick={() => addRows('ddXref')}>
-                Add Xref
-              </Button>
-            </StyledCell>
-          </TableRow>
-          <TableRow>
-            <TableCell colSpan="5">
-              <Typography className={missingSteps ? classes.missingHeader : classes.header} variant="h3">
-                Steps
-              </Typography>
-            </TableCell>
-          </TableRow>
-          <TableRow>
-            <TableCell>
-              <Typography className={missingStepsNumber ? classes.missingHeader : classes.header}>
-                Step Number
-              </Typography>
-            </TableCell>
-            <TableCell>
-              <Typography className={missingStepsName ? classes.missingHeader : classes.header}>
-                Name
-              </Typography>
-            </TableCell>
-            <TableCell>
-              <Typography className={missingStepsDescription ? classes.missingHeader : classes.header}>
-                Description
-              </Typography>
-            </TableCell>
-            <TableCell>
-              <Typography className={missingStepsVersion ? classes.missingHeader : classes.header}>
-                Version
-              </Typography>
-            </TableCell>
-            <TableCell />
-          </TableRow>
-          {
+            <TableRow>
+              <StyledCell colSpan="4">
+                <Button variant="contained" color="primary" disableElevation fullWidth onClick={() => addRows('ddXref')}>
+                  Add Xref
+                </Button>
+              </StyledCell>
+            </TableRow>
+            <TableRow>
+              <TableCell colSpan="5">
+                <Typography className={missingSteps ? classes.missingHeader : classes.header} variant="h3">
+                  Steps
+                </Typography>
+              </TableCell>
+            </TableRow>
+            <TableRow>
+              <TableCell>
+                <Typography className={missingStepsNumber ? classes.missingHeader : classes.header}>
+                  Step Number
+                </Typography>
+              </TableCell>
+              <TableCell>
+                <Typography className={missingStepsName ? classes.missingHeader : classes.header}>
+                  Name
+                </Typography>
+              </TableCell>
+              <TableCell>
+                <Typography className={missingStepsDescription ? classes.missingHeader : classes.header}>
+                  Description
+                </Typography>
+              </TableCell>
+              <TableCell>
+                <Typography className={missingStepsVersion ? classes.missingHeader : classes.header}>
+                  Version
+                </Typography>
+              </TableCell>
+              <TableCell />
+            </TableRow>
+            {
         items.ddPipelineSteps.map((item, index) => (
           <>
             <TableRow key={`${index.toString()}_Pipeline1`}>
               <TableCell className={classes.stepNumber} rowSpan="2">
-                <TextField InputProps={{ className: classes.root }} variant="outlined" value={item.step_number} onChange={(e) => setInput(e, index, 'step_number', 'ddPipelineSteps')}/>
+                <TextField InputProps={{ className: classes.root }} variant="outlined" value={item.step_number} onChange={(e) => setInput(e, index, 'step_number', 'ddPipelineSteps')} />
                 {compCheck}
               </TableCell>
               <StyledCell>
@@ -1042,15 +1027,16 @@ export default function DescriptionDomain({
           </>
         ))
         }
-          <TableRow>
-            <StyledCell colSpan="5">
-              <Button variant="contained" color="primary" disableElevation fullWidth onClick={() => addRows('ddPipelineSteps')}>
-                Add Step
-              </Button>
-            </StyledCell>
-          </TableRow>
-        </TableBody>
-      </Table>
-    </Container>
+            <TableRow>
+              <StyledCell colSpan="5">
+                <Button variant="contained" color="primary" disableElevation fullWidth onClick={() => addRows('ddPipelineSteps')}>
+                  Add Step
+                </Button>
+              </StyledCell>
+            </TableRow>
+          </TableBody>
+        </Table>
+      </AccordionDetails>
+    </Accordion>
   );
 }

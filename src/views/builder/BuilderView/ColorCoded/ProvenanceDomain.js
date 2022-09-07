@@ -1,13 +1,18 @@
-/* eslint-disable max-len */
-/* eslint-disable react/prop-types */
+// src/views/builder/BuilderView/ColorCoded/ProvenanceDomain.js
+
 import React, { useEffect, useState } from 'react';
 import {
-  makeStyles, withStyles, Typography
+  Accordion,
+  AccordionSummary,
+  AccordionDetails,
+  makeStyles,
+  withStyles,
+  Typography
 } from '@material-ui/core';
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
-import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 
 // Datetime picker
@@ -463,8 +468,19 @@ export default function ProvenanceDomain({ items, cF }) {
   // ----- Meta Information ----- //
 
   return (
-    <Table size="small">
-      <TableHead>
+    <Accordion>
+      <AccordionSummary
+        expandIcon={<ExpandMoreIcon />}
+        aria-controls="panel1a-content"
+        id="panel1a-header"
+      >
+        <Typography className={classes.heading} variant="h3">
+          Provenance Domain
+        </Typography>
+      </AccordionSummary>
+      <AccordionDetails>
+        <Table size="small">
+          {/* <TableHead>
         <TableRow>
           <StyledCell colSpan="12">
             <Button
@@ -480,97 +496,107 @@ export default function ProvenanceDomain({ items, cF }) {
             </Button>
           </StyledCell>
         </TableRow>
-      </TableHead>
-      <TableBody>
-        <TableRow>
-          <TableCell className={missingName ? classes.missingHeader : classes.header}>
-            Name
-          </TableCell>
-          <StyledCell colSpan="3">
-            <TextField InputProps={{ className: classes.root }} error={!!missingName} fullWidth id="outlined-basic" value={cF(items.pdName)} onChange={(e) => items.setPdName(e.target.value)} variant="outlined" />
-          </StyledCell>
-          <TableCell className={missingVersion ? classes.missingHeader : classes.header}>
-            Version
-          </TableCell>
-          <StyledCell>
-            <TextField InputProps={{ className: classes.root }} error={!!missingVersion} fullWidth id="outlined-basic" value={cF(items.pdVersion)} onChange={(e) => items.setPdVersion(e.target.value)} variant="outlined" />
-          </StyledCell>
-          <TableCell className={missingLicense ? classes.missingHeader : classes.header}>
-            License
-          </TableCell>
-          <StyledCell colSpan="4">
-            <TextField InputProps={{ className: classes.root }} error={!!missingLicense} fullWidth id="outlined-basic" value={cF(items.pdLicense)} onChange={(e) => items.setPdLicense(e.target.value)} variant="outlined" />
-          </StyledCell>
-        </TableRow>
-        <TableRow>
-          <StyledCell>
-            Derived From
-          </StyledCell>
-          <StyledCell colSpan="10">
-            <TextField InputProps={{ className: classes.root }} fullWidth id="outlined-basic" value={cF(items.pdDerivedFrom)} onChange={(e) => items.setPdDerivedFrom(e.target.value)} variant="outlined" />
-          </StyledCell>
-        </TableRow>
-        <TableRow />
-        <TableRow>
-          <StyledCell>
-            Created
-          </StyledCell>
-          <StyledCell>
-            <Datetime inputProps={{ className: classes.root, disabled: true }} value={items.pdCreated} id="outlined-basic" dateFormat='YYYY-MM-DD' timeFormat='HH:MM:SS'/>
-          </StyledCell>
-          <StyledCell>
-            Modified
-          </StyledCell>
-          <StyledCell>
-            <Datetime inputProps={{ className: classes.root, disabled: true}} value={items.pdModifed} id="outlined-basic" />
-          </StyledCell>
-          <StyledCell>
-            Obsolete After
-          </StyledCell>
-          <StyledCell>
-            <Datetime inputProps={{ className: classes.root }} id="outlined-basic" value={cF(items.pdObsoleteAfter)} onChange={date => {console.log(date);items.setPdObsoleteAfter(date)}} dateFormat='YYYY-MM-DD' timeFormat={true}/>
-          </StyledCell>
-        </TableRow>
-        <TableRow>
-          <StyledCell colSpan="5">
-            <Typography className={classes.header} variant="h3">
-              Embargo
-            </Typography>
-          </StyledCell>
-        </TableRow>
-        <TableRow>
-          <StyledCell>
-            Start Time
-          </StyledCell>
-          <StyledCell>
-            <Datetime inputProps={{ className: classes.root }} id="outlined-basic" value={cF(items.pdEmbargoStartTime)} onChange={(date) => items.setPdEmbargoStartTime(date)} dateFormat='YYYY-MM-DD' timeFormat={true} />
-          </StyledCell>
-          <StyledCell>
-            Embargo End Time
-          </StyledCell>
-          <StyledCell>
-            <Datetime inputProps={{ className: classes.root }} id="outlined-basic" value={cF(items.pdEmbargoEndTime)} onChange={(date) => items.setPdEmbargoEndTime(date)} dateFormat='YYYY-MM-DD' timeFormat={true} />
-          </StyledCell>
-          <StyledCell />
-        </TableRow>
-        <TableRow>
-          <StyledCell colSpan="10">
-            <Typography className={missingReview ? classes.missingHeaderOptional : classes.header} variant="h3">
-              Review
-            </Typography>
-          </StyledCell>
-        </TableRow>
-        <TableRow>
-          <StyledCell>Date</StyledCell>
-          <TableCell className={missingReviewStatus ? classes.missingHeaderOptional : classes.header}>Status</TableCell>
-          <TableCell className={missingReviewName ? classes.missingHeaderOptional : classes.header}>Reviewer Name</TableCell>
-          <TableCell className={missingReviewContribution ? classes.missingHeaderOptional : classes.header}>Reviewer Contribution</TableCell>
-          <StyledCell>Reviewer Affiliation</StyledCell>
-          <TableCell className={missingReviewEmail ? classes.missingHeaderOptional : classes.header}>Reviewer e-Mail</TableCell>
-          <StyledCell>Reviewer ORCID</StyledCell>
-          <StyledCell colSpan="4">Reviewer Comment</StyledCell>
-        </TableRow>
-        {
+      </TableHead> */}
+          <TableBody>
+            <TableRow>
+              <Button
+                variant="contained"
+                onClick={() => window.open('https://docs.biocomputeobject.org/provenance-domain/')}
+              >
+                <Typography>
+                  <HelpIcon />
+                </Typography>
+              </Button>
+            </TableRow>
+            <TableRow>
+              <TableCell className={missingName ? classes.missingHeader : classes.header}>
+                Name
+              </TableCell>
+              <StyledCell colSpan="3">
+                <TextField InputProps={{ className: classes.root }} error={!!missingName} fullWidth id="outlined-basic" value={cF(items.pdName)} onChange={(e) => items.setPdName(e.target.value)} variant="outlined" />
+              </StyledCell>
+              <TableCell className={missingVersion ? classes.missingHeader : classes.header}>
+                Version
+              </TableCell>
+              <StyledCell>
+                <TextField InputProps={{ className: classes.root }} error={!!missingVersion} fullWidth id="outlined-basic" value={cF(items.pdVersion)} onChange={(e) => items.setPdVersion(e.target.value)} variant="outlined" />
+              </StyledCell>
+              <TableCell className={missingLicense ? classes.missingHeader : classes.header}>
+                License
+              </TableCell>
+              <StyledCell colSpan="4">
+                <TextField InputProps={{ className: classes.root }} error={!!missingLicense} fullWidth id="outlined-basic" value={cF(items.pdLicense)} onChange={(e) => items.setPdLicense(e.target.value)} variant="outlined" />
+              </StyledCell>
+            </TableRow>
+            <TableRow>
+              <StyledCell>
+                Derived From
+              </StyledCell>
+              <StyledCell colSpan="10">
+                <TextField InputProps={{ className: classes.root }} fullWidth id="outlined-basic" value={cF(items.pdDerivedFrom)} onChange={(e) => items.setPdDerivedFrom(e.target.value)} variant="outlined" />
+              </StyledCell>
+            </TableRow>
+            <TableRow />
+            <TableRow>
+              <StyledCell>
+                Created
+              </StyledCell>
+              <StyledCell>
+                <Datetime inputProps={{ className: classes.root, disabled: true }} value={items.pdCreated} id="outlined-basic" dateFormat="YYYY-MM-DD" timeFormat="HH:MM:SS" />
+              </StyledCell>
+              <StyledCell>
+                Modified
+              </StyledCell>
+              <StyledCell>
+                <Datetime inputProps={{ className: classes.root, disabled: true }} value={items.pdModifed} id="outlined-basic" />
+              </StyledCell>
+              <StyledCell>
+                Obsolete After
+              </StyledCell>
+              <StyledCell>
+                <Datetime inputProps={{ className: classes.root }} id="outlined-basic" value={cF(items.pdObsoleteAfter)} onChange={(date) => { console.log(date); items.setPdObsoleteAfter(date); }} dateFormat="YYYY-MM-DD" timeFormat />
+              </StyledCell>
+            </TableRow>
+            <TableRow>
+              <StyledCell colSpan="5">
+                <Typography className={classes.header} variant="h3">
+                  Embargo
+                </Typography>
+              </StyledCell>
+            </TableRow>
+            <TableRow>
+              <StyledCell>
+                Start Time
+              </StyledCell>
+              <StyledCell>
+                <Datetime inputProps={{ className: classes.root }} id="outlined-basic" value={cF(items.pdEmbargoStartTime)} onChange={(date) => items.setPdEmbargoStartTime(date)} dateFormat="YYYY-MM-DD" timeFormat />
+              </StyledCell>
+              <StyledCell>
+                Embargo End Time
+              </StyledCell>
+              <StyledCell>
+                <Datetime inputProps={{ className: classes.root }} id="outlined-basic" value={cF(items.pdEmbargoEndTime)} onChange={(date) => items.setPdEmbargoEndTime(date)} dateFormat="YYYY-MM-DD" timeFormat />
+              </StyledCell>
+              <StyledCell />
+            </TableRow>
+            <TableRow>
+              <StyledCell colSpan="10">
+                <Typography className={missingReview ? classes.missingHeaderOptional : classes.header} variant="h3">
+                  Review
+                </Typography>
+              </StyledCell>
+            </TableRow>
+            <TableRow>
+              <StyledCell>Date</StyledCell>
+              <TableCell className={missingReviewStatus ? classes.missingHeaderOptional : classes.header}>Status</TableCell>
+              <TableCell className={missingReviewName ? classes.missingHeaderOptional : classes.header}>Reviewer Name</TableCell>
+              <TableCell className={missingReviewContribution ? classes.missingHeaderOptional : classes.header}>Reviewer Contribution</TableCell>
+              <StyledCell>Reviewer Affiliation</StyledCell>
+              <TableCell className={missingReviewEmail ? classes.missingHeaderOptional : classes.header}>Reviewer e-Mail</TableCell>
+              <StyledCell>Reviewer ORCID</StyledCell>
+              <StyledCell colSpan="4">Reviewer Comment</StyledCell>
+            </TableRow>
+            {
           cF(items.pdReview) !== ''
             ? items.pdReview.map((item, index) => (
               <TableRow key={index}>
@@ -607,29 +633,29 @@ export default function ProvenanceDomain({ items, cF }) {
             ))
             : null
         }
-        <TableRow>
-          <StyledCell colSpan="10">
-            <Button variant="contained" color="primary" disableElevation fullWidth onClick={() => addRows('pdReview')}>
-              Add Reviewer
-            </Button>
-          </StyledCell>
-          <StyledCell />
-        </TableRow>
-        <TableRow>
-          <TableCell colSpan="11">
-            <Typography className={missingContributors ? classes.missingHeader : classes.header} variant="h3">
-              Contributors
-            </Typography>
-          </TableCell>
-        </TableRow>
-        <TableRow>
-          <TableCell className={missingContributorsName ? classes.missingHeader : classes.header} colSpan="2">Name</TableCell>
-          <TableCell className={missingContributorsContribution ? classes.missingHeader : classes.header}>Contribution</TableCell>
-          <TableCell colSpan="2" className={classes.header}>Affiliation</TableCell>
-          <TableCell colSpan="2" className={classes.header}>eMail</TableCell>
-          <TableCell colSpan="4" className={classes.header}>ORCID</TableCell>
-        </TableRow>
-        {
+            <TableRow>
+              <StyledCell colSpan="10">
+                <Button variant="contained" color="primary" disableElevation fullWidth onClick={() => addRows('pdReview')}>
+                  Add Reviewer
+                </Button>
+              </StyledCell>
+              <StyledCell />
+            </TableRow>
+            <TableRow>
+              <TableCell colSpan="11">
+                <Typography className={missingContributors ? classes.missingHeader : classes.header} variant="h3">
+                  Contributors
+                </Typography>
+              </TableCell>
+            </TableRow>
+            <TableRow>
+              <TableCell className={missingContributorsName ? classes.missingHeader : classes.header} colSpan="2">Name</TableCell>
+              <TableCell className={missingContributorsContribution ? classes.missingHeader : classes.header}>Contribution</TableCell>
+              <TableCell colSpan="2" className={classes.header}>Affiliation</TableCell>
+              <TableCell colSpan="2" className={classes.header}>eMail</TableCell>
+              <TableCell colSpan="4" className={classes.header}>ORCID</TableCell>
+            </TableRow>
+            {
             items.pdContributors.map((item, index) => (
               <TableRow key={index}>
                 <StyledCell colSpan="2">
@@ -655,15 +681,18 @@ export default function ProvenanceDomain({ items, cF }) {
               </TableRow>
             ))
           }
-        <TableRow>
-          <StyledCell colSpan="10">
-            <Button variant="contained" color="primary" disableElevation fullWidth onClick={() => addRows('pdContributors')}>
-              Add Contributor
-            </Button>
-          </StyledCell>
-          <StyledCell />
-        </TableRow>
-      </TableBody>
-    </Table>
+            <TableRow>
+              <StyledCell colSpan="10">
+                <Button variant="contained" color="primary" disableElevation fullWidth onClick={() => addRows('pdContributors')}>
+                  Add Contributor
+                </Button>
+              </StyledCell>
+              <StyledCell />
+            </TableRow>
+          </TableBody>
+        </Table>
+      </AccordionDetails>
+
+    </Accordion>
   );
 }

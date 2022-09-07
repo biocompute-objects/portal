@@ -2,20 +2,22 @@
 
 import React, { useEffect, useState } from 'react';
 import {
-  makeStyles, withStyles, Typography
+  Accordion,
+  AccordionSummary,
+  AccordionDetails,
+  Button,
+  makeStyles,
+  withStyles,
+  Typography
 } from '@material-ui/core';
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import HelpIcon from '@material-ui/icons/Help';
-
-// Inputs
 import TextField from '@material-ui/core/TextField';
-
-// Add contributor
-import Button from '@material-ui/core/Button';
 
 // Section cell styling
 const useStyles = makeStyles(() => ({
@@ -77,7 +79,7 @@ export default function ParametricDomain({ items, cF }) {
       // Assume the header is not red.
       setMissingParametricDomain(false);
 
-      var i = 0;
+      let i = 0;
 
       // Each one of the steps.
       for (i = 0; i < items.pad.length; i++) {
@@ -217,76 +219,82 @@ export default function ParametricDomain({ items, cF }) {
   };
 
   return (
-    <div>
-      <Table size="small">
-        <TableHead className={classes.tabled}>
-          <TableRow>
-            <StyledCell colSpan="6">
+    <Accordion>
+      <AccordionSummary
+        expandIcon={<ExpandMoreIcon />}
+        aria-controls="panel1a-content"
+        id="panel1a-header"
+      >
+        <Typography variant="h3">
+          Parametric Domain
+        </Typography>
+      </AccordionSummary>
+      <AccordionDetails>
+        <Table size="small">
+          <TableHead className={classes.tabled}>
+            <TableRow>
               <Button
                 variant="contained"
-                // color="D5D8DC"
-                fullWidth
                 onClick={() => window.open('https://docs.biocomputeobject.org/parametric-domain/')}
               >
                 <Typography className={missingParametricDomain ? classes.missingHeader : classes.header} variant="h1">
-                  Parametric Domain &nbsp;
                   <HelpIcon />
                 </Typography>
               </Button>
-            </StyledCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          <TableRow>
-            <StyledCell>
-              <Typography className={missingStep ? classes.missingHeader : classes.header} >
-                Step
-              </Typography>
-            </StyledCell>
-            <StyledCell>
-              <Typography className={missingParameter ? classes.missingHeader : classes.header} >
-                Parameter
-              </Typography>
-            </StyledCell>
-            <StyledCell colSpan="2">
-              <Typography className={missingValue ? classes.missingHeader : classes.header} >
-                Value
-              </Typography>
-            </StyledCell>
-          </TableRow>
-          {(!items.pad)
-            ? (
-              <TableRow />
-            )
-            : (
-              items.pad.map((item, index) => (
-                <TableRow key={index.toString()}>
-                  <StyledCell>
-                    <TextField InputProps={{ className: classes.root }} error={cF(item.step) === ''} value={cF(item.step)} onChange={(e) => setInput(e, index, 'step')} variant="outlined" />
-                  </StyledCell>
-                  <StyledCell>
-                    <TextField InputProps={{ className: classes.root }} error={cF(item.param) === ''} value={cF(item.param)} onChange={(e) => setInput(e, index, 'param')} variant="outlined" />
-                  </StyledCell>
-                  <StyledCell>
-                    <TextField InputProps={{ className: classes.root }} error={cF(item.value) === ''} value={cF(item.value)} onChange={(e) => setInput(e, index, 'value')} variant="outlined" />
-                  </StyledCell>
-                  <StyledCell>
-                    <Button variant="contained" color="primary" disableElevation fullWidth onClick={() => removeRows(index)}>
-                      Remove
-                    </Button>
-                  </StyledCell>
-                </TableRow>
-              ))
-            )}
-          <TableRow>
-            <StyledCell colSpan="5">
-              <Button variant="contained" color="primary" disableElevation fullWidth onClick={() => addRows()}>
-                Add Parameter
-              </Button>
-            </StyledCell>
-          </TableRow>
-        </TableBody>
-      </Table>
-    </div>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            <TableRow>
+              <StyledCell>
+                <Typography className={missingStep ? classes.missingHeader : classes.header}>
+                  Step
+                </Typography>
+              </StyledCell>
+              <StyledCell>
+                <Typography className={missingParameter ? classes.missingHeader : classes.header}>
+                  Parameter
+                </Typography>
+              </StyledCell>
+              <StyledCell colSpan="2">
+                <Typography className={missingValue ? classes.missingHeader : classes.header}>
+                  Value
+                </Typography>
+              </StyledCell>
+            </TableRow>
+            {(!items.pad)
+              ? (
+                <TableRow />
+              )
+              : (
+                items.pad.map((item, index) => (
+                  <TableRow key={index.toString()}>
+                    <StyledCell>
+                      <TextField InputProps={{ className: classes.root }} error={cF(item.step) === ''} value={cF(item.step)} onChange={(e) => setInput(e, index, 'step')} variant="outlined" />
+                    </StyledCell>
+                    <StyledCell>
+                      <TextField InputProps={{ className: classes.root }} error={cF(item.param) === ''} value={cF(item.param)} onChange={(e) => setInput(e, index, 'param')} variant="outlined" />
+                    </StyledCell>
+                    <StyledCell>
+                      <TextField InputProps={{ className: classes.root }} error={cF(item.value) === ''} value={cF(item.value)} onChange={(e) => setInput(e, index, 'value')} variant="outlined" />
+                    </StyledCell>
+                    <StyledCell>
+                      <Button variant="contained" color="primary" disableElevation fullWidth onClick={() => removeRows(index)}>
+                        Remove
+                      </Button>
+                    </StyledCell>
+                  </TableRow>
+                ))
+              )}
+            <TableRow>
+              <StyledCell colSpan="5">
+                <Button variant="contained" color="primary" disableElevation fullWidth onClick={() => addRows()}>
+                  Add Parameter
+                </Button>
+              </StyledCell>
+            </TableRow>
+          </TableBody>
+        </Table>
+      </AccordionDetails>
+    </Accordion>
   );
 }
