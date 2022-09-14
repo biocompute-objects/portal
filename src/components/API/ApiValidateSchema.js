@@ -31,7 +31,7 @@ export default function ApiValidateSchema(objectInformation, contents, setPublis
               setPublish(false);
             }
             if (viewResult === 'download') {
-              const blob = new Blob([JSON.stringify(data)], { type: 'text/json' });
+              const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'text/json' });
               saveAs(blob, `${objectInformation.object_id}.json`);
             }
             if (viewResult === 'display') {

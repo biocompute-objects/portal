@@ -2,16 +2,22 @@
 
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { withStyles, Typography } from '@material-ui/core';
+import {
+  Accordion,
+  AccordionSummary,
+  AccordionDetails,
+  Button,
+  withStyles,
+  Typography
+} from '@material-ui/core';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import HelpIcon from '@material-ui/icons/Help';
-import Button from '@material-ui/core/Button';
 import JsonView from 'src/components/JsonView';
-
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 // Cell styling
 const StyledCell = withStyles({
   root: {
@@ -46,26 +52,34 @@ export default function ErrorDomain({ items }) {
   }, [empirical, algorithmic, updates]);
 
   return (
-    <Table size="small">
-      <TableHead className={classes.tabled}>
-        <TableRow>
-          <StyledCell colSpan="6">
-            <Button
-              variant="contained"
-              // color="D5D8DC"
-              fullWidth
-              onClick={() => window.open('https://docs.biocomputeobject.org/error-domain/')}
-            >
-              <Typography variant="h1">
-                Error Domain &nbsp;
-                <HelpIcon />
-              </Typography>
-            </Button>
-          </StyledCell>
-        </TableRow>
-      </TableHead>
-      <TableBody>
-        {
+    <Accordion>
+      <AccordionSummary
+        expandIcon={<ExpandMoreIcon />}
+        aria-controls="panel1a-content"
+        id="panel1a-header"
+      >
+        <Typography className={classes.heading} variant="h3">
+          Error Domain
+        </Typography>
+      </AccordionSummary>
+      <AccordionDetails>
+        <Table size="small">
+          <TableHead className={classes.tabled}>
+            <TableRow>
+              <StyledCell colSpan="6">
+                <Button
+                  variant="contained"
+                  onClick={() => window.open('https://docs.biocomputeobject.org/error-domain/')}
+                >
+                  <Typography>
+                    <HelpIcon />
+                  </Typography>
+                </Button>
+              </StyledCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {
             (!items.errd)
               ? (
                 <TableRow>
@@ -97,8 +111,11 @@ export default function ErrorDomain({ items }) {
                 </TableRow>
               )
         }
-      </TableBody>
-    </Table>
+          </TableBody>
+        </Table>
+      </AccordionDetails>
+
+    </Accordion>
   );
 }
 

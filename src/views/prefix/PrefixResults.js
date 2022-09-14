@@ -12,18 +12,17 @@ import {
 } from '@material-ui/core';
 
 export default function PrefixResults({ rows, userInfo }) {
-  const ieeeLink = 'http://loaclhost:8181/users/admin';
-  const [username, setUsername] = useState()
-  
+  const prefixLink = '/account';
+  const [username, setUsername] = useState();
+
   useEffect(() => {
     if (!userInfo) {
-        setUsername('anon')
-        console.log('userInfo', userInfo);
-      } else {
-        setUsername(userInfo.username)
-      };
-  }, [])
-  
+      setUsername('anon');
+    } else {
+      setUsername(userInfo.username);
+    }
+  }, []);
+
   return (
     <Container>
       {rows.length === 0
@@ -42,7 +41,7 @@ export default function PrefixResults({ rows, userInfo }) {
               <Card key={row.prefix}>
                 <CardContent>
                   <CardActionArea
-                    onClick={() => window.open(ieeeLink)}
+                    onClick={() => window.open(prefixLink)}
                     disabled={username !== row.username}
                   >
                     <Typography>
@@ -72,5 +71,6 @@ export default function PrefixResults({ rows, userInfo }) {
 }
 
 PrefixResults.propTypes = {
-  rows: PropTypes.array
+  rows: PropTypes.array,
+  userInfo: PropTypes.object
 };

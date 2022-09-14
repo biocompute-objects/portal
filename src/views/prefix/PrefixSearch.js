@@ -1,7 +1,7 @@
 // src/components/PrefixSearch.js
 
-import React, { useContext, useEffect, useState } from 'react';
-import PropTypes, { func } from 'prop-types';
+import React, { useEffect, useState } from 'react';
+import PropTypes from 'prop-types';
 import {
   Box,
   Button,
@@ -16,11 +16,11 @@ import { Search as SearchIcon } from 'react-feather';
 import SearchPrefix from 'src/components/API/UserdbSearchPrefix';
 
 export default function PrefixSearch({
-  setRows, addPrefix, setAddPrefix, fc
+  setRows, setAddPrefix, fc
 }) {
   const [search, setSearch] = useState('');
   const [action, setAction] = useState();
-  const isLoggedIn = fc.isLoggedIn
+  const { isLoggedIn } = fc;
   function clickActions() {
     const { userdb } = fc.sending;
     SearchPrefix(action, search, userdb, setRows, isLoggedIn);
@@ -30,9 +30,9 @@ export default function PrefixSearch({
     setAction(checked.target.value);
   }
 
-  function registerPrefix() {
+  const registerPrefix = () => {
     setAddPrefix(true);
-  }
+  };
 
   function clear() {
     setSearch(null);
@@ -147,7 +147,6 @@ export default function PrefixSearch({
 
 PrefixSearch.propTypes = {
   setRows: PropTypes.func.isRequired,
-  addPrefix: PropTypes.bool,
   setAddPrefix: PropTypes.func,
   fc: PropTypes.any
 };

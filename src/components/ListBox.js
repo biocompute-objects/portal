@@ -55,7 +55,7 @@ export default function ListBox({
     if (typeof list === 'undefined') {
       setList([]);
     }
-  }, [list]);
+  }, [list, setList]);
 
   const removeItem = (index) => {
     const temp = list;
@@ -84,7 +84,7 @@ export default function ListBox({
               <CardContent className={classes.linkCard}>
                 <Typography className={classes.title}>
                   {header}
-                  <HelpIcon/>
+                  <HelpIcon />
                 </Typography>
               </CardContent>
             </CardActionArea>
