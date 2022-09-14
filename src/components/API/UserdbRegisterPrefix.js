@@ -23,6 +23,7 @@ export default function RegisterPrefix(username, prefix, ApiInfo, isPublic, desc
     }
   })
     .then((response) => {
+
       if (response.status === 200) {
         console.log(response);
         alert(`Prefix ${prefix} was successfully registered for ${username}.`);
