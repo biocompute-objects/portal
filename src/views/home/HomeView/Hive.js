@@ -5,14 +5,11 @@ import {
   Card,
   CardActionArea,
   CardContent,
-  colors,
   makeStyles,
   Typography
 } from '@material-ui/core';
 import hive from 'src/images/hive.png';
 import aws from 'src/images/powered-by-aws.png';
-import { red } from '@material-ui/core/colors';
-import { FormatColorText } from '@material-ui/icons';
 
 const useStyles = makeStyles({
   bullet: {
@@ -43,30 +40,23 @@ export default function Hive() {
 
   return (
     <Card className={classes.supportCard} elevation={0}>
-      <CardContent>
-        <Typography className={classes.title}>
-          <img src={hive} height={65} alt="HIVE logo" />
-          <br />
-          <img src={aws} height={35} alt="AWS logo" />
-        </Typography>
-
-        <div>
-          <body>
-            <p>
-              AWS instance of HIVE is temporarily down. Check back later for access.
-            </p>
-          </body>
-        </div>
-
-        <Typography className={classes.bullet}>
-          Access AWS HIVE, the High-Performance Integrated Virtual Environment, on AWS.
-          HIVE is a cloud-based environment optimized for the storage and analysis
-          of extra-large data, such as biomedical data, clinical data,
-          next-generation sequencing (NGS) data, mass spectrometry files, confocal
-          microscopy images, post-market surveillance data, medical recall data,
-          and many others.
-        </Typography>
-      </CardContent>
+      <CardActionArea onClick={() => window.open(hiveLink)}>
+        <CardContent>
+          <Typography className={classes.title}>
+            <img src={hive} height={65} alt="HIVE logo" />
+            <br />
+            <img src={aws} height={35} alt="AWS logo" />
+          </Typography>
+          <Typography className={classes.bullet}>
+            Access AWS HIVE, the High-Performance Integrated Virtual Environment, on AWS.
+            HIVE is a cloud-based environment optimized for the storage and analysis
+            of extra-large data, such as biomedical data, clinical data,
+            next-generation sequencing (NGS) data, mass spectrometry files, confocal
+            microscopy images, post-market surveillance data, medical recall data,
+            and many others.
+          </Typography>
+        </CardContent>
+      </CardActionArea>
     </Card>
   );
 }
