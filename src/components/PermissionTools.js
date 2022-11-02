@@ -72,8 +72,7 @@ export default function PermissionTools({
     } else if (which === 'publishDraft') {
       PublishDraftObject(objectInformation, contents);
     } else if (which === 'downloadDraft') {
-      const bco = localStorage.getItem('bco');
-      const blob = new Blob([bco], { type: 'application/json' });
+      const blob = new Blob([JSON.stringify(contents, null, 2)], { type: 'application/json' });
       const href = URL.createObjectURL(blob);
       const link = document.createElement('a');
       link.href = href;

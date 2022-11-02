@@ -1,55 +1,73 @@
-// src/views/home/HomeView/MyProfile.js
+// src/views/resources/Resources/CGC.js
 
 import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import Card from '@material-ui/core/Card';
-import CardActionArea from '@material-ui/core/CardActionArea';
-import CardContent from '@material-ui/core/CardContent';
-import Typography from '@material-ui/core/Typography';
+import {
+  Card,
+  CardActionArea,
+  CardContent,
+  makeStyles,
+  Typography
+} from '@material-ui/core';
+
+import mediaWiki from 'src/images/mediawikiwiki.svg';
 
 const useStyles = makeStyles({
   bullet: {
     display: 'inline-block',
     margin: '0 2px',
-    transform: 'scale(0.8)',
+    transform: 'scale(0.8)'
   },
   linkCard: {
-    minWidth: 275,
     minHeight: '300px',
     textAlign: 'center'
   },
+  supportCard: {
+    textAlign: 'center',
+    marginBottom: 12
+  },
   title: {
-    fontSize: '33px',
+    minWidth: 275,
+    fontSize: '33px'
   },
   subtitle: {
-    fontSize: '20px',
+    fontSize: '25px',
   },
   pos: {
     marginBottom: 12,
   },
 });
 
-const docsLink = 'https://docs.biocomputeobject.org/';
-
 export default function About() {
   const classes = useStyles();
+  const wikiLink = 'https://wiki.biocomputeobject.org/index.php?title=Main_Page';
+  const docsLink = 'https://docs.biocomputeobject.org/';
 
   return (
-    <Card className={classes.linkCard}>
+    <Card className={classes.supportCard} elevation={5}>
+      <Typography className={classes.title}>
+        BCO Documentation
+        <br />
+      </Typography>
+      <CardActionArea onClick={() => window.open(wikiLink)}>
+        <CardContent>
+          <Typography className={classes.subtitle}>
+          <img src={mediaWiki} height={25} alt="MediaWiki logo" />
+            BioCompute Wiki
+            <br />
+          </Typography>
+          <Typography className={classes.bullet}>
+          The MediaWiki for the BioCompute Objects project
+          </Typography>
+        </CardContent>
+      </CardActionArea>
       <CardActionArea onClick={() => window.open(docsLink)}>
-        <CardContent className={classes.linkCard}>
-          <Typography className={classes.title}>BioCompute Documentation</Typography>
-          <Typography className={classes.subtitle}>External site</Typography>
-          <Typography>
+        <CardContent>
+          <Typography className={classes.subtitle}>
+            BCO Docs Site
             <br />
-            User Guide
-            <br />
-            Best Practices
-            <br />
-            SOP
-            <br />
-            Tutorials
-            <br />
+          </Typography>
+          <Typography className={classes.bullet}>
+            User Guide, Best Practices, tutorial
           </Typography>
         </CardContent>
       </CardActionArea>
