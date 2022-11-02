@@ -39,6 +39,7 @@
         "depcheck": "^1.4.2",
         "file-saver": "^2.0.5",
         "formik": "^2.1.5",
+        "jslint": "^0.12.1",
         "moment": "^2.27.0",
         "object-hash": "^2.2.0",
         "prop-types": "^15.7.2",
