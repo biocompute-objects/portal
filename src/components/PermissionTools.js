@@ -232,7 +232,7 @@ export default function PermissionTools({
                     &nbsp;&nbsp;Download Validation&nbsp;&nbsp;
                     </Box>
                     <Typography gutterBottom>
-                      Once you select a format above, this buton will validate the current
+                      Once you select a format above, this button will validate the current
                       DRAFT against the IEEE-2791-2020 schema.
                     </Typography>
                   </Typography>
