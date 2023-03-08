@@ -43,18 +43,16 @@ export default function About() {
   const docsLink = 'https://docs.biocomputeobject.org/';
 
   return (
-    <Card className={classes.supportCard} elevation={5}>
+    <Card className={classes.supportCard} elevation={0}>
       <Typography className={classes.title}>
         BCO Documentation
         <br />
       </Typography>
       <CardActionArea onClick={() => window.open(wikiLink)}>
         <CardContent>
-          <Typography className={classes.subtitle}>
-          <img src={mediaWiki} height={25} alt="MediaWiki logo" />
-            BioCompute Wiki
-            <br />
-          </Typography>
+          
+          <img src={mediaWiki}  alt="MediaWiki logo" />
+            <Typography className={classes.subtitle}>BioCompute Wiki</Typography>
           <Typography className={classes.bullet}>
           The MediaWiki for the BioCompute Objects project
           </Typography>
